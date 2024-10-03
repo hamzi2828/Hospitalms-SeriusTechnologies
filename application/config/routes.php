@@ -127,7 +127,8 @@
     $route[ 'invoices/profit-report' ]                                = 'Invoices/profit_report/$1';
     $route[ 'invoices/profit-report-ipd-medication' ]                 = 'Invoices/profit_report_ipd_medication';
     $route[ 'invoices/consultancy-invoice/(:any)' ]                   = 'Invoices/consultancy_invoice/$1';
-    $route[ 'invoices/prescription-invoice/(:any)' ]                  = 'Invoices/prescription_invoice/$1';
+    $route[ 'invoices/prescription-invoice/(:any)' ]                   = 'Invoices/prescription_invoice/$1';
+    $route[ 'invoices/prescription-invoice-simple/(:any)' ]            = 'Invoices/prescription_invoice_simple/$1';
     $route[ 'invoices/detailed-stock-report' ]                        = 'Invoices/detailed_stock_report';
     $route[ 'invoices/opd-service-invoice/(:any)' ]                   = 'Invoices/opd_sale_invoice';
     $route[ 'invoices/consultancy-general-report' ]                   = 'Invoices/consultancy_general_report';

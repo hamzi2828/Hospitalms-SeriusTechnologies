@@ -59,11 +59,14 @@
     </div>
     <?php if ( !empty( $patient ) ) : ?>
         <div class="form-actions">
-            <button type="submit" class="btn blue" id="sales-btn">Submit</button>
-            <?php if ( !empty( $prescription ) ) : ?>
-                <a href="<?php echo base_url ( '/invoices/prescription-invoice/' . $prescription -> id ); ?>"
-                   target="_blank" class="btn purple">Print</a>
-            <?php endif; ?>
-        </div>
+        <button type="submit" class="btn blue" id="sales-btn">Submit</button>
+        <?php if ( !empty( $prescription ) ) : ?>
+            <a href="<?php echo base_url('/invoices/prescription-invoice/' . $prescription->id); ?>"
+            target="_blank" class="btn purple">L-Print</a>
+            <a href="<?php echo base_url('/invoices/prescription-invoice-simple/' . $prescription->id); ?>"
+            target="_blank"class="btn purple" >S-Print</a>
+        <?php endif; ?>
+    </div>
+
     <?php endif; ?>
 </form>

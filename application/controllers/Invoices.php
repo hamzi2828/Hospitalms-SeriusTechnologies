@@ -1194,6 +1194,39 @@
             $mpdf -> Output ( $name, 'I' );
         }
         
+
+        public function prescription_invoice_simple () {
+            $prescription_id = $this -> uri -> segment ( 3 );
+            if ( empty( trim ( $prescription_id ) ) )
+                return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+            
+            $data[ 'user' ]         = get_user ( get_logged_in_user_id () );
+            $data[ 'prescription' ] = $this -> ConsultancyModel -> get_doctor_prescriptions ( $prescription_id );
+            $data[ 'medicines' ]    = $this -> ConsultancyModel -> get_doctor_prescribed_medicines ( $prescription_id );
+            $data[ 'tests' ]        = $this -> ConsultancyModel -> get_doctor_prescribed_tests ( $prescription_id );
+            $html_content           = $this -> load -> view ( '/invoices/prescription-invoice-simple.php', $data, true );
+            
+            $name = 'Prescription-invoice-' . rand ( 0, 500 ) . '.pdf';
+            require_once FCPATH . '/vendor/autoload.php';
+            $mpdf = new \Mpdf\Mpdf( [
+                                        'margin_left'   => 5,
+                                        'margin_right'  => 5,
+                                        'margin_top'    => 35,
+                                        'margin_bottom' => 25,
+                                        'margin_header' => 5,
+                                        'margin_footer' => 5
+                                    ] );
+            
+            $mpdf -> SetTitle ( strip_tags ( site_name ) );
+            $mpdf -> SetAuthor ( site_name );
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+            $mpdf -> SetDisplayMode ( 'real' );
+            $mpdf -> WriteHTML ( $html_content );
+            $mpdf -> Output ( $name, 'I' );
+        }
         /**
          * ---------------------
          * do print invoice

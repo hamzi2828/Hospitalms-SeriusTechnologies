@@ -1117,7 +1117,7 @@
 
                 $this->session->set_flashdata('response', 'Success! Prescriptions added.
                 <a href="' . base_url('/invoices/prescription-invoice/' . $prescription_id) . '" target="_blank" style="font-weight: 800; font-size: 16px; color: #007bff; text-decoration: none; margin-right: 15px;">L-Print</a> 
-                <a href="' . base_url('/invoices/prescription-invoice/' . $prescription_id) . '" target="_blank" style="font-weight: 800; font-size: 16px; color: #28a745; text-decoration: none;">S-Print</a>
+                <a href="' . base_url('/invoices/prescription-invoice-simple/' . $prescription_id) . '" target="_blank" style="font-weight: 800; font-size: 16px; color: #28a745; text-decoration: none;">S-Print</a>
             ');
             
             }
