@@ -1,0 +1,255 @@
+.has-child {
+    font-weight: 600;
+}
+
+.child {
+    padding-left: 15px;
+}
+
+.has-sub-child {
+    font-weight: 600;
+    padding-left: 15px;
+}
+
+.sub-child {
+    padding-left: 30px;
+}
+
+.print-btn {
+    background: #fff;
+    padding: 5px 25px;
+    margin-top: -5px;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.low {
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+.sample-information {
+    font-size: 14px;
+    font-weight: 500 !important;
+    background: #a4a4a4;
+    padding: 4px 4px;
+    margin: 0;
+}
+
+.info {
+    display: block;
+    float: left;
+    width: 100%;
+    background: #fff;
+    padding: 10px 0;
+}
+
+.location {
+
+}
+
+.sale {
+    background: #f5f5f5;
+    display: flex;
+    padding: 10px 0;
+}
+
+#pagination {
+    margin: 0;
+    float: right;
+}
+
+ul.tsc_pagination li a {
+    border: solid 1px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    padding: 6px 9px 6px 9px;
+}
+
+ul.tsc_pagination li {
+    padding-bottom: 1px;
+}
+
+ul.tsc_pagination li a:hover,
+ul.tsc_pagination li a.current {
+    color: #FFFFFF;
+    box-shadow: 0px 1px #EDEDED;
+    -moz-box-shadow: 0px 1px #EDEDED;
+    -webkit-box-shadow: 0px 1px #EDEDED;
+}
+
+ul.tsc_pagination {
+    margin: 4px 0;
+    padding: 0px;
+    height: 100%;
+    overflow: hidden;
+    font: 12px 'Tahoma';
+    list-style-type: none;
+}
+
+ul.tsc_pagination li {
+    float: left;
+    margin: 0;
+    padding: 0;
+    margin-left: 5px;
+}
+
+ul.tsc_pagination li a {
+    color: black;
+    display: block;
+    text-decoration: none;
+    padding: 7px 10px 7px 10px;
+}
+
+ul.tsc_pagination li a img {
+    border: none;
+}
+
+ul.tsc_pagination li a {
+    color: #0A7EC5;
+    border-color: #8DC5E6;
+    background: #F8FCFF;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+ul.tsc_pagination li a:hover,
+ul.tsc_pagination li a.current {
+    text-shadow: 0px 1px #388DBE;
+    border-color: #3390CA;
+    background: #58B0E7;
+    background: -moz-linear-gradient(top, #B4F6FF 1px, #63D0FE 1px, #58B0E7);
+    background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0.02, #B4F6FF), color-stop(0.02, #63D0FE), color-stop(1, #58B0E7));
+}
+
+.access-level li {
+    list-style-type: none;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+    border-bottom: 1px solid #e3e3e3;
+    padding-bottom: 5px;
+}
+
+.start.active.open > a {
+    background: #e02222 !important;
+}
+
+.search {
+    width: 100%;
+    display: block;
+    float: left;
+    margin-bottom: 15px;
+    background: #f5f5f5;
+    padding: 10px 0;
+}
+
+.assign-services {
+    width: 100%;
+    display: block;
+    float: left;
+}
+
+.assign-services h3 {
+    font-weight: 600 !important;
+    padding-left: 15px;
+    text-decoration: underline;
+}
+
+a.red, a.blue, a.green, a.purple {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.billing-table tr, .billing-table td {
+    border: 1px dotted #000;
+}
+
+.billing-table tbody > tr > td {
+    border-top: 1px dotted #000;
+}
+
+.billing-table thead > tr > th {
+    border: 1px dotted #000;
+}
+
+.access-level {
+    padding: 0;
+}
+
+.select-all {
+    padding: 10px 0;
+    background: #4b8df8;
+    width: 150px;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.airlines-tab {
+    display: flex;
+    padding: 0 0 25px 0;
+    flex-wrap: wrap;
+}
+
+.airlines-tab .airline {
+    flex: 10%;
+    display: inline-block;
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+}
+
+.airlines-tab .airline.active-airline {
+    border-top: 3px solid #d12610;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 0;
+}
+
+.airlines-tab .airline a {
+    text-decoration: none;
+}
+
+.cke_editable {
+    min-height: 600px !important;
+}
+
+.cke_contents {
+    height: 400px !important;
+}
+
+#sale-payment-info {
+    display: none;
+}
+
+.search-form {
+    border: 1px solid #4b8df8;
+    width: 100%;
+    float: left;
+    margin-bottom: 25px;
+    background: #f5f5f5;
+    padding-top: 10px;
+}
+
+.search-form .form-body {
+    background: #f5f5f5 !important;
+}
+
+.form-actions {
+    margin-bottom: 0 !important;
+    margin-top: 0;
+}
+
+.portlet-body {
+    padding-bottom: 0 !important;
+}
+
+.margin-bottom-5 {
+    margin-bottom: 5px;
+}
