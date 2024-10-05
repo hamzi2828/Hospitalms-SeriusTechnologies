@@ -6,7 +6,9 @@
     <input type="hidden" name="<?php echo $this -> security -> get_csrf_token_name (); ?>"
            value="<?php echo $this -> security -> get_csrf_hash (); ?>" id="csrf_token">
     <input type="hidden" name="action" value="do_add_prescriptions">
+
     <input type="hidden" id="added" value="1">
+    
     <div class="form-body">
         <div class="row">
             <div class="form-group col-lg-5">

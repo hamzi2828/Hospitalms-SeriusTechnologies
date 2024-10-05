@@ -1085,6 +1085,8 @@
          */
         
         public function do_add_prescriptions ( $POST ) {
+
+      
             $consultancy = $this -> ConsultancyModel -> search_consultancy ();
             $info        = array (
                 'doctor_id'      => $consultancy -> doctor_id,
@@ -1096,8 +1098,18 @@
                 'follow_up_date' => !empty( trim ( $POST[ 'follow-up-date' ] ) ) ? date ( 'Y-m-d', strtotime ( $POST[ 'follow-up-date' ] ) ) : null,
                 'date_added'     => current_date_time (),
             );
+
+
+       
+
             $this -> ConsultancyModel -> delete_prescriptions ( $_REQUEST[ 'consultancy_id' ] );
             $prescription_id = $this -> ConsultancyModel -> do_add_prescriptions ( $info );
+
+
+            // echo "<pre>";
+            // print_r($prescription_id);
+            // echo "</pre>";
+            // exit; 
             if ( $prescription_id > 0 ) {
                 
                 $log = array (

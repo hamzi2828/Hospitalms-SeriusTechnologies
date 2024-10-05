@@ -19,10 +19,22 @@
     </div>
 <?php endif; ?>
 
+
 <div class="form-group col-lg-3">
     <label for="follow-up-date" style="display: block; float: left; width: 100%; font-size: 18px; font-weight: 900">
         Next Follow Up Date
     </label>
-    <input type="text" name="follow-up-date" class="form-control date date-picker" id="follow-up-date" data-date-format="m-d-Y"
+    <input type="text" name="follow-up-date" class="form-control date date-picker" id="follow-up-date" data-date-format="mm-dd-yyyy"
            value="<?php echo ( !empty( $prescription ) && !empty( trim ( $prescription -> follow_up_date ) ) ) ? date ( 'm-d-Y', strtotime ( $prescription -> follow_up_date ) ) : '' ?>">
 </div>
+
+<!-- 
+<script>
+    $(document).ready(function(){
+    $('.date-picker').datepicker({
+        format: 'mm-dd-yyyy',  
+        autoclose: true
+    });
+    });
+
+</script> -->
