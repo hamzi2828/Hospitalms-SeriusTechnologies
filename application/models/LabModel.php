@@ -3086,4 +3086,27 @@
             $services = $this -> db -> get ();
             return $services -> result ();
         }
+        public function update_sales_by_sample_status($sample_status, $sale_id) {
+            $user_id = get_logged_in_user_id(); // Retrieve the logged-in user's ID
+        
+            if ($sample_status == 'SampleTaken') {
+                // Update `sample_taken_by_user` field only
+                $data = array('sample_taken_by_user' => $user_id);
+            } elseif ($sample_status == 'SampleReceived') {
+                // Update `sample_received_by_user` field only
+                $data = array('sample_received_by_user' => $user_id);
+            } else {
+                return false; // Invalid sample_status
+            }
+        
+            // Perform the update where id = $sale_id
+            $this->db->where('id', $sale_id);
+            $this->db->update('hmis_test_sales', $data);
+        
+            // Return true if rows were updated, false otherwise
+            return ($this->db->affected_rows() > 0);
+        }
+        
+        
+        
     }

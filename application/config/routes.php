@@ -385,6 +385,8 @@
     $route[ 'user/add-panel' ]                                        = 'User/add_panel';
     $route[ 'user/edit-panel' ]                                       = 'User/edit_panel';
     $route[ 'lab/sale-pending-results' ]                              = 'Lab/sale_pending_results';
+    $route[ 'lab/sale-Phlebotomy-results' ]                           = 'Lab/sale_Phlebotomy_results';
+    $route[ 'lab/sale-Phlebotomy-results-sample-Taken' ]               = 'Lab/sale_Phlebotomy_results';
     $route[ 'lab/all-added-test-results' ]                            = 'Lab/all_added_test_results';
     $route[ 'reporting/test-prices-report' ]                          = 'Reporting/test_prices_report';
     $route[ 'invoices/test-prices-report' ]                           = 'Invoices/test_prices_report';

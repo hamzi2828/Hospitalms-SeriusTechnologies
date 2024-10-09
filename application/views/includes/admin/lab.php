@@ -64,7 +64,15 @@
                 </li>
             <?php endif; ?>
             <?php if ( !empty( $access ) and in_array ( 'lab_sale_pending_results', explode ( ',', $access -> access ) ) ) : ?>
-                <li class="<?php if ( $child_uri == 'sale-pending-results' )
+             
+                <li class="<?php if ( $child_uri == 'sale-Phlebotomy-results' )
+                    echo 'active'; ?>">
+                    <a href="<?php echo base_url ( '/lab/sale-Phlebotomy-results' ) ?>">
+                    Phlebotomy
+                    </a>
+                </li>
+
+             <li class="<?php if ( $child_uri == 'sale-pending-results' )
                     echo 'active'; ?>">
                     <a href="<?php echo base_url ( '/lab/sale-pending-results' ) ?>">
                         Pending Results

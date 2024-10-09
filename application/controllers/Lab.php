@@ -3390,6 +3390,55 @@
             $this -> footer ();
         }
         
+
+
+        public function sale_Phlebotomy_results () {
+            $title = site_name . ' - Sales Phlebotomy Results';
+            $this -> header ( $title );
+            $this -> sidebar ();
+            
+
+                    // Check if sale-id and sample_status are passed
+            $sale_id = isset($_GET['sale-id']) ? $_GET['sale-id'] : null;
+            $sample_status = isset($_GET['sample_status']) ? $_GET['sample_status'] : null;
+            /**********PAGINATION***********/
+            $limit                          = 100;
+            $config                         = array ();
+            $config[ "base_url" ]           = base_url ( 'lab/sale-Phlebotomy-results' );
+            $total_row                      = $this -> LabModel -> count_sale_pending_results ();
+            $config[ "total_rows" ]         = $total_row;
+            $config[ "per_page" ]           = $limit;
+            $config[ 'use_page_numbers' ]   = false;
+            $config[ 'page_query_string' ]  = TRUE;
+            $config[ 'reuse_query_string' ] = TRUE;
+            $config[ 'num_links' ]          = 10;
+            $config[ 'cur_tag_open' ]       = '&nbsp;<a class="current">';
+            $config[ 'cur_tag_close' ]      = '</a>';
+            $config[ 'next_link' ]          = 'Next';
+            $config[ 'prev_link' ]          = 'Previous';
+            
+            $this -> pagination -> initialize ( $config );
+            
+            /**********END PAGINATION***********/
+            
+            if ( isset( $_REQUEST[ 'per_page' ] ) and $_REQUEST[ 'per_page' ] > 0 ) {
+                $offset = $_REQUEST[ 'per_page' ];
+            }
+            else {
+                $offset = 0;
+            }
+            if (!empty($sample_status)) {
+                $this->LabModel->update_sales_by_sample_status($sample_status, $sale_id); 
+            }
+            
+            $data[ 'panels' ]   = $this -> PanelModel -> get_panels ();
+            $data[ 'airlines' ] = $this -> AirlineModel -> get_airlines ();
+            $data[ 'sales' ]    = $this -> LabModel -> get_sale_pending_results ( $config[ "per_page" ], $offset );
+            $str_links          = $this -> pagination -> create_links ();
+            $data[ "links" ]    = explode ( '&nbsp;', $str_links );
+            $this -> load -> view ( '/lab/sale-Phlebotomy-results', $data );
+            $this -> footer ();
+        }
         /**
          * -------------------------
          * test status main page
