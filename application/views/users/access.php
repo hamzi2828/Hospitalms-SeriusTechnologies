@@ -1129,6 +1129,36 @@
                     echo 'checked="checked"' ?>> Delete Regents
             </td>
         </tr>
+
+
+
+        <tr>
+            <td></td> 
+            <td>Phlebotomy</td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="Phlebotomy" <?php if ( !empty( $access ) and in_array ( 'Phlebotomy', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="Phlebotomy_take_sample" <?php if ( !empty( $access ) and in_array ( 'Phlebotomy_take_sample', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Take  Sample 
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="Phlebotomy_receive_sample" <?php if ( !empty( $access ) and in_array ( 'Phlebotomy_receive_sample', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Received Sample 
+                
+            </td>
+        </tr>
+
+
+
+
+
         <tr>
             <td></td>
             <td>Add Lab Tests</td>

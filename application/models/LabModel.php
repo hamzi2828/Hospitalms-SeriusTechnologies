@@ -3086,24 +3086,35 @@
             $services = $this -> db -> get ();
             return $services -> result ();
         }
+
+
         public function update_sales_by_sample_status($sample_status, $sale_id) {
-            $user_id = get_logged_in_user_id(); // Retrieve the logged-in user's ID
+             // Print sale_id and sample_status for debugging
+                // echo '<pre>';
+                // print_r('Sale ID: ' . $sale_id);
+                // echo '<br>';
+                // print_r('Sample Status: ' . $sample_status);
+                // echo '<br>';
+                // exit;
+            $user_id = get_logged_in_user_id(); 
+            $current_time = date('Y-m-d H:i:s'); 
         
             if ($sample_status == 'SampleTaken') {
-                // Update `sample_taken_by_user` field only
-                $data = array('sample_taken_by_user' => $user_id);
+                $data = array(
+                    'sample_taken_by_user' => $user_id,
+                    'sample_taken_by_user_time' => $current_time
+                );
             } elseif ($sample_status == 'SampleReceived') {
-                // Update `sample_received_by_user` field only
-                $data = array('sample_received_by_user' => $user_id);
+                $data = array(
+                    'sample_received_by_user' => $user_id,
+                    'sample_received_by_user_time' => $current_time
+                );
             } else {
-                return false; // Invalid sample_status
+                return false; 
             }
-        
-            // Perform the update where id = $sale_id
-            $this->db->where('id', $sale_id);
+            $this->db->where('sale_id', $sale_id);
             $this->db->update('hmis_test_sales', $data);
-        
-            // Return true if rows were updated, false otherwise
+    
             return ($this->db->affected_rows() > 0);
         }
         

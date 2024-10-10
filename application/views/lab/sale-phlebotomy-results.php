@@ -86,7 +86,7 @@
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-globe"></i> Pending Phlebotomy Results
+                        <i class="fa fa-globe"></i>  Phlebotomy 
                     </div>
                 </div>
                 <div class="portlet-body" style="overflow: auto">
@@ -100,8 +100,6 @@
                                 <th> <?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></th>
                                 <th> <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></th>
                                 <th> Patient Panel</th>
-                                <th> Airline</th>
-                                <th> Flight Date/Time</th>
                                 <th> Test Name</th>
                                 <th> Date Added</th>
                                 <th> Sample Taken</th>
@@ -136,62 +134,79 @@
                                                         echo get_panel_by_id ( $patient -> panel_id ) -> name;
                                                 ?>
                                             </td>
-                                            <td>
-                                                <?php echo @$airlineInfo -> title; ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                    if ( !empty( $travel ) )
-                                                        echo date_setter ( @$travel -> flight_date );
-                                                ?>
-                                            </td>
+  
                                             <td><?php echo $test -> name ?></td>
                                             <td>
                                                 <?php echo date_setter ( $saleInfo -> date_sale ); ?>
                                             </td>
+
+
                                             <td>
                                             <?php
-                                               
                                                 if (!empty($sale->sample_taken_by_user)) {
                                                     $user = get_user($sale->sample_taken_by_user); 
                                                     
-                                                        echo $user->name; 
-                                                   
+                                                    // Display the user's name
+                                                    echo '<p class="btn btn-success btn-xs btn-block">' . $user->name . '</p>';
+
+                                                    // Display the date and time using the date_setter function
+                                                    echo '<p class="text-muted">' . date_setter($sale->sample_taken_by_user_time) . '</p>';
                                                 } else {
-                                                    echo 'No User Assigned'; 
+                                                    echo '<p class="btn btn-warning btn-xs btn-block">No Sample</p>';
                                                 }
                                             ?>
                                         </td>
 
                                         <td>
                                             <?php
-                                               
                                                 if (!empty($sale->sample_received_by_user)) {
                                                     $user = get_user($sale->sample_received_by_user); 
                                                     
-                                                        echo $user->name; 
-                                                   
+                                                    // Display the user's name
+                                                    echo '<p class="btn btn-success btn-xs btn-block">' . $user->name . '</p>';
+
+                                                    // Display the date and time using the date_setter function
+                                                    echo '<p class="text-muted">' . date_setter($sale->sample_received_by_user_time) . '</p>';
                                                 } else {
-                                                    echo 'No User Assigned'; 
+                                                    echo '<p class="btn btn-warning btn-xs btn-block">No Received</p>';
                                                 }
                                             ?>
                                         </td>
-                                       
+
+
+    
                                         <td>
+                                        <?php  
+                                        // Check if the user has access to take the sample
+                                        if (get_user_access(get_logged_in_user_id()) && 
+                                            in_array('Phlebotomy_take_sample', explode(',', get_user_access(get_logged_in_user_id())->access))) : ?>
+
                                             <!-- Sample Taken Button -->
                                             <a href="<?php echo base_url('/lab/sale-Phlebotomy-results-sample-Taken/?sale-id=' . $sale->sale_id . '&sample_status=SampleTaken'); ?>" 
-                                            class="btn btn-warning btn-xs btn-block <?php echo !empty($sale->sample_taken_by_user) ? 'disabled' : ''; ?>" 
-                                            target="_blank" <?php echo !empty($sale->sample_taken_by_user) ? 'disabled' : ''; ?>>
+                                            class="btn blue btn-xs btn-block <?php echo !empty($sale->sample_taken_by_user) ? 'disabled' : ''; ?>" 
+                                            <?php echo !empty($sale->sample_taken_by_user) ? 'disabled' : ''; ?>>
                                                 Sample Taken
                                             </a>
 
+                                        <?php endif; ?>
+
+
+                                        <?php  
+                                        // Check if the user has access to take the sample
+                                        if (get_user_access(get_logged_in_user_id()) && 
+                                            in_array('Phlebotomy_receive_sample', explode(',', get_user_access(get_logged_in_user_id())->access))) : ?>
+                                        
                                             <!-- Sample Received Button -->
                                             <a href="<?php echo base_url('/lab/sale-Phlebotomy-results-sample-Taken/?sale-id=' . $sale->sale_id . '&sample_status=SampleReceived'); ?>" 
-                                            class="btn btn-warning btn-xs btn-block <?php echo !empty($sale->sample_received_by_user) ? 'disabled' : ''; ?>" 
-                                            target="_blank" <?php echo !empty($sale->sample_received_by_user) ? 'disabled' : ''; ?>>
+                                            class="btn dark btn-xs btn-block <?php echo !empty($sale->sample_received_by_user) ? 'disabled' : ''; ?>" 
+                                            <?php echo !empty($sale->sample_received_by_user) ? 'disabled' : ''; ?>>
                                                 Sample Received
                                             </a>
-                                        </td>
+
+                                        <?php endif; ?>
+                                    </td>
+
+
                                         </tr>
                                         <?php
                                     }
