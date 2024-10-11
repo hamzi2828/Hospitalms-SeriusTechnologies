@@ -3397,9 +3397,11 @@
             $this -> header ( $title );
             $this -> sidebar ();
             
+            // print_r($_GET);
+            // exit;
 
                     // Check if sale-id and sample_status are passed
-            $sale_id = isset($_GET['sale-id']) ? $_GET['sale-id'] : null;
+            $id = isset($_GET['id']) ? $_GET['id'] : null;
             $sample_status = isset($_GET['sample_status']) ? $_GET['sample_status'] : null;
             /**********PAGINATION***********/
             $limit                          = 100;
@@ -3427,8 +3429,14 @@
             else {
                 $offset = 0;
             }
+           // Check if sample status exists
             if (!empty($sample_status)) {
-                $this->LabModel->update_sales_by_sample_status($sample_status, $sale_id); 
+                $result = $this->LabModel->update_sales_by_sample_status($sample_status, $id);
+                
+                // If there's an error (e.g. sample is not taken), pass the message to the view
+                if (!$result['status']) {
+                    $data['error_message'] = $result['message'];
+                }
             }
             
             $data[ 'panels' ]   = $this -> PanelModel -> get_panels ();
@@ -3436,7 +3444,7 @@
             $data[ 'sales' ]    = $this -> LabModel -> get_sale_pending_results ( $config[ "per_page" ], $offset );
             $str_links          = $this -> pagination -> create_links ();
             $data[ "links" ]    = explode ( '&nbsp;', $str_links );
-            $this -> load -> view ( '/lab/sale-Phlebotomy-results', $data );
+            $this -> load -> view ( '/lab/sale-phlebotomy-results', $data );
             $this -> footer ();
         }
         /**

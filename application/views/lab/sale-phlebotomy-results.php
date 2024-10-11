@@ -16,6 +16,12 @@
                 <?php echo $this -> session -> flashdata ( 'response' ) ?>
             </div>
         <?php endif; ?>
+        <?php if (isset($error_message)): ?>
+            <div class="alert alert-danger">
+                <?= $error_message; ?>
+            </div>
+        <?php endif; ?>
+
         <div class="search-form">
             <form method="get" autocomplete="off">
                 <div class="form-group col-lg-2" style="position: relative">
@@ -182,7 +188,7 @@
                                             in_array('Phlebotomy_take_sample', explode(',', get_user_access(get_logged_in_user_id())->access))) : ?>
 
                                             <!-- Sample Taken Button -->
-                                            <a href="<?php echo base_url('/lab/sale-Phlebotomy-results-sample-Taken/?sale-id=' . $sale->sale_id . '&sample_status=SampleTaken'); ?>" 
+                                            <a href="<?php echo base_url('/lab/sale-Phlebotomy-results-sample-Taken/?id=' . $sale->id . '&sample_status=SampleTaken'); ?>" 
                                             class="btn blue btn-xs btn-block <?php echo !empty($sale->sample_taken_by_user) ? 'disabled' : ''; ?>" 
                                             <?php echo !empty($sale->sample_taken_by_user) ? 'disabled' : ''; ?>>
                                                 Sample Taken
@@ -197,7 +203,7 @@
                                             in_array('Phlebotomy_receive_sample', explode(',', get_user_access(get_logged_in_user_id())->access))) : ?>
                                         
                                             <!-- Sample Received Button -->
-                                            <a href="<?php echo base_url('/lab/sale-Phlebotomy-results-sample-Taken/?sale-id=' . $sale->sale_id . '&sample_status=SampleReceived'); ?>" 
+                                            <a href="<?php echo base_url('/lab/sale-Phlebotomy-results-sample-Taken/?id=' . $sale->id . '&sample_status=SampleReceived'); ?>" 
                                             class="btn dark btn-xs btn-block <?php echo !empty($sale->sample_received_by_user) ? 'disabled' : ''; ?>" 
                                             <?php echo !empty($sale->sample_received_by_user) ? 'disabled' : ''; ?>>
                                                 Sample Received

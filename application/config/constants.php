@@ -191,7 +191,7 @@
     define ( 'COVID_RAPID_PCR', 883 );
     define ( 'COVID_19_RT_PCR_General', 1297 );
     define ( 'COVID_19_RT_PCR_Panel', 776 );
-    define ( 'ADMINISTRATION_DEPT', 60 );
+    define ( 'ADMINISTRATION_DEPT', 1 );
     
     define ( 'TURKISH_AIRLINE', 7 );
     define ( 'PEGASUS_AIRLINE', 12 );

@@ -663,6 +663,7 @@
             }
             
             $this -> db -> where ( 'payment_method', $method );
+            $this->db->where('net >', 0);
             $query = $this -> db -> get ();
             return $query -> row () -> net;
         }
@@ -725,4 +726,37 @@
                 'sales' => $sales
             );
         }
+
+        public function get_opd_refunded_total_by_payment_method($method = 'cash') {
+            $start_date = $this -> input -> get ( 'start_date' );
+            $end_date   = $this -> input -> get ( 'end_date' );
+            $user_id    = $this -> input -> get ( 'user_id' );
+            
+            $this
+                -> db
+                -> select ( 'SUM(ABS(net)) as net' )
+                -> from ( 'opd_sales' )
+                -> where ( "id IN (Select sale_id FROM hmis_opd_services_sales WHERE patient_id IN (Select id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))" );
+            
+            if ( isset( $start_date ) and !empty( trim ( $start_date ) ) and isset( $end_date ) and !empty( trim ( $end_date ) ) ) {
+                $start_date = date ( 'Y-m-d', strtotime ( $start_date ) );
+                $end_date   = date ( 'Y-m-d', strtotime ( $end_date ) );
+                $this -> db -> where ( "DATE(date_added) Between '$start_date' and '$end_date'" );
+            }
+            
+            if ( isset( $user_id ) and $user_id > 0 ) {
+                $this -> db -> where ( 'user_id', $user_id );
+            }
+
+
+            // Apply filter for refunded status and payment method
+            $this->db->where('refund', '1');
+            $this->db->where('payment_method', $method); 
+            $this->db->where('net <', 0);
+            
+            $query = $this->db->get();
+            
+            return $query->row()->net;
+        }
+        
     }

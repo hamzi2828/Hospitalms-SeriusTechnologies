@@ -649,8 +649,13 @@
             }
             
             $this -> db -> where ( 'payment_method', $method );
+            $this->db->where('net_bill >', 0);  //This ensures we only get records where the net bill is greater than zero
             $query = $this -> db -> get ();
-            return $query -> row () -> net;
+              // Print the retrieved value
+            $result = $query->row()->net;
+       
+            return $result;
+            // return $query -> row () -> net;
         }
         
         public function get_consultancies_refunded_total () {
@@ -698,4 +703,39 @@
             $query = $this -> db -> get ();
             return $query -> row ();
         }
+
+
+        public function get_consultancies_refunded_total_by_payment_method($method = 'cash') {
+            $start_date = $this->input->get('start_date');
+            $end_date   = $this->input->get('end_date');
+            $user_id    = $this->input->get('user_id');
+            
+            $this->db
+                ->select('SUM(ABS(net_bill)) as net')
+                ->from('consultancies')
+                ->where("patient_id IN (Select id FROM hmis_patients WHERE (panel_id='0' OR panel_id='' OR panel_id < 1 OR panel_id IS NULL))");
+        
+            if (isset($start_date) && !empty(trim($start_date)) && isset($end_date) && !empty(trim($end_date))) {
+                $start_date = date('Y-m-d', strtotime($start_date));
+                $end_date   = date('Y-m-d', strtotime($end_date));
+                $this->db->where("DATE(date_added) Between '$start_date' and '$end_date'");
+            }
+        
+            if (isset($user_id) && $user_id > 0) {
+                $this->db->where('user_id', $user_id);
+            }
+        
+            // Apply filter for refunded, payment method, and net_bill starting with a negative value
+            $this->db->where('refunded', '1');
+            $this->db->where('payment_method', $method);
+            $this->db->where('net_bill <', 0); // This ensures we only get records where net_bill is negative
+        
+            $query = $this->db->get();
+        
+            // Print the retrieved value
+            $result = $query->row()->net;
+            return $result;
+        }
+        
+        
     }

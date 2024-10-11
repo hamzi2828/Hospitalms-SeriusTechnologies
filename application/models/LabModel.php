@@ -2948,6 +2948,7 @@
             }
             
             $this -> db -> where ( 'payment_method', $method );
+            $this->db->where('net >', 0);
             $query = $this -> db -> get ();
             return $query -> row () -> net;
         }
@@ -3088,34 +3089,77 @@
         }
 
 
-        public function update_sales_by_sample_status($sample_status, $sale_id) {
-             // Print sale_id and sample_status for debugging
-                // echo '<pre>';
-                // print_r('Sale ID: ' . $sale_id);
-                // echo '<br>';
-                // print_r('Sample Status: ' . $sample_status);
-                // echo '<br>';
-                // exit;
+        public function update_sales_by_sample_status($sample_status, $id) {
             $user_id = get_logged_in_user_id(); 
             $current_time = date('Y-m-d H:i:s'); 
-        
+            
+            // Get the current sale data
+            $sale = $this->db->get_where('hmis_test_sales', array('id' => $id))->row();
+            
             if ($sample_status == 'SampleTaken') {
+                // If the sample status is SampleTaken, update the sample taken details
                 $data = array(
                     'sample_taken_by_user' => $user_id,
                     'sample_taken_by_user_time' => $current_time
                 );
             } elseif ($sample_status == 'SampleReceived') {
+                // Check if the sample was taken before allowing SampleReceived
+                if (empty($sale->sample_taken_by_user) || empty($sale->sample_taken_by_user_time)) {
+                    // If sample was not taken, return an alert or handle error
+                    return array('status' => false, 'message' => 'Sample is not taken yet.');
+                }
+                
+                // If sample was taken, allow updating to SampleReceived
                 $data = array(
                     'sample_received_by_user' => $user_id,
                     'sample_received_by_user_time' => $current_time
                 );
             } else {
-                return false; 
+                // If invalid status, return false
+                return array('status' => false, 'message' => 'Invalid sample status.');
             }
-            $this->db->where('sale_id', $sale_id);
+            
+            // Update the record in the database
+            $this->db->where('id', $id);
             $this->db->update('hmis_test_sales', $data);
-    
-            return ($this->db->affected_rows() > 0);
+        
+            // Check if the update was successful
+            if ($this->db->affected_rows() > 0) {
+                return array('status' => true, 'message' => 'Sample status updated successfully.');
+            } else {
+                return array('status' => false, 'message' => 'Failed to update sample status.');
+            }
+        }
+        
+        
+        public function get_lab_refunded_total_by_payment_method($method = 'cash') {
+            $start_date = $this->input->get('start_date');
+            $end_date   = $this->input->get('end_date');
+            $user_id    = $this->input->get('user_id');
+            
+            $this->db
+                ->select('SUM(ABS(total)) as net')
+                ->from('lab_sales')
+                ->where("id IN (Select sale_id FROM hmis_test_sales WHERE patient_id IN (Select id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))");
+        
+            if (isset($start_date) && !empty(trim($start_date)) && isset($end_date) && !empty(trim($end_date))) {
+                $start_date = date('Y-m-d', strtotime($start_date));
+                $end_date   = date('Y-m-d', strtotime($end_date));
+                $this->db->where("DATE(date_sale) Between '$start_date' and '$end_date'");
+            }
+        
+            if (isset($user_id) && $user_id > 0) {
+                $this->db->where('user_id', $user_id);
+            }
+        
+            // Apply filter for refunded status and payment method
+            $this->db->where("id IN (Select sale_id FROM hmis_test_sales WHERE refunded='1')");
+            $this->db->where('payment_method', $method); // Filter by payment method
+            $this->db->where('net <', 0); // Filter for negative values
+            
+            $query = $this->db->get();
+            
+            return $query->row()->net;
         }
         
         
