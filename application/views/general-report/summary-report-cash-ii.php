@@ -39,7 +39,15 @@
                 </div>
                 <a href="<?php echo base_url ( '/invoices/general-summary-report-cash-ii?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"
                    target="_blank"
-                   class="pull-right print-btn">Print</a>
+                   class="pull-right print-btn ">Print</a>
+
+                   <a href="<?php echo base_url('/invoices/general-summary-report-cash-ii?' . $_SERVER['QUERY_STRING'] . '&print=simple') ?>"
+                    target="_blank"
+                    class="pull-right print-btn"
+                    style="margin-left: 10px; margin-right: 10px;">
+                    Print-Simple
+                    </a>
+
             </div>
             <div class="portlet-body">
                 

@@ -5809,20 +5809,49 @@
         }
         
         public function general_summary_report_cash_ii () {
+
             $data[ 'cash_consultancies' ]     = $this -> ConsultancyModel -> get_consultancies_total_by_payment_method ( 'cash' );
             $data[ 'card_consultancies' ]     = $this -> ConsultancyModel -> get_consultancies_total_by_payment_method ( 'card' );
             $data[ 'bank_consultancies' ]     = $this -> ConsultancyModel -> get_consultancies_total_by_payment_method ( 'bank' );
             $data[ 'consultancies_refunded' ] = $this -> ConsultancyModel -> get_consultancies_refunded_total ();
+
+            $data[ 'cash_consultancies_refunded' ] = $this -> ConsultancyModel -> get_consultancies_refunded_total_by_payment_method ('cash');
+            $data[ 'card_consultancies_refunded' ] = $this -> ConsultancyModel -> get_consultancies_refunded_total_by_payment_method ('card');
+            $data[ 'bank_consultancies_refunded' ] = $this -> ConsultancyModel -> get_consultancies_refunded_total_by_payment_method ('bank');
             
+          
+
             $data[ 'cash_opd' ]     = $this -> OPDModel -> get_opd_total_by_payment_method ( 'cash' );
             $data[ 'card_opd' ]     = $this -> OPDModel -> get_opd_total_by_payment_method ( 'card' );
             $data[ 'bank_opd' ]     = $this -> OPDModel -> get_opd_total_by_payment_method ( 'bank' );
             $data[ 'opd_refunded' ] = $this -> OPDModel -> get_opd_refunded_total ();
+            $data[ 'cash_opd_refunded' ] = $this -> OPDModel -> get_opd_refunded_total_by_payment_method ('cash');
+            $data[ 'card_opd_refunded' ] = $this -> OPDModel -> get_opd_refunded_total_by_payment_method ('card');
+            $data[ 'bank_opd_refunded' ] = $this -> OPDModel -> get_opd_refunded_total_by_payment_method ('bank');
             
             $data[ 'cash_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'cash' );
             $data[ 'card_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'card' );
             $data[ 'bank_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'bank' );
-            $data[ 'lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total ();
+            $data[ 'lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total();
+            $data[ 'cash_lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total_by_payment_method ('cash');
+            $data[ 'card_lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total_by_payment_method ('card');  
+            $data[ 'bank_lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total_by_payment_method ('bank');
+
+
+            // $data[ 'cash_consultancies' ]     = $this -> ConsultancyModel -> get_consultancies_total_by_payment_method ( 'cash' );
+            // $data[ 'card_consultancies' ]     = $this -> ConsultancyModel -> get_consultancies_total_by_payment_method ( 'card' );
+            // $data[ 'bank_consultancies' ]     = $this -> ConsultancyModel -> get_consultancies_total_by_payment_method ( 'bank' );
+            // $data[ 'consultancies_refunded' ] = $this -> ConsultancyModel -> get_consultancies_refunded_total ();
+            
+            // $data[ 'cash_opd' ]     = $this -> OPDModel -> get_opd_total_by_payment_method ( 'cash' );
+            // $data[ 'card_opd' ]     = $this -> OPDModel -> get_opd_total_by_payment_method ( 'card' );
+            // $data[ 'bank_opd' ]     = $this -> OPDModel -> get_opd_total_by_payment_method ( 'bank' );
+            // $data[ 'opd_refunded' ] = $this -> OPDModel -> get_opd_refunded_total ();
+            
+            $data[ 'cash_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'cash' );
+            $data[ 'card_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'card' );
+            $data[ 'bank_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'bank' );
+            // $data[ 'lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total ();
             
             $data[ 'ipd_total' ]   = $this -> IPDModel -> get_ipd_total_report ();
             $data[ 'users' ]       = $this -> UserModel -> get_users ();
@@ -5836,7 +5865,16 @@
             $data[ 'sales' ]          = $this -> ReportingModel -> get_doctors_sales_by_sale_grouped ();
             $data[ 'reports' ]        = $this -> LabModel -> get_doctor_share_general_report ();
             $data[ 'ipd_sales' ]      = $this -> IPDModel -> get_consultant_commission ( true );
-            $html_content             = $this -> load -> view ( '/invoices/general-summary-report-cash-ii', $data, true );
+            $print_type = $this->input->get('print');
+   
+            if ($print_type == 'simple') {
+                $html_content = $this->load->view('/invoices/general-summary-report-cash-ii-simple', $data, true);
+            } else {
+                $html_content= $this -> load -> view ( '/invoices/general-summary-report-cash-ii', $data, true );
+
+            }
+            
+            
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
                                         'margin_left'   => 5,

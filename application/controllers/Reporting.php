@@ -607,6 +607,18 @@
             $this -> footer ();
         }
         
+
+        public function test_prices_list_cash () {
+            $title = site_name . ' - Test Prices Report';
+            $this -> header ( $title );
+            $this -> sidebar ();
+            $data[ 'tests' ]    = $this -> LabModel -> get_parent_tests_list_cash ();
+            $data[ 'panels' ]   = $this -> PanelModel -> get_active_panels ();
+            $data[ 'sections' ] = $this -> SectionModel -> get_sections ();
+            $data[ 'reports' ]  = $this -> ReportingModel -> get_test_prices_report ();
+            $this -> load -> view ( '/reporting/test-prices-report', $data );
+            $this -> footer ();
+        }
         /**
          * -------------------------
          * lab referred by report

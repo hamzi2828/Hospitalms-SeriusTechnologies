@@ -83,98 +83,135 @@ mpdf-->
             <h3><strong> General Summary Report (Cash II) </strong></h3>
         </td>
     </tr>
-</table>
+</table> 
 <br>
 <table width="100%" style="font-size: 8pt; border-collapse: collapse; width: 100%;"
        cellpadding="4" border="1">
     <tbody>
     <tr>
         <td style="color: #ff0000; font-size: 18px" width="3%" align="center"><strong>1</strong></td>
-        <td style="color: #ff0000; font-size: 18px" colspan="5">
+        <td style="color: #ff0000; font-size: 18px" colspan="9">
             <strong>Consultancies</strong>
         </td>
     </tr>
     <tr>
-        <td></td>
-        <td><strong>Cash</strong></td>
-        <td><strong>Card</strong></td>
-        <td><strong>Bank</strong></td>
-        <td><strong>Refund</strong></td>
-        <td><strong>Net Cash</strong></td>
-    </tr>
-    <tr>
-        <?php $netConsultancies = ( $cash_consultancies + $card_consultancies + $bank_consultancies ) - $consultancies_refunded; ?>
-        <td></td>
-        <td><?php echo number_format ( $cash_consultancies, 2 ) ?></td>
-        <td><?php echo number_format ( $card_consultancies, 2 ) ?></td>
-        <td><?php echo number_format ( $bank_consultancies, 2 ) ?></td>
-        <td><?php echo number_format ( $consultancies_refunded, 2 ) ?></td>
-        <td><?php echo number_format ( $netConsultancies, 2 ); ?></td>
-    </tr>
-    
+                        <td></td>
+                        <td><strong>Cash</strong></td>
+                        <td><strong>Refund</strong></td>
+                        <td><strong>Net</strong></td>
+                        <td><strong>Card</strong></td>
+                        <td><strong>Refund</strong></td>
+                        <td><strong>Net</strong></td>
+                        <td><strong>Bank</strong></td>
+                        <td><strong>Refund</strong></td>
+                        <td><strong>Net</strong></td>
+                    </tr>
+                    <tr>
+                        <?php 
+   
+                        $netcashConsultancies =  $cash_consultancies - $cash_consultancies_refunded;
+                        $netcardConsultancies =  $card_consultancies - $card_consultancies_refunded;
+                        $netbankConsultancies =  $bank_consultancies - $bank_consultancies_refunded;
+                        
+                        ?>
+                        <td></td>
+                        <td><?php echo number_format ( $cash_consultancies, 2 ) ?></td>
+                        <td><?php echo number_format ( $cash_consultancies_refunded, 2 ) ?></td>
+                        <td><?php echo number_format ( $netcashConsultancies, 2 ) ?></td>
+                        <td><?php echo number_format ( $card_consultancies, 2 ) ?></td>
+                        <td><?php echo number_format ( $card_consultancies_refunded, 2 ) ?></td>
+                        <td><?php echo number_format ( $netcardConsultancies, 2 ) ?></td>
+                        <td><?php echo number_format ( $bank_consultancies, 2 ) ?></td>
+                        <td><?php echo number_format ( $bank_consultancies_refunded, 2 ) ?></td>
+                        <td><?php echo number_format ( $netbankConsultancies, 2 ) ?></td>
+                    </tr>
     <tr>
         <td style="color: #ff0000; font-size: 18px" width="3%" align="center"><strong>2</strong></td>
-        <td style="color: #ff0000; font-size: 18px" colspan="5">
+        <td style="color: #ff0000; font-size: 18px" colspan="9">
             <strong>OPD</strong>
         </td>
     </tr>
     <tr>
-        <td></td>
-        <td><strong>Cash</strong></td>
-        <td><strong>Card</strong></td>
-        <td><strong>Bank</strong></td>
-        <td><strong>Refund</strong></td>
-        <td><strong>Net Cash</strong></td>
-    </tr>
-    <tr>
-        <?php $netOPD = ( $cash_opd + $card_opd + $bank_opd ) - $opd_refunded; ?>
-        <td></td>
-        <td><?php echo number_format ( $cash_opd, 2 ) ?></td>
-        <td><?php echo number_format ( $card_opd, 2 ) ?></td>
-        <td><?php echo number_format ( $bank_opd, 2 ) ?></td>
-        <td><?php echo number_format ( $opd_refunded, 2 ) ?></td>
-        <td><?php echo number_format ( $netOPD, 2 ); ?></td>
-    </tr>
+                        <td></td>
+                        <td><strong>Cash</strong></td>
+                        <td><strong>Refund</strong></td>
+                        <td><strong>Net</strong></td>
+                        <td><strong>Card</strong></td>
+                        <td><strong>Refund</strong></td>
+                        <td><strong>Net</strong></td>
+                        <td><strong>Bank</strong></td>
+                        <td><strong>Refund</strong></td>
+                        <td><strong>Net </strong></td>
+                    </tr>
+                    <tr>
+                        <?php 
+                        $netcashOPD = $cash_opd  - $cash_opd_refunded; 
+                        $netcardOPD = $card_opd - $card_opd_refunded;
+                        $netbankOPD = $bank_opd - $bank_opd_refunded;
+                        ?>
+                        <td></td>
+                        <td><?php echo number_format ( $cash_opd, 2 ) ?></td>
+                        <td><?php echo number_format ( $cash_opd_refunded, 2 ) ?></td>
+                        <td> <?php echo number_format ( $netcashOPD, 2 ) ?></td>
+                        <td><?php echo number_format ( $card_opd, 2 ) ?></td>
+                        <td><?php echo number_format ( $card_opd_refunded, 2 ) ?></td>
+                        <td><?php echo number_format ( $netcardOPD, 2 ) ?></td>
+                        <td><?php echo number_format ( $bank_opd, 2 ) ?></td>
+                        <td><?php echo number_format ( $bank_opd_refunded, 2 ) ?></td>
+                        <td><?php echo number_format ( $netbankOPD, 2 ) ?></td>
+                    </tr>
     
     <tr>
         <td style="color: #ff0000; font-size: 18px" width="3%" align="center"><strong>3</strong></td>
-        <td style="color: #ff0000; font-size: 18px" colspan="5">
+        <td style="color: #ff0000; font-size: 18px" colspan="9">
             <strong>Lab</strong>
         </td>
     </tr>
     <tr>
-        <td></td>
-        <td><strong>Cash</strong></td>
-        <td><strong>Card</strong></td>
-        <td><strong>Bank</strong></td>
-        <td><strong>Refund</strong></td>
-        <td><strong>Net Cash</strong></td>
-    </tr>
-    <tr>
-        <?php $netLab = ( $cash_lab + $card_lab + $bank_lab ) - $lab_refunded; ?>
-        <td></td>
-        <td><?php echo number_format ( $cash_lab, 2 ) ?></td>
-        <td><?php echo number_format ( $card_lab, 2 ) ?></td>
-        <td><?php echo number_format ( $bank_lab, 2 ) ?></td>
-        <td><?php echo number_format ( $lab_refunded, 2 ) ?></td>
-        <td><?php echo number_format ( $netLab, 2 ); ?></td>
-    </tr>
+                        <td></td>
+                        <td><strong>Cash</strong></td>
+                        <td><strong>Refund</strong></td>
+                        <td><strong>Net</strong></td>
+                        <td><strong>Card</strong></td>
+                        <td><strong>Refund</strong></td>
+                        <td><strong>Net</strong></td>
+                        <td><strong>Bank</strong></td>
+                        <td><strong>Refund</strong></td>
+                        <td><strong>Net </strong></td>
+                    </tr>
+                    <tr>
+                        <?php
+                         $netcashLab =  $cash_lab - $cash_lab_refunded; 
+                         $netCardLab = $card_lab - $card_lab_refunded;
+                         $netBankLab = $bank_lab - $bank_lab_refunded;
+                         ?>
+                        <td></td>
+                        <td><?php echo number_format ( $cash_lab, 2 ) ?></td>
+                        <td><?php echo number_format ( $cash_lab_refunded, 2 ) ?></td>
+                        <td><?php echo number_format ( $netcashLab, 2 ) ?></td>
+                        <td><?php echo number_format ( $card_lab, 2 ) ?></td>
+                        <td><?php echo number_format ( $card_lab_refunded, 2 ) ?></td>
+                        <td><?php echo number_format ( $netCardLab, 2 ) ?></td>
+                        <td><?php echo number_format ( $bank_lab, 2 ) ?></td>
+                        <td><?php echo number_format ( $bank_lab_refunded, 2 ) ?></td>
+                        <td><?php echo number_format ( $netBankLab, 2 ) ?></td>
+                    </tr>
     
     <tr>
         <td style="color: #ff0000; font-size: 18px" width="3%" align="center"><strong>4</strong></td>
-        <td style="color: #ff0000; font-size: 16px" colspan="5">
+        <td style="color: #ff0000; font-size: 16px" colspan="9">
             <strong>IPD Cash (Paid by Cash Patient)</strong>
         </td>
     </tr>
     
     <tr>
         <td></td>
-        <td colspan="4"><strong>Cash</strong></td>
+        <td colspan="8"><strong>Cash</strong></td>
         <td><strong>Net Cash</strong></td>
     </tr>
     <tr>
         <td></td>
-        <td colspan="4"><?php echo number_format ( $ipd_total, 2 ); ?></td>
+        <td colspan="8"><?php echo number_format ( $ipd_total, 2 ); ?></td>
         <td><?php echo number_format ( $ipd_total, 2 ); ?></td>
     </tr>
     
@@ -212,35 +249,53 @@ mpdf-->
     ?>
     
     <tr>
-        <td style="color: #ff0000; font-size: 18px" colspan="6" align="center">
+        <td style="color: #ff0000; font-size: 18px" colspan="9" align="center">
             <strong>Grand Total</strong>
         </td>
     </tr>
     
     <tr>
-        <td></td>
-        <td><strong>Net Cash</strong></td>
-        <td><strong>Net Card</strong></td>
-        <td><strong>Net Bank</strong></td>
-        <td><strong>Net Refund</strong></td>
-        <td><strong>Net Cash</strong></td>
-    </tr>
-    <tr>
-        <?php
-            $netCard    = ( $card_consultancies + $card_lab + $card_opd );
-            $netBank    = ( $bank_consultancies + $bank_lab + $bank_opd );
-            $netRefund  = ( $consultancies_refunded + $lab_refunded + $opd_refunded );
-            $cashInHand = ( $grand_total + $netCard + $netBank ) - $netRefund;
-        ?>
-        <td></td>
-        <td><?php echo number_format ( $grand_total, 2 ); ?></td>
-        <td><?php echo number_format ( $netCard, 2 ); ?></td>
-        <td><?php echo number_format ( $netBank, 2 ); ?></td>
-        <td><?php echo number_format ( $netRefund, 2 ); ?></td>
-        <td>
-            <?php echo number_format ( $cashInHand, 2 ); ?>
-        </td>
-    </tr>
+                        <td></td>
+                        <td><strong>  Cash</strong></td>
+                        <td><strong>Refund</strong></td>
+                        <td><strong>Net</strong></td>
+                        <td><strong> Card</strong></td>
+                        <td><strong> Refund</strong></td>
+                        <td><strong>Net</strong></td>
+                        <td><strong> Bank</strong></td>
+                        <td><strong> Refund</strong></td>
+                        <td><strong>Net </strong></td>
+                    </tr>
+                    <tr>
+                        <?php
+                        $netCash = $cash_consultancies + $cash_opd + $cash_lab;
+                        $netcard = $card_consultancies + $card_lab + $card_opd;
+                        $netbank = $bank_consultancies + $bank_lab + $bank_opd;
+                        $netcashrefund = $cash_consultancies_refunded + $cash_opd_refunded + $cash_lab_refunded;
+                        $netcardrefund = $card_consultancies_refunded + $card_lab_refunded + $card_opd_refunded;
+                        $netbankrefund = $bank_consultancies_refunded + $bank_lab_refunded + $bank_opd_refunded;
+
+                        $totalcash = $netCash - $netcashrefund;
+                        $totalcard = $netcard - $netcardrefund;
+                        $totalbank = $netbank - $netbankrefund;
+
+
+                            // $netCard    = ( $card_consultancies + $card_lab + $card_opd );
+                            // $netBank    = ( $bank_consultancies + $bank_lab + $bank_opd );
+                            // $netRefund  = ( $consultancies_refunded + $lab_refunded + $opd_refunded );
+                            // $cashInHand = ( $grand_total + $netCard + $netBank ) - $netRefund;
+                        ?>
+                        <td></td>
+                        <td><?php echo number_format ( $netCash, 2 ); ?></td>
+                        <td><?php echo number_format ( $netcashrefund, 2 ); ?></td>
+                        <td><?php echo number_format ( $totalcash, 2 ); ?></td>
+                        <td><?php echo number_format ( $netcard, 2 ); ?></td>
+                        <td><?php echo number_format ( $netcardrefund, 2 ); ?></td>
+                        <td><?php echo number_format ( $totalcard, 2 ); ?></td>
+                        <td><?php echo number_format ( $netbank, 2 ); ?></td>
+                        <td><?php echo number_format ( $netbankrefund, 2 ); ?></td>
+                        <td><?php echo number_format ( $totalbank, 2 ); ?></td>
+                    </tr>
     </tbody>
 </table>
 <br>

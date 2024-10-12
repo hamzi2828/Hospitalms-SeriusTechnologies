@@ -8,7 +8,7 @@
         <?php } ?>
         <?php if ( $this -> session -> flashdata ( 'error' ) ) : ?>
             <div class="alert alert-danger">
-                <?php echo $this -> session -> flashdata ( 'error' ) ?>
+                <?php echo $this -> session -> flashdata ( 'error' ) ?> 
             </div>
         <?php endif; ?>
         <?php if ( $this -> session -> flashdata ( 'response' ) ) : ?>
@@ -20,7 +20,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i> Lab Tests List
+                    <i class="fa fa-globe"></i> Lab Tests List 
                 </div>
             </div>
             <div class="portlet-body">

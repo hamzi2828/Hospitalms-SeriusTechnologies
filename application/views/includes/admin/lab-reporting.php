@@ -48,10 +48,17 @@
                 </li>
             <?php endif; ?>
             <?php if ( !empty( $access ) and in_array ( 'test_prices_report', explode ( ',', $access -> access ) ) ) : ?>
-                <li class="<?php if ( $child_uri == 'test-prices-report' )
+                <!-- <li class="<?php if ( $child_uri == 'test-prices-report' )
                     echo 'active'; ?>">
                     <a href="<?php echo base_url ( '/reporting/test-prices-report/?menu=lab' ) ?>">
                         Test Prices Report
+                    </a>
+                </li> -->
+
+                <li class="<?php if ( $child_uri == 'test-prices-list-cash' )
+                    echo 'active'; ?>">
+                    <a href="<?php echo base_url ( '/reporting/test-prices-list-cash/?menu=lab' ) ?>">
+                    Price List (Cash )
                     </a>
                 </li>
             <?php endif; ?>

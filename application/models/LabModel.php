@@ -270,6 +270,22 @@
             $tests = $this -> db -> get_where ( 'tests', array ( 'parent_id' => '0' ) );
             return $tests -> result ();
         }
+
+
+        public function get_parent_tests_list_cash() {
+            // Define the query with a join to include section name
+            $this->db->select('hmis_tests.*, hmis_sections.name as section_name');
+            $this->db->from('hmis_tests');
+            $this->db->join('hmis_test_sample_info', 'hmis_tests.id = hmis_test_sample_info.test_id');  // Adjusted column
+            $this->db->join('hmis_sections', 'hmis_test_sample_info.section_id = hmis_sections.id');
+            $this->db->where('hmis_tests.parent_id', 0);
+            $this->db->order_by('hmis_tests.name', 'ASC');
+            
+            // Execute the query
+            $query = $this->db->get();
+            return $query->result();
+        }
+        
         
         /**
          * -------------------------

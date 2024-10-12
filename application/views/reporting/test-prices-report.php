@@ -1,7 +1,7 @@
 <!-- BEGIN PAGE CONTENT-->
 <div class="row">
     <div class="col-md-12">
-        <div class="search-form">
+        <!-- <div class="search-form">
             <form role="form" method="get" autocomplete="off">
                 <div class="form-group col-lg-4">
                     <label for="exampleInputEmail1">Test</label>
@@ -59,86 +59,74 @@
                     <button type="submit" class="btn btn-primary btn-block" style="margin-top: 25px;">Search</button>
                 </div>
             </form>
-        </div>
+        </div> -->
         <!-- BEGIN SAMPLE FORM PORTLET-->
         <div class="portlet box blue">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-reorder"></i> Test Prices Report
+                    <i class="fa fa-reorder"></i> Test Prices List (cash)
                 </div>
-                <?php if ( count ( $reports ) > 0 ) : ?>
-                    <a href="<?php echo base_url ( '/invoices/test-prices-report?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"
-                       class="pull-right print-btn" target="_blank">Print</a>
+                <?php if ( count ( $tests ) > 0 ) : ?>
+                    <!-- <a href="<?php echo base_url ( '/invoices/test-prices-list-cash?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"
+                       class="pull-right print-btn" target="_blank">Print</a> -->
                     
                     <a href="javascript:void(0)" onclick="downloadExcel()" style="margin-right: 10px"
                        class="pull-right print-btn">Download Excel</a>
                 <?php endif ?>
             </div>
             <div class="portlet-body">
-                <table class="table table-striped table-bordered table-hover" id="excel-table">
-                    <thead>
-                    <tr>
-                        <th> Sr. No</th>
-                        <th> Code</th>
-                        <th> Name</th>
-                        <th> Type</th>
-                        <th> Category</th>
-                        <th> Panel</th>
-                        <th> Price</th>
-                        <th> Date Added</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                        $counter = 1;
-                        $net     = 0;
-                        if ( count ( $reports ) > 0 ) {
-                            foreach ( $reports as $report ) {
-                                $test   = get_test_by_id ( $report -> test_id );
-                                $panels = get_test_panels ( $report -> test_id );
-                                ?>
-                                <tr>
-                                    <td> <?php echo $counter++ ?> </td>
-                                    <td> <?php echo $test -> id . ' ' . $test -> code ?> </td>
-                                    <td> <?php echo $test -> name ?> </td>
-                                    <td> <?php echo ucwords ( $test -> type ) ?> </td>
-                                    <td> <?php echo ucwords ( $test -> category ) ?> </td>
-                                    <td>
-                                        <?php
-                                            if ( count ( $panels ) > 0 ) {
-                                                foreach ( $panels as $panel ) {
-                                                    $panelInfo = get_panel_by_id ( $panel -> panel_id );
-                                                    echo $panelInfo -> name . '<br/>';
-                                                }
-                                            }
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <?php
-                                            if ( count ( $panels ) > 0 ) {
-                                                foreach ( $panels as $panel ) {
-                                                    $net += $panel -> price;
-                                                    echo number_format ( $panel -> price, 2 ) . '<br/>';
-                                                }
-                                            }
-                                        ?>
-                                    </td>
-                                    <td> <?php echo date_setter ( $test -> date_added ) ?> </td>
-                                </tr>
-                                <?php
-                            }
+            <table class="table table-striped table-bordered table-hover" id="excel-table">
+            <thead>
+                <tr>
+                    <th> Sr. No</th>
+                    <th> Code</th>
+                    <th> Name</th>
+                    <th> Type</th>
+                    <th> Price (REG)</th>
+                    <th> Date Added</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+                if (count($tests) > 0) {
+                    $counter = 1;
+                    $current_section = ''; // To track the current section
+
+                    foreach ($tests as $test) {
+                        $price = get_regular_test_price($test->id);
+                        $has_child = check_if_test_has_sub_tests($test->id);
+
+                        // Check if the section has changed and display the section name as a heading
+                        if ($current_section != $test->section_name) {
+                            $current_section = $test->section_name;
+                            ?>
+                            <!-- Display section name as a heading -->
+                            <tr>
+                            <td colspan="6" style="font-weight: bold; background-color: #f5f5f5; text-align: center;">
+                                <?php echo $current_section; ?>
+                            </td>
+                          </tr>
+                            <?php
+                         
+                        
                         }
-                    ?>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td colspan="6" align="right">
-                            <strong>Total</strong>
-                        </td>
-                        <td colspan="2"><?php echo number_format ( $net, 2 ) ?></td>
-                    </tr>
-                    </tfoot>
-                </table>
+                        // Display the test details under the corresponding section
+                        ?>
+                        <tr class="odd gradeX">
+                            <td> <?php echo $counter++ ?> </td>
+                            <td><?php echo $test->code ?></td>
+                            <td><?php echo $test->name ?></td>
+                            <td><?php echo ucfirst($test->type) ?></td>
+                            <td><?php if (!empty($price)) echo $price->price; ?></td>
+                            <td><?php echo date_setter($test->date_added) ?></td>
+                        </tr>
+                        <?php
+                    }
+                }
+            ?>
+            </tbody>
+</table>
+
             </div>
         </div>
         <!-- END SAMPLE FORM PORTLET-->
