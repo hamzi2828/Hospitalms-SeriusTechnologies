@@ -1055,7 +1055,7 @@ mpdf-->
 <br />
 <hr />
 
-<table width="100%" style="font-size: 8pt; border-collapse: collapse; width: 100%;"
+<!-- <table width="100%" style="font-size: 8pt; border-collapse: collapse; width: 100%;"
        cellpadding="4" border="0">
     <thead>
     <tr>
@@ -1071,6 +1071,6 @@ mpdf-->
         </th>
     </tr>
     </thead>
-</table>
+</table> -->
 </body>
 </html>

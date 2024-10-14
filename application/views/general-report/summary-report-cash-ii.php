@@ -39,13 +39,13 @@
                 </div>
                 <a href="<?php echo base_url ( '/invoices/general-summary-report-cash-ii?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"
                    target="_blank"
-                   class="pull-right print-btn ">Print</a>
+                   class="pull-right print-btn ">Print Details </a>
 
                    <a href="<?php echo base_url('/invoices/general-summary-report-cash-ii?' . $_SERVER['QUERY_STRING'] . '&print=simple') ?>"
                     target="_blank"
                     class="pull-right print-btn"
                     style="margin-left: 10px; margin-right: 10px;">
-                    Print-Simple
+                    Print
                     </a>
 
             </div>
@@ -273,7 +273,7 @@
                 <?php include 'consultants-share.php'; ?>
                 <?php include 'expanses.php'; ?>
                 
-                <table class="table table-striped table-bordered table-hover" style="margin-top: 25px">
+                <!-- <table class="table table-striped table-bordered table-hover" style="margin-top: 25px">
                     <thead>
                     <tr>
                         <th align="left" width="75%" style="color: #ff0000; font-size: 18px">
@@ -288,7 +288,7 @@
                         </th>
                     </tr>
                     </thead>
-                </table>
+                </table> -->
             </div>
         </div>
         <!-- END SAMPLE FORM PORTLET-->

@@ -64,7 +64,7 @@
         <div class="portlet box blue">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-reorder"></i> Test Prices List (cash)
+                    <i class="fa fa-reorder"></i> Test Prices List (Cash)
                 </div>
                 <?php if ( count ( $tests ) > 0 ) : ?>
                     <!-- <a href="<?php echo base_url ( '/invoices/test-prices-list-cash?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"
@@ -102,9 +102,10 @@
                             ?>
                             <!-- Display section name as a heading -->
                             <tr>
-                            <td colspan="6" style="font-weight: bold; background-color: #f5f5f5; text-align: center;">
+                            <td colspan="6" style="font-weight: bold; background-color: #f5f5f5; text-align: left; color: red; font-size: 16px">
                                 <?php echo $current_section; ?>
                             </td>
+
                           </tr>
                             <?php
                          

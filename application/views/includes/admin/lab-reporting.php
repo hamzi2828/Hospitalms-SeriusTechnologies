@@ -58,7 +58,7 @@
                 <li class="<?php if ( $child_uri == 'test-prices-list-cash' )
                     echo 'active'; ?>">
                     <a href="<?php echo base_url ( '/reporting/test-prices-list-cash/?menu=lab' ) ?>">
-                    Price List (Cash )
+                    Price List (Cash)
                     </a>
                 </li>
             <?php endif; ?>
