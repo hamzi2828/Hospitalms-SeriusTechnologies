@@ -4788,7 +4788,7 @@ function add_more_store_sale () {
  * add more transactions
  * -------------
  */
-
+  
 function add_more_transactions () {
     var csrf_token       = jQuery ( '#csrf_token' ).val ();
     var added            = jQuery ( '#added' ).val ();
@@ -4815,6 +4815,33 @@ function add_more_transactions () {
                             } )
 }
 
+
+
+function add_more_transactions_complex () {
+    var csrf_token       = jQuery ( '#csrf_token' ).val ();
+    var added            = jQuery ( '#added' ).val ();
+    let transaction_type = $ ( '#transaction-type' ).val ();
+    added                = parseInt ( added ) + 1;
+    jQuery ( '#added' ).val ( added );
+    request = jQuery.ajax ( {
+                                url       : path + 'Accounts/add_more_transactions_complex',
+                                type      : 'POST',
+                                data      : {
+                                    hmis_token: csrf_token,
+                                    added     : added,
+                                    transaction_type
+                                },
+                                beforeSend: function () {
+                                    jQuery ( '.loader' ).show ();
+                                },
+                                success   : function ( response ) {
+                                    jQuery ( '.add-more' ).append ( response );
+                                    jQuery ( '.loader' ).hide ();
+                                    jQuery ( '.acc-heads-' + added ).select2 ();
+                                    App.init ();
+                                }
+                            } )
+}
 /**
  * -------------
  * calculate total

@@ -995,7 +995,7 @@
             
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'add_transactions_multiple' )
                 $this -> do_add_transactions_multiple ( $_POST );
-            
+             
             $title = site_name . ' - Add Transactions - Multiple';
             $this -> header ( $title );
             $this -> sidebar ();
@@ -1007,6 +1007,26 @@
             $data[ 'account_heads' ] = $this -> AccountModel -> get_main_account_heads ();
             $data[ 'banks' ]         = $this -> AccountModel -> get_banks ( bank_id );
             $this -> load -> view ( '/accounts/add-transaction-multiple', $data );
+            $this -> footer ();
+        }
+        
+
+        public function add_transactions_Complex () {
+            
+            if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'add_transactions_multiple' )
+                $this -> do_add_transactions_multiple ( $_POST );
+             
+            $title = site_name . ' - Add Transactions - Complex';
+            $this -> header ( $title );
+            $this -> sidebar ();
+            $account_heads           = $this -> AccountModel -> get_chart_of_accounts ();
+            $tree                    = buildTree ( $account_heads );
+            $options                 = '';
+            $list                    = buildList ( $tree, $options );
+            $data[ 'list' ]          = $list;
+            $data[ 'account_heads' ] = $this -> AccountModel -> get_main_account_heads ();
+            $data[ 'banks' ]         = $this -> AccountModel -> get_banks ( bank_id );
+            $this -> load -> view ( '/accounts/add-transaction-complex', $data );
             $this -> footer ();
         }
         
@@ -1028,6 +1048,18 @@
             $data[ 'transaction_type' ] = $this -> input -> post ( 'transaction_type' );
             $this -> load -> view ( '/accounts/add-more-transaction-multiple', $data );
         }
+
+        public function add_more_transactions_complex () {
+            $account_heads              = $this -> AccountModel -> get_chart_of_accounts ();
+            $tree                       = buildTree ( $account_heads );
+            $options                    = '';
+            $data[ 'account_heads' ]    = buildList ( $tree, $options );
+            $data[ 'banks' ]            = $this -> AccountModel -> get_banks ( bank_id );
+            $data[ 'row' ]              = $_POST[ 'added' ];
+            $data[ 'transaction_type' ] = $this -> input -> post ( 'transaction_type' );
+            $this -> load -> view ( '/accounts/add-more-transaction-complex', $data );
+        }
+        
         
         /**
          * -------------------------

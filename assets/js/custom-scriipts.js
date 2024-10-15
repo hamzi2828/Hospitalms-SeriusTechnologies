@@ -1320,6 +1320,32 @@ function setFirstTransactionTypeMultipleTransactions ( voucher ) {
     }
 }
 
+function setFirstTransactionTypeMultipleTransactionsComplex (voucher) {
+    if (voucher.length > 0) {
+ 
+        // Enable both debit and credit options for user selection
+        $.uniform.update($('#debit-0').attr('disabled', false));
+        $.uniform.update($('#credit-0').attr('disabled', false));
+        $.uniform.update($('.other-multiple-transaction').attr('disabled', false));
+        
+        if (voucher === 'CPV' || voucher === 'CRV') {
+            load_account_head_transaction_dropdown('cash');
+            $("#payment-mode").val('cash').trigger('change');
+        } else if (voucher === 'BPV' || voucher === 'BRV') {
+            load_account_head_transaction_dropdown('bank');
+            $("#payment-mode").val('cheque').trigger('change');
+        } else {
+            load_account_head_transaction_dropdown('all');
+            $('.other-multiple-transactions-values').val('');
+            $("#payment-mode").val('cash').trigger('change');
+        }
+    }
+}
+
+
+
+
+
 function disable_other_transactions () {
     $.uniform.update ( $ ( '#debit-1' ).attr ( 'disabled', true ) );
     $.uniform.update ( $ ( '#credit-1' ).attr ( 'disabled', true ) );

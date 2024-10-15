@@ -99,6 +99,7 @@
     $route[ 'accounts/add-transactions' ]                             = 'Accounts/add_transactions';
     $route[ 'accounts/add-transactions-panel' ]                       = 'Accounts/add_transactions_panel';
     $route[ 'accounts/add-transactions-multiple' ]                    = 'Accounts/add_transactions_multiple';
+    $route[ 'accounts/add-transactions-Complex' ]                    = 'Accounts/add_transactions_Complex';
     $route[ 'accounts/opening-balances' ]                             = 'Accounts/opening_balances';
     $route[ 'accounts/add-opening-balance' ]                          = 'Accounts/add_opening_balances';
     $route[ 'accounts/general-ledger' ]                               = 'Accounts/general_ledger';

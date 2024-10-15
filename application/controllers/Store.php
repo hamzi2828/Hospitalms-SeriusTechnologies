@@ -1672,7 +1672,7 @@
         
         public function process_dispose_store_fix_asset () {
             
-            $id                        = $this -> input -> post ( 'id' );
+            $id                        = $this -> input -> post ( 'id' ); 
             $accumulative_depreciation = $this -> input -> post ( 'total-accumulative-depreciation' );
             $dispose_quantity          = $this -> input -> post ( 'dispose-quantity' );
             $dispose_value             = $this -> input -> post ( 'dispose-value' );

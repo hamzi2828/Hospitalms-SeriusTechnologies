@@ -53,6 +53,12 @@
                         Add Transactions (Multiple)
                     </a>
                 </li>
+                <li class="<?php if ( $child_uri == 'add-transactions-Complex' )
+                    echo 'active'; ?>">
+                    <a href="<?php echo base_url ( '/accounts/add-transactions-Complex' ) ?>">
+                    Add Transaction Complex
+                    </a>
+                </li>
             <?php endif; ?>
             <?php if ( !empty( $access ) and in_array ( 'add_opening_balance', explode ( ',', $access -> access ) ) ) : ?>
                 <li class="<?php if ( $child_uri == 'add-opening-balance' )

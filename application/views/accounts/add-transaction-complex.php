@@ -27,7 +27,7 @@
         <div class="portlet box blue">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-reorder"></i> Add Transaction (Multiple)
+                    <i class="fa fa-reorder"></i> Add Transaction (Complex)
                 </div>
             </div>
             <div class="portlet-body form">
@@ -45,7 +45,7 @@
                                 <select name="voucher_number" id="voucher" class="form-control select2me"
                                         required="required"
                                         data-placeholder="Select"
-                                    <?php if ( !isset( $trigger_change ) ) : ?> onchange="setFirstTransactionTypeMultipleTransactions(this.value)" <?php endif ?>>
+                                    <?php if ( !isset( $trigger_change ) ) : ?> onchange="setFirstTransactionTypeMultipleTransactionsComplex(this.value)" <?php endif ?>>
                                     <option></option>
                                     <option value="CPV">CPV</option>
                                     <option value="CRV">CRV</option>
@@ -262,7 +262,7 @@
                     </div>
                     <div class="form-actions">
                         <button type="submit" class="btn blue" id="add-transaction">Submit</button>
-                        <button type="button" class="btn purple" onclick="add_more_transactions()">Add More</button>
+                        <button type="button" class="btn purple" onclick="add_more_transactions_complex()">Add More</button>
                     </div>
                 </form>
             </div>
