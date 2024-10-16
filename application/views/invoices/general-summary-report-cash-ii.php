@@ -216,7 +216,8 @@ mpdf-->
     </tr>
     
     <?php
-        $grand_total = ( $cash_consultancies + $cash_opd + $cash_lab + $ipd_total );
+        // $grand_total = ( $cash_consultancies + $cash_opd + $cash_lab + $ipd_total );
+        $grand_total = 0;
         $panelCount  = 5;
         if ( count ( $panels ) > 0 ) {
             foreach ( $panels as $key => $panel ) {
@@ -228,18 +229,18 @@ mpdf-->
                         <td style="color: #ff0000; font-size: 18px" width="3%" align="center">
                             <strong><?php echo $panelCount++ ?></strong>
                         </td>
-                        <td style="color: #ff0000; font-size: 16px" colspan="5">
+                        <td style="color: #ff0000; font-size: 16px" colspan="9">
                             <strong>IPD Cash (Paid By <?php echo $panel -> name ?>)</strong>
                         </td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td colspan="4"><strong>Cash</strong></td>
+                        <td colspan="8"><strong>Cash</strong></td>
                         <td><strong>Net Cash</strong></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td colspan="4"><?php echo number_format ( $panel_cash, 2 ) ?></td>
+                        <td colspan="8"><?php echo number_format ( $panel_cash, 2 ) ?></td>
                         <td><?php echo number_format ( $panel_cash, 2 ) ?></td>
                     </tr>
                     <?php
@@ -268,7 +269,7 @@ mpdf-->
                     </tr>
                     <tr>
                         <?php
-                        $netCash = $cash_consultancies + $cash_opd + $cash_lab;
+                        $netCash = $cash_consultancies + $cash_opd + $cash_lab + $grand_total + $ipd_total ;;
                         $netcard = $card_consultancies + $card_lab + $card_opd;
                         $netbank = $bank_consultancies + $bank_lab + $bank_opd;
                         $netcashrefund = $cash_consultancies_refunded + $cash_opd_refunded + $cash_lab_refunded;
