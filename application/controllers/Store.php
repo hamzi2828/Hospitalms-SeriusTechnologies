@@ -1326,13 +1326,13 @@
                 'payment_mode'       => 'none',
                 'paid_via'           => '',
                 'transaction_type'   => 'debit',
-                'credit'             => '0',
-                'debit'              => $value,
+                'credit'             => '',
+                'debit'              => '0',
                 'description'        => $ledger_description,
                 'trans_date'         => date ( 'Y-m-d' ),
                 'date_added'         => current_date_time ()
             );
-            $this -> AccountModel -> add_ledger ( $ledger );
+            // $this -> AccountModel -> add_ledger ( $ledger );
             
             /***********LOGS*************/
             
@@ -1349,11 +1349,22 @@
             
             /***********END LOG*************/
             
-            $redirectInfo = base_url ( '/accounts/add-transactions-multiple?amount=' . abs ( $value ) . '&date=' . $date_added . '&acc-head-id=' . $store_acc_head_id . '&trigger-change=false' );
+            // // $redirectInfo = base_url ( '/accounts/add-transactions-multiple?amount=' . abs ( $value ) . '&date=' . $date_added . '&acc-head-id=' . $store_acc_head_id . '&trigger-change=false' );
+            // $redirectInfo = base_url ( '/store/add-store-fix-assets'  );
             
-            $this -> session -> set_flashdata ( 'response', 'Success! Store fix assets added.' );
-            $this -> session -> set_flashdata ( 'redirect_url', $redirectInfo );
-            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+            // // $this -> session -> set_flashdata ( 'response', 'Success! Store fix assets added.' );
+            // $this -> session -> set_flashdata ( 'response', 'Asset Account Head Created. Please Make Required Transaction Using Voucher' );
+            // $this -> session -> set_flashdata ( 'redirect_url', $redirectInfo );
+            // return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+
+            // Construct the redirect URL after processing the form
+            $redirectInfo = base_url('/store/add-store-fix-assets');
+
+            // Set a success message in flashdata
+            $this->session->set_flashdata('response', 'Asset Account Head Created. Please Make Required Transaction Using Voucher');
+
+            // Perform a server-side redirect to the desired URL (use the `$redirectInfo` to ensure proper redirection)
+            return redirect($redirectInfo);
         }
         
         public function add_store_item_account_head ( $item_id ) {
