@@ -503,7 +503,7 @@
             $title = site_name . ' - Sale Store Stock';
             $this -> header ( $title );
             $this -> sidebar ();
-//            $data[ 'stores' ]        = $this -> StoreModel -> get_all_store ();
+        // $data[ 'stores' ]        = $this -> StoreModel -> get_all_store ();
             $data[ 'users' ]         = $this -> UserModel -> get_active_users ();
             $data[ 'departments' ]   = $this -> MemberModel -> get_departments ();
             $data[ 'account_heads' ] = $this -> AccountModel -> get_child_account_heads ( administrative_expenses );
@@ -779,7 +779,7 @@
                         'trans_date'       => date ( 'Y-m-d' ),
                         'date_added'       => current_date_time ()
                     );
-                    $this -> AccountModel -> add_ledger ( $ledger );
+                    // $this -> AccountModel -> add_ledger ( $ledger );
                     
                     /***********LOGS*************/
                     $log = array (
