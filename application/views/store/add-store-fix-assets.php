@@ -11,11 +11,13 @@
                 <?php echo $this -> session -> flashdata ( 'error' ) ?>
             </div>
         <?php endif; ?>
-        <?php if ( $this -> session -> flashdata ( 'response' ) ) : ?>
-            <div class="alert alert-success">
-                <?php echo $this -> session -> flashdata ( 'response' ) ?>
-            </div>
+        <?php if ( $this->session->flashdata('response') ) : ?>
+            <h3 class="alert alert-success" >
+                <strong>  <?php echo $this->session->flashdata('response'); ?></strong>
+        </h3>
+
         <?php endif; ?>
+
         <?php if ( $this -> session -> flashdata ( 'redirect_url' ) ) : ?>
             <script type="text/javascript">
                 window.location.href = "<?php echo $this -> session -> flashdata ( 'redirect_url' ) ?>";
