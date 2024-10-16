@@ -530,6 +530,25 @@
                 $html .= '<strong>' . $ledger -> title . '</strong>';
                 $html .= '</td>';
                 $html .= '</tr>';
+
+
+                if ( empty($transactions) ) {
+                    // Fetch the opening balance if no transactions are found
+                    $current_opening_balance = get_opening_balance_previous_than_searched_start_date($start_date, $acc_head_id);
+                    
+                    // Add the opening balance to the net closing balance
+                    $net_closing_balance += $current_opening_balance;
+                    
+                    // Optionally, you can display this opening balance in the table if needed
+                    $html .= '<tr>';
+                    $html .= '<td colspan="5"></td>';
+                    $html .= '<td colspan="4"> Opening balance of ' . date_setter_without_time($start_date) . '</td>';
+                    $html .= '<td> ' . number_format($current_opening_balance, 2) . '</td>';
+                    $html .= '</tr>';
+                }
+                
+                
+          // This is useful for debugging but should be removed in the final version
                 
                 if ( count ( $transactions ) > 0 ) {
                     
