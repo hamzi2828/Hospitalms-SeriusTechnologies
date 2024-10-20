@@ -156,7 +156,7 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div class="form-group col-lg-3">
+                                            <!-- <div class="form-group col-lg-3">
                                                 <label for="amount-<?php echo $account_id ?>">Amount</label>
                                                 <input type="text" id="amount-<?php echo $account_id ?>" name="amount[]"
                                                        class="form-control price-1"
@@ -164,7 +164,13 @@
                                                        value="<?php echo set_value ( 'amount', $nature[ 'value' ] ) ?>"
                                                        required="required"
                                                        onchange="sum_first_transaction_amount()">
-                                            </div>
+                                            </div> -->
+
+                                            <div class="form-group col-lg-4">
+                                            <label for="exampleInputEmail1">Amount</label>
+                                            <input type="text" name="amount[]" class="form-control price" placeholder="Add amount"
+                                                value="<?php echo set_value('amount') ?>" onchange="sum_transaction_amount()">
+                                        </div>
                                         </div>
                                         <?php
                                     }
@@ -288,7 +294,47 @@
         padding-left : 15px;
     }
 </style>
-<script type="text/javascript">
+<script>
+    function sum_transaction_amount() {
+        var totalDebits = 0;
+        var totalCredits = 0;
+
+        // Iterate over each transaction row
+        jQuery('.row').each(function () {
+            var amount = parseFloat(jQuery(this).find('.price').val()) || 0;
+            var transactionType = jQuery(this).find('input[type="radio"]:checked').val();
+
+            // Add to the total debits or credits based on the selected transaction type
+            if (transactionType === 'debit') {
+                totalDebits += amount;
+            } else if (transactionType === 'credit') {
+                totalCredits += amount;
+            }
+        });
+
+        // Update the total debit and total credit fields
+        jQuery('.first-transaction').val(totalDebits.toFixed(2));
+        jQuery('.other-transactions').val(totalCredits.toFixed(2));
+
+        // Enable or disable the submit button based on whether the totals match
+        if (totalDebits === totalCredits) {
+            jQuery('#add-transaction').prop('disabled', false);
+        } else {
+            jQuery('#add-transaction').prop('disabled', true);
+        }
+    }
+
+    // Trigger the sum calculation whenever the amount or transaction type changes
+    jQuery(document).on('change', '.price, input[type="radio"]', sum_transaction_amount);
+
+    // Function to remove a transaction row
+    function remove_transaction_row(row) {
+        jQuery('.sale-' + row).remove();
+        sum_transaction_amount();  // Recalculate the totals after removing a row
+    }
+</script>
+
+<!-- <script type="text/javascript">
     $ ( '#credit-0' ).on ( 'click', function () {
         if ( $ ( this ).is ( ':checked' ) ) {
             $ ( '#transaction-type' ).val ( 'credit' );
@@ -314,4 +360,4 @@
             }
         }
     } );
-</script>
+</script> -->

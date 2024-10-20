@@ -3171,7 +3171,7 @@
             // Apply filter for refunded status and payment method
             $this->db->where("id IN (Select sale_id FROM hmis_test_sales WHERE refunded='1')");
             $this->db->where('payment_method', $method); // Filter by payment method
-            $this->db->where('net <', 0); // Filter for negative values
+            $this->db->where('total <', 0); // Filter for negative values
             
             $query = $this->db->get();
             

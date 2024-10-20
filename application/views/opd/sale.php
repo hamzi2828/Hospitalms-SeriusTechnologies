@@ -23,7 +23,7 @@
         <!-- BEGIN SAMPLE FORM PORTLET-->
         <div class="portlet box blue">
             <div class="portlet-title">
-                <div class="caption">
+                <div class="caption"> 
                     <i class="fa fa-reorder"></i> Sale Service
                 </div>
             </div>
@@ -90,8 +90,27 @@
                                     ?>
                                 </select>
                             </div>
+                            
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">Reference</label>
+                                <select name="reference-id" class="form-control select2me">
+                                    <option value="">Select</option>
+                                    <?php
+                                        if ( count ( $references ) > 0 ) {
+                                            foreach ( $references as $reference ) {
+                                                ?>
+                                                <option value="<?php echo $reference -> id ?>">
+                                                    <?php echo $reference -> title ?>
+                                                </option>
+                                                <?php
+                                            }
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+
                         </div>
-                        <hr style="margin-top: 0" />
+                        <hr style="margin-top: 0" /> 
                         
                         <div class="row" style="min-height: 300px">
                             <div class="col-md-4">
