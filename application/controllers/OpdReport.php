@@ -19,6 +19,7 @@
             $this -> load -> model ( 'ReportingModel' );
             $this -> load -> model ( 'OPDModel' );
             $this -> load -> model ( 'PanelModel' );
+            $this -> load -> model ( 'ReferenceModel' );
         }
         
         /**
@@ -87,6 +88,7 @@
             $data[ 'doctors' ]  = $this -> DoctorModel -> get_doctors ();
             $data[ 'sales' ]    = $this -> ReportingModel -> get_sales_by_sale_grouped ();
             $data[ 'services' ] = $this -> OPDModel -> get_all_services ();
+            $data[ 'references' ] = $this -> ReferenceModel -> get_references ();
             $this -> load -> view ( '/reporting/opd-report', $data );
             $this -> footer ();
         }

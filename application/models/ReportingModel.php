@@ -910,7 +910,12 @@
                 $section_id = $_GET[ 'section-id' ];
                 $sql        .= " and test_id IN (Select test_id from hmis_test_sample_info where section_id=$section_id)";
             }
-            
+                // Add filter for reference-id
+            if (isset($_GET['reference-id']) && $_GET['reference-id'] > 0) {
+                $reference_id = $_GET['reference-id'];
+                $sql .= " and test_id IN (Select test_id from hmis_test_references where reference_id=$reference_id)";
+            }
+                    
             $sql   .= " group by test_id";
             $query = $this -> db -> query ( $sql );
             return $query -> result ();
