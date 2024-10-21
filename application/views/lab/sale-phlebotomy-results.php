@@ -133,11 +133,11 @@
                                                 <?php echo $counter++ ?>
                                             </td>
                                             <td>
-    <a href="<?php echo base_url('/invoices/lab-sale-invoice/' . $sale->sale_id); ?>" target="_blank">
-        <?php echo $sale->sale_id; ?>
-    </a>
-</td>
-s
+                                            <a href="<?php echo base_url('/invoices/lab-sale-invoice/' . $sale->sale_id); ?>" target="_blank">
+                                                <?php echo $sale->sale_id; ?>
+                                            </a>
+                                        </td>
+
                                             <td><?php echo @get_patient_name ( 0, $patient ) ?></td>
                                             <td>
                                                 <?php
