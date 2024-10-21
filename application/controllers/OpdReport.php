@@ -83,7 +83,8 @@
                 $data[ 'users' ] = $this -> UserModel -> get_active_users_except_logged_in ();
             else
                 $data[ 'users' ] = array ();
-            
+                // print_r($_GET);
+                // exit; 
             $data[ 'user' ]     = get_logged_in_user ();
             $data[ 'doctors' ]  = $this -> DoctorModel -> get_doctors ();
             $data[ 'sales' ]    = $this -> ReportingModel -> get_sales_by_sale_grouped ();
