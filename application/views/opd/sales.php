@@ -67,7 +67,7 @@
                     </select>
                 </div>
 
-                <div class="form-group col-lg-3">
+                <!-- <div class="form-group col-lg-3">
                     <label for="reference-id">Reference</label>
                     <select name="reference-id" class="form-control select2me">
                         <option value="">Select</option>
@@ -84,7 +84,7 @@
                             }
                         ?>
                     </select>
-                </div>
+                </div> -->
                 <div class="col-sm-1">
                     <button type="submit" style="margin-top: 25px" class="btn btn-primary btn-block">Search</button>
                 </div>
