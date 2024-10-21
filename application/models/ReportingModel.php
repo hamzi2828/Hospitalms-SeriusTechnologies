@@ -348,15 +348,16 @@
                 $sql       .= " and doctor_id=$doctor_id";
                 $search    = true;
             }
-
             if (isset($_GET['reference-id']) && $_GET['reference-id'] > 0) {
                 $reference_id = $_GET['reference-id'];
-                $sql .= " and sale_id IN (Select sale_id from hmis_opd_sales where reference_id=$reference_id AND reference_id IS NOT NULL)";
+                $sql .= " and reference_id=$reference_id ";
+                $search    = true;
             }
 
             
             $sql   .= " GROUP BY sale_id order by id ASC";
             $sales = $this -> db -> query ( $sql );
+           
             if ( $search )
                 return $sales -> result ();
             else
