@@ -2964,7 +2964,7 @@
             }
             
             $this -> db -> where ( 'payment_method', $method );
-            $this->db->where('net >', 0);
+            $this->db->where('total >', 0);
             $query = $this -> db -> get ();
             return $query -> row () -> net;
         }
