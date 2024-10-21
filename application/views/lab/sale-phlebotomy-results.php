@@ -62,7 +62,7 @@
                     </select>
                 </div>
                 
-                <div class="form-group col-lg-3">
+                <!-- <div class="form-group col-lg-3">
                     <label for="exampleInputEmail1">Airline</label>
                     <select name="airline-id" class="form-control select2me">
                         <option value="">Select</option>
@@ -80,7 +80,7 @@
                             }
                         ?>
                     </select>
-                </div>
+                </div> -->
                 
                 <div class="form-group col-lg-1">
                     <button type="submit" class="btn btn-primary" style="margin-top: 25px;">Search</button>
@@ -89,7 +89,7 @@
         </div>
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
         <div class="col-sm-12" style="padding-left: 0">
-            <div class="portlet box green">
+            <div class="portlet box green"> 
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="fa fa-globe"></i>  Phlebotomy 
@@ -132,7 +132,12 @@
                                             <td>
                                                 <?php echo $counter++ ?>
                                             </td>
-                                            <td><?php echo $sale -> sale_id ?></td>
+                                            <td>
+    <a href="<?php echo base_url('/invoices/lab-sale-invoice/' . $sale->sale_id); ?>" target="_blank">
+        <?php echo $sale->sale_id; ?>
+    </a>
+</td>
+s
                                             <td><?php echo @get_patient_name ( 0, $patient ) ?></td>
                                             <td>
                                                 <?php
