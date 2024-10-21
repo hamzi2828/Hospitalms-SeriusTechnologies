@@ -305,12 +305,6 @@
                 $patient_name = $_REQUEST[ 'patient_name' ];
                 $sql          .= " and patient_id IN (Select id from hmis_patients where name LIKE '%$patient_name%')";
             }
-            if (isset($_REQUEST['reference-id']) && $_REQUEST['reference-id'] > 0) {
-                $reference_id = $_REQUEST['reference-id'];
-                $sql .= " AND sale_id IN (SELECT sale_id FROM hmis_opd_sales WHERE reference_id = $reference_id)";
-            }
-            
-
             $sql   .= " GROUP BY sale_id order by id DESC limit $limit offset $offset";
             $sales = $this -> db -> query ( $sql );
             return $sales -> result ();

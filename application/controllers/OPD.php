@@ -18,7 +18,6 @@
             $this -> load -> model ( 'AccountModel' );
             $this -> load -> model ( 'PanelModel' );
             $this -> load -> model ( 'DoctorModel' );
-            $this -> load -> model ( 'ReferenceModel' );
         }
         
         /**
@@ -72,16 +71,14 @@
          */
         
         public function sale () {
-           
+            
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_sale_service' )
                 $this -> do_sale_service ();
             
             $title = site_name . ' - Sale Service';
             $this -> header ( $title );
             $this -> sidebar ();
-            $data[ 'references' ] = $this -> ReferenceModel -> get_references ();
-           
-            $data[ 'doctors' ] = $this -> DoctorModel -> get_doctors (); 
+            $data[ 'doctors' ] = $this -> DoctorModel -> get_doctors ();
             $this -> load -> view ( '/opd/sale', $data );
             $this -> footer ();
         }
@@ -636,7 +633,6 @@
             $data[ 'doctors' ]  = $this -> DoctorModel -> get_doctors ();
             $data[ 'sales' ]    = $this -> OPDModel -> get_sales_by_sale_grouped ( $config[ "per_page" ], $offset );
             $str_links          = $this -> pagination -> create_links ();
-            $data[ 'references' ] = $this -> ReferenceModel -> get_references ();
             $data[ "links" ]    = explode ( '&nbsp;', $str_links );
             $this -> load -> view ( '/opd/sales', $data );
             $this -> footer ();
@@ -788,13 +784,10 @@
         
         public function do_sale_service () {
             $data         = $_POST;
-     
             $service_id   = $this -> input -> post ( 'service_id' );
             $doctor_id    = $this -> input -> post ( 'doctor-id' );
             $patient_id   = $this -> input -> post ( 'patient_id' );
             $doctor_share = $this -> input -> post ( 'doctor-share' );
-            $reference_id = $this -> input -> post ( 'reference-id' );
-         
             $patient      = get_patient ( $patient_id );
             $service_info = array ();
             
@@ -826,7 +819,6 @@
                     'transaction_no'  => $this -> input -> post ( 'transaction-no' ),
                     'doctor_share'    => $doctor_share,
                     'date_added'      => current_date_time (),
-                    'reference_id'     =>$this -> input -> post ( 'reference-id' ),
                 );
                 $sale_id = $this -> OPDModel -> add_opd_sale ( $sale );
                 
@@ -866,7 +858,6 @@
                             'net_price'    => $data[ 'price' ][ $key ],
                             'doctor_share' => $doctor_share,
                             'date_added'   => current_date_time (),
-                            'reference_id' =>$this -> input -> post ( 'reference-id' ),
                         );
                         $this -> OPDModel -> add_opd_sale_service ( $info );
                         

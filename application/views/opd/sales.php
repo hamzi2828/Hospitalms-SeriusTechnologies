@@ -66,25 +66,6 @@
                         ?>
                     </select>
                 </div>
-
-                <div class="form-group col-lg-3">
-                    <label for="reference-id">Reference</label>
-                    <select name="reference-id" class="form-control select2me">
-                        <option value="">Select</option>
-                        <?php
-                            if (count($references) > 0) {
-                                foreach ($references as $reference) {
-                                    ?>
-                                    <option value="<?php echo $reference->id; ?>"
-                                        <?php echo (isset($_REQUEST['reference-id']) && $_REQUEST['reference-id'] == $reference->id) ? 'selected="selected"' : ''; ?>>
-                                        <?php echo $reference->title; ?>
-                                    </option>
-                                    <?php
-                                }
-                            }
-                        ?>
-                    </select>
-                </div>
                 <div class="col-sm-1">
                     <button type="submit" style="margin-top: 25px" class="btn btn-primary btn-block">Search</button>
                 </div>
@@ -99,14 +80,13 @@
             </div>
             <div class="portlet-body">
                 <table class="table table-striped table-bordered table-hover">
-                    <thead> 
+                    <thead>
                     <tr>
                         <th> Sr. No</th>
                         <th> <?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></th>
                         <th> <?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?></th>
                         <th> <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></th>
                         <th> Doctor(s)</th>
-                        <th> Reference</th>
                         <th> Service(s)</th>
                         <th> Price</th>
                         <th> Total</th>
@@ -149,9 +129,6 @@
                                                 echo '-';
                                         ?>
                                     </td>
-                                    <td>
-                                            <?php echo @get_reference_by_id ( $sale_info -> reference_id ) -> title ?>
-                                        </td>
                                     <td>
                                         <?php
                                             $services = explode ( ',', $sale -> services );
