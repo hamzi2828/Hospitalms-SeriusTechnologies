@@ -155,6 +155,8 @@
                         <th> Net Price</th>
                         <th> Doctor's Share (%)</th>
                         <th> Doctor's Share (Value)</th>
+                        <td><strong> Payment Method </strong>
+                            </td>
                         <th> Refunded</th>
                         <th> Refund Reason</th>
                         <th> Date Added</th>
@@ -237,6 +239,12 @@
                                             $doctor_share = $sale_info -> doctor_share;
                                             if ( $doctor_share > 0 )
                                                 echo ( $sale_info -> total * ( $sale_info -> doctor_share / 100 ) );
+                                        ?>
+                                    </td>
+
+                                    <td>
+                                        <?php
+                                            echo $sale_info -> payment_method;
                                         ?>
                                     </td>
                                     <td><?php echo $refunded ?></td>

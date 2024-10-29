@@ -424,48 +424,108 @@
         return abs ( $expense_account_credit );
     }
     
-    function displayRecursiveAccountHeads ( $records, $netCredit = 0, $netDebit = 0, $level = 1, $reverseFormula = false ) {
+    // function displayRecursiveAccountHeads ( $records, $netCredit = 0, $netDebit = 0, $level = 1, $reverseFormula = false ) {
+    //     $results = '';
+    //     $ci      = &get_instance ();
+    //     foreach ( $records as $record ) {
+            
+    //         $credit          = get_account_head_credit_sum ( $record -> id );
+    //         $debit           = get_account_head_debit_sum ( $record -> id );
+    //         $opening_balance = get_opening_balance_previous_than_searched_start_date ( $ci -> input -> get ( 'start-date' ), $record -> id );
+            
+    //         $netCredit += $credit;
+    //         $netDebit  += $debit;
+            
+    //         if ( $reverseFormula )
+    //             $running_balance = ( $opening_balance + $debit ) - $credit;
+    //         else
+    //             $running_balance = ( $opening_balance + $credit ) - $debit;
+            
+    //         if ( isset( $record -> children ) && count ( $record -> children ) > 0 || ( abs ( $credit ) > 0 || abs ( $debit ) > 0 ) ) {
+    //             $results .= '<tr>';
+    //             $results .= '<td style="padding-left: ' . ( 20 * $level ) . 'px">';
+                
+    //             if ( isset( $record -> children ) && count ( $record -> children ) > 0 )
+    //                 $results .= '<strong>' . $record -> title . '</strong>';
+    //             else
+    //                 $results .= $record -> title;
+                
+    //             $results .= '</td>';
+    //             $results .= '<td>' . number_format ( $opening_balance, 2 ) . '</td>';
+    //             $results .= '<td>' . number_format ( $credit, 2 ) . '</td>';
+    //             $results .= '<td>' . number_format ( $debit, 2 ) . '</td>';
+    //             $results .= '<td>' . number_format ( $running_balance, 2 ) . '</td>';
+    //             $results .= '</tr>';
+                
+    //             if ( !empty( $record -> children ) ) {
+    //                 $childResult = displayRecursiveAccountHeads ( $record -> children, $netCredit, $netDebit, $level + 1 );
+    //                 $results     .= $childResult[ 'table' ];
+    //                 $netCredit   += $childResult[ 'netCredit' ];
+    //                 $netDebit    += $childResult[ 'netDebit' ];
+    //             }
+    //         }
+    //     }
+    //     return array (
+    //         'table'     => $results,
+    //         'netCredit' => $netCredit,
+    //         'netDebit'  => $netDebit
+    //     );
+    // }
+    
+
+    function displayRecursiveAccountHeads($records, $level = 1, $reverseFormula = false) {
         $results = '';
-        $ci      = &get_instance ();
-        foreach ( $records as $record ) {
+        $ci      = &get_instance();
+        $netCredit = 0;
+        $netDebit  = 0;
+    
+        foreach ($records as $record) {
+            $credit          = get_account_head_credit_sum($record->id);
+            $debit           = get_account_head_debit_sum($record->id);
+            $opening_balance = get_opening_balance_previous_than_searched_start_date($ci->input->get('start-date'), $record->id);
             
-            $credit          = get_account_head_credit_sum ( $record -> id );
-            $debit           = get_account_head_debit_sum ( $record -> id );
-            $opening_balance = get_opening_balance_previous_than_searched_start_date ( $ci -> input -> get ( 'start-date' ), $record -> id );
-            
+            // Accumulate current record's credit and debit
             $netCredit += $credit;
             $netDebit  += $debit;
             
-            if ( $reverseFormula )
-                $running_balance = ( $opening_balance + $debit ) - $credit;
-            else
-                $running_balance = ( $opening_balance + $credit ) - $debit;
+            // Calculate running balance
+            if ($reverseFormula) {
+                $running_balance = ($opening_balance + $debit) - $credit;
+            } else {
+                $running_balance = ($opening_balance + $credit) - $debit;
+            }
             
-            if ( isset( $record -> children ) && count ( $record -> children ) > 0 || ( abs ( $credit ) > 0 || abs ( $debit ) > 0 ) ) {
+            // Check if the record should be displayed
+            if ((isset($record->children) && count($record->children) > 0) || (abs($credit) > 0 || abs($debit) > 0)) {
                 $results .= '<tr>';
-                $results .= '<td style="padding-left: ' . ( 20 * $level ) . 'px">';
+                $results .= '<td style="padding-left: ' . (20 * $level) . 'px">';
                 
-                if ( isset( $record -> children ) && count ( $record -> children ) > 0 )
-                    $results .= '<strong>' . $record -> title . '</strong>';
-                else
-                    $results .= $record -> title;
+                if (isset($record->children) && count($record->children) > 0) {
+                    $results .= '<strong>' . htmlspecialchars($record->title, ENT_QUOTES, 'UTF-8') . '</strong>';
+                } else {
+                    $results .= htmlspecialchars($record->title, ENT_QUOTES, 'UTF-8');
+                }
                 
                 $results .= '</td>';
-                $results .= '<td>' . number_format ( $opening_balance, 2 ) . '</td>';
-                $results .= '<td>' . number_format ( $credit, 2 ) . '</td>';
-                $results .= '<td>' . number_format ( $debit, 2 ) . '</td>';
-                $results .= '<td>' . number_format ( $running_balance, 2 ) . '</td>';
+                $results .= '<td>' . number_format($opening_balance, 2) . '</td>';
+                $results .= '<td>' . number_format($credit, 2) . '</td>';
+                $results .= '<td>' . number_format($debit, 2) . '</td>';
+                $results .= '<td>' . number_format($running_balance, 2) . '</td>';
                 $results .= '</tr>';
                 
-                if ( !empty( $record -> children ) ) {
-                    $childResult = displayRecursiveAccountHeads ( $record -> children, $netCredit, $netDebit, $level + 1 );
-                    $results     .= $childResult[ 'table' ];
-                    $netCredit   += $childResult[ 'netCredit' ];
-                    $netDebit    += $childResult[ 'netDebit' ];
+                // Process children recursively
+                if (!empty($record->children)) {
+                    $childResult = displayRecursiveAccountHeads($record->children, $level + 1, $reverseFormula);
+                    $results     .= $childResult['table'];
+                    
+                    // Accumulate child's netCredit and netDebit
+                    $netCredit += $childResult['netCredit'];
+                    $netDebit  += $childResult['netDebit'];
                 }
             }
         }
-        return array (
+    
+        return array(
             'table'     => $results,
             'netCredit' => $netCredit,
             'netDebit'  => $netDebit

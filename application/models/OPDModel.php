@@ -283,38 +283,90 @@
          * --------------
          */
         
-        public function get_sales_by_sale_grouped ( $limit, $offset ) {
-            $sql = "Select GROUP_CONCAT(doctor_id) as doctors, patient_id, sale_id, GROUP_CONCAT(service_id) as services, GROUP_CONCAT(price) as prices, GROUP_CONCAT(discount) as discounts, GROUP_CONCAT(doctor_share) as doctor_share, SUM(net_price) as net_price, date_added from hmis_opd_services_sales where patient_id IN (Select id from hmis_patients where type='cash') and sale_id IN (Select id FROM hmis_opd_sales)";
-            if ( isset( $_REQUEST[ 'sale_id' ] ) and $_REQUEST[ 'sale_id' ] > 0 ) {
-                $sale_id = $_REQUEST[ 'sale_id' ];
-                $sql     .= " and sale_id=$sale_id";
+        // public function get_sales_by_sale_grouped ( $limit, $offset ) {
+        //     $sql = "Select GROUP_CONCAT(doctor_id) as doctors, patient_id, sale_id, GROUP_CONCAT(service_id) as services, GROUP_CONCAT(price) as prices, GROUP_CONCAT(discount) as discounts, GROUP_CONCAT(doctor_share) as doctor_share, SUM(net_price) as net_price, date_added from hmis_opd_services_sales where patient_id IN (Select id from hmis_patients where type='cash') and sale_id IN (Select id FROM hmis_opd_sales)";
+        //     if ( isset( $_REQUEST[ 'sale_id' ] ) and $_REQUEST[ 'sale_id' ] > 0 ) {
+        //         $sale_id = $_REQUEST[ 'sale_id' ];
+        //         $sql     .= " and sale_id=$sale_id";
+        //     }
+        //     if ( isset( $_REQUEST[ 'patient_id' ] ) and $_REQUEST[ 'patient_id' ] > 0 ) {
+        //         $patient_id = $_REQUEST[ 'patient_id' ];
+        //         $sql        .= " and patient_id=$patient_id";
+        //     }
+        //     if ( isset( $_REQUEST[ 'service_id' ] ) and $_REQUEST[ 'service_id' ] > 0 ) {
+        //         $service_id = $_REQUEST[ 'service_id' ];
+        //         $sql        .= " and service_id=$service_id";
+        //     }
+        //     if ( isset( $_REQUEST[ 'doctor_id' ] ) and $_REQUEST[ 'doctor_id' ] > 0 ) {
+        //         $doctor_id = $_REQUEST[ 'doctor_id' ];
+        //         $sql       .= " and doctor_id=$doctor_id";
+        //     }
+        //     if ( isset( $_REQUEST[ 'patient_name' ] ) and !empty( trim ( $_REQUEST[ 'patient_name' ] ) ) ) {
+        //         $patient_name = $_REQUEST[ 'patient_name' ];
+        //         $sql          .= " and patient_id IN (Select id from hmis_patients where name LIKE '%$patient_name%')";
+        //     }
+        //     if (isset($_REQUEST['reference-id']) && $_REQUEST['reference-id'] > 0) {
+        //         $reference_id = $_REQUEST['reference-id'];
+        //         $sql .= " AND sale_id IN (SELECT sale_id FROM hmis_opd_sales WHERE reference_id = $reference_id)";
+        //     }
+            
+
+        //     $sql   .= " GROUP BY sale_id order by id DESC limit $limit offset $offset";
+        //     $sales = $this -> db -> query ( $sql );
+        //     return $sales -> result ();
+        // }
+        
+
+        public function get_sales_by_sale_grouped($limit, $offset) {
+            $sql = "SELECT 
+                      GROUP_CONCAT(hss.doctor_id) AS doctors, 
+                      hss.patient_id, 
+                      hss.sale_id, 
+                      GROUP_CONCAT(hss.service_id) AS services, 
+                      GROUP_CONCAT(hss.price) AS prices, 
+                      GROUP_CONCAT(hss.discount) AS discounts, 
+                      GROUP_CONCAT(hss.doctor_share) AS doctor_share, 
+                      SUM(hss.net_price) AS net_price, 
+                      hss.date_added, 
+                      hs.payment_method
+                    FROM hmis_opd_services_sales hss
+                    JOIN hmis_opd_sales hs ON hss.sale_id = hs.id
+                    WHERE hss.patient_id IN (SELECT id FROM hmis_patients WHERE type='cash') 
+                      AND hss.sale_id IN (SELECT id FROM hmis_opd_sales)";
+        
+            // Additional filters
+            if (isset($_REQUEST['sale_id']) && $_REQUEST['sale_id'] > 0) {
+                $sale_id = $_REQUEST['sale_id'];
+                $sql .= " AND hss.sale_id = $sale_id";
             }
-            if ( isset( $_REQUEST[ 'patient_id' ] ) and $_REQUEST[ 'patient_id' ] > 0 ) {
-                $patient_id = $_REQUEST[ 'patient_id' ];
-                $sql        .= " and patient_id=$patient_id";
+            if (isset($_REQUEST['patient_id']) && $_REQUEST['patient_id'] > 0) {
+                $patient_id = $_REQUEST['patient_id'];
+                $sql .= " AND hss.patient_id = $patient_id";
             }
-            if ( isset( $_REQUEST[ 'service_id' ] ) and $_REQUEST[ 'service_id' ] > 0 ) {
-                $service_id = $_REQUEST[ 'service_id' ];
-                $sql        .= " and service_id=$service_id";
+            if (isset($_REQUEST['service_id']) && $_REQUEST['service_id'] > 0) {
+                $service_id = $_REQUEST['service_id'];
+                $sql .= " AND hss.service_id = $service_id";
             }
-            if ( isset( $_REQUEST[ 'doctor_id' ] ) and $_REQUEST[ 'doctor_id' ] > 0 ) {
-                $doctor_id = $_REQUEST[ 'doctor_id' ];
-                $sql       .= " and doctor_id=$doctor_id";
+            if (isset($_REQUEST['doctor_id']) && $_REQUEST['doctor_id'] > 0) {
+                $doctor_id = $_REQUEST['doctor_id'];
+                $sql .= " AND hss.doctor_id = $doctor_id";
             }
-            if ( isset( $_REQUEST[ 'patient_name' ] ) and !empty( trim ( $_REQUEST[ 'patient_name' ] ) ) ) {
-                $patient_name = $_REQUEST[ 'patient_name' ];
-                $sql          .= " and patient_id IN (Select id from hmis_patients where name LIKE '%$patient_name%')";
+            if (isset($_REQUEST['patient_name']) && !empty(trim($_REQUEST['patient_name']))) {
+                $patient_name = $_REQUEST['patient_name'];
+                $sql .= " AND hss.patient_id IN (SELECT id FROM hmis_patients WHERE name LIKE '%$patient_name%')";
             }
             if (isset($_REQUEST['reference-id']) && $_REQUEST['reference-id'] > 0) {
                 $reference_id = $_REQUEST['reference-id'];
-                $sql .= " AND sale_id IN (SELECT sale_id FROM hmis_opd_sales WHERE reference_id = $reference_id)";
+                $sql .= " AND hss.sale_id IN (SELECT sale_id FROM hmis_opd_sales WHERE reference_id = $reference_id)";
             }
-            
-
-            $sql   .= " GROUP BY sale_id order by id DESC limit $limit offset $offset";
-            $sales = $this -> db -> query ( $sql );
-            return $sales -> result ();
+        
+            $sql .= " GROUP BY hss.sale_id, hs.payment_method ORDER BY hss.id DESC LIMIT $limit OFFSET $offset";
+        
+            $sales = $this->db->query($sql);
+            return $sales->result();
         }
+
+        
         
         /**
          * --------------

@@ -76,6 +76,7 @@
 <sethtmlpagefooter name="myfooter" value="on" />
 mpdf-->
 <?php $patient_info = get_patient_by_id ( $sales[ 0 ] -> patient_id ); ?>
+
 <table width="100%" style="font-size: 14pt">
     <tr>
         <td width="100%" style="text-align: right;">
@@ -91,6 +92,12 @@ mpdf-->
         <td width="100%" style="text-align: right;">
             <span style="font-size: 10pt;"><strong>Name: </strong><?php echo $patient_info -> prefix . ' ' . $patient_info -> name ?></span>
         </td>
+    </tr>
+    <tr>
+        <td width="100%" style="text-align: right;">
+        <span style="font-size: 10pt;"><strong>Payment Method: </strong><?php echo $sale->payment_method; ?></span>
+    </td>
+
     </tr>
     <?php
         if ( @$patient_info -> panel_id > 0 ) {

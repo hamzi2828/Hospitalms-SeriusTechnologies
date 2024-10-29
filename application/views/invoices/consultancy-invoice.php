@@ -147,8 +147,8 @@ mpdf-->
         <td style="width: 10%;font-weight:bold">Sr. No.</td>
         <td style="font-weight:bold" align="left">Description</td>
         <td style="font-weight:bold" align="left">Charges</td>
-        <td style="font-weight:bold" align="left">Discount(%)</td>
-        <td style="font-weight:bold" align="left">Discount(Flat)</td>
+        <td style="font-weight:bold" align="left">Hospital  Discount</td>
+        <td style="font-weight:bold" align="left">Doctor Discount</td>
         <td style="font-weight:bold">Net</td>
         <td style="font-weight:bold" align="left">Date</td>
     </tr>
@@ -175,8 +175,8 @@ mpdf-->
                 echo $consultancy -> charges;
             ?>
         </td>
-        <td align="left"><?php echo $consultancy -> discount ?>%</td>
-        <td align="left"><?php echo $consultancy -> flat_discount ?></td>
+        <td align="left"><?php echo $consultancy->hospital_discount; ?></td>
+        <td align="left"><?php echo $consultancy->doctor_discount; ?></td>>
         <td align="left"><?php echo $consultancy -> net_bill ?></td>
         <td align="left"><?php echo date_setter ( $consultancy -> date_added ) ?></td>
     </tr>
@@ -261,8 +261,8 @@ mpdf-->
         <td style="width: 10%;font-weight:bold">Sr. No.</td>
         <td style="font-weight:bold" align="left">Description</td>
         <td style="font-weight:bold" align="left">Charges</td>
-        <td style="font-weight:bold" align="left">Discount(%)</td>
-        <td style="font-weight:bold" align="left">Discount(Flat)</td>
+        <td style="font-weight:bold" align="left">Hospital Discount</td>
+        <td style="font-weight:bold" align="left">Doctor Discount</td>
         <td style="font-weight:bold" align="left">Net</td>
         <td style="font-weight:bold" align="left">Date</td>
     </tr>
@@ -278,8 +278,8 @@ mpdf-->
             <?php echo get_specialization_by_id ( $consultancy -> specialization_id ) -> title; ?>
         </td>
         <td align="left"><?php echo $consultancy -> charges ?></td>
-        <td align="left"><?php echo $consultancy -> discount ?>%</td>
-        <td align="left"><?php echo $consultancy -> flat_discount ?></td>
+        <td align="left"><?php echo $consultancy->hospital_discount; ?></td>
+        <td align="left"><?php echo $consultancy->doctor_discount; ?></td>
         <td align="left"><?php echo $consultancy -> net_bill ?></td>
         <td align="left"><?php echo date_setter ( $consultancy -> date_added ) ?></td>
     </tr>

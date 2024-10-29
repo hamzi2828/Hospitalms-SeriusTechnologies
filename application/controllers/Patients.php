@@ -122,7 +122,7 @@
             
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_add_patient' )
                 $this -> do_add_patient ( $_POST );
-            
+             
             $title = site_name . ' - Add Patient';
             $this -> header ( $title );
             $this -> sidebar ();

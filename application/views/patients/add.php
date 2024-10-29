@@ -88,12 +88,11 @@
                                        value="<?php echo set_value ( 'father_name' ) ?>">
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Martial Status</label>
-                                <select name="martial_status" class="form-control select2me">
-                                    <option value="single">Single</option>
-                                    <option value="married">Married</option>
-                                    <option value="divorced">Divorced</option>
-                                </select>
+                                <label for="exampleInputEmail1">Contact No <sup
+                                            style="color: #FF0000; font-weight: 700">*</sup></label>
+                                <input type="text" name="phone" class="form-control" placeholder="Contact No"
+                                       maxlength="11"
+                                       value="<?php echo set_value ( 'phone' ) ?>">
                             </div>
                             <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">Blood Group</label>
@@ -160,11 +159,12 @@
                                        value="<?php echo 'Pakistan' ?>">
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Contact No <sup
-                                            style="color: #FF0000; font-weight: 700">*</sup></label>
-                                <input type="text" name="phone" class="form-control" placeholder="Contact No"
-                                       maxlength="11"
-                                       value="<?php echo set_value ( 'phone' ) ?>">
+                                <label for="exampleInputEmail1">Martial Status</label>
+                                <select name="martial_status" class="form-control select2me">
+                                    <option value="single">Single</option>
+                                    <option value="married">Married</option>
+                                    <option value="divorced">Divorced</option>
+                                </select>
                             </div>
                             <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">Email</label>

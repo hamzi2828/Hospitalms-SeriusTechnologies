@@ -318,51 +318,113 @@
          * --------------
          */
         
-        public function get_sales_by_sale_grouped () {
+        // public function get_sales_by_sale_grouped () {
+        //     $search = false;
+        //     $sql    = "Select patient_id, sale_id, GROUP_CONCAT(doctor_id) as doctors, GROUP_CONCAT(service_id) as services, GROUP_CONCAT(price) as prices, GROUP_CONCAT(discount) as discounts, SUM(net_price) as net_price, date_added from hmis_opd_services_sales where patient_id IN (Select id from hmis_patients where type='cash')";
+        //     if ( isset( $_REQUEST[ 'service_id' ] ) and !empty( trim ( $_REQUEST[ 'service_id' ] ) ) and $_REQUEST[ 'service_id' ] > 0 and is_numeric ( $_REQUEST[ 'service_id' ] ) ) {
+        //         $service_id = $_REQUEST[ 'service_id' ];
+        //         $sql        .= " and service_id=$service_id";
+        //         $search     = true;
+        //     }
+        //     if ( isset( $_REQUEST[ 'start_date' ] ) and !empty( trim ( $_REQUEST[ 'start_date' ] ) ) and isset( $_REQUEST[ 'end_date' ] ) and !empty( trim ( $_REQUEST[ 'end_date' ] ) ) ) {
+        //         $start_date = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'start_date' ] ) );
+        //         $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
+        //         $sql        .= " and DATE(date_added) BETWEEN '$start_date' and '$end_date'";
+        //         $search     = true;
+        //     }
+        //     if ( isset( $_REQUEST[ 'start_time' ] ) and isset( $_REQUEST[ 'end_time' ] ) and !empty( $_REQUEST[ 'start_time' ] ) and !empty( $_REQUEST[ 'end_time' ] ) ) {
+        //         $start_time = date ( 'H:i:s', strtotime ( $_REQUEST[ 'start_time' ] ) );
+        //         $end_time   = date ( 'H:i:s', strtotime ( $_REQUEST[ 'end_time' ] ) );
+        //         $sql        .= " and TIME(date_added) BETWEEN '$start_time' and '$end_time'";
+        //         $search     = true;
+        //     }
+        //     if ( isset( $_GET[ 'user-id' ] ) and !empty( trim ( $_GET[ 'user-id' ] ) ) and $_GET[ 'user-id' ] > 0 ) {
+        //         $user_id = $_GET[ 'user-id' ];
+        //         $sql     .= " and user_id=$user_id";
+        //         $search  = true;
+        //     }
+        //     if ( $this -> input -> get ( 'doctor-id' ) and $this -> input -> get ( 'doctor-id' ) > 0 ) {
+        //         $doctor_id = $this -> input -> get ( 'doctor-id' );
+        //         $sql       .= " and doctor_id=$doctor_id";
+        //         $search    = true;
+        //     }
+        //     if (isset($_GET['reference-id']) && $_GET['reference-id'] > 0) {
+        //         $reference_id = $_GET['reference-id'];
+        //         $sql .= " and reference_id=$reference_id ";
+        //         $search    = true;
+        //     }
+
+            
+        //     $sql   .= " GROUP BY sale_id order by id ASC";
+        //     $sales = $this -> db -> query ( $sql );
+           
+        //     if ( $search )
+        //         return $sales -> result ();
+        //     else
+        //         return array ();
+        // }
+        
+
+        public function get_sales_by_sale_grouped() {
             $search = false;
-            $sql    = "Select patient_id, sale_id, GROUP_CONCAT(doctor_id) as doctors, GROUP_CONCAT(service_id) as services, GROUP_CONCAT(price) as prices, GROUP_CONCAT(discount) as discounts, SUM(net_price) as net_price, date_added from hmis_opd_services_sales where patient_id IN (Select id from hmis_patients where type='cash')";
-            if ( isset( $_REQUEST[ 'service_id' ] ) and !empty( trim ( $_REQUEST[ 'service_id' ] ) ) and $_REQUEST[ 'service_id' ] > 0 and is_numeric ( $_REQUEST[ 'service_id' ] ) ) {
-                $service_id = $_REQUEST[ 'service_id' ];
-                $sql        .= " and service_id=$service_id";
-                $search     = true;
+            $sql    = "SELECT 
+                        hss.patient_id, 
+                        hss.sale_id, 
+                        GROUP_CONCAT(hss.doctor_id) AS doctors, 
+                        GROUP_CONCAT(hss.service_id) AS services, 
+                        GROUP_CONCAT(hss.price) AS prices, 
+                        GROUP_CONCAT(hss.discount) AS discounts, 
+                        SUM(hss.net_price) AS net_price, 
+                        hss.date_added, 
+                        hs.payment_method 
+                       FROM hmis_opd_services_sales hss
+                       JOIN hmis_opd_sales hs ON hss.sale_id = hs.id
+                       WHERE hss.patient_id IN (SELECT id FROM hmis_patients WHERE type = 'cash')";
+        
+            if (isset($_REQUEST['service_id']) && !empty(trim($_REQUEST['service_id'])) && $_REQUEST['service_id'] > 0 && is_numeric($_REQUEST['service_id'])) {
+                $service_id = $_REQUEST['service_id'];
+                $sql .= " AND hss.service_id = $service_id";
+                $search = true;
             }
-            if ( isset( $_REQUEST[ 'start_date' ] ) and !empty( trim ( $_REQUEST[ 'start_date' ] ) ) and isset( $_REQUEST[ 'end_date' ] ) and !empty( trim ( $_REQUEST[ 'end_date' ] ) ) ) {
-                $start_date = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'start_date' ] ) );
-                $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
-                $sql        .= " and DATE(date_added) BETWEEN '$start_date' and '$end_date'";
-                $search     = true;
+            if (isset($_REQUEST['start_date']) && !empty(trim($_REQUEST['start_date'])) && isset($_REQUEST['end_date']) && !empty(trim($_REQUEST['end_date']))) {
+                $start_date = date('Y-m-d', strtotime($_REQUEST['start_date']));
+                $end_date   = date('Y-m-d', strtotime($_REQUEST['end_date']));
+                $sql .= " AND DATE(hss.date_added) BETWEEN '$start_date' AND '$end_date'";
+                $search = true;
             }
-            if ( isset( $_REQUEST[ 'start_time' ] ) and isset( $_REQUEST[ 'end_time' ] ) and !empty( $_REQUEST[ 'start_time' ] ) and !empty( $_REQUEST[ 'end_time' ] ) ) {
-                $start_time = date ( 'H:i:s', strtotime ( $_REQUEST[ 'start_time' ] ) );
-                $end_time   = date ( 'H:i:s', strtotime ( $_REQUEST[ 'end_time' ] ) );
-                $sql        .= " and TIME(date_added) BETWEEN '$start_time' and '$end_time'";
-                $search     = true;
+            if (isset($_REQUEST['start_time']) && isset($_REQUEST['end_time']) && !empty($_REQUEST['start_time']) && !empty($_REQUEST['end_time'])) {
+                $start_time = date('H:i:s', strtotime($_REQUEST['start_time']));
+                $end_time   = date('H:i:s', strtotime($_REQUEST['end_time']));
+                $sql .= " AND TIME(hss.date_added) BETWEEN '$start_time' AND '$end_time'";
+                $search = true;
             }
-            if ( isset( $_GET[ 'user-id' ] ) and !empty( trim ( $_GET[ 'user-id' ] ) ) and $_GET[ 'user-id' ] > 0 ) {
-                $user_id = $_GET[ 'user-id' ];
-                $sql     .= " and user_id=$user_id";
-                $search  = true;
+            if (isset($_GET['user-id']) && !empty(trim($_GET['user-id'])) && $_GET['user-id'] > 0) {
+                $user_id = $_GET['user-id'];
+                $sql .= " AND hss.user_id = $user_id";
+                $search = true;
             }
-            if ( $this -> input -> get ( 'doctor-id' ) and $this -> input -> get ( 'doctor-id' ) > 0 ) {
-                $doctor_id = $this -> input -> get ( 'doctor-id' );
-                $sql       .= " and doctor_id=$doctor_id";
-                $search    = true;
+            if ($this->input->get('doctor-id') && $this->input->get('doctor-id') > 0) {
+                $doctor_id = $this->input->get('doctor-id');
+                $sql .= " AND hss.doctor_id = $doctor_id";
+                $search = true;
             }
             if (isset($_GET['reference-id']) && $_GET['reference-id'] > 0) {
                 $reference_id = $_GET['reference-id'];
-                $sql .= " and reference_id=$reference_id ";
-                $search    = true;
+                $sql .= " AND hss.reference_id = $reference_id";
+                $search = true;
             }
-
-            
-            $sql   .= " GROUP BY sale_id order by id ASC";
-            $sales = $this -> db -> query ( $sql );
-           
-            if ( $search )
-                return $sales -> result ();
-            else
-                return array ();
+        
+            $sql .= " GROUP BY hss.sale_id ORDER BY hss.id ASC";
+            $sales = $this->db->query($sql);
+        
+            if ($search) {
+                return $sales->result();
+            } else {
+                return array();
+            }
         }
+
+        
         
         /**
          * --------------

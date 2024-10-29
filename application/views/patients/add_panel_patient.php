@@ -91,12 +91,11 @@
                                        value="<?php echo set_value ( 'father_name' ) ?>">
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Martial Status</label>
-                                <select name="martial_status" class="form-control select2me">
-                                    <option value="single">Single</option>
-                                    <option value="married">Married</option>
-                                    <option value="divorced">Divorced</option>
-                                </select>
+                                <label for="exampleInputEmail1">Contact No <sup
+                                            style="color: #FF0000; font-weight: 700">*</sup></label>
+                                <input type="text" name="phone" class="form-control" placeholder="Contact No"
+                                       maxlength="11"
+                                       value="<?php echo set_value ( 'phone' ) ?>">
                             </div>
                             <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">Blood Group</label>
@@ -146,28 +145,6 @@
                                        maxlength="13" value="<?php echo set_value ( 'dob' ) ?>">
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">CNIC</label>
-                                <input type="text" name="cnic" class="form-control" placeholder="CNIC" maxlength="13"
-                                       value="<?php echo set_value ( 'cnic' ) ?>">
-                                <!--                            onchange="check_customer_exists_by_cnic(this.value)"-->
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Passport No.</label>
-                                <input type="text" name="passport" class="form-control" placeholder="Passport No."
-                                       maxlength="11" value="<?php echo set_value ( 'passport' ) ?>">
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Country</label>
-                                <input type="text" name="country" class="form-control" placeholder="Country"
-                                       maxlength="11"
-                                       value="<?php echo 'Pakistan' ?>">
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="Email"
-                                       value="<?php echo set_value ( 'email' ) ?>">
-                            </div>
-                            <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">Company <sup
                                             style="color: #FF0000; font-weight: 700">*</sup></label>
                                 <select name="company_id" class="form-control select2me" required="required"
@@ -193,11 +170,34 @@
                                         disabled="disabled"></select>
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Contact No <sup
-                                            style="color: #FF0000; font-weight: 700">*</sup></label>
-                                <input type="text" name="phone" class="form-control" placeholder="Contact No"
+                                <label for="exampleInputEmail1">Country</label>
+                                <input type="text" name="country" class="form-control" placeholder="Country"
                                        maxlength="11"
-                                       value="<?php echo set_value ( 'phone' ) ?>">
+                                       value="<?php echo 'Pakistan' ?>">
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="Email"
+                                       value="<?php echo set_value ( 'email' ) ?>">
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">CNIC</label>
+                                <input type="text" name="cnic" class="form-control" placeholder="CNIC" maxlength="13"
+                                       value="<?php echo set_value ( 'cnic' ) ?>">
+                                <!--                            onchange="check_customer_exists_by_cnic(this.value)"-->
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">Passport No.</label>
+                                <input type="text" name="passport" class="form-control" placeholder="Passport No."
+                                       maxlength="11" value="<?php echo set_value ( 'passport' ) ?>">
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">Martial Status</label>
+                                <select name="martial_status" class="form-control select2me">
+                                    <option value="single">Single</option>
+                                    <option value="married">Married</option>
+                                    <option value="divorced">Divorced</option>
+                                </select>
                             </div>
                             <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">City</label>

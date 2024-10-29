@@ -115,6 +115,7 @@
                         <th> Net Price</th>
                         <th> Doctor's Share (%)</th>
                         <th> Doctor's Share Value</th>
+                        <th> Payment Method</th>
                         <th> Refunded</th>
                         <th> Refund Reason</th>
                         <th> Date Added</th>
@@ -184,6 +185,7 @@
                                             }
                                         ?>
                                     </td>
+
                                     <td>
                                         <?php
                                             $doctor_share = $sale_info -> doctor_share;
@@ -192,6 +194,12 @@
                                             }
                                         ?>
                                     </td>
+
+                                    <th>
+                                        <?php
+                                            echo $sale_info -> payment_method;
+                                        ?>
+                                    </th>
                                     <td><?php echo $refunded ?></td>
                                     <td><?php echo $sale_info -> refund_reason ?></td>
                                     <td><?php echo date_setter ( $sale -> date_added ) ?></td>

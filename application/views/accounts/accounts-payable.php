@@ -43,9 +43,9 @@
                         <th> Credit</th>
                         <th> Running Balance</th>
                     </tr>
-                    </thead>
+                    </thead> 
                     <tbody>
-                    <tr>
+                    <tr> 
                         <td colspan="5">
                             <strong><?php echo get_account_head ( payable_accounts ) -> title ?></strong>
                         </td>

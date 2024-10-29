@@ -1122,7 +1122,7 @@
             $consultancy_id = $this -> uri -> segment ( 3 );
             if ( empty( trim ( $consultancy_id ) ) )
                 return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
-            
+             
             $data[ 'consultancy_id' ] = $consultancy_id;
             $data[ 'user' ]           = get_user ( get_logged_in_user_id () );
             $data[ 'consultancy' ]    = $this -> ConsultancyModel -> get_consultancy_by_id ( $consultancy_id );
