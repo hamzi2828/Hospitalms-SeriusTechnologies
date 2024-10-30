@@ -116,6 +116,7 @@
                         <th> Doctor's Share (%)</th>
                         <th> Doctor's Share Value</th>
                         <th> Payment Method</th>
+                        <th> Chq/Trans. No</th>
                         <th> Refunded</th>
                         <th> Refund Reason</th>
                         <th> Date Added</th>
@@ -194,12 +195,11 @@
                                             }
                                         ?>
                                     </td>
+                                    <td style="font-weight: normal;">
+                                        <?php echo ucfirst($sale_info->payment_method); ?>
+                                    </td>
+                                    <td><?php echo $sale_info -> transaction_no ?></td>
 
-                                    <th>
-                                        <?php
-                                            echo $sale_info -> payment_method;
-                                        ?>
-                                    </th>
                                     <td><?php echo $refunded ?></td>
                                     <td><?php echo $sale_info -> refund_reason ?></td>
                                     <td><?php echo date_setter ( $sale -> date_added ) ?></td>

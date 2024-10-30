@@ -241,7 +241,7 @@
                                                onclick="return confirm('Are you sure you want to refund?')">
                                                 Refund
                                             </a>
-                                        <?php endif; ?>
+                                        <?php endif; ?> 
                                     </td>
                                 </tr>
                                 <?php

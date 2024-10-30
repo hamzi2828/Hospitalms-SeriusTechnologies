@@ -3,6 +3,7 @@
     <div class="col-md-12">
         <div class="search-form">
             <form role="form" method="get" autocomplete="off">
+                
                 <div class="form-group col-lg-4">
                     <label for="exampleInputEmail1">Services</label>
                     <select name="service_id" class="form-control select2me">
@@ -120,6 +121,16 @@
                     </select>
                 </div>
 
+                <div class="form-group col-lg-3">
+                    <label for="payment-method">Payment Method</label>
+                    <select class="form-control select2me" name="payment_method" id="payment-method" required="required" data-placeholder="Select">
+                        <option value="">Select</option>
+                        <option value="cash" <?php echo (isset($_GET['payment_method']) && $_GET['payment_method'] == 'cash') ? 'selected' : ''; ?>>Cash</option>
+                        <option value="card" <?php echo (isset($_GET['payment_method']) && $_GET['payment_method'] == 'card') ? 'selected' : ''; ?>>Card</option>
+                        <option value="bank" <?php echo (isset($_GET['payment_method']) && $_GET['payment_method'] == 'bank') ? 'selected' : ''; ?>>Bank</option>
+                    </select>
+                </div>
+
                 
                 <div class="form-group col-lg-1">
                     <button type="submit" class="btn btn-primary" style="margin-top: 25px;">Search</button>
@@ -155,8 +166,7 @@
                         <th> Net Price</th>
                         <th> Doctor's Share (%)</th>
                         <th> Doctor's Share (Value)</th>
-                        <td><strong> Payment Method </strong>
-                            </td>
+                        <th>Payment Method</th>
                         <th> Refunded</th>
                         <th> Refund Reason</th>
                         <th> Date Added</th>
@@ -241,12 +251,10 @@
                                                 echo ( $sale_info -> total * ( $sale_info -> doctor_share / 100 ) );
                                         ?>
                                     </td>
-
                                     <td>
-                                        <?php
-                                            echo $sale_info -> payment_method;
-                                        ?>
+                                        <?php echo ucfirst($sale_info->payment_method); ?>
                                     </td>
+
                                     <td><?php echo $refunded ?></td>
                                     <td><?php echo $sale_info -> refund_reason ?></td>
                                     <td><?php echo date_setter ( $sale -> date_added ) ?></td>

@@ -97,18 +97,9 @@
                                        value="<?php echo $patient -> father_name ?>">
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Martial Status</label>
-                                <select name="martial_status" class="form-control">
-                                    <option value="single" <?php if ( $patient -> martial_status == 'single' )
-                                        echo 'selected="selected"' ?>>Single
-                                    </option>
-                                    <option value="married" <?php if ( $patient -> martial_status == 'married' )
-                                        echo 'selected="selected"' ?>>Married
-                                    </option>
-                                    <option value="divorced" <?php if ( $patient -> martial_status == 'divorced' )
-                                        echo 'selected="selected"' ?>>Divorced
-                                    </option>
-                                </select>
+                                <label for="exampleInputEmail1"><?php echo $this -> lang -> line('PATIENT_PHONE') ?></label>
+                                <input type="text" name="phone" class="form-control" placeholder="Add <?php echo $this -> lang -> line('PATIENT_PHONE') ?>"
+                                       value="<?php echo $patient -> mobile ?>">
                             </div>
                             <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">Blood Group</label>
@@ -202,11 +193,24 @@
                                 <input type="text" name="country" class="form-control" placeholder="Country"
                                        value="<?php echo 'Pakistan' ?>">
                             </div>
+
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1"><?php echo $this -> lang -> line('PATIENT_PHONE') ?></label>
-                                <input type="text" name="phone" class="form-control" placeholder="Add <?php echo $this -> lang -> line('PATIENT_PHONE') ?>"
-                                       value="<?php echo $patient -> mobile ?>">
+                                <label for="exampleInputEmail1">Martial Status</label>
+                                <select name="martial_status" class="form-control">
+                                    <option value="single" <?php if ( $patient -> martial_status == 'single' )
+                                        echo 'selected="selected"' ?>>Single
+                                    </option>
+                                    <option value="married" <?php if ( $patient -> martial_status == 'married' )
+                                        echo 'selected="selected"' ?>>Married
+                                    </option>
+                                    <option value="divorced" <?php if ( $patient -> martial_status == 'divorced' )
+                                        echo 'selected="selected"' ?>>Divorced
+                                    </option>
+                                </select>
                             </div>
+
+
+
                             <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">Email</label>
                                 <input type="email" name="email" class="form-control" placeholder="Add patient email"

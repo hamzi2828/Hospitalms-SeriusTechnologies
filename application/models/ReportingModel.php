@@ -413,6 +413,13 @@
                 $sql .= " AND hss.reference_id = $reference_id";
                 $search = true;
             }
+            // Add payment method filter
+            if (isset($_REQUEST['payment_method']) && !empty(trim($_REQUEST['payment_method']))) {
+                $payment_method = $this->db->escape($_REQUEST['payment_method']); 
+                $sql .= " AND hs.payment_method = $payment_method";
+                $search = true;
+            }
+
         
             $sql .= " GROUP BY hss.sale_id ORDER BY hss.id ASC";
             $sales = $this->db->query($sql);

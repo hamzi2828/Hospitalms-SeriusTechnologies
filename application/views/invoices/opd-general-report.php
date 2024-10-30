@@ -113,6 +113,7 @@ mpdf-->
         <th align="left"> Net Price</th>
         <th> Doctor's Share (%)</th>
         <th> Doctor's Share (Value)</th>
+        <th>Payment Method</th>
         <th align="left"> Refunded</th>
         <th align="left"> Refund Reason</th>
         <th align="left"> Date Added</th>
@@ -188,6 +189,7 @@ mpdf-->
                                 echo ( $sale_info -> total * ( $sale_info -> doctor_share / 100 ) );
                         ?>
                     </td>
+                     <td> <?php echo ucfirst($sale_info->payment_method); ?></td>
                     <td><?php echo $refunded ?></td>
                     <td><?php echo $sale_info -> refund_reason ?></td>
                     <td><?php echo date_setter ( $sale -> date_added ) ?></td>

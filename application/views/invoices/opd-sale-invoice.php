@@ -95,7 +95,7 @@ mpdf-->
     </tr>
     <tr>
         <td width="100%" style="text-align: right;">
-        <span style="font-size: 10pt;"><strong>Payment Method: </strong><?php echo $sale->payment_method; ?></span>
+        <span style="font-size: 10pt;"><strong>Payment Method: </strong><?php echo ucfirst($sale->payment_method); ?></span>
     </td>
 
     </tr>

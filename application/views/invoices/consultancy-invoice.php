@@ -150,7 +150,7 @@ mpdf-->
         <td style="font-weight:bold" align="left">Hospital  Discount</td>
         <td style="font-weight:bold" align="left">Doctor Discount</td>
         <td style="font-weight:bold">Net</td>
-        <td style="font-weight:bold" align="left">Date</td>
+        <!-- <td style="font-weight:bold" align="left">Date</td> -->
     </tr>
     </thead>
     <tbody>
@@ -178,7 +178,7 @@ mpdf-->
         <td align="left"><?php echo $consultancy->hospital_discount; ?></td>
         <td align="left"><?php echo $consultancy->doctor_discount; ?></td>>
         <td align="left"><?php echo $consultancy -> net_bill ?></td>
-        <td align="left"><?php echo date_setter ( $consultancy -> date_added ) ?></td>
+        <!-- <td align="left"><?php echo date_setter ( $consultancy -> date_added ) ?></td> -->
     </tr>
     </tbody>
 </table>
@@ -242,7 +242,10 @@ mpdf-->
     </tr>
     <tr>
         <td width="100%" style="text-align: right;">
-            <span style="font-size: 9pt;"><strong>Date & Time:</strong><?php echo date ( 'd-m-Y' ) . '@' . date ( 'g:i a' ) ?></span>
+            <!-- <span style="font-size: 9pt;"><strong>Date & Time:</strong><?php echo date ( 'd-m-Y' ) . '@' . date ( 'g:i a' ) ?></span> -->
+
+            <span style="font-size: 9pt;"><strong>Date & Time:</strong><?php echo date_setter ( $consultancy -> date_added ) ?></span>
+            
         </td>
     </tr>
 </table>
@@ -264,7 +267,7 @@ mpdf-->
         <td style="font-weight:bold" align="left">Hospital Discount</td>
         <td style="font-weight:bold" align="left">Doctor Discount</td>
         <td style="font-weight:bold" align="left">Net</td>
-        <td style="font-weight:bold" align="left">Date</td>
+        <!-- <td style="font-weight:bold" align="left">Date</td> -->
     </tr>
     </thead>
     <tbody>
@@ -281,7 +284,7 @@ mpdf-->
         <td align="left"><?php echo $consultancy->hospital_discount; ?></td>
         <td align="left"><?php echo $consultancy->doctor_discount; ?></td>
         <td align="left"><?php echo $consultancy -> net_bill ?></td>
-        <td align="left"><?php echo date_setter ( $consultancy -> date_added ) ?></td>
+        <!-- <td align="left"><?php echo date_setter ( $consultancy -> date_added ) ?></td> -->
     </tr>
     </tbody>
 </table>

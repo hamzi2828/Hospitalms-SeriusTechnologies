@@ -96,19 +96,11 @@
                                 <input type="text" name="father_name" class="form-control" placeholder="Guardian Name"
                                        value="<?php echo $patient -> father_name ?>">
                             </div>
+                            
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Martial Status</label>
-                                <select name="martial_status" class="form-control select2me">
-                                    <option value="single" <?php if ( $patient -> martial_status == 'single' )
-                                        echo 'selected="selected"' ?>>Single
-                                    </option>
-                                    <option value="married" <?php if ( $patient -> martial_status == 'married' )
-                                        echo 'selected="selected"' ?>>Married
-                                    </option>
-                                    <option value="divorced" <?php if ( $patient -> martial_status == 'divorced' )
-                                        echo 'selected="selected"' ?>>Divorced
-                                    </option>
-                                </select>
+                                <label for="exampleInputEmail1"><?php echo $this -> lang -> line('PATIENT_PHONE') ?></label>
+                                <input type="text" name="phone" class="form-control" placeholder="Add <?php echo $this -> lang -> line('PATIENT_PHONE') ?>"
+                                       maxlength="11" value="<?php echo $patient -> mobile ?>">
                             </div>
                             <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">Blood Group</label>
@@ -187,27 +179,6 @@
                                        value="<?php echo $patient -> dob != '0000-00-00' ? date ( 'm/d/Y', strtotime ( $patient -> dob ) ) : '' ?>">
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1"><?php echo $this -> lang -> line('PATIENT_CNIC') ?></label>
-                                <input type="text" name="cnic" class="form-control" placeholder="Add <?php echo $this -> lang -> line('PATIENT_CNIC') ?>"
-                                       maxlength="13" value="<?php echo $patient -> cnic ?>"
-                                       onchange="check_customer_exists_by_cnic(this.value)">
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Passport</label>
-                                <input type="text" name="passport" class="form-control" placeholder="Passport"
-                                       maxlength="11" value="<?php echo $patient -> passport ?>">
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Country</label>
-                                <input type="text" name="country" class="form-control" placeholder="Country"
-                                       value="<?php echo 'Pakistan' ?>">
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="Add patient email"
-                                       value="<?php echo $patient -> email ?>">
-                            </div>
-                            <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">Company</label>
                                 <select name="company_id" class="form-control select2me" required="required"
                                         onchange="get_company_panels(this.value)">
@@ -234,11 +205,46 @@
                                     </option>
                                 </select>
                             </div>
+
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1"><?php echo $this -> lang -> line('PATIENT_PHONE') ?></label>
-                                <input type="text" name="phone" class="form-control" placeholder="Add <?php echo $this -> lang -> line('PATIENT_PHONE') ?>"
-                                       maxlength="11" value="<?php echo $patient -> mobile ?>">
+                                <label for="exampleInputEmail1">Country</label>
+                                <input type="text" name="country" class="form-control" placeholder="Country"
+                                       value="<?php echo 'Pakistan' ?>">
                             </div>
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="Add patient email"
+                                       value="<?php echo $patient -> email ?>">
+                            </div>
+
+
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1"><?php echo $this -> lang -> line('PATIENT_CNIC') ?></label>
+                                <input type="text" name="cnic" class="form-control" placeholder="Add <?php echo $this -> lang -> line('PATIENT_CNIC') ?>"
+                                       maxlength="13" value="<?php echo $patient -> cnic ?>"
+                                       onchange="check_customer_exists_by_cnic(this.value)">
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">Passport</label>
+                                <input type="text" name="passport" class="form-control" placeholder="Passport"
+                                       maxlength="11" value="<?php echo $patient -> passport ?>">
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">Martial Status</label>
+                                <select name="martial_status" class="form-control select2me">
+                                    <option value="single" <?php if ( $patient -> martial_status == 'single' )
+                                        echo 'selected="selected"' ?>>Single
+                                    </option>
+                                    <option value="married" <?php if ( $patient -> martial_status == 'married' )
+                                        echo 'selected="selected"' ?>>Married
+                                    </option>
+                                    <option value="divorced" <?php if ( $patient -> martial_status == 'divorced' )
+                                        echo 'selected="selected"' ?>>Divorced
+                                    </option>
+                                </select>
+                            </div>
+
+
                             <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">City</label>
                                 <select name="city" class="form-control select2me">
