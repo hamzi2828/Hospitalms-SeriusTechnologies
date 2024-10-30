@@ -123,7 +123,7 @@
 
                 <div class="form-group col-lg-3">
                     <label for="payment-method">Payment Method</label>
-                    <select class="form-control select2me" name="payment_method" id="payment-method" required="required" data-placeholder="Select">
+                    <select class="form-control select2me" name="payment_method" id="payment-method"  data-placeholder="Select">
                         <option value="">Select</option>
                         <option value="cash" <?php echo (isset($_GET['payment_method']) && $_GET['payment_method'] == 'cash') ? 'selected' : ''; ?>>Cash</option>
                         <option value="card" <?php echo (isset($_GET['payment_method']) && $_GET['payment_method'] == 'card') ? 'selected' : ''; ?>>Card</option>

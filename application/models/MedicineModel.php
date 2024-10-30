@@ -929,6 +929,57 @@
             return $sales -> result ();
         }
         
+        public function get_sum_of_sales_by_card() {
+            $sql = "SELECT SUM(hms.net_price) as total_sales
+                    FROM hmis_medicines_sold hms
+                    JOIN hmis_sales hs ON hms.sale_id = hs.id
+                    WHERE hs.payment_method = 'card'";
+        
+            // Add date range filter if provided
+            if (isset($_REQUEST['start_date']) && isset($_REQUEST['end_date'])) {
+                $start_date = date('Y-m-d', strtotime($_REQUEST['start_date']));
+                $end_date = date('Y-m-d', strtotime($_REQUEST['end_date']));
+                $sql .= " AND DATE(hs.date_sale) BETWEEN '$start_date' AND '$end_date'";
+            }
+            $result = $this->db->query($sql)->row();
+            return $result->total_sales ?? 0; 
+        }
+        
+        public function get_sum_of_sales_by_cash() {
+            $sql = "SELECT SUM(hms.net_price) as total_sales
+                    FROM hmis_medicines_sold hms
+                    JOIN hmis_sales hs ON hms.sale_id = hs.id
+                    WHERE hs.payment_method = 'cash'";
+        
+            // Add date range filter if provided
+            if (isset($_REQUEST['start_date']) && isset($_REQUEST['end_date'])) {
+                $start_date = date('Y-m-d', strtotime($_REQUEST['start_date']));
+                $end_date = date('Y-m-d', strtotime($_REQUEST['end_date']));
+                $sql .= " AND DATE(hs.date_sale) BETWEEN '$start_date' AND '$end_date'";
+            }
+            $result = $this->db->query($sql)->row();
+            return $result->total_sales ?? 0; 
+        }
+
+        public function get_sum_of_sales_by_bank() {
+            $sql = "SELECT SUM(hms.net_price) as total_sales
+                    FROM hmis_medicines_sold hms
+                    JOIN hmis_sales hs ON hms.sale_id = hs.id
+                    WHERE hs.payment_method = 'bank'";
+        
+            // Add date range filter if provided
+            if (isset($_REQUEST['start_date']) && isset($_REQUEST['end_date'])) {
+                $start_date = date('Y-m-d', strtotime($_REQUEST['start_date']));
+                $end_date = date('Y-m-d', strtotime($_REQUEST['end_date']));
+                $sql .= " AND DATE(hs.date_sale) BETWEEN '$start_date' AND '$end_date'";
+            }
+            $result = $this->db->query($sql)->row();
+            return $result->total_sales ?? 0; 
+        }
+        
+        
+        
+        
         /**
          * -------------------------
          * @param $limit
@@ -3496,6 +3547,27 @@
             $medicines = $this -> db -> query ( $sql );
             return $medicines -> result ();
         }
+
+        
+
+        public function get_total_return_medicines() {
+            $return_customer = return_customer;
+            $sql = "SELECT SUM(paid_to_customer) as total_paid_to_customer
+                    FROM hmis_medicines_stock";
+                   
+        
+            // Add date range filter if provided
+            if (isset($_REQUEST['start-date']) && !empty(trim($_REQUEST['start-date'])) && 
+                isset($_REQUEST['end-date']) && !empty(trim($_REQUEST['end-date']))) {
+                $start = date('Y-m-d', strtotime($_REQUEST['start-date']));
+                $end = date('Y-m-d', strtotime($_REQUEST['end-date']));
+                $sql .= " AND DATE(date_added) BETWEEN '$start' AND '$end'";
+            }
+        
+            $result = $this->db->query($sql)->row();
+            return $result->total_paid_to_customer ?? 0; 
+        }
+        
         
         /**
          * -------------------------

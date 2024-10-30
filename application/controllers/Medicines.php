@@ -1590,7 +1590,7 @@
             $config[ 'use_page_numbers' ]   = false;
             $config[ 'page_query_string' ]  = TRUE;
             $config[ 'reuse_query_string' ] = TRUE;
-            $config[ 'num_links' ]          = 10;
+            $config[ 'num_links' ]          = 10; 
             $config[ 'cur_tag_open' ]       = '&nbsp;<a class="current">';
             $config[ 'cur_tag_close' ]      = '</a>';
             $config[ 'next_link' ]          = 'Next';

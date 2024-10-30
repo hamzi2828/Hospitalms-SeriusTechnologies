@@ -58,7 +58,13 @@
                                 <option value="echo">Echo</option>
                                 <option value="dialysis">Dialysis</option>
                                 <option value="dentistry">Dentistry</option>
+								<option value="CT Scan">CT Scan</option>
+								<option value="MRI">MRI</option>
+								<option value="Doppler">Doppler</option>
+								<option value="Dexa Scan">Dexa Scan</option>
                             </select>
+
+						
                         </div>
 						<div class="form-group col-lg-2">
 							<label for="exampleInputEmail1">Price</label>

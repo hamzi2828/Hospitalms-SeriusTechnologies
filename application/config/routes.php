@@ -228,6 +228,7 @@
     $route[ 'reporting/bonus-stock-report' ]                          = 'Reporting/bonus_stock_report';
     $route[ 'reporting/general-report-customer-return' ]              = 'Reporting/general_report_customer_return';
     $route[ 'reporting/summary-report' ]                              = 'Reporting/summary_report';
+    $route[ 'reporting/closing-report' ]                              = 'Reporting/closing_report';
     $route[ 'reporting/form-wise-report' ]                            = 'Reporting/form_wise_report';
     $route[ 'reporting/supplier-wise-report' ]                        = 'Reporting/supplier_wise_report';
     $route[ 'reporting/analysis-report' ]                             = 'Reporting/analysis_report';
