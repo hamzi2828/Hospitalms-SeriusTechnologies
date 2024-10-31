@@ -2949,7 +2949,7 @@
             
             $this
                 -> db
-                -> select ( 'SUM(ABS(total)) as net' )
+                -> select ( 'SUM(ABS(paid_amount)) as net' )
                 -> from ( 'lab_sales' )
                 -> where ( "id IN (Select sale_id FROM hmis_test_sales WHERE patient_id IN (Select id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))" );
             
