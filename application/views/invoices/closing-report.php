@@ -106,7 +106,7 @@ mpdf-->
          <th>Payment Method</th>
         <th>Sale</th>
         <th>Return/Customer</th>
-        <th>Net</th>
+        <th>Cash in Hand </th>
     </tr>
     </thead>
     <tbody>
@@ -121,6 +121,7 @@ mpdf-->
                     $net_cash = $cash_sale - $return_customer;
                     $total_sale = $cash_sale + $card_sale + $bank_sale;
                     $total_net = $total_sale - $return_customer;
+                    $cash_in_hand =   $net_cash - $total_local_purchase;
                 ?>
                 <tr>
                     <td>Cash</td>
@@ -165,10 +166,10 @@ mpdf-->
     </tr>
     <tr>
         <td width="85%" align="right" style="border: 0;">
-            <strong>Net Amount:</strong>
+            <strong>Cash in Hand:</strong>
         </td>
         <td width="15%" align="right" style="border: 0">
-            <strong><?php echo number_format (  $net_cash, 2 ) ?></strong>
+            <strong><?php echo number_format ( $cash_in_hand , 2 ) ?></strong>
         </td>
     </tr>
     </tbody>

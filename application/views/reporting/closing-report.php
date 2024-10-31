@@ -31,7 +31,7 @@
         </div>
         <a href="<?php echo base_url('/invoices/closing-report?' . $_SERVER['QUERY_STRING']); ?>" target="_blank" class="pull-right print-btn">Print</a>
     </div>
-    
+
     <div class="portlet-body">
         <table class="table table-striped table-bordered table-hover">
             <thead>
@@ -39,7 +39,7 @@
                     <th>Payment Method</th>
                     <th>Sale</th>
                     <th>Return/Customer</th>
-                    <th>Net</th>
+                    <th>Cash in Hand </th>
                 </tr>
             </thead>
             <tbody>
@@ -85,7 +85,7 @@
             </tbody>
         </table>
 
-        <p><strong>Cash in Hand = <?php echo number_format($total_sale, 2); ?> - <?php echo number_format($return_customer, 2); ?> = <?php echo number_format($total_net, 2); ?></strong></p>
+       
     </div>
 </div>
 
