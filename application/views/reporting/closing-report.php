@@ -24,13 +24,14 @@
     <div class="portlet box blue">
     <div class="portlet-title">
         <div class="caption">
-            <i class="fa fa-reorder"></i> Summary Report
+            <i class="fa fa-reorder"></i> Closing  Report
             <?php if (isset($_REQUEST['start_date']) && isset($_REQUEST['end_date'])) : ?>
                 <small>(<?php echo date_setter($_REQUEST['start_date']) . ' - ' . date_setter($_REQUEST['end_date']); ?>)</small>
             <?php endif; ?>
         </div>
-        <a href="<?php echo base_url('/invoices/summary-report?' . $_SERVER['QUERY_STRING']); ?>" target="_blank" class="pull-right print-btn">Print</a>
+        <a href="<?php echo base_url('/invoices/closing-report?' . $_SERVER['QUERY_STRING']); ?>" target="_blank" class="pull-right print-btn">Print</a>
     </div>
+    
     <div class="portlet-body">
         <table class="table table-striped table-bordered table-hover">
             <thead>

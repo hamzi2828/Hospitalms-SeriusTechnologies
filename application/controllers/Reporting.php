@@ -469,7 +469,7 @@
             if ( isset( $_REQUEST[ 'start_date' ] ) or isset( $_REQUEST[ 'end_date' ] ) ) {
                 $data[ 'total_sale_by_card' ]     = $this -> MedicineModel -> get_sum_of_sales_by_card (  );
                 $data[ 'total_sale_by_cash' ]     = $this -> MedicineModel -> get_sum_of_sales_by_cash(  );
-                $data[ 'toal_sale_by_bank'  ]      = $this -> MedicineModel -> get_sum_of_sales_by_bank(  );
+                $data[ 'total_sale_by_bank'  ]      = $this -> MedicineModel -> get_sum_of_sales_by_bank(  );
                 $data[ 'total_returns' ]           = $this -> MedicineModel -> get_total_return_medicines ( );
 
 

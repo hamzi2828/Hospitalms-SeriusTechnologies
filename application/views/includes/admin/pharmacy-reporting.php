@@ -146,7 +146,7 @@
                 <li class="<?php if ( $child_uri == 'closing-report' )
                     echo 'active'; ?>">
                     <a href="<?php echo base_url ( '/reporting/closing-report/?menu=pharmacy' ) ?>">
-                        closing Report
+                        Closing Report
                     </a>
                 </li>
             <?php endif; ?>

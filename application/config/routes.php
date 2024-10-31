@@ -138,6 +138,7 @@
     $route[ 'invoices/opd-general-report-panel' ]                     = 'Invoices/opd_general_report_panel';
     $route[ 'invoices/general-report-customer-return' ]               = 'Invoices/general_report_customer_return';
     $route[ 'invoices/summary-report' ]                               = 'Invoices/summary_report';
+    $route[ 'invoices/closing-report' ]                               = 'Invoices/closing_report';
     $route[ 'invoices/general-ledger' ]                               = 'Invoices/general_ledger';
     $route[ 'invoices/xray-report' ]                                  = 'Invoices/xray_report';
     $route[ 'invoices/lab-general-invoice' ]                          = 'Invoices/lab_general_invoice';

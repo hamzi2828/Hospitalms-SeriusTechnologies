@@ -1510,6 +1510,51 @@
             $mpdf -> Output ( 'Summary Report.pdf', 'I' );
         }
         
+
+
+        public function closing_report () {
+              // Capture start and end date from the request, if available
+        
+
+            $data[ 'consultancy_sales' ]    = $this -> ReportingModel -> get_consultancy_sales_summary ();
+            $data[ 'opd_sales' ]            = $this -> ReportingModel -> get_opd_sales_summary ();
+            $data[ 'return_sales' ]         = $this -> ReportingModel -> get_return_sales_summary ();
+            $data[ 'lab_sales' ]            = $this -> ReportingModel -> get_lab_sales_summary ();
+            $data[ 'pharmacy_sales' ]       = $this -> ReportingModel -> get_pharmacy_sales_summary ();
+            $data[ 'pharmacy_discount' ]    = $this -> ReportingModel -> get_pharmacy_discount ();
+            $data[ 'total_local_purchase' ] = calculate_sum_local_purchase ();
+            
+            if ( isset( $_REQUEST[ 'start_date' ] ) or isset( $_REQUEST[ 'end_date' ] ) ) {
+                $data[ 'total_sale_by_card' ]     = $this -> MedicineModel -> get_sum_of_sales_by_card (  );
+                $data[ 'total_sale_by_cash' ]     = $this -> MedicineModel -> get_sum_of_sales_by_cash(  );
+                $data[ 'total_sale_by_bank'  ]      = $this -> MedicineModel -> get_sum_of_sales_by_bank(  );
+                $data[ 'total_returns' ]           = $this -> MedicineModel -> get_total_return_medicines ( );
+            }
+
+            $html_content                   = $this -> load -> view ( '/invoices/closing-report', $data, true );
+            
+            require_once FCPATH . '/vendor/autoload.php';
+            $mpdf = new \Mpdf\Mpdf( [
+                                        'margin_left'   => 5,
+                                        'margin_right'  => 5,
+                                        'margin_top'    => 35,
+                                        'margin_bottom' => 5,
+                                        'margin_header' => 5,
+                                        'margin_footer' => 5
+                                    ] );
+            
+            $mpdf -> SetTitle ( strip_tags ( site_name ) );
+            $mpdf -> SetAuthor ( site_name );
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+            $mpdf -> SetDisplayMode ( 'real' );
+            $mpdf -> WriteHTML ( $html_content );
+            $mpdf -> Output ( 'Summary Report.pdf', 'I' );
+        }
+
+
         /**
          * ---------------------
          * do print invoice

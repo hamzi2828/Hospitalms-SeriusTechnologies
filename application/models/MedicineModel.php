@@ -945,6 +945,8 @@
             }
             $result = $this->db->query($sql)->row();
             return $result->total_sales ?? 0; 
+
+
         }
         
         public function get_sum_of_sales_by_cash() {
