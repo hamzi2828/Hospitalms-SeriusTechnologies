@@ -1,7 +1,7 @@
 <?php header ( 'Content-Type: application/pdf' ); ?>
 <html>
 <head>
-    <style>
+    <!-- <style>
         @page {
             size   : auto;
             header : myheader;
@@ -57,7 +57,7 @@
         .totals {
             font-weight : bold;
         }
-    </style>
+    </style> -->
 </head>
 <body>
 <!--mpdf
@@ -78,29 +78,36 @@ mpdf-->
 <table width="100%" style="font-size: 9pt; border-collapse: collapse;" cellpadding="8" border="0">
     <tr>
         <td style="width: 100%; background: #f5f6f7; text-align: center">
-            <h3><strong> General Summary Report (Cash II) </strong></h3>
+            <h3><strong> General Summary Report (Cash II). </strong></h3>
         </td>
     </tr>
 </table> 
 <br>
 <table width="100%" style="font-size: 8pt; border-collapse: collapse;" cellpadding="4" border="1">
     <tbody>
-        <!-- Consultancies Section -->
+       
+        <!-- Section Header: Consultancies -->
         <tr>
             <td style="color: #ff0000; font-size: 18px;" width="3%" align="center"><strong>1</strong></td>
             <td style="color: #ff0000; font-size: 18px;" colspan="9"><strong>Consultancies</strong></td>
         </tr>
         <tr>
             <td></td>
-            <td><strong>Cash</strong></td>
+            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Cash</strong></td>
+            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Card</strong></td>
+            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Bank</strong></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
             <td><strong>Refund</strong></td>
-            <td><strong>Net</strong></td>
-            <td><strong>Card</strong></td>
+            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
+            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
             <td><strong>Refund</strong></td>
-            <td><strong>Net</strong></td>
-            <td><strong>Bank</strong></td>
+            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
+            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
             <td><strong>Refund</strong></td>
-            <td><strong>Net</strong></td>
+            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
         </tr>
         <tr>
             <?php 
@@ -109,33 +116,63 @@ mpdf-->
                 $netbankConsultancies =  $bank_consultancies - $bank_consultancies_refunded;
             ?>
             <td></td>
-            <td><?php echo number_format($cash_consultancies, 2); ?></td>
-            <td><?php echo number_format($cash_consultancies_refunded, 2); ?></td>
-            <td><?php echo number_format($netcashConsultancies, 2); ?></td>
-            <td><?php echo number_format($card_consultancies, 2); ?></td>
-            <td><?php echo number_format($card_consultancies_refunded, 2); ?></td>
-            <td><?php echo number_format($netcardConsultancies, 2); ?></td>
-            <td><?php echo number_format($bank_consultancies, 2); ?></td>
-            <td><?php echo number_format($bank_consultancies_refunded, 2); ?></td>
-            <td><?php echo number_format($netbankConsultancies, 2); ?></td>
+            <!-- Cash Section -->
+            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                <?php echo number_format($cash_consultancies, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey;">
+                <?php echo number_format($cash_consultancies_refunded, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                <?php echo number_format($netcashConsultancies, 2); ?>
+            </td>
+            
+            <!-- Card Section -->
+            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                <?php echo number_format($card_consultancies, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey;">
+                <?php echo number_format($card_consultancies_refunded, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                <?php echo number_format($netcardConsultancies, 2); ?>
+            </td>
+            
+            <!-- Bank Section -->
+            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                <?php echo number_format($bank_consultancies, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey;">
+                <?php echo number_format($bank_consultancies_refunded, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                <?php echo number_format($netbankConsultancies, 2); ?>
+            </td>
         </tr>
 
-        <!-- OPD Section -->
+
+      <!-- OPD Section -->
         <tr>
             <td style="color: #ff0000; font-size: 18px;" width="3%" align="center"><strong>2</strong></td>
             <td style="color: #ff0000; font-size: 18px;" colspan="9"><strong>OPD</strong></td>
         </tr>
         <tr>
             <td></td>
-            <td><strong>Cash</strong></td>
+            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Cash</strong></td>
+            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Card</strong></td>
+            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Bank</strong></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
             <td><strong>Refund</strong></td>
-            <td><strong>Net</strong></td>
-            <td><strong>Card</strong></td>
+            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
+            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
             <td><strong>Refund</strong></td>
-            <td><strong>Net</strong></td>
-            <td><strong>Bank</strong></td>
+            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
+            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
             <td><strong>Refund</strong></td>
-            <td><strong>Net</strong></td>
+            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
         </tr>
         <tr>
             <?php 
@@ -144,16 +181,40 @@ mpdf-->
                 $netbankOPD = $bank_opd - $bank_opd_refunded;
             ?>
             <td></td>
-            <td><?php echo number_format($cash_opd, 2); ?></td>
-            <td><?php echo number_format($cash_opd_refunded, 2); ?></td>
-            <td><?php echo number_format($netcashOPD, 2); ?></td>
-            <td><?php echo number_format($card_opd, 2); ?></td>
-            <td><?php echo number_format($card_opd_refunded, 2); ?></td>
-            <td><?php echo number_format($netcardOPD, 2); ?></td>
-            <td><?php echo number_format($bank_opd, 2); ?></td>
-            <td><?php echo number_format($bank_opd_refunded, 2); ?></td>
-            <td><?php echo number_format($netbankOPD, 2); ?></td>
+            <!-- Cash Section -->
+            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                <?php echo number_format($cash_opd, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey;">
+                <?php echo number_format($cash_opd_refunded, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                <?php echo number_format($netcashOPD, 2); ?>
+            </td>
+
+            <!-- Card Section -->
+            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                <?php echo number_format($card_opd, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey;">
+                <?php echo number_format($card_opd_refunded, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                <?php echo number_format($netcardOPD, 2); ?>
+            </td>
+
+            <!-- Bank Section -->
+            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                <?php echo number_format($bank_opd, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey;">
+                <?php echo number_format($bank_opd_refunded, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                <?php echo number_format($netbankOPD, 2); ?>
+            </td>
         </tr>
+
 
         <!-- Lab Section -->
         <tr>
@@ -162,33 +223,63 @@ mpdf-->
         </tr>
         <tr>
             <td></td>
-            <td><strong>Cash</strong></td>
+            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Cash</strong></td>
+            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Card</strong></td>
+            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Bank</strong></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
             <td><strong>Refund</strong></td>
-            <td><strong>Net</strong></td>
-            <td><strong>Card</strong></td>
+            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
+            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
             <td><strong>Refund</strong></td>
-            <td><strong>Net</strong></td>
-            <td><strong>Bank</strong></td>
+            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
+            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
             <td><strong>Refund</strong></td>
-            <td><strong>Net</strong></td>
+            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
         </tr>
         <tr>
             <?php
-                $netcashLab =  $cash_lab - $cash_lab_refunded; 
+                $netcashLab = $cash_lab - $cash_lab_refunded;
                 $netCardLab = $card_lab - $card_lab_refunded;
                 $netBankLab = $bank_lab - $bank_lab_refunded;
             ?>
             <td></td>
-            <td><?php echo number_format($cash_lab, 2); ?></td>
-            <td><?php echo number_format($cash_lab_refunded, 2); ?></td>
-            <td><?php echo number_format($netcashLab, 2); ?></td>
-            <td><?php echo number_format($card_lab, 2); ?></td>
-            <td><?php echo number_format($card_lab_refunded, 2); ?></td>
-            <td><?php echo number_format($netCardLab, 2); ?></td>
-            <td><?php echo number_format($bank_lab, 2); ?></td>
-            <td><?php echo number_format($bank_lab_refunded, 2); ?></td>
-            <td><?php echo number_format($netBankLab, 2); ?></td>
+            <!-- Cash Section -->
+            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                <?php echo number_format($cash_lab, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey;">
+                <?php echo number_format($cash_lab_refunded, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                <?php echo number_format($netcashLab, 2); ?>
+            </td>
+
+            <!-- Card Section -->
+            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                <?php echo number_format($card_lab, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey;">
+                <?php echo number_format($card_lab_refunded, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                <?php echo number_format($netCardLab, 2); ?>
+            </td>
+
+            <!-- Bank Section -->
+            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                <?php echo number_format($bank_lab, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey;">
+                <?php echo number_format($bank_lab_refunded, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                <?php echo number_format($netBankLab, 2); ?>
+            </td>
         </tr>
+
 
         <!-- IPD Cash Section -->
         <tr>
@@ -237,25 +328,31 @@ mpdf-->
             }
         ?>
 
-        <!-- Grand Total Section -->
+        <<!-- Grand Total Section -->
         <tr>
             <td style="color: #ff0000; font-size: 18px;" colspan="10" align="center"><strong>Grand Total</strong></td>
         </tr>
         <tr>
             <td></td>
-            <td><strong>Cash</strong></td>
+            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Cash</strong></td>
+            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Card</strong></td>
+            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Bank</strong></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
             <td><strong>Refund</strong></td>
-            <td><strong>Net</strong></td>
-            <td><strong>Card</strong></td>
+            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
+            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
             <td><strong>Refund</strong></td>
-            <td><strong>Net</strong></td>
-            <td><strong>Bank</strong></td>
+            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
+            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
             <td><strong>Refund</strong></td>
-            <td><strong>Net</strong></td>
+            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
         </tr>
         <tr>
             <?php
-                $netCash = $cash_consultancies + $cash_opd + $cash_lab + $grand_total + $ipd_total ;
+                $netCash = $cash_consultancies + $cash_opd + $cash_lab + $grand_total + $ipd_total;
                 $netcard = $card_consultancies + $card_lab + $card_opd;
                 $netbank = $bank_consultancies + $bank_lab + $bank_opd;
                 
@@ -268,16 +365,41 @@ mpdf-->
                 $totalbank = $netbank - $netbankrefund;
             ?>
             <td></td>
-            <td><?php echo number_format($netCash, 2); ?></td>
-            <td><?php echo number_format($netcashrefund, 2); ?></td>
-            <td><?php echo number_format($totalcash, 2); ?></td>
-            <td><?php echo number_format($netcard, 2); ?></td>
-            <td><?php echo number_format($netcardrefund, 2); ?></td>
-            <td><?php echo number_format($totalcard, 2); ?></td>
-            <td><?php echo number_format($netbank, 2); ?></td>
-            <td><?php echo number_format($netbankrefund, 2); ?></td>
-            <td><?php echo number_format($totalbank, 2); ?></td>
+
+            <!-- Cash Section -->
+            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                <?php echo number_format($netCash, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey;">
+                <?php echo number_format($netcashrefund, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                <?php echo number_format($totalcash, 2); ?>
+            </td>
+
+            <!-- Card Section -->
+            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                <?php echo number_format($netcard, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey;">
+                <?php echo number_format($netcardrefund, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                <?php echo number_format($totalcard, 2); ?>
+            </td>
+
+            <!-- Bank Section -->
+            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                <?php echo number_format($netbank, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey;">
+                <?php echo number_format($netbankrefund, 2); ?>
+            </td>
+            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                <?php echo number_format($totalbank, 2); ?>
+            </td>
         </tr>
+
     </tbody>
 </table>
 <br>
