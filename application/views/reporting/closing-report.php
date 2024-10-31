@@ -58,8 +58,8 @@
                     <td>Cash</td>
                     <td><?php echo number_format($cash_sale, 2); ?></td>
                     <td><?php echo number_format($return_customer, 2); ?></td>
-                    <td></td>
-                    <!-- <td><?php echo number_format($net_cash, 2); ?></td> -->
+            
+                    <td><?php echo number_format($net_cash, 2); ?></td>
                 </tr>
                 <tr>
                     <td>Card</td>
@@ -79,12 +79,12 @@
                     <td><strong>Total</strong></td>
                     <td><strong><?php echo number_format($total_sale, 2); ?></strong></td>
                     <td><strong><?php echo number_format($return_customer, 2); ?></strong></td>
-                    <td><strong><?php echo number_format($total_net, 2); ?></strong></td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
 
-        <p><strong>Cash in Hand = <?php echo number_format($total_sale, 2); ?> - <?php echo number_format($return_customer, 2); ?> = <?php echo number_format($net_cash, 2); ?></strong></p>
+        <p><strong>Cash in Hand = <?php echo number_format($total_sale, 2); ?> - <?php echo number_format($return_customer, 2); ?> = <?php echo number_format($total_net, 2); ?></strong></p>
     </div>
 </div>
 

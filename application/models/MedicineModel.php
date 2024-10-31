@@ -930,6 +930,8 @@
         }
         
         public function get_sum_of_sales_by_card() {
+
+  
             $sql = "SELECT SUM(hms.net_price) as total_sales
                     FROM hmis_medicines_sold hms
                     JOIN hmis_sales hs ON hms.sale_id = hs.id
@@ -975,6 +977,24 @@
             }
             $result = $this->db->query($sql)->row();
             return $result->total_sales ?? 0; 
+        }
+        
+
+        public function get_total_return_medicines() {
+            $sql = "SELECT SUM(paid_to_customer) as total_paid_to_customer FROM hmis_medicines_stock";
+           
+            // Add date range filter if provided
+            if (isset($_REQUEST['start_date']) && !empty(trim($_REQUEST['start_date'])) && 
+                isset($_REQUEST['end_date']) && !empty(trim($_REQUEST['end_date']))) {
+                $start = date('Y-m-d', strtotime($_REQUEST['start_date']));
+                $end = date('Y-m-d', strtotime($_REQUEST['end_date']));
+                
+                // Use WHERE instead of AND if this is the first condition
+                $sql .= " WHERE DATE(date_added) BETWEEN '$start' AND '$end'";
+            }
+        
+            $result = $this->db->query($sql)->row();
+            return $result->total_paid_to_customer ?? 0; 
         }
         
         
@@ -3550,23 +3570,7 @@
 
         
 
-        public function get_total_return_medicines() {
-            $return_customer = return_customer;
-            $sql = "SELECT SUM(paid_to_customer) as total_paid_to_customer
-                    FROM hmis_medicines_stock";
-                   
-        
-            // Add date range filter if provided
-            if (isset($_REQUEST['start-date']) && !empty(trim($_REQUEST['start-date'])) && 
-                isset($_REQUEST['end-date']) && !empty(trim($_REQUEST['end-date']))) {
-                $start = date('Y-m-d', strtotime($_REQUEST['start-date']));
-                $end = date('Y-m-d', strtotime($_REQUEST['end-date']));
-                $sql .= " AND DATE(date_added) BETWEEN '$start' AND '$end'";
-            }
-        
-            $result = $this->db->query($sql)->row();
-            return $result->total_paid_to_customer ?? 0; 
-        }
+      
         
         
         /**
