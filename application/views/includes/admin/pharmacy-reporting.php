@@ -143,13 +143,22 @@
                     </a>
                 </li>
 
+        
+            <?php endif; ?>
+
+
+
+            <?php if ( !empty( $access ) and in_array ( 'summary_report', explode ( ',', $access -> access ) ) ) : ?>
+       
                 <li class="<?php if ( $child_uri == 'closing-report' )
                     echo 'active'; ?>">
                     <a href="<?php echo base_url ( '/reporting/closing-report/?menu=pharmacy' ) ?>">
                         Closing Report
                     </a>
                 </li>
+        
             <?php endif; ?>
+
         </ul>
     </li>
-<?php endif; ?>
+<?php endif; ?> 

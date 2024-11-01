@@ -784,6 +784,17 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
+
+        <tr>
+            <td></td>
+            <td>closing report</td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="closing_report" <?php if ( !empty( $access ) and in_array ( 'closing_report', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr>
+
         <tr style="background: #dff0d8;">
             <td> pharmacy settings</td>
             <td></td>
