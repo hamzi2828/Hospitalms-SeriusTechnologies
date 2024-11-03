@@ -533,9 +533,19 @@
          * @return mixed
          */
         
-        public function get_test_by_id ( $test_id ) {
-            $test = $this -> db -> get_where ( 'tests', array ( 'id' => $test_id ) );
-            return $test -> row ();
+        // public function get_test_by_id ( $test_id ) {
+        //     $test = $this -> db -> get_where ( 'tests', array ( 'id' => $test_id ) );
+        //     return $test -> row ();
+        // }
+        public function get_test_by_id($test_id) {
+            // $this->db->select('tests.*, hmis_ipd_patient_associated_lab_tests.price');
+            $this->db->select('tests.*, hmis_ipd_patient_associated_lab_tests.price, hmis_ipd_patient_associated_lab_tests.net_price');
+            $this->db->from('tests');
+            $this->db->join('hmis_ipd_patient_associated_lab_tests', 'hmis_ipd_patient_associated_lab_tests.test_id = tests.id', 'left');
+            $this->db->where('tests.id', $test_id);
+            $query = $this->db->get();
+        
+            return $query->row(); 
         }
         
         /**

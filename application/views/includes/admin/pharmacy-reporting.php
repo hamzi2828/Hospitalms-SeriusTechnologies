@@ -148,7 +148,7 @@
 
 
 
-            <?php if ( !empty( $access ) and in_array ( 'summary_report', explode ( ',', $access -> access ) ) ) : ?>
+            <?php if ( !empty( $access ) and in_array ( 'closing_report', explode ( ',', $access -> access ) ) ) : ?>
        
                 <li class="<?php if ( $child_uri == 'closing-report' )
                     echo 'active'; ?>">

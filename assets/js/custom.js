@@ -4023,13 +4023,41 @@ function calculate_ipd_net_bill ( discount = 0 ) {
  * -------------
  */
 
-function calculate_ipd_net_bill_after_discount ( discount ) {
-    var iSum  = 0;
-    var total = jQuery ( '.total' ).val ();
-    // var total_sum = iSum - (iSum * (discount/100));
-    var total = total - discount;
-    jQuery ( '.net-total' ).val ( total.toFixed ( 2 ) );
+// function calculate_ipd_net_bill_after_discount ( discount ) {
+//     var iSum  = 0;
+//     var total = jQuery ( '.total' ).val ();
+//     // var total_sum = iSum - (iSum * (discount/100));
+//     var total = total - discount;
+//     jQuery ( '.net-total' ).val ( total.toFixed ( 2 ) );
+// }
+function calculate_ipd_net_bill_after_discount(discount) {
+    var total = parseFloat(jQuery('.total').val());
+    var originalNetTotal = parseFloat(jQuery('.net-total').val()); 
+    discount = parseFloat(discount) || 0; 
+
+   
+    if (discount > total) {
+        alert("Discount cannot be greater than the total amount.");
+        jQuery('.discount').css('border-color', 'red'); 
+        jQuery('.discount').val(0); 
+        jQuery('.net-total').val(originalNetTotal.toFixed(2)); 
+        return; 
+    } else {
+        jQuery('.discount').css('border-color', '');
+    }
+
+    // Calculate net total
+    var netTotal = total - discount;
+
+    // Prevent negative net total
+    if (netTotal < 0) {
+        netTotal = 0;
+    }
+
+    jQuery('.net-total').val(netTotal.toFixed(2));
 }
+
+
 
 /**
  * -------------

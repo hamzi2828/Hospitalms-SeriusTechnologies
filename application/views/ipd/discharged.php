@@ -231,7 +231,7 @@
                                                href="<?php echo base_url ( '/invoices/ipd-invoice-customer?sale_id=' . $sale -> sale_id ) ?>">C
                                                                                                                                               Print</a>
                                         <?php endif; ?>
-                                        <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'edit_ipd_invoice', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                        <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'edit_discharged_ipd_invoice', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                             <a type="button" class="btn-block btn green"
                                                href="<?php echo base_url ( '/IPD/edit-sale/?sale_id=' . $sale -> sale_id ) ?>">Edit</a>
                                         <?php endif; ?>
@@ -249,7 +249,7 @@
                                                 </a>
                                             <?php endif; ?>
                                         <?php endif; ?>
-                                        <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'delete_ipd_invoice', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                        <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'delete_discharged_ipd_invoice', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                             <a type="button" class="btn-block btn red"
                                                href="<?php echo base_url ( '/IPD/delete-sale/' . $sale -> sale_id ) ?>"
                                                onclick="return confirm('Are you sure you want to delete?')">Delete</a>

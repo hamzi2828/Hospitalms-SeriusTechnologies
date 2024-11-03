@@ -147,10 +147,13 @@
                     <a href="<?php echo base_url ( '/invoices/opd-general-report?' . $_SERVER[ 'QUERY_STRING' ] ); ?>"
                        target="_blank"
                        class="pull-right print-btn">Print</a>
+
+                       <a href="javascript:void(0)" onclick="downloadExcel()" style="margin-right: 10px"
+                       class="pull-right print-btn">Download Excel</a>
                 <?php endif ?>
             </div>
             <div class="portlet-body" style="overflow: auto">
-                <table class="table table-striped table-bordered table-hover">
+                <table class="table table-striped table-bordered table-hover" id="opd-report"   >
                     <thead>
                     <tr>
                         <th> Sr. No</th>
@@ -287,3 +290,42 @@
         <!-- END SAMPLE FORM PORTLET-->
     </div>
 </div>
+
+<script src="<?php echo base_url ( '/assets/js/xlxs.js' ) ?>"></script>
+<script type="text/javascript">
+    function downloadExcel () {
+        // Get the HTML table
+        let table = document.getElementById ( "opd-report" );
+        
+        // Convert the table to a sheet object
+        let sheet = XLSX.utils.table_to_sheet ( table );
+        
+        // Create a workbook object
+        let workbook = XLSX.utils.book_new ();
+        
+        // Add the sheet to the workbook
+        XLSX.utils.book_append_sheet ( workbook, sheet, "Sheet1" );
+        
+        // Convert the workbook to a binary string
+        let wbout = XLSX.write ( workbook, { bookType: "xlsx", type: "binary" } );
+        
+        // Create a Blob object from the binary string
+        let blob = new Blob ( [ s2ab ( wbout ) ], { type: "application/octet-stream" } );
+        
+        // Create a download link and click it
+        let url    = window.URL.createObjectURL ( blob );
+        let a      = document.createElement ( "a" );
+        a.href     = url;
+        a.download = "General Report (Cash).xlsx";
+        a.click ();
+        window.URL.revokeObjectURL ( url );
+    }
+    
+    function s2ab ( s ) {
+        let buf  = new ArrayBuffer ( s.length );
+        let view = new Uint8Array ( buf );
+        for ( let i = 0; i < s.length; i++ ) view[ i ] = s.charCodeAt ( i ) & 0xff;
+        return buf;
+    }
+
+</script>

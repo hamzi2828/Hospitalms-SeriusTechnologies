@@ -165,7 +165,7 @@ mpdf-->
     <?php if ( $sale_billing -> discount > 0 ) : ?>
         <tr style="width: 100%; display: block; float: left; border: none;">
             <td colspan="2" align="right" style="border: none">
-                <strong>Discount: </strong>
+                <strong>Discount (Flat):</strong>
             </td>
             <td align="right" style="border: none">
                 <?php echo number_format ( $sale_billing -> discount, 2 ) ?>

@@ -59,7 +59,7 @@
                             <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">Date</label>
                                 <input type="text" class="form-control date-picker" name="date_added" required="required"
-                                       value="<?php echo date ( 'm/d/Y' ) ?>">
+                                       value="<?php echo date ( 'm/d/Y' ) ?>"  disabled>
                             </div>
                             <div class="form-group col-lg-12">
                                 <label for="exampleInputEmail1">Discharge Reason</label>
