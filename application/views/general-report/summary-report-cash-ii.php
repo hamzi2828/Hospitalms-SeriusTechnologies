@@ -15,6 +15,35 @@
                            value="<?php echo $this -> input -> get ( 'end_date' ); ?>">
                 </div>
                 
+
+                <div class="form-group col-lg-2">
+                    <label for="exampleInputEmail1">Start Time</label>
+                    <select class="form-control" name="start_time">
+                        <option value="">Select</option>
+                        <?php
+                            $times = create_time_range ( '01:00', '23:00', '60 mins', '24' );
+                            foreach ( $times as $time ) :
+                                ?>
+                                <option value="<?php echo $time ?>" <?php if ( $time == @$_REQUEST[ 'start_time' ] )
+                                    echo 'selected="selected"' ?>><?php echo $time ?></option>
+                            <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group col-lg-2">
+                    <label for="exampleInputEmail1">End Time</label>
+                    <select class="form-control" name="end_time">
+                        <option value="">Select</option>
+                        <?php
+                            $times = create_time_range ( '01:00', '23:00', '60 mins', '24' );
+                            foreach ( $times as $time ) :
+                                ?>
+                                <option value="<?php echo $time ?>" <?php if ( $time == @$_REQUEST[ 'end_time' ] )
+                                    echo 'selected="selected"' ?>><?php echo $time ?></option>
+                            <?php endforeach; ?>
+                    </select>
+                </div>
+
+                
                 <div class="form-group col-lg-3">
                     <label for="user-id">Member</label>
                     <select class="form-control select2me" name="user_id" id="user-id">

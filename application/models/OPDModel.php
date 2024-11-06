@@ -698,60 +698,71 @@
             return $services -> result ();
         }
         
-        public function get_opd_total_by_payment_method ( $method = 'cash' ) {
-            
-            $start_date = $this -> input -> get ( 'start_date' );
-            $end_date   = $this -> input -> get ( 'end_date' );
-            $user_id    = $this -> input -> get ( 'user_id' );
-            
-            $this
-                -> db
-                -> select ( 'SUM(ABS(net)) as net' )
-                -> from ( 'opd_sales' )
-                -> where ( "id IN (Select sale_id FROM hmis_opd_services_sales WHERE patient_id IN (Select id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))" );
-            
-            if ( isset( $start_date ) and !empty( trim ( $start_date ) ) and isset( $end_date ) and !empty( trim ( $end_date ) ) ) {
-                $start_date = date ( 'Y-m-d', strtotime ( $start_date ) );
-                $end_date   = date ( 'Y-m-d', strtotime ( $end_date ) );
-                $this -> db -> where ( "DATE(date_added) Between '$start_date' and '$end_date'" );
+        public function get_opd_total_by_payment_method($method = 'cash') {
+            $start_date = $this->input->get('start_date');
+            $end_date   = $this->input->get('end_date');
+            $user_id    = $this->input->get('user_id');
+            $start_time = $this->input->get('start_time');
+            $end_time   = $this->input->get('end_time');
+        
+            $this->db->select('SUM(ABS(net)) as net')
+                     ->from('opd_sales')
+                     ->where("id IN (SELECT sale_id FROM hmis_opd_services_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))");
+        
+            if (isset($start_date) && !empty(trim($start_date)) && isset($end_date) && !empty(trim($end_date))) {
+                $start_date = date('Y-m-d', strtotime($start_date));
+                $end_date   = date('Y-m-d', strtotime($end_date));
+        
+                // Append time if provided, otherwise use default values
+                $start_date .= isset($start_time) && !empty(trim($start_time)) ? ' ' . date('H:i:s', strtotime($start_time)) : ' 00:00:00';
+                $end_date   .= isset($end_time) && !empty(trim($end_time)) ? ' ' . date('H:i:s', strtotime($end_time)) : ' 23:59:59';
+        
+                $this->db->where("date_added BETWEEN '$start_date' AND '$end_date'");
             }
-            
-            if ( isset( $user_id ) and $user_id > 0 ) {
-                $this -> db -> where ( 'user_id', $user_id );
+        
+            if (isset($user_id) && $user_id > 0) {
+                $this->db->where('user_id', $user_id);
             }
-            
-            $this -> db -> where ( 'payment_method', $method );
+        
+            $this->db->where('payment_method', $method);
             $this->db->where('net >', 0);
-            $query = $this -> db -> get ();
-            return $query -> row () -> net;
+        
+            $query = $this->db->get();
+            return $query->row()->net;
         }
         
-        public function get_opd_refunded_total () {
-            
-            $start_date = $this -> input -> get ( 'start_date' );
-            $end_date   = $this -> input -> get ( 'end_date' );
-            $user_id    = $this -> input -> get ( 'user_id' );
-            
-            $this
-                -> db
-                -> select ( 'SUM(ABS(net)) as net' )
-                -> from ( 'opd_sales' )
-                -> where ( "id IN (Select sale_id FROM hmis_opd_services_sales WHERE patient_id IN (Select id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))" );
-            
-            if ( isset( $start_date ) and !empty( trim ( $start_date ) ) and isset( $end_date ) and !empty( trim ( $end_date ) ) ) {
-                $start_date = date ( 'Y-m-d', strtotime ( $start_date ) );
-                $end_date   = date ( 'Y-m-d', strtotime ( $end_date ) );
-                $this -> db -> where ( "DATE(date_added) Between '$start_date' and '$end_date'" );
+        public function get_opd_refunded_total() {
+            $start_date = $this->input->get('start_date');
+            $end_date   = $this->input->get('end_date');
+            $user_id    = $this->input->get('user_id');
+            $start_time = $this->input->get('start_time');
+            $end_time   = $this->input->get('end_time');
+        
+            $this->db->select('SUM(ABS(net)) as net')
+                     ->from('opd_sales')
+                     ->where("id IN (SELECT sale_id FROM hmis_opd_services_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))");
+        
+            if (isset($start_date) && !empty(trim($start_date)) && isset($end_date) && !empty(trim($end_date))) {
+                $start_date = date('Y-m-d', strtotime($start_date));
+                $end_date   = date('Y-m-d', strtotime($end_date));
+        
+                // Append time if provided, otherwise use default values
+                $start_date .= isset($start_time) && !empty(trim($start_time)) ? ' ' . date('H:i:s', strtotime($start_time)) : ' 00:00:00';
+                $end_date   .= isset($end_time) && !empty(trim($end_time)) ? ' ' . date('H:i:s', strtotime($end_time)) : ' 23:59:59';
+        
+                $this->db->where("date_added BETWEEN '$start_date' AND '$end_date'");
             }
-            
-            if ( isset( $user_id ) and $user_id > 0 ) {
-                $this -> db -> where ( 'user_id', $user_id );
+        
+            if (isset($user_id) && $user_id > 0) {
+                $this->db->where('user_id', $user_id);
             }
-            
-            $this -> db -> where ( 'refund', '1' );
-            $query = $this -> db -> get ();
-            return $query -> row () -> net;
+        
+            $this->db->where('refund', '1');
+        
+            $query = $this->db->get();
+            return $query->row()->net;
         }
+        
         
         public function get_doctor_daily_payable ( $doctor_id ) {
             
@@ -786,35 +797,39 @@
         }
 
         public function get_opd_refunded_total_by_payment_method($method = 'cash') {
-            $start_date = $this -> input -> get ( 'start_date' );
-            $end_date   = $this -> input -> get ( 'end_date' );
-            $user_id    = $this -> input -> get ( 'user_id' );
-            
-            $this
-                -> db
-                -> select ( 'SUM(ABS(net)) as net' )
-                -> from ( 'opd_sales' )
-                -> where ( "id IN (Select sale_id FROM hmis_opd_services_sales WHERE patient_id IN (Select id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))" );
-            
-            if ( isset( $start_date ) and !empty( trim ( $start_date ) ) and isset( $end_date ) and !empty( trim ( $end_date ) ) ) {
-                $start_date = date ( 'Y-m-d', strtotime ( $start_date ) );
-                $end_date   = date ( 'Y-m-d', strtotime ( $end_date ) );
-                $this -> db -> where ( "DATE(date_added) Between '$start_date' and '$end_date'" );
+            $start_date = $this->input->get('start_date');
+            $end_date   = $this->input->get('end_date');
+            $user_id    = $this->input->get('user_id');
+            $start_time = $this->input->get('start_time');
+            $end_time   = $this->input->get('end_time');
+        
+            $this->db->select('SUM(ABS(net)) as net')
+                     ->from('opd_sales')
+                     ->where("id IN (SELECT sale_id FROM hmis_opd_services_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))");
+        
+            if (isset($start_date) && !empty(trim($start_date)) && isset($end_date) && !empty(trim($end_date))) {
+                $start_date = date('Y-m-d', strtotime($start_date));
+                $end_date   = date('Y-m-d', strtotime($end_date));
+        
+                // Append time if provided, otherwise use default values
+                $start_date .= isset($start_time) && !empty(trim($start_time)) ? ' ' . date('H:i:s', strtotime($start_time)) : ' 00:00:00';
+                $end_date   .= isset($end_time) && !empty(trim($end_time)) ? ' ' . date('H:i:s', strtotime($end_time)) : ' 23:59:59';
+        
+                $this->db->where("date_added BETWEEN '$start_date' AND '$end_date'");
             }
-            
-            if ( isset( $user_id ) and $user_id > 0 ) {
-                $this -> db -> where ( 'user_id', $user_id );
+        
+            if (isset($user_id) && $user_id > 0) {
+                $this->db->where('user_id', $user_id);
             }
-
-
-            // Apply filter for refunded status and payment method
+        
+            // Apply filters for refunded status, payment method, and negative net
             $this->db->where('refund', '1');
-            $this->db->where('payment_method', $method); 
+            $this->db->where('payment_method', $method);
             $this->db->where('net <', 0);
-            
+        
             $query = $this->db->get();
-            
             return $query->row()->net;
         }
+        
         
     }

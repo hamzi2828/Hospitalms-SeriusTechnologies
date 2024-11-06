@@ -2951,60 +2951,73 @@
             return $services -> result ();
         }
         
-        public function get_lab_total_by_payment_method ( $method = 'cash' ) {
-            
-            $start_date = $this -> input -> get ( 'start_date' );
-            $end_date   = $this -> input -> get ( 'end_date' );
-            $user_id    = $this -> input -> get ( 'user_id' );
-            
-            $this
-                -> db
-                -> select ( 'SUM(ABS(paid_amount)) as net' )
-                -> from ( 'lab_sales' )
-                -> where ( "id IN (Select sale_id FROM hmis_test_sales WHERE patient_id IN (Select id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))" );
-            
-            if ( isset( $start_date ) and !empty( trim ( $start_date ) ) and isset( $end_date ) and !empty( trim ( $end_date ) ) ) {
-                $start_date = date ( 'Y-m-d', strtotime ( $start_date ) );
-                $end_date   = date ( 'Y-m-d', strtotime ( $end_date ) );
-                $this -> db -> where ( "DATE(date_sale) Between '$start_date' and '$end_date'" );
+        public function get_lab_total_by_payment_method($method = 'cash') {
+            $start_date = $this->input->get('start_date');
+            $end_date   = $this->input->get('end_date');
+            $user_id    = $this->input->get('user_id');
+            $start_time = $this->input->get('start_time');
+            $end_time   = $this->input->get('end_time');
+        
+            $this->db->select('SUM(ABS(paid_amount)) as net')
+                     ->from('lab_sales')
+                     ->where("id IN (SELECT sale_id FROM hmis_test_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))");
+        
+            if (isset($start_date) && !empty(trim($start_date)) && isset($end_date) && !empty(trim($end_date))) {
+                $start_date = date('Y-m-d', strtotime($start_date));
+                $end_date   = date('Y-m-d', strtotime($end_date));
+        
+                // Append time if provided, otherwise use default values
+                $start_date .= isset($start_time) && !empty(trim($start_time)) ? ' ' . date('H:i:s', strtotime($start_time)) : ' 00:00:00';
+                $end_date   .= isset($end_time) && !empty(trim($end_time)) ? ' ' . date('H:i:s', strtotime($end_time)) : ' 23:59:59';
+        
+                $this->db->where("date_sale BETWEEN '$start_date' AND '$end_date'");
             }
-            
-            if ( isset( $user_id ) and $user_id > 0 ) {
-                $this -> db -> where ( 'user_id', $user_id );
+        
+            if (isset($user_id) && $user_id > 0) {
+                $this->db->where('user_id', $user_id);
             }
-            
-            $this -> db -> where ( 'payment_method', $method );
+        
+            $this->db->where('payment_method', $method);
             $this->db->where('total >', 0);
-            $query = $this -> db -> get ();
-            return $query -> row () -> net;
+        
+            $query = $this->db->get();
+            return $query->row()->net;
         }
         
-        public function get_lab_refunded_total () {
-            
-            $start_date = $this -> input -> get ( 'start_date' );
-            $end_date   = $this -> input -> get ( 'end_date' );
-            $user_id    = $this -> input -> get ( 'user_id' );
-            
-            $this
-                -> db
-                -> select ( 'SUM(ABS(total)) as net' )
-                -> from ( 'lab_sales' )
-                -> where ( "id IN (Select sale_id FROM hmis_test_sales WHERE patient_id IN (Select id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))" );
-            
-            if ( isset( $start_date ) and !empty( trim ( $start_date ) ) and isset( $end_date ) and !empty( trim ( $end_date ) ) ) {
-                $start_date = date ( 'Y-m-d', strtotime ( $start_date ) );
-                $end_date   = date ( 'Y-m-d', strtotime ( $end_date ) );
-                $this -> db -> where ( "DATE(date_sale) Between '$start_date' and '$end_date'" );
+        
+        public function get_lab_refunded_total() {
+            $start_date = $this->input->get('start_date');
+            $end_date   = $this->input->get('end_date');
+            $user_id    = $this->input->get('user_id');
+            $start_time = $this->input->get('start_time');
+            $end_time   = $this->input->get('end_time');
+        
+            $this->db->select('SUM(ABS(total)) as net')
+                     ->from('lab_sales')
+                     ->where("id IN (SELECT sale_id FROM hmis_test_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))");
+        
+            if (isset($start_date) && !empty(trim($start_date)) && isset($end_date) && !empty(trim($end_date))) {
+                $start_date = date('Y-m-d', strtotime($start_date));
+                $end_date   = date('Y-m-d', strtotime($end_date));
+        
+                // Append time if provided, otherwise use default values
+                $start_date .= isset($start_time) && !empty(trim($start_time)) ? ' ' . date('H:i:s', strtotime($start_time)) : ' 00:00:00';
+                $end_date   .= isset($end_time) && !empty(trim($end_time)) ? ' ' . date('H:i:s', strtotime($end_time)) : ' 23:59:59';
+        
+                $this->db->where("date_sale BETWEEN '$start_date' AND '$end_date'");
             }
-            
-            if ( isset( $user_id ) and $user_id > 0 ) {
-                $this -> db -> where ( 'user_id', $user_id );
+        
+            if (isset($user_id) && $user_id > 0) {
+                $this->db->where('user_id', $user_id);
             }
-            
-            $this -> db -> where ( "id IN (Select sale_id FROM hmis_test_sales WHERE refunded='1')" );
-            $query = $this -> db -> get ();
-            return $query -> row () -> net;
+        
+            // Filter for refunded sales
+            $this->db->where("id IN (SELECT sale_id FROM hmis_test_sales WHERE refunded='1')");
+        
+            $query = $this->db->get();
+            return $query->row()->net;
         }
+        
         
         public function update_test_sale ( $info, $sale_id ) {
             $this -> db -> update ( 'test_sales', $info, array ( 'id' => $sale_id ) );
@@ -3162,31 +3175,37 @@
             $start_date = $this->input->get('start_date');
             $end_date   = $this->input->get('end_date');
             $user_id    = $this->input->get('user_id');
-            
-            $this->db
-                ->select('SUM(ABS(total)) as net')
-                ->from('lab_sales')
-                ->where("id IN (Select sale_id FROM hmis_test_sales WHERE patient_id IN (Select id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))");
+            $start_time = $this->input->get('start_time');
+            $end_time   = $this->input->get('end_time');
+        
+            $this->db->select('SUM(ABS(total)) as net')
+                     ->from('lab_sales')
+                     ->where("id IN (SELECT sale_id FROM hmis_test_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))");
         
             if (isset($start_date) && !empty(trim($start_date)) && isset($end_date) && !empty(trim($end_date))) {
                 $start_date = date('Y-m-d', strtotime($start_date));
                 $end_date   = date('Y-m-d', strtotime($end_date));
-                $this->db->where("DATE(date_sale) Between '$start_date' and '$end_date'");
+        
+                // Append time if provided, otherwise use default values
+                $start_date .= isset($start_time) && !empty(trim($start_time)) ? ' ' . date('H:i:s', strtotime($start_time)) : ' 00:00:00';
+                $end_date   .= isset($end_time) && !empty(trim($end_time)) ? ' ' . date('H:i:s', strtotime($end_time)) : ' 23:59:59';
+        
+                $this->db->where("date_sale BETWEEN '$start_date' AND '$end_date'");
             }
         
             if (isset($user_id) && $user_id > 0) {
                 $this->db->where('user_id', $user_id);
             }
         
-            // Apply filter for refunded status and payment method
-            $this->db->where("id IN (Select sale_id FROM hmis_test_sales WHERE refunded='1')");
-            $this->db->where('payment_method', $method); // Filter by payment method
-            $this->db->where('total <', 0); // Filter for negative values
-            
+            // Apply filters for refunded status, payment method, and negative total
+            $this->db->where("id IN (SELECT sale_id FROM hmis_test_sales WHERE refunded='1')");
+            $this->db->where('payment_method', $method); 
+            $this->db->where('total <', 0); // Ensure only records with negative values
+        
             $query = $this->db->get();
-            
             return $query->row()->net;
         }
+        
         
         
         
