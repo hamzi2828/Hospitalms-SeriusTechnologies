@@ -23,14 +23,28 @@
                     <input type="text" class="form-control cnic" id="patient-cnic" readonly="readonly"
                            value="<?php echo get_patient ( $sale -> patient_id ) -> cnic ?>">
                 </div>
-                <div class="form-group col-lg-6">
+                <!-- <div class="form-group col-lg-6">
                     <label for="exampleInputEmail1">Payment Method</label>
                     <select name="type" class="form-control select2me" required="required">
                         <option value="cash">Cash</option>
                         <option value="online">Online</option>
                         <option value="cheque">cheque</option>
                     </select>
-                </div>
+                </div> -->
+               
+                        <div class="form-group col-lg-4">
+                            <label for="payment-method">Payment Method</label>
+                            <select class="form-control select2me" name="payment-method" id="payment-method"
+                                    required="required" data-placeholder="Select"
+                                    onchange="getPaymentMethodFields(this.value)">
+                                <option></option>
+                                <option value="cash">Cash</option>
+                                <option value="card">Card</option>
+                                <option value="bank">Bank</option>
+                            </select>
+                        </div>
+                        <div id="payment-methods"></div>
+                    
                 <div class="form-group col-lg-6">
                     <label for="exampleInputEmail1">Amount</label>
                     <input type="text" class="form-control" name="amount" required="required">

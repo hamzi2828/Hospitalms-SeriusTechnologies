@@ -1474,94 +1474,82 @@
          * -------------------------
          */
         
-        public function do_add_ipd_sale_payment ( $POST ) {
-            $data        = filter_var_array ( $POST, FILTER_SANITIZE_STRING );
-            $patient_id  = $data[ 'patient_id' ];
-            $sale_id     = $data[ 'sale_id' ];
-            $type        = $data[ 'type' ];
-            $amount      = $data[ 'amount' ];
-            $description = $data[ 'description' ];
-            
-            $payment    = array (
-                'user_id'     => get_logged_in_user_id (),
+         public function do_add_ipd_sale_payment($POST) {
+            $data        = filter_var_array($POST, FILTER_SANITIZE_STRING);
+            $patient_id  = $data['patient_id'];
+            $sale_id     = $data['sale_id'];
+            $type        = $this->input->post('payment-method');  // Get the payment-method directly
+            $amount      = $data['amount'];
+            $description = $data['description'];
+        
+            $payment = array(
+                'user_id'     => get_logged_in_user_id(),
                 'patient_id'  => $patient_id,
                 'sale_id'     => $sale_id,
-                'type'        => $type,
+                'type'        => $type,  // Use payment-method for 'type'
                 'amount'      => $amount,
                 'description' => $description,
-                'date_added'  => current_date_time (),
+                'date_added'  => current_date_time(),
             );
-            $payment_id = $this -> IPDModel -> do_add_ipd_sale_payment ( $payment );
-            
-            $patient_name = get_patient_name ( $patient_id );
+            $payment_id = $this->IPDModel->do_add_ipd_sale_payment($payment);
+        
+            $patient_name = get_patient_name($patient_id);
             $description  .= '- Payment from IPD Add Payments. Patient EMR# ' . $patient_id . ' Sale ID# ' . $sale_id . ' Patient Name# ' . $patient_name;
-            if ( is_patient_panel ( $patient_id ) )
-                $description .= ' Panel# ' . get_panel_by_id ( get_patient ( $patient_id ) -> panel_id ) -> name;
-            
-            $ledger = array (
-                'user_id'          => get_logged_in_user_id (),
-                'acc_head_id'      => cash_from_ipd,
+            if (is_patient_panel($patient_id)) {
+                $description .= ' Panel# ' . get_panel_by_id(get_patient($patient_id)->panel_id)->name;
+            }
+        
+            $cashAccountHead = cash_from_ipd;
+            if ($type == 'card') {
+                $cashAccountHead = CARD;
+            } else if ($type == 'bank') {
+                $cashAccountHead = $this->input->post('bank-id');
+            }
+        
+            $ledger = array(
+                'user_id'          => get_logged_in_user_id(),
+                'acc_head_id'      => $cashAccountHead,
                 'ipd_sale_id'      => $sale_id,
                 'invoice_id'       => $sale_id,
                 'payment_id'       => $payment_id,
-                'trans_date'       => date ( 'Y-m-d' ),
-                'payment_mode'     => $type,
-                'paid_via'         => 'cash',
+                'trans_date'       => date('Y-m-d'),
+                'payment_mode'     => $type,  // Use the correct payment method here
+                'paid_via'         => $type,
                 'transaction_type' => 'credit',
                 'credit'           => $amount,
                 'debit'            => 0,
                 'description'      => $description,
-                'date_added'       => current_date_time (),
+                'date_added'       => current_date_time(),
             );
-            $this -> AccountModel -> add_ledger ( $ledger );
-            
-            $ledger[ 'acc_head_id' ]      = unearned_revenue;
-            $ledger[ 'transaction_type' ] = 'debit';
-            $ledger[ 'credit' ]           = 0;
-            $ledger[ 'debit' ]            = $amount;
-            $this -> AccountModel -> add_ledger ( $ledger );
-
-//            $ledger = array (
-//                'user_id'          => get_logged_in_user_id (),
-//                'acc_head_id'      => cash_from_ipd,
-//                'ipd_sale_id'      => $sale_id,
-//                'invoice_id'       => $sale_id,
-//                'trans_date'       => date ( 'Y-m-d' ),
-//                'payment_mode'     => $type,
-//                'paid_via'         => 'cash',
-//                'transaction_type' => 'credit',
-//                'credit'           => $amount,
-//                'debit'            => 0,
-//                'description'      => $description,
-//                'date_added'       => current_date_time (),
-//            );
-//            $this -> AccountModel -> add_ledger ( $ledger );
-//
-//            $ledger[ 'acc_head_id' ]      = Sales_IPD_Services;
-//            $ledger[ 'transaction_type' ] = 'debit';
-//            $ledger[ 'credit' ]           = 0;
-//            $ledger[ 'debit' ]            = $amount;
-//            $this -> AccountModel -> add_ledger ( $ledger );
-            
+        
+            $this->AccountModel->add_ledger($ledger);
+        
+            // Adjust ledger for unearned revenue
+            $ledger['acc_head_id']      = unearned_revenue;
+            $ledger['transaction_type'] = 'debit';
+            $ledger['credit']           = 0;
+            $ledger['debit']            = $amount;
+            $this->AccountModel->add_ledger($ledger);
+        
             /***********LOGS*************/
-            
-            $log = array (
-                'user_id'      => get_logged_in_user_id (),
-                'patient_id'   => $this -> IPDModel -> get_sale_info ( $sale_id ) -> patient_id,
+            $log = array(
+                'user_id'      => get_logged_in_user_id(),
+                'patient_id'   => $this->IPDModel->get_sale_info($sale_id)->patient_id,
                 'sale_id'      => $sale_id,
                 'action'       => 'ipd_sale_payment_added',
-                'log'          => json_encode ( $patient_id ),
+                'log'          => json_encode($patient_id),
                 'after_update' => '',
-                'date_added'   => current_date_time ()
+                'date_added'   => current_date_time()
             );
-            $this -> load -> model ( 'LogModel' );
-            $this -> LogModel -> create_log ( 'ipd_admission_logs', $log );
-            
+            $this->load->model('LogModel');
+            $this->LogModel->create_log('ipd_admission_logs', $log);
+        
             /***********END LOG*************/
-            
-            $this -> session -> set_flashdata ( 'response', 'Success! Payment added.' );
-            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+        
+            $this->session->set_flashdata('response', 'Success! Payment added.');
+            return redirect($_SERVER['HTTP_REFERER']);
         }
+        
         
         /**
          * -------------------------

@@ -23,7 +23,7 @@
         <div class="portlet box blue">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-reorder"></i> Add Consultancy
+                    <i class="fa fa-reorder"></i> Add Consultancy 
                 </div>
             </div>
             <div class="portlet-body form">
