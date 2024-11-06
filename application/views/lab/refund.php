@@ -56,10 +56,11 @@
                                 <input type="text" class="form-control" name="amount_paid_to_customer" required="required"
                                        readonly="readonly" value="<?php echo ( $lab -> total ) ?>">
                             </div>
+                             <!-- date-picker -->
                             <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">Date</label>
-                                <input type="text" class="form-control date-picker" name="date_added" required="required"
-                                       value="<?php echo date ( 'm/d/Y' ) ?>"  disabled>
+                                <input type="text" class="form-control " name="date_added" required="required"
+                                       value="<?php echo date ( 'm/d/Y' ) ?>"  readonly="readonly" >
                             </div>
                             <div class="form-group col-lg-12">
                                 <label for="exampleInputEmail1">Discharge Reason</label>
