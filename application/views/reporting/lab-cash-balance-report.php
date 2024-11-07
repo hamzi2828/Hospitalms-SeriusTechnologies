@@ -62,7 +62,7 @@
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-globe"></i> Sale Tests
+                        <i class="fa fa-globe"></i> Sale Invoices (Cash-Balance)
                     </div>
                     <?php if ( count ( $sales ) > 0 ) : ?>
                         <a href="<?php echo base_url ( '/invoices/lab-cash-balance-report?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"

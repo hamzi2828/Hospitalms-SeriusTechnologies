@@ -283,125 +283,141 @@ mpdf-->
 
         <!-- IPD Cash Section -->
         <tr>
-            <td style="color: #ff0000; font-size: 18px;" width="3%" align="center"><strong>4</strong></td>
-            <td style="color: #ff0000; font-size: 16px;" colspan="9"><strong>IPD Cash (Paid by Cash Patient)</strong></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td colspan="8"><strong>Cash</strong></td>
-            <td><strong>Net Cash</strong></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td colspan="8"><?php echo number_format($ipd_total, 2); ?></td>
-            <td><?php echo number_format($ipd_total, 2); ?></td>
-        </tr>
+                        <td style="color: #ff0000; font-size: 18px" width="3%" align="center"><strong>4</strong></td>
+                        <td style="color: #ff0000; font-size: 16px" colspan="9">
+                            <strong>IPD Cash (Paid by Cash Patient)</strong>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td></td>
+                        <td style="text-align: center; border: 2px solid grey;" colspan="3"><strong>Cash</strong></td>
+                        <td style="text-align: center; border: 2px solid grey;" colspan="3"><strong>Card</strong></td>
+                        <td style="text-align: center; border: 2px solid grey;" colspan="3"><strong>Bank</strong></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3" style="border: 2px solid grey; text-align: center;"><?php echo number_format($ipd_total_cash, 2); ?></td>
+                        <td colspan="3" style="border: 2px solid grey; text-align: center;"><?php echo number_format($ipd_total_card, 2); ?></td>
+                        <td colspan="3" style="border: 2px solid grey; text-align: center;"><?php echo number_format($ipd_total_bank, 2); ?></td>
+                    </tr>
 
-        <!-- Panel IPD Cash Section -->
-        <?php
-            // $grand_total = $cash_consultancies + $cash_opd + $cash_lab + $ipd_total;
-            $grand_total = 0;
-            $panelCount  = 5;
-            if (count($panels) > 0) {
-                foreach ($panels as $key => $panel) {
-                    $panel_cash = get_ipd_cash_by_panel($panel->id);
-                    $grand_total += $panel_cash;
-                    if ($panel_cash > 0) {
-                        ?>
-                        <tr>
-                            <td style="color: #ff0000; font-size: 18px;" width="3%" align="center"><strong><?php echo $panelCount++ ?></strong></td>
-                            <td style="color: #ff0000; font-size: 16px;" colspan="9"><strong>IPD Cash (Paid By <?php echo $panel->name ?>)</strong></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td colspan="8"><strong>Cash</strong></td>
-                            <td><strong>Net Cash</strong></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td colspan="8"><?php echo number_format($panel_cash, 2); ?></td>
-                            <td><?php echo number_format($panel_cash, 2); ?></td>
-                        </tr>
-                        <?php
-                    }
-                }
-            }
-        ?>
+                    
+                    <?php
+                        // $grand_total = ( $cash_consultancies + $cash_opd + $cash_lab + $ipd_total );
+                        $grand_total = 0;
+                        $panelCount  = 5;
+                        if (count($panels) > 0) {
+                            foreach ($panels as $key => $panel) {
+                                $panel_cash = get_ipd_by_panel_cash($panel->id);
+                                $panel_card = get_ipd_card_by_panel($panel->id);
+                                $panel_bank = get_ipd_bank_by_panel($panel->id);
+                        
+                                // Calculate the total (net) cash for the panel by summing Cash, Card, and Bank values
+                                $net_panel_cash = $panel_cash + $panel_card + $panel_bank;
+                                $grand_total += $net_panel_cash;
+                        
+                                if ($net_panel_cash > 0) {
+                                    ?>
+                                    <tr>
+                                        <td style="color: #ff0000; font-size: 18px" width="3%" align="center">
+                                            <strong><?php echo $panelCount++ ?></strong>
+                                        </td>
+                                        <td style="color: #ff0000; font-size: 16px" colspan="9">
+                                            <strong>IPD Payments (Paid By <?php echo $panel->name ?>)</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Cash</strong></td>
+                                        <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Card</strong></td>
+                                        <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Bank</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="3" style="border: 2px solid grey; text-align: center;"><?php echo number_format($panel_cash, 2); ?></td>
+                                        <td colspan="3" style="border: 2px solid grey; text-align: center;"><?php echo number_format($panel_card, 2); ?></td>
+                                        <td colspan="3" style="border: 2px solid grey; text-align: center;"><?php echo number_format($panel_bank, 2); ?></td>
+                                    </tr>
+                                
+                                    <?php
+                                }
+                            }
+                        }
+                        
+                    ?>
+               <!-- Section Header: Grand Total -->
+                <tr>
+                    <td style="color: #ff0000; font-size: 18px;" colspan="10" align="center">
+                        <strong>Grand Total</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Cash</strong></td>
+                    <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Card</strong></td>
+                    <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Bank</strong></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
+                    <td><strong>Refund</strong></td>
+                    <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
+                    <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
+                    <td><strong>Refund</strong></td>
+                    <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
+                    <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
+                    <td><strong>Refund</strong></td>
+                    <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
+                </tr>
+                <tr>
+                    <?php
+                        $netCash = $cash_consultancies + $cash_opd + $cash_lab + $panel_cash + $ipd_total_cash ;
+                        $netcard = $card_consultancies + $card_lab + $card_opd + $panel_card +  $ipd_total_card;
+                        $netbank = $bank_consultancies + $bank_lab + $bank_opd + $panel_bank + $ipd_total_bank;
+                        $netcashrefund = $cash_consultancies_refunded + $cash_opd_refunded + $cash_lab_refunded;
+                        $netcardrefund = $card_consultancies_refunded + $card_lab_refunded + $card_opd_refunded;
+                        $netbankrefund = $bank_consultancies_refunded + $bank_lab_refunded + $bank_opd_refunded;
 
-        <<!-- Grand Total Section -->
-        <tr>
-            <td style="color: #ff0000; font-size: 18px;" colspan="10" align="center"><strong>Grand Total</strong></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Cash</strong></td>
-            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Card</strong></td>
-            <td colspan="3" style="text-align: center; border: 2px solid grey;"><strong>Bank</strong></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
-            <td><strong>Refund</strong></td>
-            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
-            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
-            <td><strong>Refund</strong></td>
-            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
-            <td style="border-left: 2px solid grey;"><strong>Sale</strong></td>
-            <td><strong>Refund</strong></td>
-            <td style="border-right: 2px solid grey;"><strong>Net</strong></td>
-        </tr>
-        <tr>
-            <?php
-                $netCash = $cash_consultancies + $cash_opd + $cash_lab + $grand_total + $ipd_total;
-                $netcard = $card_consultancies + $card_lab + $card_opd;
-                $netbank = $bank_consultancies + $bank_lab + $bank_opd;
-                
-                $netcashrefund = $cash_consultancies_refunded + $cash_opd_refunded + $cash_lab_refunded;
-                $netcardrefund = $card_consultancies_refunded + $card_lab_refunded + $card_opd_refunded;
-                $netbankrefund = $bank_consultancies_refunded + $bank_lab_refunded + $bank_opd_refunded;
+                        $totalcash = $netCash - $netcashrefund;
+                        $totalcard = $netcard - $netcardrefund;
+                        $totalbank = $netbank - $netbankrefund;
+                    ?>
+                    <td></td>
+                    <!-- Cash -->
+                    <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                        <?php echo number_format($netCash, 2); ?>
+                    </td>
+                    <td style="border-bottom: 2px solid grey;">
+                        <?php echo number_format($netcashrefund, 2); ?>
+                    </td>
+                    <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                        <?php echo number_format($totalcash, 2); ?>
+                    </td>
+                    <!-- Card -->
+                    <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                        <?php echo number_format($netcard, 2); ?>
+                    </td>
+                    <td style="border-bottom: 2px solid grey;">
+                        <?php echo number_format($netcardrefund, 2); ?>
+                    </td>
+                    <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                        <?php echo number_format($totalcard, 2); ?>
+                    </td>
+                    <!-- Bank -->
+                    <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
+                        <?php echo number_format($netbank, 2); ?>
+                    </td>
+                    <td style="border-bottom: 2px solid grey;">
+                        <?php echo number_format($netbankrefund, 2); ?>
+                    </td>
+                    <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
+                        <?php echo number_format($totalbank, 2); ?>
+                    </td>
+                </tr>
 
-                $totalcash = $netCash - $netcashrefund;
-                $totalcard = $netcard - $netcardrefund;
-                $totalbank = $netbank - $netbankrefund;
-            ?>
-            <td></td>
-
-            <!-- Cash Section -->
-            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
-                <?php echo number_format($netCash, 2); ?>
-            </td>
-            <td style="border-bottom: 2px solid grey;">
-                <?php echo number_format($netcashrefund, 2); ?>
-            </td>
-            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
-                <?php echo number_format($totalcash, 2); ?>
-            </td>
-
-            <!-- Card Section -->
-            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
-                <?php echo number_format($netcard, 2); ?>
-            </td>
-            <td style="border-bottom: 2px solid grey;">
-                <?php echo number_format($netcardrefund, 2); ?>
-            </td>
-            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
-                <?php echo number_format($totalcard, 2); ?>
-            </td>
-
-            <!-- Bank Section -->
-            <td style="border-left: 2px solid grey; border-bottom: 2px solid grey;">
-                <?php echo number_format($netbank, 2); ?>
-            </td>
-            <td style="border-bottom: 2px solid grey;">
-                <?php echo number_format($netbankrefund, 2); ?>
-            </td>
-            <td style="border-bottom: 2px solid grey; border-right: 2px solid grey;">
-                <?php echo number_format($totalbank, 2); ?>
-            </td>
-        </tr>
-
-    </tbody>
-</table>
+                    </tbody>
+                </table>
 <br>
 
 </body>

@@ -3131,7 +3131,7 @@
             
         }
         
-        public function get_ipd_total_report () {
+        public function get_ipd_total_report ($type = null){
             
             $start_date = $this -> input -> get ( 'start_date' );
             $end_date   = $this -> input -> get ( 'end_date' );
@@ -3160,6 +3160,10 @@
             if ( isset( $user_id ) and $user_id > 0 ) {
                 $this -> db -> where ( 'user_id', $user_id );
             }
+            if ($type) {
+                $this->db->where('type', $type);
+            }
+        
             
             $query = $this -> db -> get ();
             return $query -> row () -> net;
@@ -3195,6 +3199,112 @@
                 $this -> db -> where ( 'user_id', $user_id );
             }
             
+            $query = $this -> db -> get ();
+            return $query -> row () -> net;
+        }
+
+        public function get_ipd_by_panel_cash ( $panel_id ) {
+            
+            $start_date = $this -> input -> get ( 'start_date' );
+            $end_date   = $this -> input -> get ( 'end_date' );
+            $start_time = $this -> input -> get ( 'start_time' );
+            $end_time   = $this -> input -> get ( 'end_time' );
+            $user_id    = $this -> input -> get ( 'user_id' );
+            
+            $this
+                -> db
+                -> select ( 'SUM(amount) as net' )
+                -> from ( 'ipd_sale_payments' )
+                -> where ( "patient_id IN (Select id FROM hmis_patients WHERE panel_id=$panel_id)" );
+            
+            if ( isset( $start_date ) and !empty( trim ( $start_date ) ) and isset( $end_date ) and !empty( trim ( $end_date ) ) ) {
+                $start_date = date ( 'Y-m-d', strtotime ( $start_date ) );
+                $end_date   = date ( 'Y-m-d', strtotime ( $end_date ) );
+                $this -> db -> where ( "DATE(date_added) Between '$start_date' and '$end_date'" );
+            }
+            
+            if ( isset( $start_time ) and isset( $end_time ) and !empty( $start_time ) and !empty( $end_time ) ) {
+                $start_time = date ( 'H:i:s', strtotime ( $start_time ) );
+                $end_time   = date ( 'H:i:s', strtotime ( $end_time ) );
+                $this -> db -> where ( "TIME(date_added) BETWEEN '$start_time' and '$end_time'" );
+            }
+            
+            if ( isset( $user_id ) and $user_id > 0 ) {
+                $this -> db -> where ( 'user_id', $user_id );
+            }
+            $this->db->where('type', 'cash');
+            $query = $this -> db -> get ();
+            return $query -> row () -> net;
+        }
+
+
+        public function get_ipd_card_by_panel ( $panel_id ) {
+            
+            $start_date = $this -> input -> get ( 'start_date' );
+            $end_date   = $this -> input -> get ( 'end_date' );
+            $start_time = $this -> input -> get ( 'start_time' );
+            $end_time   = $this -> input -> get ( 'end_time' );
+            $user_id    = $this -> input -> get ( 'user_id' );
+            
+            $this
+                -> db
+                -> select ( 'SUM(amount) as net' )
+                -> from ( 'ipd_sale_payments' )
+                -> where ( "patient_id IN (Select id FROM hmis_patients WHERE panel_id=$panel_id)" );
+            
+            if ( isset( $start_date ) and !empty( trim ( $start_date ) ) and isset( $end_date ) and !empty( trim ( $end_date ) ) ) {
+                $start_date = date ( 'Y-m-d', strtotime ( $start_date ) );
+                $end_date   = date ( 'Y-m-d', strtotime ( $end_date ) );
+                $this -> db -> where ( "DATE(date_added) Between '$start_date' and '$end_date'" );
+            }
+            
+            if ( isset( $start_time ) and isset( $end_time ) and !empty( $start_time ) and !empty( $end_time ) ) {
+                $start_time = date ( 'H:i:s', strtotime ( $start_time ) );
+                $end_time   = date ( 'H:i:s', strtotime ( $end_time ) );
+                $this -> db -> where ( "TIME(date_added) BETWEEN '$start_time' and '$end_time'" );
+            }
+            
+            if ( isset( $user_id ) and $user_id > 0 ) {
+                $this -> db -> where ( 'user_id', $user_id );
+            }
+            $this->db->where('type', 'card');
+
+            $query = $this -> db -> get ();
+            return $query -> row () -> net;
+        }
+        
+
+        public function get_ipd_bank_by_panel ( $panel_id ) {
+            
+            $start_date = $this -> input -> get ( 'start_date' );
+            $end_date   = $this -> input -> get ( 'end_date' );
+            $start_time = $this -> input -> get ( 'start_time' );
+            $end_time   = $this -> input -> get ( 'end_time' );
+            $user_id    = $this -> input -> get ( 'user_id' );
+            
+            $this
+                -> db
+                -> select ( 'SUM(amount) as net' )
+                -> from ( 'ipd_sale_payments' )
+                -> where ( "patient_id IN (Select id FROM hmis_patients WHERE panel_id=$panel_id)" );
+            
+            if ( isset( $start_date ) and !empty( trim ( $start_date ) ) and isset( $end_date ) and !empty( trim ( $end_date ) ) ) {
+                $start_date = date ( 'Y-m-d', strtotime ( $start_date ) );
+                $end_date   = date ( 'Y-m-d', strtotime ( $end_date ) );
+                $this -> db -> where ( "DATE(date_added) Between '$start_date' and '$end_date'" );
+            }
+            
+            if ( isset( $start_time ) and isset( $end_time ) and !empty( $start_time ) and !empty( $end_time ) ) {
+                $start_time = date ( 'H:i:s', strtotime ( $start_time ) );
+                $end_time   = date ( 'H:i:s', strtotime ( $end_time ) );
+                $this -> db -> where ( "TIME(date_added) BETWEEN '$start_time' and '$end_time'" );
+            }
+            
+            if ( isset( $user_id ) and $user_id > 0 ) {
+                $this -> db -> where ( 'user_id', $user_id );
+            }
+            $this->db->where('type', 'bank');
+
             $query = $this -> db -> get ();
             return $query -> row () -> net;
         }

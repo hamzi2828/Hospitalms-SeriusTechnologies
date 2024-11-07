@@ -85,7 +85,12 @@
                             <th> Balance</th>
                             <th> Doctor's Share (%)</th>
                             <th> Doctor's Share Value</th>
+                            <!-- added -->
+                            <th>Payment Method</th>
+                            <th>Chq/Trans. No</th>
                             <th> Internal Remarks</th>
+                            <th>Refunded</th>
+                            <th>Refund Reason</th>
                             <th> Date</th>
                             <th> Actions</th>
                         </tr>
@@ -173,6 +178,14 @@
                                                 }
                                             ?>
                                         </td>
+                                        <td style="font-weight: normal;">
+                                        <?php echo ucfirst($sale_info->payment_method); ?>
+                                          </td>
+                                          <td align="left"><?php echo $sale_info->transaction_no; ?></td>
+                                        <td align="left"><?php echo $sale_info->internal_remarks; ?></td>
+                                        <td align="left"><?php echo ($sale->refunded == '1') ? 'Yes' : 'No'; ?></td>
+                                        <td align="left"><?php echo $sale->remarks; ?></td>
+
                                         <td><?php echo $sale_info -> internal_remarks ?></td>
                                         <td><?php echo date_setter ( $sale -> date_added ) ?></td>
                                         <td class="btn-group-xs">

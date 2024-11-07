@@ -110,13 +110,29 @@ mpdf-->
     <?php
         if ( count ( $sales ) > 0 ) {
             $counter = 1;
+            $total_balance = 0;
+            $total_net_price = 0;
+            $total_paid_amount = 0;
+            $total_price = 0;
             foreach ( $sales as $sale ) {
                 $sale_info = get_lab_sale ( $sale -> sale_id );
                 $patient   = get_patient ( $sale -> patient_id );
                 $saleTotal = get_lab_sales_total ( $sale -> sale_id );
                 $panel_id  = $patient -> panel_id;
                 $balance   = $sale_info -> total - $sale_info -> paid_amount;
+
+                  
+               
+
+                   
+
                 if ( $balance > 0 ) {
+ // Add to each total
+                    $total_balance += $balance;
+                    $total_net_price += $sale_info->total;
+                    $total_paid_amount += $sale_info->paid_amount;
+                    $total_price += ($sale->refunded == '1' && !empty(trim($sale->remarks))) ? $saleTotal : $sale->price;
+                   
                     ?>
                     <tr>
                         <td><?php echo $counter++; ?></td>
@@ -162,6 +178,20 @@ mpdf-->
         }
     ?>
     </tbody>
+
+
+    <tfoot>
+    <tr>
+        <td colspan="6" align="right"><strong>Total:</strong></td>
+        <td align="left"><strong><?php echo number_format($total_price, 2); ?></strong></td>
+        <td></td>
+        <td></td>
+        <td align="left"><strong><?php echo number_format($total_net_price, 2); ?></strong></td>
+        <td align="left"><strong><?php echo number_format($total_paid_amount, 2); ?></strong></td>
+        <td align="left"><strong><?php echo number_format($total_balance, 2); ?></strong></td>
+        <td></td>
+    </tr>
+    </tfoot>
 </table>
 </body>
 </html>

@@ -92,7 +92,7 @@
                         <th> Payment Method</th>
                         <th> Chq/Trans. No</th>
                         <th> Refunded</th>
-                        <th> Refund Remarks</th>
+                        <th> Refund Reason</th>
                         <th> Invoice Remarks</th>
                         <th> Date Added</th>
                         <th> Actions</th>

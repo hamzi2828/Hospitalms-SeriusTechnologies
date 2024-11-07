@@ -5898,7 +5898,11 @@
             $data[ 'bank_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'bank' );
             // $data[ 'lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total ();
             
-            $data[ 'ipd_total' ]   = $this -> IPDModel -> get_ipd_total_report ();
+            // $data[ 'ipd_total' ]   = $this -> IPDModel -> get_ipd_total_report ();
+            $data[ 'ipd_total_cash' ]   = $this -> IPDModel -> get_ipd_total_report ('cash');
+            $data[ 'ipd_total_card' ]   = $this -> IPDModel -> get_ipd_total_report ('card');   
+            $data[ 'ipd_total_bank' ]   = $this -> IPDModel -> get_ipd_total_report ('bank');
+
             $data[ 'users' ]       = $this -> UserModel -> get_users ();
             $data[ 'panels' ]      = $this -> PanelModel -> get_panels ();
             $data[ 'consultants' ] = $this -> AccountModel -> get_consultants ( CONSULTANCY_SHARES_DOCTOR );

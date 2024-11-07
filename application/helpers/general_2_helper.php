@@ -798,6 +798,21 @@
         $ci -> load -> model ( 'IPDModel' );
         return $ci -> IPDModel -> get_ipd_cash_by_panel ( $panel_id );
     }
+    function get_ipd_by_panel_cash ( $panel_id ) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'IPDModel' );
+        return $ci -> IPDModel -> get_ipd_by_panel_cash ( $panel_id );
+    }
+    function get_ipd_card_by_panel ( $panel_id ) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'IPDModel' );
+        return $ci -> IPDModel -> get_ipd_card_by_panel ( $panel_id );
+    }
+    function get_ipd_bank_by_panel ( $panel_id ) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'IPDModel' );
+        return $ci -> IPDModel -> get_ipd_bank_by_panel ( $panel_id );
+    }
     
     function get_sum_patient_ipd_associated_services_consolidated_not_in_type ( $sale_id ) {
         $ci = &get_instance ();

@@ -290,10 +290,10 @@ mpdf-->
                 <tr>
                     <td></td>
                     <td colspan="4" style="text-align: right">
-                        <strong>Balance</strong>
+                        <strong>Balassnce</strong>
                     </td>
                     <td style="text-align: center">
-                        <h4><?php echo number_format ( $sale_info -> total - $sale_info -> paid_amount, 2 ); ?></h4>
+                        <h4><?php echo number_format ( $sale_info -> total + $sale_info -> paid_amount, 2 ); ?></h4>
                     </td>
                 </tr>
                 <?php

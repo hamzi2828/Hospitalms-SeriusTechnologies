@@ -168,7 +168,22 @@ mpdf-->
                 <?php echo number_format ( $payment -> amount, 2 ); ?>
             </td>
         </tr>
+
+    
     <?php endif; ?>
+
+    <?php if ( !empty( trim ( $payment -> type ) ) ) : ?>
+        <tr>
+            <td width="30%">
+                <strong>Payment Type :</strong>
+            </td>
+            <td>
+                <?php echo $payment -> type?>
+            </td>
+        </tr>
+    
+    <?php endif; ?>
+
     
     <?php if ( !empty( trim ( $payment -> date_added ) ) ) : ?>
         <tr>
@@ -180,6 +195,19 @@ mpdf-->
             </td>
         </tr>
     <?php endif; ?>
+
+        
+    <?php if ( !empty( trim ( $payment -> description ) ) ) : ?>
+        <tr>
+            <td width="30%">
+                <strong>Description:</strong>
+            </td>
+            <td>
+                <?php echo  $payment -> description ?>
+            </td>
+        </tr>
+    <?php endif; ?>
+
     </tbody>
 </table>
 
