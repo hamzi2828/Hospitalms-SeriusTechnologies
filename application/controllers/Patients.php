@@ -283,7 +283,37 @@
                     $this -> load -> model ( 'LogModel' );
                     $this -> LogModel -> create_log ( 'patient_logs', $log );
                     
-                    $this -> session -> set_flashdata ( 'response', 'Success! Patient added. EMR# ' . $patient_id );
+                    // $this -> session -> set_flashdata ( 'response', 'Success! Patient added. EMR# ' . $patient_id );
+                    $this->session->set_flashdata(
+                        'response',
+                        '<div style="display: flex; align-items: center; background-color: #d4edda; padding: 10px; border-radius: 5px;">
+                            <span style="flex: 1; font-size: 16px; color: #155724; font-weight: bold;">Success! Patient added. EMR# ' . $patient_id . '</span>
+                            <div style="display: flex; gap: 10px;">
+                                <form method="get" action="' . base_url('/consultancy/add') . '" style="margin: 0;">
+                                    <input type="hidden" name="patient_id" value="' . $patient_id . '">
+                                    <button type="submit" class="btn btn-primary">Add Consultancy</button>
+                                </form>
+                                 <form method="get" action="' . base_url('/OPD/sale') . '" style="margin: 0;">
+                                    <input type="hidden" name="patient_id" value="' . $patient_id . '">
+                                    <button type="submit" class="btn btn-success">OPD</button>
+                                </form>
+                                 <form method="get" action="' . base_url('/lab/sale') . '" style="margin: 0;">
+                                    <input type="hidden" name="patient_id" value="' . $patient_id . '">
+                                    <button type="submit" class="btn btn-info">Lab</button>
+                                </form>
+
+                                <form method="get" action="' . base_url('/IPD/sale') . '" style="margin: 0;">
+                                    <input type="hidden" name="patient_id" value="' . $patient_id . '">
+                                     <button type="submit" class="btn btn-warning">IPD</button>
+                                </form>
+                            </div>
+                        </div>'
+                    );
+                    
+                    
+                    
+                    
+                    
                     return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
 //                    if ( isset( $_POST[ 'redirect' ] ) and !empty( trim ( $_POST[ 'redirect' ] ) ) )
 //                        return redirect ( $_POST[ 'redirect' ] . '?patient=' . $patient_id . '&redirect=' . base_url ( '/lab/airline-details' ) );

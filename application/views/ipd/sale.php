@@ -33,13 +33,28 @@
                     <input type="hidden" id="added" value="1">
                     <div class="form-body">
                         <div class="row">
-                            <div class="form-group col-lg-2">
-                                <label for="exampleInputEmail1"><?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?></label>
-                                <input type="text" name="patient_id" class="form-control" placeholder="Add <?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?>"
-                                       autofocus="autofocus" value="<?php echo set_value ( 'patient_id' ) ?>"
-                                       required="required" onchange="get_patient(this.value)">
-                                <!--  onchange="check_if_patient_has_admission_order(this.value)" -->
-                            </div>
+                        <div class="form-group col-lg-2">
+                        <label for="exampleInputEmail1"><?php echo $this->lang->line('PATIENT_EMR'); ?></label>
+                        <input type="text" 
+                            name="patient_id" 
+                            class="form-control" 
+                            placeholder="Add <?php echo $this->lang->line('PATIENT_EMR'); ?>"
+                            autofocus="autofocus" 
+                            value="<?php echo isset($patient_id) ? $patient_id : set_value('patient_id'); ?>"
+                            required="required" 
+                            id="patient_id" 
+                            onchange="get_patient(this.value)">
+                    </div>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const patientId = document.getElementById('patient_id').value;
+                            if (patientId) {
+                                get_patient(patientId);
+                            }
+                        });
+                    </script>
+
                             <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">Name</label>
                                 <input type="text" class="form-control name" id="patient-name" readonly="readonly">

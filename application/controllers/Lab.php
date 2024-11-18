@@ -880,6 +880,14 @@
         
         public function sale () {
             
+
+            
+            $patient_id = $this->input->get('patient_id');
+    
+            if (!empty($patient_id)) {
+                $data['patient_id'] = $patient_id; 
+            }
+
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_sale_lab_test' )
                 $this -> do_sale_lab_test ();
             

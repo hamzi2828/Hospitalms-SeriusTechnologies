@@ -29,23 +29,38 @@
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-globe"></i> Sale Tests
+                        <i class="fa fa-globe"></i> Sale Tests 
+
                     </div>
                 </div>
                 <div class="portlet-body" style="overflow: hidden">
                     <div class="row">
                         <div style="display: flex; width: 100%; float: left;;">
-                            <div class="form-group col-lg-3" style="position: relative">
-                                <label for="exampleInputEmail1">MR No.</label>
-                                <input type="text" name="patient_id" class="form-control patient-id"
-                                       placeholder="Enter MR after <?php echo emr_prefix ?> e.g 5240"
-                                       autofocus="autofocus"
-                                       style="padding-left: 85px;"
-                                       value="<?php echo @$_GET[ 'patient' ] ?>"
-                                       required="required" id="prn"
-                                       onchange="get_patient_and_load_tests ( this.value )">
-                                <label style="position: absolute;top: 25px;background: #e3e3e3;padding: 7px 25px;">MR-</label>
-                            </div>
+                        <div class="form-group col-lg-3" style="position: relative">
+                            <label for="exampleInputEmail1">MR No.</label>
+                            <input 
+                                type="text" 
+                                name="patient_id" 
+                                class="form-control patient-id"
+                                placeholder="Enter MR after <?php echo emr_prefix; ?> e.g., 5240"
+                                autofocus="autofocus"
+                                style="padding-left: 85px;"
+                                value="<?php echo isset($patient_id) ? htmlspecialchars($patient_id, ENT_QUOTES) : ''; ?>"
+                                required="required" 
+                                id="prn"
+                                onchange="get_patient_and_load_tests(this.value)">
+                            <label style="position: absolute; top: 25px; background: #e3e3e3; padding: 7px 25px;">MR-</label>
+                        </div>
+
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                        const patientIdField = document.getElementById('prn');
+                        if (patientIdField && patientIdField.value) {
+                            get_patient_and_load_tests(patientIdField.value);
+                        }
+                    });
+                    </script>
+
                             <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1"><?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></label>
                                 <input type="text" class="form-control" readonly="readonly" id="patient-name">

@@ -38,14 +38,28 @@
                         
                         <div class="row">
                             <div style="display: flex; width: 100%; float: left;">
-                                <div class="form-group col-lg-4">
-                                    <label for="patient_id"><?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?></label>
-                                    <input type="text" name="patient_id" class="form-control"
-                                           placeholder="Add <?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?>"
-                                           autofocus="autofocus" value="<?php echo set_value ( 'patient_id' ) ?>"
-                                           required="required" id="patient_id"
-                                           onchange="get_patient_and_load_services(this.value)">
-                                </div>
+                            <div class="form-group col-lg-4">
+                                <label for="patient_id"><?php echo $this->lang->line('PATIENT_EMR'); ?></label>
+                                <input type="text" 
+                                    name="patient_id" 
+                                    class="form-control"
+                                    placeholder="Add <?php echo $this->lang->line('PATIENT_EMR'); ?>"
+                                    autofocus="autofocus" 
+                                    value="<?php echo isset($patient_id) ? $patient_id : set_value('patient_id'); ?>"
+                                    required="required" 
+                                    id="patient_id"
+                                    onchange="get_patient_and_load_services(this.value)">
+                            </div>
+
+                                    <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        const patientId = document.getElementById('patient_id').value;
+                                        if (patientId) {
+                                            get_patient_and_load_services(patientId);
+                                        }
+                                    });
+                                </script>
+
                                 <div class="form-group col-lg-4">
                                     <label for="patient-name"><?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></label>
                                     <input type="text" class="form-control name" id="patient-name" readonly="readonly">

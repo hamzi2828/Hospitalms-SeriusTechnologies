@@ -170,7 +170,12 @@
          */
         
         public function add () {
-            
+             
+            $patient_id = $this->input->get('patient_id'); 
+
+            if (!empty($patient_id)) {
+                $data['patient_id'] = $patient_id;
+            } 
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_add_consultancy' )
                 $this -> do_add_consultancy ( $_POST );
             
@@ -179,6 +184,7 @@
             $this -> sidebar ();
             $data[ 'specializations' ] = $this -> DoctorModel -> get_specializations ();
             $data[ 'references' ]      = $this -> OnlineReferenceModel -> get_references ();
+          
             $this -> load -> view ( '/consultancy/add', $data );
             $this -> footer ();
         }
