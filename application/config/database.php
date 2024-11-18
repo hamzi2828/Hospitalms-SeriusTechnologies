@@ -9,7 +9,7 @@
         'hostname'     => 'localhost',
         'username'     => 'root',
         'password'     => '',
-        'database'     => 'seriousTech_devhmis',
+        'database'     => 'dev_Hims',
         'dbdriver'     => 'mysqli',
         'dbprefix'     => 'hmis_',
         'pconnect'     => FALSE,
