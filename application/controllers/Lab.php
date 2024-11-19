@@ -1134,7 +1134,7 @@
                         foreach ( $tests as $key => $test_id ) {
                             if ( !empty( $test_id ) and $test_id > 0 ) {
                                 $test = $this -> LabModel -> get_test_by_id ( $test_id );
-//                            $sub_tests = $this -> LabModel -> get_active_child_tests ( $test_id );
+                    //  $sub_tests = $this -> LabModel -> get_active_child_tests ( $test_id );
                                 $sub_tests = array ();
                                 
                                 $info[ 'user_id' ]    = get_logged_in_user_id ();
@@ -1247,10 +1247,14 @@
                     
                     $print = '<strong><a href="' . base_url ( '/invoices/lab-sale-invoice/' . $sale_id ) . '" target="_blank">Print</a></strong>';
                     
-                    if ( $sale_id > 0 )
+                    if ( $sale_id > 0 ){
                         $this -> session -> set_flashdata ( 'response', 'Success! Lab sale has been added. ' . $print );
-                    else
+                        return redirect(base_url('/lab/sale'));
+                    }
+                    else{
                         $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
+
+                    }
                     
                     return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
                 }

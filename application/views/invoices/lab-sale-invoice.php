@@ -293,7 +293,8 @@ mpdf-->
                         <strong>Balance</strong>
                     </td>
                     <td style="text-align: center">
-                        <h4><?php echo number_format ( $sale_info -> total - $sale_info -> paid_amount, 2 ); ?></h4>
+                    <h4><?php echo number_format($sale_info->paid_amount  - abs($sale_info->total), 2); ?></h4>
+
                     </td>
                 </tr>
                 <?php
