@@ -15,6 +15,7 @@
     
     <div class="col-lg-4">
         <label><strong>Report Collection Date & Time</strong></label>
-        <input type="datetime-local" name="report-collection-date-time[]" class="form-control">
+        <input type="datetime-local" name="report-collection-date-time[]" class="form-control"
+        value="<?php echo isset($default_datetime) ? $default_datetime : '' ?>">
     </div>
 </div>

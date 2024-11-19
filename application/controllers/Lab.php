@@ -879,9 +879,7 @@
          */
         
         public function sale () {
-            
 
-            
             $patient_id = $this->input->get('patient_id');
     
             if (!empty($patient_id)) {
@@ -4049,6 +4047,7 @@
             $test_id  = $this -> input -> post ( 'test_id', true );
             $panel_id = $this -> input -> post ( 'panel_id', true );
             $row      = $this -> input -> post ( 'row', true );
+            $default_datetime = $this->input->post('default_datetime', true);
             
             if ( $test_id > 0 ) {
                 $test  = get_test_by_id ( $test_id );
@@ -4057,7 +4056,8 @@
                 $array = array (
                     'test'  => $test,
                     'price' => !empty( $price ) ? $price -> price : '0',
-                    'row'   => $row
+                    'row'   => $row,
+                    'default_datetime' => $default_datetime 
                 );
                 
                 $this -> load -> view ( '/lab/load-sale-lab-tests', $array );
