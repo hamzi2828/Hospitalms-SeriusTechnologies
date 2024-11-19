@@ -143,7 +143,7 @@
                            id="print-selected" target="_blank" class="pull-right print-btn">Print Selected</a>
                     <?php endif; ?>
                 </div>
-                <div class="portlet-body">
+               <div class="portlet-body" style="overflow: auto">
                     <form method="post">
                         <input type="hidden" name="<?php echo $this -> security -> get_csrf_token_name (); ?>"
                                value="<?php echo $this -> security -> get_csrf_hash (); ?>">

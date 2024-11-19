@@ -49,7 +49,7 @@
                 <?php endif; ?>
             </div>
             <?php if ( isset( $start_date ) and !empty( $start_date ) and isset( $end_date ) and !empty( $end_date ) ) : ?>
-                <div class="portlet-body">
+               <div class="portlet-body" style="overflow: auto">
                     <table class="table table-striped table-bordered table-hover" id="excel-table">
                         <thead>
                         <tr>

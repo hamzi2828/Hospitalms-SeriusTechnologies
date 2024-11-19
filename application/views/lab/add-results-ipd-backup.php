@@ -40,7 +40,7 @@
                         <i class="fa fa-globe"></i> Add Test Results
                     </div>
                 </div>
-                <div class="portlet-body">
+               <div class="portlet-body" style="overflow: auto">
                     <form method="post">
                         <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                         <input type="hidden" name="action" value="do_add_test_results_ipd">

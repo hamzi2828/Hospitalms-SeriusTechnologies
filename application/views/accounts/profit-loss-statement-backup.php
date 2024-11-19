@@ -39,7 +39,7 @@
                     echo base_url ( '/invoices/profit-loss-statement?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"
                    class="pull-right print-btn">Print</a>
             </div>
-            <div class="portlet-body">
+           <div class="portlet-body" style="overflow: auto">
                 <table class="table table-striped table-bordered table-hover" id="">
                     <thead>
                     <tr>

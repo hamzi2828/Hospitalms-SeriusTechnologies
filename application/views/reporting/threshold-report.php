@@ -11,7 +11,7 @@
                     <a href="<?php echo base_url('/invoices/threshold-report'); ?>" class="pull-right print-btn">Print</a>
                 <?php endif ?>
             </div>
-            <div class="portlet-body">
+           <div class="portlet-body" style="overflow: auto">
                 <table class="table table-bordered" id="sample_1">
                     <thead>
                     <tr>

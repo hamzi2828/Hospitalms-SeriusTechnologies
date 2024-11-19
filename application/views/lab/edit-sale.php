@@ -24,7 +24,7 @@
                         <i class="fa fa-globe"></i> Sale Tests Against Sale# <?php echo $this -> uri -> segment ( 3 ) ?>
                     </div>
                 </div>
-                <div class="portlet-body">
+               <div class="portlet-body" style="overflow: auto">
                     <table class="table table-striped table-bordered table-hover" id="sample_1">
                         <thead>
                         <tr>

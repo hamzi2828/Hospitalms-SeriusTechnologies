@@ -84,7 +84,7 @@
         <div class="portlet box blue">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-reorder"></i> General Report ss(Panel)
+                    <i class="fa fa-reorder"></i> General Report(Panel)
                 </div>
                 <?php if ( count ( $consultancies ) > 0 ) : ?>
                     <a href="<?php echo base_url ( '/invoices/consultancy-general-report-panel?' . $_SERVER[ 'QUERY_STRING' ] . '&action=print-consultancy-report' ); ?>"
@@ -95,7 +95,7 @@
                 <?php endif ?>
                 
             </div>
-            <div class="portlet-body">
+            <div class="portlet-body" style="overflow: auto">
                 <table class="table table-striped table-bordered table-hover" id="general-report-panel">
                     <thead>
                     <tr>

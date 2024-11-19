@@ -68,7 +68,7 @@
                         <i class="fa fa-globe"></i> Added Test Results (IPD)
                     </div>
                 </div>
-                <div class="portlet-body">
+               <div class="portlet-body" style="overflow: auto">
                     <form method="post">
                         <input type="hidden" name="<?php echo $this -> security -> get_csrf_token_name (); ?>"
                                value="<?php echo $this -> security -> get_csrf_hash (); ?>">

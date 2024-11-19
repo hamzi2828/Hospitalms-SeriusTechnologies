@@ -23,7 +23,7 @@
                     <i class="fa fa-globe"></i> Calibrations
                 </div>
             </div>
-            <div class="portlet-body">
+           <div class="portlet-body" style="overflow: auto">
                 <table class="table table-striped table-bordered table-hover" id="sample_1">
                     <thead>
                     <tr>

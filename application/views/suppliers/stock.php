@@ -9,7 +9,7 @@
                     <i class="fa fa-globe"></i> Stocks By Supplier - <?php echo $supplier -> name ?>
                 </div>
             </div>
-            <div class="portlet-body">
+           <div class="portlet-body" style="overflow: auto">
                 <?php if(validation_errors() != false) { ?>
                     <div class="alert alert-danger validation-errors">
                         <?php echo validation_errors(); ?>

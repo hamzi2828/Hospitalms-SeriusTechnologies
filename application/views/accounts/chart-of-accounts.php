@@ -27,7 +27,7 @@
                     Print
                 </a>
             </div>
-            <div class="portlet-body">
+           <div class="portlet-body" style="overflow: auto">
                 
                 <table class="table table-bordered table-responsive">
                     <thead>

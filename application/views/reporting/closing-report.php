@@ -32,7 +32,7 @@
         <a href="<?php echo base_url('/invoices/closing-report?' . $_SERVER['QUERY_STRING']); ?>" target="_blank" class="pull-right print-btn">Print</a>
     </div>
 
-    <div class="portlet-body">
+   <div class="portlet-body" style="overflow: auto">
         <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>

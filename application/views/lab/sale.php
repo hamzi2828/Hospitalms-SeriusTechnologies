@@ -45,7 +45,7 @@
                         <i class="fa fa-globe"></i> Sale Tests
                     </div>
                 </div>
-                <div class="portlet-body">
+               <div class="portlet-body" style="overflow: auto">
                     <table class="table table-striped table-bordered table-hover" id="sample_1">
                         <thead>
                         <tr>
@@ -104,7 +104,7 @@
                         <i class="fa fa-globe"></i> Added tests - (<small>ID: <?php echo $sale_id ?></small>)
                     </div>
                 </div>
-                <div class="portlet-body">
+               <div class="portlet-body" style="overflow: auto">
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                         <tr>

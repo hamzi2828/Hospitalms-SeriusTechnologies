@@ -8,7 +8,7 @@
                     <i class="fa fa-globe"></i> Company Members
                 </div>
             </div>
-            <div class="portlet-body">
+           <div class="portlet-body" style="overflow: auto">
                 <?php if(validation_errors() != false) { ?>
                     <div class="alert alert-danger validation-errors">
                         <?php echo validation_errors(); ?>

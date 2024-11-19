@@ -46,7 +46,7 @@
                    class="pull-right print-btn">Download Excel</a>
             
             </div>
-            <div class="portlet-body">
+           <div class="portlet-body" style="overflow: auto">
                 <table class="table table-striped table-bordered table-hover" id="excel-table">
                     <thead>
                     <tr>

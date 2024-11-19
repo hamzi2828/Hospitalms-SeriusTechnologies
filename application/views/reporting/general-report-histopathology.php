@@ -64,7 +64,7 @@
                        class="pull-right print-btn">Print</a>
                 <?php endif ?>
             </div>
-            <div class="portlet-body">
+           <div class="portlet-body" style="overflow: auto">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                     <tr>

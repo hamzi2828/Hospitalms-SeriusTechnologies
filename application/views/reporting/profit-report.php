@@ -59,7 +59,7 @@
                        class="pull-right print-btn">Print</a>
                 <?php endif ?>
             </div>
-            <div class="portlet-body">
+           <div class="portlet-body" style="overflow: auto">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                     <tr>
@@ -221,7 +221,7 @@
                     <i class="fa fa-reorder"></i> General Report - Sale Return
                 </div>
             </div>
-            <div class="portlet-body">
+           <div class="portlet-body" style="overflow: auto">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                     <tr>

@@ -85,7 +85,7 @@
                     <i class="fa fa-globe"></i> All Issued Items
                 </div>
             </div>
-            <div class="portlet-body">
+           <div class="portlet-body" style="overflow: auto">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                     <tr>

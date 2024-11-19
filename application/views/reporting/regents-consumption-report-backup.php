@@ -62,7 +62,7 @@
                     <a href="<?php echo base_url('/invoices/regents-consumption-invoice?'.$_SERVER['QUERY_STRING']) ?>" class="pull-right print-btn" target="_blank">Print</a>
 				<?php endif ?>
             </div>
-            <div class="portlet-body">
+           <div class="portlet-body" style="overflow: auto">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>

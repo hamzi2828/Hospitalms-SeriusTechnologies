@@ -24,7 +24,7 @@
                         <i class="fa fa-globe"></i> Add Test Results
                     </div>
                 </div>
-                <div class="portlet-body">
+               <div class="portlet-body" style="overflow: auto">
                     <?php $testResult = @get_ipd_test_result_associated_to_sale_table_id ( $_REQUEST[ 'sale-id' ], $_REQUEST[ 'test-id' ], $_GET[ 'sale-table-id' ] ); ?>
                     <form method="post">
                         <input type="hidden" name="<?php echo $this -> security -> get_csrf_token_name (); ?>"
