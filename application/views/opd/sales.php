@@ -119,6 +119,7 @@
                         <th> Chq/Trans. No</th>
                         <th> Refunded</th>
                         <th> Refund Reason</th>
+                         <th>Invoice Remarks</th>
                         <th> Date Added</th>
                         <th> Actions</th>
                     </tr>
@@ -202,6 +203,8 @@
 
                                     <td><?php echo $refunded ?></td>
                                     <td><?php echo $sale_info -> refund_reason ?></td>
+                                    <td><?php echo $sale_info -> remarks ?></td>
+
                                     <td><?php echo date_setter ( $sale -> date_added ) ?></td>
                                     <td class="btn-group-xs">
                                         <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_opd_invoices', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
