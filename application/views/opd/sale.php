@@ -155,50 +155,59 @@
                         </div>
                         
                         <div class="row margin-top-20">
-                            <div class="col-lg-2 col-lg-offset-7" style="text-align: right;">
-                                <strong>Doc. Share (%)</strong>
+
+                        <div class="row">
+
+                            <div class="col-lg-5" style="margin-left: 20px;">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Remarks</label>
+                                    <textarea class="form-control" name="remarks" rows="5"></textarea>
+                                </div>
                             </div>
-                            <div class="col-lg-3" style="margin-bottom: 5px;">
-                                <input type="number" step="0.01" required="required" class="form-control"
-                                       name="doctor-share" min="0" max="100">
+
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-5 text-right"><strong>Doc. Share (%)</strong></label>
+                                    <div class="col-lg-7">
+                                        <input type="number" step="0.01" required="required" class="form-control" name="doctor-share" min="0" max="100">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-5 text-right"><strong>G.Total</strong></label>
+                                    <div class="col-lg-7">
+                                        <input type="text" class="form-control total" name="total_sum_opd_services" readonly="readonly">
+                                        <input type="hidden" id="total-net-price" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-5 text-right"><strong>Disc(Flat)</strong></label>
+                                    <div class="col-lg-7">
+                                        <input type="text" class="form-control flat_discount" required="required" name="flat_discount"
+                                            onchange="calculate_opd_sale_discount()" value="0"
+                                            <?php if (!in_array('add_opd_discount', explode(',', $access->access))) : ?> readonly="readonly" <?php endif ?>>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-5 text-right"><strong>Disc(%)</strong></label>
+                                    <div class="col-lg-7">
+                                        <input type="text" class="form-control sale_discount grand_total_discount" required="required"
+                                            name="sale_discount" onchange="calculate_opd_sale_discount()" value="0"
+                                            <?php if (!in_array('add_opd_discount', explode(',', $access->access))) : ?> readonly="readonly" <?php endif ?>>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-5 text-right"><strong>Total</strong></label>
+                                    <div class="col-lg-7">
+                                        <input type="text" name="total" readonly="readonly" class="form-control grand_total">
+                                    </div>
+                                </div>
                             </div>
-                            
-                            <div class="col-lg-1 col-lg-offset-8" style="text-align: right;">
-                                <strong class="total-net-price">G.Total</strong>
-                            </div>
-                            <div class="col-lg-3" style="margin-bottom: 5px;">
-                                <input type="text" class="form-control total" name="total_sum_opd_services"
-                                       readonly="readonly">
-                                <input type="hidden" id="total-net-price" class="form-control" readonly="readonly">
-                            </div>
-                            
-                            <div class="col-lg-1 col-lg-offset-8" style="text-align: right;">
-                                <strong class="total-net-price">Disc(Flat)</strong>
-                            </div>
-                            <div class="col-lg-3" style="margin-bottom: 5px;">
-                                <input type="text" class="form-control flat_discount" required="required"
-                                       name="flat_discount" onchange="calculate_opd_sale_discount()"
-                                       value="0" <?php if ( !in_array ( 'add_opd_discount', explode ( ',', $access -> access ) ) ) : ?> readonly="readonly" <?php endif ?>>
-                            </div>
-                            
-                            <div class="col-lg-1 col-lg-offset-8" style="text-align: right;">
-                                <strong class="total-net-price">Disc(%)</strong>
-                            </div>
-                            <div class="col-lg-3" style="margin-bottom: 5px;">
-                                <input type="text" class="form-control sale_discount grand_total_discount"
-                                       required="required"
-                                       name="sale_discount" onchange="calculate_opd_sale_discount()"
-                                       value="0" <?php if ( !in_array ( 'add_opd_discount', explode ( ',', $access -> access ) ) ) : ?> readonly="readonly" <?php endif ?>>
-                            </div>
-                            
-                            <div class="col-lg-1 col-lg-offset-8" style="text-align: right;">
-                                <strong class="total-net-price">Total</strong>
-                            </div>
-                            <div class="col-lg-3" style="margin-bottom: 5px;">
-                                <input type="text" name="total" readonly="readonly" class="form-control grand_total">
-                            </div>
-                        
-                        </div>
+                      </div>
+
                     </div>
                     <div class="form-actions">
                         <button type="submit" class="btn blue">Submit</button>

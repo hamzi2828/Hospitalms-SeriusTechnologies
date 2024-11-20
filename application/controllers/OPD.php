@@ -804,6 +804,13 @@
             $patient_id   = $this -> input -> post ( 'patient_id' );
             $doctor_share = $this -> input -> post ( 'doctor-share' );
             $reference_id = $this -> input -> post ( 'reference-id' );
+            if ( !empty( $remarks ) ) {
+                $remarks = $this -> input -> post ( 'remarks' );
+            }
+            else {
+                $remarks = '';
+            }
+
          
             $patient      = get_patient ( $patient_id );
             $service_info = array ();
@@ -837,7 +844,8 @@
                     'doctor_share'    => $doctor_share,
                     'date_added'      => current_date_time (),
                     'reference_id'     =>$this -> input -> post ( 'reference-id' ),
-                );
+                    'remarks'          => $this -> input -> post ( 'remarks' )
+                ); 
                 $sale_id = $this -> OPDModel -> add_opd_sale ( $sale );
                 
                 $log = array (

@@ -291,7 +291,7 @@
                             <div style="display: flex; gap: 10px;">
                                 <form method="get" action="' . base_url('/consultancy/add') . '" style="margin: 0;">
                                     <input type="hidden" name="patient_id" value="' . $patient_id . '">
-                                    <button type="submit" class="btn btn-primary">Add Consultancy</button>
+                                    <button type="submit" class="btn btn-primary">Consultancy</button>
                                 </form>
                                  <form method="get" action="' . base_url('/OPD/sale') . '" style="margin: 0;">
                                     <input type="hidden" name="patient_id" value="' . $patient_id . '">
@@ -302,7 +302,7 @@
                                     <button type="submit" class="btn btn-info">Lab</button>
                                 </form>
 
-                                <form method="get" action="' . base_url('/IPD/sale') . '" style="margin: 0;">
+                                <form method="get" action="' . base_url('/IPD/sale') . '" style="margin: 0; max-width: 40px;">
                                     <input type="hidden" name="patient_id" value="' . $patient_id . '">
                                      <button type="submit" class="btn btn-warning">IPD</button>
                                 </form>
