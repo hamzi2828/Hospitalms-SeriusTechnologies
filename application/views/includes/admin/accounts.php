@@ -14,7 +14,7 @@
                         Chart of Accounts
                     </a>
                 </li>
-                
+
                 <li class="<?php if ( $child_uri == 'charts-of-accounts' )
                     echo 'active'; ?>">
                     <a href="<?php echo base_url ( '/accounts/charts-of-accounts' ) ?>">
@@ -137,6 +137,12 @@
                     echo 'active'; ?>">
                     <a href="<?php echo base_url ( '/accounts/trial_balance' ) ?>">
                         Trial Balance Sheet
+                    </a>
+                </li>
+                <li class="<?php if ( $child_uri == 'trial_balance' and !isset( $_GET[ 'detail' ]  ) )
+                    echo 'active'; ?>">
+                    <a href="<?php echo base_url ( '/accounts/trial_balance?balance_sheet_new=true' ) ?>">
+                        Trial Balance Sheet (New)
                     </a>
                 </li>
             <?php endif; ?>

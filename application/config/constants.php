@@ -1,6 +1,6 @@
 <?php
     defined ( 'BASEPATH' ) or exit( 'No direct script access allowed' );
-    
+
     /*
     |--------------------------------------------------------------------------
     | Display Debug backtrace
@@ -12,7 +12,7 @@
     |
     */
     defined ( 'SHOW_DEBUG_BACKTRACE' ) or define ( 'SHOW_DEBUG_BACKTRACE', TRUE );
-    
+
     /*
     |--------------------------------------------------------------------------
     | File and Directory Modes
@@ -30,7 +30,7 @@
     defined ( 'FILE_WRITE_MODE' ) or define ( 'FILE_WRITE_MODE', 0666 );
     defined ( 'DIR_READ_MODE' ) or define ( 'DIR_READ_MODE', 0755 );
     defined ( 'DIR_WRITE_MODE' ) or define ( 'DIR_WRITE_MODE', 0755 );
-    
+
     /*
     |--------------------------------------------------------------------------
     | File Stream Modes
@@ -47,7 +47,7 @@
     defined ( 'FOPEN_READ_WRITE_CREATE' ) or define ( 'FOPEN_READ_WRITE_CREATE', 'a+b' );
     defined ( 'FOPEN_WRITE_CREATE_STRICT' ) or define ( 'FOPEN_WRITE_CREATE_STRICT', 'xb' );
     defined ( 'FOPEN_READ_WRITE_CREATE_STRICT' ) or define ( 'FOPEN_READ_WRITE_CREATE_STRICT', 'x+b' );
-    
+
     /*
     |--------------------------------------------------------------------------
     | Exit Status Codes
@@ -85,16 +85,16 @@
     defined ( 'EXIT__AUTO_MAX' ) or define ( 'EXIT__AUTO_MAX', 125 );         // highest automatically-assigned error code
     define ( 'site_title', 'Kuwait Medical Complex' );
     define ( 'licenced', 'Sirius Technologies <br> Rapid Reporting Hospital Management System <br> Version 8.1' );
-    
+
     define ( 'site_email', 'info@hospital.com' );
     define ( 'site_name', 'General Dummy Hospital' );
     define ( 'site_slug', 'GDH' );
     define ( 'hospital_address', '<strong>Head Office:</strong> XYZ, ISB, RWP, PAK' );
     define ( 'hospital_phone', '05815-123654' );
-    
+
     define ( 'emr_prefix', '' );
     define ( 'db_prefix', 'hmis_' );
-    
+
     define ( 'supplier_id', 1 );
     define ( 'customer_id', 2 );
     define ( 'sales_id', 3 );
@@ -113,7 +113,7 @@
     define ( 'cash_from_opd_consultancy', 23 );
     define ( 'cash_from_opd_services', 64 );
     define ( 'local_purchase', 71 );
-   // define ( 'store_supplier', 791 );
+    define ( 'store_supplier', 791 );
     define ( 'lab_suppliers', 724 );
     define ( 'pharmacy_dept', 3 );
     define ( 'anesthetist_charges', '20% - 33% of surgeon fee' );
@@ -192,10 +192,10 @@
     define ( 'COVID_19_RT_PCR_General', 1297 );
     define ( 'COVID_19_RT_PCR_Panel', 776 );
     define ( 'ADMINISTRATION_DEPT', 1 );
-    
+
     define ( 'TURKISH_AIRLINE', 7 );
     define ( 'PEGASUS_AIRLINE', 12 );
-    
+
     define ( 'GENERAL_ADMINISTRATIVE_EXPENSES', 5 );
     define ( 'CP_Peripheral_Film', 860 );
     define ( 'SEMEN_ANALYSIS', 571 );
@@ -204,7 +204,7 @@
     define ( 'CSF_ANALYSIS', 1346 );
     define ( 'Ascitic_Fluid_Analysis', 348 );
     define ( 'Pericardial_Fluid', 1361 );
-    
+
     define ( 'cp_peripheral_film_general', array (
         '861',
         '862',
@@ -230,7 +230,7 @@
         '1324',
         '1325',
     ) );
-    
+
     define ( 'semen_analysis_general', array (
         '1394',
         '1395',
@@ -250,7 +250,7 @@
     define ( 'semen_analysis_cells', array (
         '1405',
     ) );
-    
+
     define ( 'stool_examination_physical_analysis', array (
         '793',
         '798',
@@ -274,7 +274,7 @@
         '1556',
         '1557',
     ) );
-    
+
     define ( 'urine_r_e_physical_examination', array (
         '122',
         '1371',
@@ -302,7 +302,7 @@
         '1541',
         '134',
     ) );
-    
+
     define ( 'csf_bio_chemistry', array (
         '1558',
         '1559',
@@ -318,7 +318,7 @@
         '1565',
         '1566',
     ) );
-    
+
     define ( 'afa_physical_examination', array (
         '1927',
         '1928',
@@ -328,25 +328,25 @@
         '1932',
         '1933',
     ) );
-    
+
     define ( 'afa_chemical_examination', array (
         '1934',
         '1935',
         '1936',
     ) );
-    
+
     define ( 'afa_microscopic_examination', array (
         '1937',
         '1938',
     ) );
-    
+
     define ( 'afa_dlc', array (
         '1939',
         '1940',
         '1941',
         '1942',
     ) );
-    
+
     define ( 'pf_physical_examination', array (
         '1944',
         '1945',
@@ -356,24 +356,24 @@
         '1949',
         '1950',
     ) );
-    
+
     define ( 'pf_chemical_examination', array (
         '1951',
         '1952',
     ) );
-    
+
     define ( 'pf_microscopic_examination', array (
         '1953',
         '1954',
     ) );
-    
+
     define ( 'pf_dlc', array (
         '1955',
         '1956',
         '1957',
         '1958',
     ) );
-    
+
     define ( 'months', array (
         1  => 'January',
         2  => 'February',
@@ -388,7 +388,7 @@
         11 => 'November',
         12 => 'December'
     ) );
-    
+
     define ( 'capital', 8 );
     define ( 'STORE_SUPPLIER', 791 );
     define ( 'CONSULTANCY_SHARES_DOCTOR', 67 );
@@ -410,7 +410,7 @@
     define ( 'COS_Online_Referral_Portal', 871 );
     define ( 'COST_OF_SERVICES', 169 );
     define ( 'COS_Laboratory', 878 );
-    
+
     define ( 'online_report_url', 'http://159.223.61.59/reports/' );
     define ( 'SMS_API_KEY', '923245318328-a1dd0a79-c98d-4727-a1cb-28f38b23ed69' );
     define ( 'BIRTH_CERT_REG', 'KMC-Bcert-' );
