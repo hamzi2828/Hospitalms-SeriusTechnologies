@@ -98,8 +98,8 @@ mpdf-->
 <thead>
            <tr>
                 <th rowspan="2" style="text-align: left;">Account Heads</th>
-                <th colspan="2" style="text-align: center;">Movement</th>
                 <th colspan="2" style="text-align: center;">Opening</th>
+                <th colspan="2" style="text-align: center;">Movement</th>
                 <th colspan="2" style="text-align: center;">Closing</th>
             </tr>
             <tr>

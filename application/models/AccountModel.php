@@ -1026,9 +1026,9 @@
                 if ( $financial_year -> num_rows () > 0 ) {
                     $start_date = $financial_year -> row () -> start_date;
 
-//                    print_data ( 'Financial year' );
-//                    print_data ( $start_date );
-//                    exit;
+                //    print_data ( 'Financial year' );
+                //   print_data ( $start_date );
+                // exit;
                 }
                 else {
                     $month = date ( 'm' );
@@ -1039,8 +1039,8 @@
                     $start_date = '2020-07-01';
                 }
 
-//                print_data ( $start_date );
-//                exit;
+            //   print_data ( $start_date );
+            //  exit;
 
                 $sql = "Select * from hmis_general_ledger where acc_head_id=$acc_head_id";
 
@@ -1055,12 +1055,12 @@
                 $balances             = $query -> result ();
                 $last_running_balance = 0;
                 $RB                   = 0;
-//                if ( count ( $balances ) > 0 ) {
-//                    foreach ( $balances as $balance ) {
-//                        $RB                   = ( $last_running_balance - $balance -> debit ) + $balance -> credit;
-//                        $last_running_balance = $RB;
-//                    }
-//                }
+            //  if ( count ( $balances ) > 0 ) {
+            //      foreach ( $balances as $balance ) {
+            //          $RB     = ( $last_running_balance - $balance -> debit ) + $balance -> credit;
+            //          $last_running_balance = $RB;
+            //      }
+            //  }
                 if ( count ( $balances ) > 0 ) {
                     foreach ( $balances as $balance ) {
                         $account_head = $this -> get_account_head_by_id ( $balance -> acc_head_id );
@@ -1076,6 +1076,10 @@
             else
                 return 0;
         }
+
+
+
+
 
         /**
          * -------------------------
@@ -1630,7 +1634,7 @@
                     else if ( in_array ( $row[ 'role_id' ], array ( liabilities, capitals, income ) ) )
                         $runningBalance = $runningBalance - $transaction -> credit + $transaction -> debit;
 
-//                    $runningBalance     = $transaction -> debit - $transaction -> credit;
+                // $runningBalance     = $transaction -> debit - $transaction -> credit;
                 }
 
                 if ( isset( $row[ 'children' ] ) && count ( $row[ 'children' ] ) > 0 ) {
@@ -1709,7 +1713,7 @@
                     else if ( in_array ( $row[ 'role_id' ], array ( liabilities, capitals, income ) ) )
                         $this -> parent_net_rb = $this -> parent_net_rb - $transaction -> credit + $transaction -> debit;
 
-//                    $this -> parent_net_rb += ( $transaction -> debit - $transaction -> credit );
+            //$this -> parent_net_rb += ( $transaction -> debit - $transaction -> credit );
                 }
 
                 if ( isset( $row[ 'children' ] ) && is_array ( $row[ 'children' ] ) )
@@ -1811,43 +1815,157 @@
             return $html;
         }
 
-
-        function build_chart_of_accounts_table_for_Trial_Balance ( $data, $level = 0, $hide_actions = false ) {
-
+        function build_chart_of_accounts_table_for_Trial_Balance($data, $level = 0) {
             $html = '<tbody>';
-            foreach ( $data as $row ) {
-                $acc_head_id = $row[ 'id' ];
-                $ledger      = $this -> get_ledger_by_account_head ( $acc_head_id );
-                $parent      = $this -> check_if_account_is_parent ( $acc_head_id );
+            $start_date = (isset($_GET['start_date']) && !empty(trim($_GET['start_date'])))
+                ? date('Y-m-d', strtotime($_GET['start_date']))
+                : null;
 
-                $padding = str_repeat ( '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $level );
+            foreach ($data as $row) {
+                $acc_head_id = $row['id'];
+                $padding = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $level);
+                $title = isset($row['children']) && count($row['children']) > 0
+                    ? '<strong>' . $row['title'] . '</strong>'
+                    : $row['title'];
 
-                if ( isset( $row[ 'children' ] ) && count ( $row[ 'children' ] ) > 0 )
-                    $title = '<strong>' . $row[ 'title' ] . '</strong>';
-                else
-                    $title = $row[ 'title' ];
+                // Initialize balances
+                $opening_balance_dr = 0;
+                $opening_balance_cr = 0;
 
+                // Get opening balances
+                if (!empty($start_date)) {
+                    $opening_balance_dr = $this->get_opening_balance_previous_than_searched_start_date_debit($start_date, $acc_head_id);
+                    $opening_balance_cr = $this->get_opening_balance_previous_than_searched_start_date_credit($start_date, $acc_head_id);
+                }
+
+                // Add table row for current account head with only opening balances
                 $html .= "<tr>";
                 $html .= "<td>{$padding}{$title}</td>";
-
-
-
-                $html .= "<td style='color: #FF0000'><strong>00.00</strong></td>";
-                $html .= "<td style='color: #FF0000'><strong>00.00</strong></td>";
-                $html .= "<td style='color: #FF0000'><strong>00.00</strong></td>";
-                $html .= "<td style='color: #FF0000'><strong>00.00</strong></td>";
-                $html .= "<td style='color: #FF0000'><strong>00.00</strong></td>";
-                $html .= "<td style='color: #FF0000'><strong>00.00</strong></td>";
+                $html .= "<td>" . number_format($opening_balance_dr, 2) . "</td>";
+                $html .= "<td>" . number_format($opening_balance_cr, 2) . "</td>";
+                $html .= "<td>0.00</td>"; // Movement DR
+                $html .= "<td>0.00</td>"; // Movement CR
+                $html .= "<td>0.00</td>"; // Closing DR
+                $html .= "<td>0.00</td>"; // Closing CR
                 $html .= "</tr>";
 
-                if ( isset( $row[ 'children' ] ) && is_array ( $row[ 'children' ] ) ) {
-                    $html .= $this -> build_chart_of_accounts_table_for_Trial_Balance ( $row[ 'children' ], $level + 1, $hide_actions );
+                // If there are children, recursively add their rows
+                if (isset($row['children']) && is_array($row['children'])) {
+                    $html .= $this->build_chart_of_accounts_table_for_Trial_Balance($row['children'], $level + 1);
                 }
             }
 
             $html .= '</tbody>';
             return $html;
         }
+
+
+
+
+        public function get_opening_balance_previous_than_searched_start_date_debit($date, $acc_head_id) {
+            if (!empty(trim($date))) {
+
+                $financial_year = $this->db->get('financial_year');
+                if ($financial_year->num_rows() > 0) {
+                    $start_date = $financial_year->row()->start_date;
+                } else {
+                    $month = date('m');
+                    if ($month < 7)
+                        $year = date('Y') - 1;
+                    else
+                        $year = date('Y');
+                    $start_date = '2020-07-01';
+                }
+
+                $sql = "SELECT * FROM hmis_general_ledger WHERE acc_head_id = $acc_head_id AND transaction_type = 'debit'";
+
+                if (!empty(trim($date))) {
+                    $trans_date = date('Y-m-d', strtotime($date . ' -1 day'));
+                    $sql .= " AND DATE(trans_date) BETWEEN '$start_date' AND '$trans_date'";
+                }
+            // Debug the SQL query
+            // echo "SQL Query: $sql\n";
+            // exit;
+                $query = $this->db->query($sql);
+
+                $balances = $query->result();
+                $last_running_balance = 0;
+
+            // Process balances
+            if (count($balances) > 0) {
+                foreach ($balances as $balance) {
+                    $account_head = $this->get_account_head_by_id($balance->acc_head_id);
+                    if (!empty($account_head)) {
+                        if (in_array($account_head->role_id, array(assets, expenditure))) {
+                            $last_running_balance += $balance->debit;
+                        } elseif (in_array($account_head->role_id, array(liabilities, capitals, income))) {
+                            $last_running_balance -= $balance->debit;
+                        }
+                    }
+                }
+            }
+
+
+
+                return $last_running_balance;
+
+
+            } else {
+                return 0;
+            }
+        }
+
+        public function get_opening_balance_previous_than_searched_start_date_credit($date, $acc_head_id) {
+            if (!empty(trim($date))) {
+                // Retrieve financial year start date
+                $financial_year = $this->db->get('financial_year');
+                if ($financial_year->num_rows() > 0) {
+                    $start_date = $financial_year->row()->start_date;
+                } else {
+                    $month = date('m');
+                    $year = ($month < 7) ? date('Y') - 1 : date('Y');
+                    $start_date = '2020-07-01'; // Default fallback start date
+                }
+
+                // Construct the SQL query to get credit transactions
+                $sql = "SELECT * FROM hmis_general_ledger
+                        WHERE acc_head_id = $acc_head_id
+                        AND transaction_type = 'credit'";
+
+                if (!empty(trim($date))) {
+                    $trans_date = date('Y-m-d', strtotime($date . ' -1 day'));
+                    $sql .= " AND DATE(trans_date) BETWEEN '$start_date' AND '$trans_date'";
+                }
+
+                // print_r($sql);
+                // Execute the query
+                $query = $this->db->query($sql);
+
+                // Fetch results
+                $balances = $query->result();
+                $last_running_balance = 0;
+
+                // Process balances
+                if (count($balances) > 0) {
+                    foreach ($balances as $balance) {
+                        $account_head = $this->get_account_head_by_id($balance->acc_head_id);
+                        if (!empty($account_head)) {
+                            if (in_array($account_head->role_id, array(assets, expenditure))) {
+                                $last_running_balance += $balance->credit;
+                            } elseif (in_array($account_head->role_id, array(liabilities, capitals, income))) {
+                                $last_running_balance -= $balance->credit;
+                            }
+                        }
+                    }
+                }
+
+
+                return $last_running_balance;
+            } else {
+                return 0; // Return zero if no valid date is provided
+            }
+        }
+
 
         public function filter_transactions () {
             $voucher      = $this -> input -> get ( 'voucher', true );

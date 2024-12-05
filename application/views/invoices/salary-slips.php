@@ -102,12 +102,16 @@ mpdf-->
             $food_allowance      = $slip -> food_allowance;
             $other_allowance     = $slip -> other_allowance;
             $allowances          = $medical_allowance + $transport_allowance + $rent_allowance + $other_allowance + $mobile_allowance + $food_allowance;
-            
+
             $working_hours   = $employee -> working_hours > 0 ? $employee -> working_hours : 8;
             $overtime_amount = ( ( $slip -> basic_salary / $slip -> days ) / $working_hours ) * $slip -> overtime;
             if ( $key > 0 ) echo '<br/><br/>';
+
+            if ($key > 0) {
+                echo '<pagebreak />';
+            }
             ?>
-            
+
             <table width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8" border="0">
                 <tbody>
                 <tr>

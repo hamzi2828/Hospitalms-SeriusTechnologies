@@ -2,6 +2,8 @@
     <div class="col-md-12">
         <div class="search-form">
             <form method="get" autocomplete="off">
+            <input type="hidden" name="balance_sheet_new" id="balanceSheetNew" value="true">
+
                 <div class="form-group col-lg-offset-3 col-lg-2">
                     <label for="exampleInputEmail1">Start Date</label>
                     <input type="text" name="start_date" class="financial-year form-control" placeholder="Start date"
@@ -14,6 +16,7 @@
                            required="required" data-date-format="dd-mm-yyyy"
                            value="<?php echo $this -> input -> get ( 'end_date' ) ?>">
                 </div>
+
                 <div class="col-lg-1" style="padding-top: 25px">
                     <button type="submit" class="btn btn-block btn-primary">Search</button>
                 </div>
@@ -51,8 +54,8 @@
            <thead>
            <tr>
                 <th rowspan="2" style="text-align: left;">Account Heads</th>
-                <th colspan="2" style="text-align: center;">Movement</th>
                 <th colspan="2" style="text-align: center;">Opening</th>
+                <th colspan="2" style="text-align: center;">Movement</th>
                 <th colspan="2" style="text-align: center;">Closing</th>
             </tr>
             <tr>

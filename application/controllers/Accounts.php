@@ -1210,6 +1210,8 @@
             $title = site_name . ' - Trial Balance Sheet (Detail)';
             $this -> header ( $title );
             $this -> sidebar ();
+
+
             if (isset($_GET['balance_sheet_new']) && $_GET['balance_sheet_new'] === 'true') {
                 $account_heads           = $this -> AccountModel -> get_chart_of_accounts ();
                 $tree                    = buildTree ( $account_heads );
@@ -1221,6 +1223,7 @@
             $tree                          = buildTree ( $account_heads );
             $data[ 'balance_sheet' ]       = $this -> AccountModel -> build_table ( $tree );
             $data[ 'balance_sheet_total' ] = $this -> AccountModel -> trial_balance_total ();
+
 
             $this -> load -> view ( '/accounts/trial-balance-new', $data );
             $this -> footer ();
