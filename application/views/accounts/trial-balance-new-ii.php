@@ -68,6 +68,8 @@
             </tr>
             </thead>
                     <?php echo $account_heads_ii ?>
+                    <?php echo $balance_sheet_sum_footer_new ?>
+
                 </table>
 
             </div>

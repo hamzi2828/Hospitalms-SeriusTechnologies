@@ -10,6 +10,12 @@
         public $parent_net_rb      = 0;
         public $parent_net_opening = 0;
         public $net_net_opening    = 0;
+        public $total_opening_balance_dr = 0;
+        public $total_opening_balance_cr = 0;
+        public $total_movement_cr = 0;
+        public $total_movement_dr = 0;
+        public $total_closing_dr = 0;
+        public $total_closing_cr = 0;
 
         /**
          * -------------------------
@@ -1821,6 +1827,7 @@
                 ? date('Y-m-d', strtotime($_GET['start_date']))
                 : null;
 
+
             foreach ($data as $row) {
                 $acc_head_id = $row['id'];
                 $padding = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $level);
@@ -1828,36 +1835,79 @@
                     ? '<strong>' . $row['title'] . '</strong>'
                     : $row['title'];
 
-                // Initialize balances
+                // Get opening balances
                 $opening_balance_dr = 0;
                 $opening_balance_cr = 0;
-
-                // Get opening balances
                 if (!empty($start_date)) {
                     $opening_balance_dr = $this->get_opening_balance_previous_than_searched_start_date_debit($start_date, $acc_head_id);
                     $opening_balance_cr = $this->get_opening_balance_previous_than_searched_start_date_credit($start_date, $acc_head_id);
                 }
 
-                // Add table row for current account head with only opening balances
+                // Calculate transactions
+                $transaction = calculate_acc_head_transaction($acc_head_id);
+                $movement_cr = 0;
+                $movement_dr = 0;
+                if (!empty($transaction)) {
+                    $movement_cr = $transaction->credit;
+                    $movement_dr = $transaction->debit;
+                }
+
+                // Calculate closing balances
+                $closing_dr = ($opening_balance_dr + $movement_dr) - ($opening_balance_cr - $movement_cr);
+                $closing_cr = ($opening_balance_cr + $movement_cr) - ($opening_balance_dr - $movement_dr);
+                $closing_dr = $closing_dr < 0 ? 0 : $closing_dr;
+                $closing_cr = $closing_cr < 0 ? 0 : $closing_cr;
+
+                // Update totals
+                $this -> total_opening_balance_dr += $opening_balance_dr;
+                $this -> total_opening_balance_cr += $opening_balance_cr;
+                $this -> total_movement_cr += $movement_cr;
+                $this -> total_movement_dr += $movement_dr;
+                $this -> total_closing_dr += $closing_dr;
+                $this -> total_closing_cr += $closing_cr;
+
+                // Add row to the table
                 $html .= "<tr>";
                 $html .= "<td>{$padding}{$title}</td>";
-                $html .= "<td>" . number_format($opening_balance_dr, 2) . "</td>";
                 $html .= "<td>" . number_format($opening_balance_cr, 2) . "</td>";
-                $html .= "<td>0.00</td>"; // Movement DR
-                $html .= "<td>0.00</td>"; // Movement CR
-                $html .= "<td>0.00</td>"; // Closing DR
-                $html .= "<td>0.00</td>"; // Closing CR
+                $html .= "<td>" . number_format($opening_balance_dr, 2) . "</td>";
+                $html .= "<td>" . number_format($movement_cr, 2) . "</td>";
+                $html .= "<td>" . number_format($movement_dr, 2) . "</td>";
+                $html .= "<td>" . number_format($closing_dr, 2) . "</td>";
+                $html .= "<td>" . number_format($closing_cr, 2) . "</td>";
                 $html .= "</tr>";
 
-                // If there are children, recursively add their rows
+                // Recursively add rows for children
                 if (isset($row['children']) && is_array($row['children'])) {
                     $html .= $this->build_chart_of_accounts_table_for_Trial_Balance($row['children'], $level + 1);
                 }
             }
 
             $html .= '</tbody>';
+
+
             return $html;
         }
+
+
+
+
+
+        public function trial_balance_sum () {
+            $html = '<tfoot>';
+            $html .= '<tr>';
+            $html .= '<td align="right"></td>';
+            $html .= '<td><strong> ' . number_format ( $this -> total_opening_balance_dr, 2 ) . '</strong></td>';
+            $html .= '<td><strong> ' . number_format ( $this -> total_opening_balance_cr, 2 ) . '</strong></td>';
+            $html .= '<td><strong> ' . number_format ( $this -> total_movement_cr, 2 ) . ' </strong></td>';
+            $html .= '<td><strong>' . number_format ( $this -> total_movement_dr, 2 ) . '</strong></td>';
+            $html .= '<td><strong>' . number_format ( $this -> total_closing_dr, 2 ) . '</strong></td>';
+            $html .= '<td><strong>' . number_format ( $this -> total_closing_cr, 2 ) . '</strong></td>';
+
+            $html .= '</tr>';
+            return $html;
+        }
+
 
 
 
@@ -1877,7 +1927,7 @@
                     $start_date = '2020-07-01';
                 }
 
-                $sql = "SELECT * FROM hmis_general_ledger WHERE acc_head_id = $acc_head_id AND transaction_type = 'debit'";
+                $sql = "SELECT * FROM hmis_general_ledger WHERE acc_head_id = $acc_head_id";
 
                 if (!empty(trim($date))) {
                     $trans_date = date('Y-m-d', strtotime($date . ' -1 day'));
@@ -1929,8 +1979,7 @@
 
                 // Construct the SQL query to get credit transactions
                 $sql = "SELECT * FROM hmis_general_ledger
-                        WHERE acc_head_id = $acc_head_id
-                        AND transaction_type = 'credit'";
+                        WHERE acc_head_id = $acc_head_id";
 
                 if (!empty(trim($date))) {
                     $trans_date = date('Y-m-d', strtotime($date . ' -1 day'));

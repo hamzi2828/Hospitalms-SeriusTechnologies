@@ -1216,6 +1216,8 @@
                 $account_heads           = $this -> AccountModel -> get_chart_of_accounts ();
                 $tree                    = buildTree ( $account_heads );
                 $data[ 'account_heads_ii' ] = $this -> AccountModel -> build_chart_of_accounts_table_for_Trial_Balance ( $tree );
+                $data[ 'balance_sheet_sum_footer_new' ] = $this -> AccountModel -> trial_balance_sum ();
+
                 $this -> load -> view ( '/accounts/trial-balance-new-ii', $data );
                 $this -> footer ();
              }else{
