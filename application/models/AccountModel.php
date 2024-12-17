@@ -1843,6 +1843,8 @@
                     $opening_balance_cr = $this->get_opening_balance_previous_than_searched_start_date_credit($start_date, $acc_head_id);
                 }
 
+
+
                 // Calculate transactions
                 $transaction = calculate_acc_head_transaction($acc_head_id);
                 $movement_cr = 0;
@@ -1853,8 +1855,8 @@
                 }
 
                 // Calculate closing balances
-                $closing_dr = ($opening_balance_dr + $movement_dr) - ($opening_balance_cr - $movement_cr);
-                $closing_cr = ($opening_balance_cr + $movement_cr) - ($opening_balance_dr - $movement_dr);
+                $closing_cr = $opening_balance_dr + $movement_dr - $opening_balance_cr - $movement_cr;
+                $closing_dr = $opening_balance_cr + $movement_cr - $opening_balance_dr - $movement_dr;
                 $closing_dr = $closing_dr < 0 ? 0 : $closing_dr;
                 $closing_cr = $closing_cr < 0 ? 0 : $closing_cr;
 
@@ -1867,6 +1869,19 @@
                 $this -> total_closing_cr += $closing_cr;
 
                 // Add row to the table
+                if ( isset( $row[ 'children' ] ) && count ( $row[ 'children' ] ) > 0 ) {
+
+                    $html .= "<tr>";
+                    $html .= "<td>{$padding}{$title}</td>";
+                    $html .= "<td></td>";
+                    $html .= "<td></td>";
+                    $html .= "<td></td>";
+                    $html .= "<td></td>";
+                    $html .= "<td></td>";
+                    $html .= "<td></td>";
+                    $html .= "</tr>";
+
+                }else{
                 $html .= "<tr>";
                 $html .= "<td>{$padding}{$title}</td>";
                 $html .= "<td>" . number_format($opening_balance_cr, 2) . "</td>";
@@ -1876,7 +1891,7 @@
                 $html .= "<td>" . number_format($closing_dr, 2) . "</td>";
                 $html .= "<td>" . number_format($closing_cr, 2) . "</td>";
                 $html .= "</tr>";
-
+                }
                 // Recursively add rows for children
                 if (isset($row['children']) && is_array($row['children'])) {
                     $html .= $this->build_chart_of_accounts_table_for_Trial_Balance($row['children'], $level + 1);
@@ -1913,8 +1928,11 @@
 
 
         public function get_opening_balance_previous_than_searched_start_date_debit($date, $acc_head_id) {
-            if (!empty(trim($date))) {
+            // Initialize last_running_balance to 0 or some default value
+            $last_running_balance = 0;
 
+            if (!empty(trim($date))) {
+                // Financial year logic
                 $financial_year = $this->db->get('financial_year');
                 if ($financial_year->num_rows() > 0) {
                     $start_date = $financial_year->row()->start_date;
@@ -1924,45 +1942,30 @@
                         $year = date('Y') - 1;
                     else
                         $year = date('Y');
-                    $start_date = '2020-07-01';
+                    $start_date = '2020-07-01'; // Set a default start date if no financial year exists
                 }
 
+                // SQL query to get the balance entries
                 $sql = "SELECT * FROM hmis_general_ledger WHERE acc_head_id = $acc_head_id";
 
                 if (!empty(trim($date))) {
                     $trans_date = date('Y-m-d', strtotime($date . ' -1 day'));
                     $sql .= " AND DATE(trans_date) BETWEEN '$start_date' AND '$trans_date'";
                 }
-            // Debug the SQL query
-            // echo "SQL Query: $sql\n";
-            // exit;
+
+                // Execute the query
                 $query = $this->db->query($sql);
-
                 $balances = $query->result();
-                $last_running_balance = 0;
 
-            // Process balances
-            if (count($balances) > 0) {
+                // If needed, sum the debits and adjust the running balance
                 foreach ($balances as $balance) {
-                    $account_head = $this->get_account_head_by_id($balance->acc_head_id);
-                    if (!empty($account_head)) {
-                        if (in_array($account_head->role_id, array(assets, expenditure))) {
-                            $last_running_balance += $balance->debit;
-                        } elseif (in_array($account_head->role_id, array(liabilities, capitals, income))) {
-                            $last_running_balance -= $balance->debit;
-                        }
-                    }
+                    $last_running_balance += $balance->debit; // Adjust balance based on the debit amount
                 }
             }
 
+            // Your other code logic continues here...
 
-
-                return $last_running_balance;
-
-
-            } else {
-                return 0;
-            }
+            return $last_running_balance; // Return the calculated balance
         }
 
         public function get_opening_balance_previous_than_searched_start_date_credit($date, $acc_head_id) {
@@ -1994,20 +1997,10 @@
                 $balances = $query->result();
                 $last_running_balance = 0;
 
-                // Process balances
-                if (count($balances) > 0) {
-                    foreach ($balances as $balance) {
-                        $account_head = $this->get_account_head_by_id($balance->acc_head_id);
-                        if (!empty($account_head)) {
-                            if (in_array($account_head->role_id, array(assets, expenditure))) {
-                                $last_running_balance += $balance->credit;
-                            } elseif (in_array($account_head->role_id, array(liabilities, capitals, income))) {
-                                $last_running_balance -= $balance->credit;
-                            }
-                        }
-                    }
-                }
 
+                foreach ($balances as $balance) {
+                    $last_running_balance += $balance->credit;
+                }
 
                 return $last_running_balance;
             } else {

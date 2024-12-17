@@ -139,6 +139,10 @@
                         Trial Balance Sheet
                     </a>
                 </li>
+            <?php endif; ?>
+
+
+            <?php if ( !empty( $access ) and in_array ( 'trial_balance_sheet_new', explode ( ',', $access -> access ) ) ) : ?>
                 <li class="<?php if ( $child_uri == 'trial_balance' and !isset( $_GET[ 'detail' ]  ) )
                     echo 'active'; ?>">
                     <a href="<?php echo base_url ( '/accounts/trial_balance?balance_sheet_new=true' ) ?>">
@@ -146,6 +150,7 @@
                     </a>
                 </li>
             <?php endif; ?>
+
             <?php if ( !empty( $access ) and in_array ( 'balance_sheet', explode ( ',', $access -> access ) ) ) : ?>
                 <li class="<?php if ( $child_uri == 'balance-sheet' )
                     echo 'active'; ?>">

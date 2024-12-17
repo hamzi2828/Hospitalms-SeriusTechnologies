@@ -50,7 +50,8 @@
 
             </div>
            <div class="portlet-body" style="overflow: auto">
-           <table class="table table-bordered table-responsive">
+           <table class="table table-striped table-bordered table-hover" id="excel-table">
+
            <thead>
            <tr>
                 <th rowspan="2" style="text-align: left;">Account Heads</th>
@@ -112,7 +113,7 @@
         let url    = window.URL.createObjectURL ( blob );
         let a      = document.createElement ( "a" );
         a.href     = url;
-        a.download = "Trial Balance.xlsx";
+        a.download = "Trial Balance Sheet (New).xlsx";
         a.click ();
         window.URL.revokeObjectURL ( url );
     }

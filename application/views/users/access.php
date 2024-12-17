@@ -999,7 +999,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr>
             <td></td>
             <td>Sale Invoices (Cash)</td>
@@ -1009,7 +1009,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr>
             <td></td>
             <td></td>
@@ -1071,7 +1071,7 @@
                 <input type="checkbox" class="checkbox" name="access[]"
                        value="lab-add-added-results-edit-patient-btn" <?php if ( !empty( $access ) and in_array ( 'lab-add-added-results-edit-patient-btn', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>> Edit Patient Button
-                
+
                 <input type="checkbox" class="checkbox" name="access[]"
                        value="lab-add-added-results-add-airline-details-btn" <?php if ( !empty( $access ) and in_array ( 'lab-add-added-results-add-airline-details-btn', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>> Add Airline Details Button
@@ -1144,7 +1144,7 @@
 
 
         <tr>
-            <td></td> 
+            <td></td>
             <td>Phlebotomy</td>
             <td>
                 <input type="checkbox" class="checkbox" name="access[]"
@@ -1158,11 +1158,11 @@
             <td>
                 <input type="checkbox" class="checkbox" name="access[]"
                        value="Phlebotomy_take_sample" <?php if ( !empty( $access ) and in_array ( 'Phlebotomy_take_sample', explode ( ',', $access -> access ) ) )
-                    echo 'checked="checked"' ?>> Take  Sample 
+                    echo 'checked="checked"' ?>> Take  Sample
                 <input type="checkbox" class="checkbox" name="access[]"
                        value="Phlebotomy_receive_sample" <?php if ( !empty( $access ) and in_array ( 'Phlebotomy_receive_sample', explode ( ',', $access -> access ) ) )
-                    echo 'checked="checked"' ?>> Received Sample 
-                
+                    echo 'checked="checked"' ?>> Received Sample
+
             </td>
         </tr>
 
@@ -1668,7 +1668,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td> Culture / Histopathology</td>
             <td></td>
@@ -1860,7 +1860,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td></td>
             <td>All Antibiotic (Susceptibility)</td>
@@ -1879,7 +1879,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td> general reporting</td>
             <td></td>
@@ -2275,6 +2275,15 @@
         </tr>
         <tr>
             <td></td>
+            <td> Trial Balance Sheet (New)</td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="trial_balance_sheet_new" <?php if ( !empty( $access ) and in_array ( 'trial_balance_sheet_new', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
             <td> Balance Sheet</td>
             <td>
                 <input type="checkbox" class="checkbox" name="access[]"
@@ -2516,7 +2525,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td> HR Settings</td>
             <td></td>
@@ -2556,7 +2565,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td> members</td>
             <td></td>
@@ -2605,7 +2614,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td> complaints</td>
             <td></td>
@@ -2645,7 +2654,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td> loans</td>
             <td></td>
@@ -2715,7 +2724,7 @@
                     echo 'checked="checked"' ?>> Delete
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td> store</td>
             <td></td>
@@ -2977,7 +2986,7 @@
                     echo 'checked="checked"' ?>> Delete
             </td>
         </tr>
-        
+
         <tr>
             <td></td>
             <td>sale invoices (panel)</td>
@@ -3167,7 +3176,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr>
             <td></td>
             <td>general report</td>
@@ -3177,7 +3186,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td></td>
             <td> Stock Valuation Report</td>
@@ -3187,7 +3196,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td></td>
             <td> Store Threshold Report</td>
@@ -3197,7 +3206,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td></td>
             <td> Store Purchase Report</td>
@@ -3207,7 +3216,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td></td>
             <td> Fix Assets Report</td>
@@ -4005,7 +4014,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr>
             <td></td>
             <td>rooms/Beds</td>
@@ -4036,7 +4045,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td> Internal Issuance</td>
             <td></td>
@@ -4205,7 +4214,7 @@
                     echo 'checked="checked"' ?>> Delete
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td></td>
             <td> CT-Scan</td>
@@ -4260,7 +4269,7 @@
                     echo 'checked="checked"' ?>> Delete
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td></td>
             <td> MRI</td>
@@ -4315,7 +4324,7 @@
                     echo 'checked="checked"' ?>> Delete
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td></td>
             <td> Ultrasound</td>
@@ -4370,7 +4379,7 @@
                     echo 'checked="checked"' ?>> Delete
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td></td>
             <td> ECHO</td>
@@ -4422,7 +4431,7 @@
                     echo 'checked="checked"' ?>> Delete
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td></td>
             <td> ECG</td>
@@ -4474,7 +4483,7 @@
                     echo 'checked="checked"' ?>> Delete
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td>Radiology Reporting</td>
             <td></td>
@@ -4539,7 +4548,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td>Radiology Settings</td>
             <td></td>
@@ -4622,7 +4631,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td></td>
             <td>All Templates (ECHO)</td>
@@ -4641,7 +4650,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td></td>
             <td>All Templates (ECG)</td>
@@ -4660,7 +4669,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td>Metrics Analysis</td>
             <td></td>
@@ -4680,7 +4689,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td>Birth Certifictes</td>
             <td></td>
@@ -4724,7 +4733,7 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
-        
+
         <tr style="background: #dff0d8;">
             <td>Death Certificates</td>
             <td></td>

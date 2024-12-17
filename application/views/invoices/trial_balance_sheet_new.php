@@ -112,6 +112,8 @@ mpdf-->
             </tr>
             </thead>
                     <?php echo $account_heads_ii ?>
-</table>
+                    <?php echo $balance_sheet_sum_footer_new ?>
+
+                </table>
 </body>
 </html>
