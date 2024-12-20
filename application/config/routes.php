@@ -574,5 +574,32 @@
     $route[ 'RadiologyReport/general-report-ecg' ]                    = 'RadiologyReport/general_report_ecg';
     $route[ 'invoices/general-report-echo' ]                          = 'Invoices/general_report_echo';
     $route[ 'invoices/general-report-ecg' ]                           = 'Invoices/general_report_ecg';
+    
+    $route[ 'cafe-setting/all-products' ]                             = 'CafeSetting/all_products';
+    $route[ 'cafe-setting/add-product' ]                              = 'CafeSetting/add_product';
+    $route[ 'cafe-setting/edit-product/(:any)' ]                      = 'CafeSetting/edit_product/$1';
+    $route[ 'cafe-setting/delete-product/(:any)' ]                    = 'CafeSetting/delete_product/$1';
+    $route[ 'cafe-setting/store-product' ]                            = 'CafeSetting/store_product';
+    $route[ 'cafe-setting/update-product' ]                           = 'CafeSetting/update_product';
+
+    $route[ 'cafe-setting/all-category' ]                             = 'CafeSetting/all_category';
+    $route[ 'cafe-setting/add-category' ]                             = 'CafeSetting/add_category';
+    $route[ 'cafe-setting/edit-category/(:any)' ]                     = 'CafeSetting/edit_category/$1';
+    $route[ 'cafe-setting/delete-category/(:any)' ]                   = 'CafeSetting/delete_category/$1';
+    $route[ 'cafe-setting/store-category' ]                           = 'CafeSetting/store_category';
+    $route[ 'cafe-setting/update-category' ]                          = 'CafeSetting/update_category';
+
+    $route[ 'cafe-setting/all-ingredients' ]                          = 'CafeSetting/all_ingredients';
+    $route[ 'cafe-setting/add-ingredients' ]                          = 'CafeSetting/add_ingredients';
+    $route[ 'cafe-setting/store-ingredients' ]                        = 'CafeSetting/store_ingredients';
+    $route[ 'cafe-setting/edit-ingredient/(:any)' ]                   = 'CafeSetting/edit_ingredient/$1';
+    $route[ 'cafe-setting/delete-ingredient/(:any)' ]                 = 'CafeSetting/delete_ingredient/$1';
+    $route[ 'cafe-setting/update-ingredients' ]                      = 'CafeSetting/update_ingredients';
+
+
+
+
+
+
     $route[ '404_override' ]                                          = '';
     $route[ 'translate_uri_dashes' ]                                  = FALSE;

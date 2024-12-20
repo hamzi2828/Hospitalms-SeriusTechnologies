@@ -5321,6 +5321,28 @@ function get_xray_template ( id ) {
  * get more regents
  * -------------
  */
+function add_more_ingredients () {
+    let csrf_token = jQuery ( '#csrf_token' ).val ();
+    var added      = jQuery ( '#added' ).val ();
+    added          = parseInt ( added ) + 1;
+    jQuery ( '#added' ).val ( added );
+    request = jQuery.ajax ( {
+                                url       : path + 'CafeSetting/add_more_ingredients',
+                                type      : 'POST',
+                                data      : {
+                                    added     : added,
+                                    hmis_token: csrf_token,
+                                },
+                                beforeSend: function () {
+                                    jQuery ( '.loader' ).show ();
+                                },
+                                success   : function ( response ) {
+                                    jQuery ( '#add-more' ).append ( response );
+                                    jQuery ( '.loader' ).hide ();
+                                    jQuery ( '.js-example-basic-single-' + added ).select2 ();
+                                }
+                            } )
+}
 
 function add_more_regents () {
     let csrf_token = jQuery ( '#csrf_token' ).val ();
