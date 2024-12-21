@@ -79,5 +79,20 @@
                 </a>
             </li>
         <?php endif; ?>
+
+        <?php if (!empty($access) and !in_array('all-stock', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'all-stock') echo 'active'; ?>">
+                <a href="<?php echo base_url('/cafe-setting/all-stock') ?>">
+                    All Stock
+                </a>
+            </li>
+        <?php endif; ?>
+        <?php if (!empty($access) and !in_array('add-stock', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'add-stock') echo 'active'; ?>">
+                <a href="<?php echo base_url('/cafe-setting/add-stock') ?>">
+                    Add Stock
+                </a>
+            </li>
+        <?php endif; ?>
     </ul>
 </li>

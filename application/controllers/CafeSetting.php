@@ -5,10 +5,12 @@ class CafeSetting extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('CafeSettingModel'); // Load the CafeSetting model
+        $this->load->model('CafeSettingModel'); 
+        $this -> load -> model ( 'SupplierModel' );
+        $this -> load -> model ( 'StoreModel' );
     }
 
-    /**
+    /** 
      * -------------------------
      * Header template
      * -------------------------
@@ -62,9 +64,6 @@ class CafeSetting extends CI_Controller {
     }
     public function store_product()
     {
-        // Debug incoming POST data
-        // print_r($_POST);
-        // exit;
     
         // Prepare product data
         $product_data = array(
@@ -321,4 +320,92 @@ class CafeSetting extends CI_Controller {
     }
 
     
+    // ******************
+    //  *****Stocks******
+    // ******************
+
+
+    public function all_stocks() {
+        $title = site_name . ' - All Cafe Stock';
+        $this->header($title);
+        $this->sidebar();
+        // $data['stocks'] = $this->CafeSettingModel->get_all_stocks();
+        $this->load->view('CafeSetting/all_stocks');
+        $this->footer();
+    }
+    
+    public function add_stock() {
+        $title = site_name . ' - Add Cafe Stock';
+        $this->header($title);
+        $this->sidebar();
+        $data['route'] = base_url('cafe-setting/store-stocks'); 
+        $data[ 'suppliers' ]     = $this -> SupplierModel -> get_child_suppliers ( store_supplier );
+        $data[ 'products' ]      = $this -> CafeSettingModel -> get_all_products();
+        $data[ 'stores' ]        = $this -> StoreModel -> get_all_store();
+        $this->load->view('CafeSetting/add_stock', $data);
+        $this->footer();
+    }
+
+
+    
+    public function load_store_item_for_cafe () {
+        $item_id = $this -> input -> get ( 'item_id', true );
+        $row     = $this -> input -> get ( 'row', true );
+        
+        if ( !empty( trim ( $item_id ) ) and $item_id > 0 ) {
+            $data[ 'row' ]   = $row;
+            $data['product'] = $this->CafeSettingModel->get_product_by_id($item_id);
+
+            $this -> load -> view ( 'CafeSetting/add-store-stock-row', $data );
+        }
+    }
+    public function store_stock() {
+        $data = array(
+            'name' => $this->input->post('name', true),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        );
+        if ($this->CafeSettingModel->store_stock($data)) {
+            $this->session->set_flashdata('response', 'Stock added successfully!');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to add stock.');
+        }
+        redirect('cafe-setting/all-stocks');
+    }
+
+    public function delete_stock($id) {
+        if ($this->CafeSettingModel->delete_stock($id)) {
+            $this->session->set_flashdata('response', 'Stock deleted successfully!');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to delete stock.');
+        }
+
+        redirect('cafe-setting/all-stocks');
+    }
+
+    public function edit_stock($id) {
+        $title = site_name . ' - Edit Stock';
+        $this->header($title);
+        $this->sidebar();
+        $data['route'] = base_url('cafe-setting/update-stock'); 
+        $data['stock'] = $this->CafeSettingModel->get_stock_by_id($id);
+        $this->load->view('CafeSetting/edit_stock', $data);
+        $this->footer();
+    }
+
+    public function update_stock() {
+        $id = $this->input->post('id', true);
+        $data = array(
+            'name' => $this->input->post('name', true),
+            'updated_at' => date('Y-m-d H:i:s')
+        );
+        if ($this->CafeSettingModel->update_stock($id, $data)) {
+            $this->session->set_flashdata('response', 'Stock updated successfully!');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to update stock.');
+        }
+        redirect('cafe-setting/all-stocks');
+    }
+
+
 }

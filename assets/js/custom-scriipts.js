@@ -952,12 +952,44 @@ function add_store_item_for_issuance ( store_id ) {
     }
 }
 
-function load_store_item_for_stock ( item_id ) {
+function load_store_item_for_stock( item_id ) {
     
     let row = jQuery ( '#added' ).val ();
     
     request = jQuery.ajax ( {
                                 url       : path + 'Store/load_store_item_for_stock',
+                                type      : 'GET',
+                                data      : {
+                                    item_id,
+                                    row: row,
+                                },
+                                beforeSend: function () {
+                                    jQuery ( '.loader' ).show ();
+                                },
+                                success   : function ( response ) {
+                                    jQuery ( '.add-more-store-stock' ).append ( response );
+                                    jQuery ( '.loader' ).hide ();
+                                    $ ( ".option-" + item_id ).prop ( 'disabled', true );
+                                    $ ( "#store-items-add-stock-dropdown" ).select2 ( 'open' );
+                                    let nextRow = parseInt ( row ) + 1;
+                                    jQuery ( '#added' ).val ( nextRow );
+                                    $ ( '.date-picker' ).datepicker ();
+                                },
+                                error     : function ( jqxHR, exception ) {
+                                    jQuery ( '.loader' ).hide ();
+                                    alert ( jqxHR );
+                                    alert ( exception );
+                                    $ ( "#store-items-add-stock-dropdown" ).select2 ( 'open' );
+                                }
+                            } )
+}
+
+function load_store_item_for_cafe ( item_id ) {
+    
+    let row = jQuery ( '#added' ).val ();
+    
+    request = jQuery.ajax ( {
+                                url       : path + 'CafeSetting/load_store_item_for_cafe',
                                 type      : 'GET',
                                 data      : {
                                     item_id,

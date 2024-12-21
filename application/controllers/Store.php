@@ -1593,6 +1593,8 @@
                 $this -> load -> view ( '/store/add-store-stock-row', $data );
             }
         }
+
+        
         
         public function clear_sale () {
             $this -> StoreModel -> clear_lock ();

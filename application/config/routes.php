@@ -594,11 +594,18 @@
     $route[ 'cafe-setting/store-ingredients' ]                        = 'CafeSetting/store_ingredients';
     $route[ 'cafe-setting/edit-ingredient/(:any)' ]                   = 'CafeSetting/edit_ingredient/$1';
     $route[ 'cafe-setting/delete-ingredient/(:any)' ]                 = 'CafeSetting/delete_ingredient/$1';
-    $route[ 'cafe-setting/update-ingredients' ]                      = 'CafeSetting/update_ingredients';
+    $route[ 'cafe-setting/update-ingredients' ]                      =  'CafeSetting/update_ingredients';
 
 
 
 
+
+    $route[ 'cafe-setting/all-stock' ]                                 = 'CafeSetting/all_stocks';
+    $route[ 'cafe-setting/add-stock' ]                                 = 'CafeSetting/add_stock';
+    $route[ 'cafe-setting/store-stock' ]                               = 'CafeSetting/store_stock';
+    $route[ 'cafe-setting/edit-stock/(:any)' ]                         = 'CafeSetting/edit_stock/$1';
+    $route[ 'cafe-setting/update-stock' ]                              = 'CafeSetting/update_stock';
+    $route[ 'cafe-setting/delete-stock/(:any)' ]                       = 'CafeSetting/delete_stock/$1';
 
 
     $route[ '404_override' ]                                          = '';
