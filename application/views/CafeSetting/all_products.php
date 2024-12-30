@@ -66,6 +66,11 @@
                                     <a href="<?php echo base_url ( 'cafe-setting/delete-product/' . $product -> id ); ?>" class="btn btn-danger btn-xs"  onclick="return confirm ('Are you sure want to delete this product?')">
                                         <i class="fa fa-trash-o"></i> Delete
                                     </a>
+
+                                    <a href="<?php echo base_url ( 'cafe-setting/stock-details/' . $product -> id ); ?>" class="btn btn-primary btn-xs">
+                                        <i class="fa fa-cubes"></i> Stock
+                                    </a>
+                                
                                     </td>
                                 </tr>
                         <?php

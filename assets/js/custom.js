@@ -285,6 +285,19 @@ function calculate_grand_total_discount ( discount ) {
     }
 }
 
+function calculate_grand_total_discount_for_cafe ( discount ) {
+    var total_price = jQuery ( '.grand_total' ).val ();
+    if ( total_price > 0 && discount >= 0 ) {
+        if ( discount < 0 )
+            discount = 0;
+        if ( discount > 100 )
+            discount = 100;
+        var net_price = total_price -parseFloat(discount);
+        jQuery ( '.grand_total' ).val ( net_price.toFixed ( 2 ) );
+    }
+}
+
+
 /**
  * -------------
  * calculate per unit cost
@@ -3112,6 +3125,21 @@ function calculate_store_stock_net_price ( row ) {
     if ( quantity >= 0 && price >= 0 && discount >= 0 ) {
         calculated_price = parseFloat ( quantity ) * parseFloat ( price );
         net              = calculated_price - ( calculated_price * ( discount / 100 ) );
+        jQuery ( '.net-' + row ).val ( net.toFixed ( 2 ) );
+        calculate_store_stock_total ();
+    }
+}
+
+
+function calculate_store_cafe_stock_net_price ( row ) {
+    var quantity         = jQuery ( '.quantity-' + row ).val ();
+    var tp_unit          = jQuery ( '.tp-unit-' + row ).val ();
+    var discount         = jQuery ( '.discount-' + row ).val () || '0.00';
+    var calculated_price = 0;
+    var net              = 0;
+    if ( quantity >= 0 && tp_unit >= 0 ) {
+        calculated_price = parseFloat ( quantity ) * parseFloat ( tp_unit );
+        net              = calculated_price -  parseFloat(discount );
         jQuery ( '.net-' + row ).val ( net.toFixed ( 2 ) );
         calculate_store_stock_total ();
     }

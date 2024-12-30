@@ -53,7 +53,7 @@ class CafeSetting extends CI_Controller {
     }
 
     public function add_product() {
-        $title = site_name . ' - Add Product';
+        $title = site_name . ' - Add Product For Cafe';
         $this->header($title);
         $this->sidebar();
         $data['categories'] = $this->CafeSettingModel->get_all_categories();
@@ -65,6 +65,8 @@ class CafeSetting extends CI_Controller {
     public function store_product()
     {
     
+        print_r($this->input->post());
+        exit;
         // Prepare product data
         $product_data = array(
             'name' => $this->input->post('name', true),
@@ -127,35 +129,84 @@ class CafeSetting extends CI_Controller {
         $this->sidebar();
         $data['product'] = $this->CafeSettingModel->get_product_by_id($id);
         $data['categories'] = $this->CafeSettingModel->get_all_categories();
+        $data['product_ingredients'] = $this->CafeSettingModel->get_product_by_product_id($id);
         $data['route'] = base_url('cafe-setting/update-product');
+        $data['ingredients'] = $this->CafeSettingModel->get_all_ingredients();
         $this->load->view('CafeSetting/edit_product', $data);
         $this->footer();
     }
 
     public function update_product()
     {
-
-        // Data to update
+     
+        // Data to update the main product table
         $data = array(
             'name' => $this->input->post('name', true),
             'category_id' => $this->input->post('category_id', true),
-            'price' => $this->input->post('price', true),
+            'tp_box' => $this->input->post('tp_box', true),
+            'quantity' => $this->input->post('quantity', true),
+            'tp_unit' => $this->input->post('tp_unit', true),
+            'sale_box' => $this->input->post('sale_box', true),
+            'sale_unit' => $this->input->post('sale_unit', true),
             'updated_at' => date('Y-m-d H:i:s')
         );
     
         // Product ID
         $id = $this->input->post('edit_id', true);
     
-        // Update product in the database
-        if ($this->CafeSettingModel->update_products($id, $data)) { // Ensure the model method is correct
-            $this->session->set_flashdata('response', 'Product updated successfully!');
-        } else {
+
+        // Begin transaction
+        $this->db->trans_start();
+    
+        // Update the product in the database
+        $this->CafeSettingModel->update_products($id, $data);
+
+
+        // Update ingredients for the product
+        $this->update_product_ingredients($id);
+    
+        // Complete transaction
+        $this->db->trans_complete();
+    
+        if ($this->db->trans_status() === false) {
             $this->session->set_flashdata('error', 'Failed to update product.');
+        } else {
+            $this->session->set_flashdata('response', 'Product updated successfully!');
         }
     
         // Redirect to the product listing page
         redirect('cafe-setting/all-products');
     }
+    
+    
+    private function update_product_ingredients($product_id)
+    {
+        $ingredient_ids = $this->input->post('ingredient_id', true);
+        $usable_quantities = $this->input->post('usable_quantity', true);
+ 
+
+        if (!empty($ingredient_ids) && !empty($usable_quantities)) {
+            // Prepare the data for batch insert
+            $product_ingredients = [];
+            foreach ($ingredient_ids as $index => $ingredient_id) {
+                $product_ingredients[] = [
+                    'product_id' => $product_id,
+                    'ingredient_id' => $ingredient_id,
+                    'price' => $usable_quantities[$index],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ];
+            }
+
+            // Clear existing ingredients for the product
+            $this->db->where('product_id', $product_id);
+            $this->db->delete('product_ingredients');
+
+            // Insert updated ingredients
+            $this->CafeSettingModel->store_product_ingredients($product_ingredients);
+        }
+    }
+
     
     public function add_more_ingredients () {
         $data[ 'row' ]     = $this -> input -> post ( 'added' );
@@ -329,12 +380,21 @@ class CafeSetting extends CI_Controller {
         $title = site_name . ' - All Cafe Stock';
         $this->header($title);
         $this->sidebar();
-        // $data['stocks'] = $this->CafeSettingModel->get_all_stocks();
-        $this->load->view('CafeSetting/all_stocks');
+
+        $data['stocks'] = $this->CafeSettingModel->get_store_stocks();
+        $data[ 'stock_info' ] = $this -> CafeSettingModel -> get_all_stock_info ( );
+
+ 
+        $this->load->view('CafeSetting/all_stocks', $data);
         $this->footer();
     }
     
     public function add_stock() {
+
+        if (isset($_POST['action']) && $_POST['action'] == 'do_add_store_stock_for_cafe') {
+            $this->store_stock($_POST);
+        }
+
         $title = site_name . ' - Add Cafe Stock';
         $this->header($title);
         $this->sidebar();
@@ -359,19 +419,97 @@ class CafeSetting extends CI_Controller {
             $this -> load -> view ( 'CafeSetting/add-store-stock-row', $data );
         }
     }
-    public function store_stock() {
-        $data = array(
-            'name' => $this->input->post('name', true),
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
-        );
-        if ($this->CafeSettingModel->store_stock($data)) {
+
+    public function store_stock() { 
+        // Parse incoming POST data
+        $data = filter_var_array($this->input->post());
+        
+        // Handle input as arrays or split strings if needed
+        $product_ids = is_array($data['product_id']) ? $data['product_id'] : explode(', ', $data['product_id']);
+        $stock_nos = is_array($data['stock_no']) ? $data['stock_no'] : explode(', ', $data['stock_no']);
+        $expiries = is_array($data['expiry']) ? $data['expiry'] : explode(', ', $data['expiry']);
+        $quantities = is_array($data['quantity']) ? $data['quantity'] : explode(', ', $data['quantity']);
+        $tp_boxes = is_array($data['tp_box']) ? $data['tp_box'] : explode(', ', $data['tp_box']);
+        $pack_sizes = is_array($data['pack_size']) ? $data['pack_size'] : explode(', ', $data['pack_size']);
+        $tp_units = is_array($data['tp_unit']) ? $data['tp_unit'] : explode(', ', $data['tp_unit']);
+        $sale_boxes = is_array($data['sale_box']) ? $data['sale_box'] : explode(', ', $data['sale_box']);
+        $sale_units = is_array($data['sale_unit']) ? $data['sale_unit'] : explode(', ', $data['sale_unit']);
+        $discounts = is_array($data['discount']) ? $data['discount'] : explode(', ', $data['discount']);
+        $net_prices = is_array($data['net_price']) ? $data['net_price'] : explode(', ', $data['net_price']);
+        
+        $date_added = date('Y-m-d', strtotime($data['date_added']));
+        
+        $success = true;
+    
+        // Iterate through product IDs
+        foreach ($product_ids as $key => $product_id) {
+            if (!empty($product_id)) {
+                $expiry_date = !empty($expiries[$key]) ? date('Y-m-d', strtotime($expiries[$key])) : null;
+                $discount = !empty($discounts[$key]) ? $discounts[$key] : null;
+    
+                $stock_data = [
+                    'user_id'    => get_logged_in_user_id (),
+                    'supplier_id' => $data['supplier_id'],
+                    'invoice' => $data['invoice'],
+                    'date_added' => $date_added,
+                    'product_id' => $product_id,
+                    'stock_no' => $stock_nos[$key] ?? '',
+                    'expiry' => $expiry_date,
+                    'quantity' => $quantities[$key] ?? 0,
+                    'tp_box' => $tp_boxes[$key] ?? 0.00,
+                    'pack_size' => $pack_sizes[$key] ?? 0,
+                    'tp_unit' => $tp_units[$key] ?? 0.00,
+                    'sale_box' => $sale_boxes[$key] ?? 0.00,
+                    'sale_unit' => $sale_units[$key] ?? 0.00,
+                    'discount' => $discount,
+                    'net_price' => $net_prices[$key] ?? 0.00,
+                ];
+    
+                // Save stock data
+                $result = $this->CafeSettingModel->add_stock($stock_data);
+                
+                $discount = array (
+                    'user_id'    => get_logged_in_user_id (),
+                    'invoice'    => $data[ 'invoice' ],
+                    'discount'   =>$data['grand_total_discount'] ?? 0.00,
+                    'total'      =>  $data['grand_total'] ?? 0.00,
+                    'date_added' => current_date_time ()
+                );
+                $this -> CafeSettingModel -> add_stock_discount ( $discount );
+
+
+                if (!$result) {
+                    $success = false;
+                }
+            }
+        }
+    
+        // Set flash message based on success
+        if ($success) {
             $this->session->set_flashdata('response', 'Stock added successfully!');
         } else {
             $this->session->set_flashdata('error', 'Failed to add stock.');
         }
-        redirect('cafe-setting/all-stocks');
+    
+        // Redirect to stocks page
+        redirect('cafe-setting/all-stock');
     }
+    
+
+    public function stock_details () {
+            
+        $product_id = $this -> uri -> segment ( 3 );
+        if ( empty( trim ( $product_id ) ) or !is_numeric ( $product_id ) or $product_id < 1 )
+            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+        
+        $title = site_name . ' - Store Stock';
+        $this -> header ( $title );
+        $this -> sidebar();
+        $data[ 'stocks' ] = $this -> CafeSettingModel -> get_stock ( $product_id );
+        $this -> load -> view ( '/CafeSetting/cafe_stock', $data );
+        $this -> footer();
+    }
+
 
     public function delete_stock($id) {
         if ($this->CafeSettingModel->delete_stock($id)) {

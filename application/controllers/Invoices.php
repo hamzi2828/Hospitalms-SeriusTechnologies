@@ -25,6 +25,8 @@
             $this -> load -> model ( 'IPDModel' );
             $this -> load -> model ( 'RadiologyModel' );
             $this -> load -> model ( 'StoreModel' );
+            $this -> load -> model('CafeSettingModel'); 
+            $this -> load -> model ( 'SupplierModel' );
             $this -> load -> model ( 'DoctorModel' );
             $this -> load -> model ( 'HrModel' );
             $this -> load -> model ( 'LoanModel' );
@@ -2957,6 +2959,40 @@
             $data[ 'stock_info' ] = $this -> StoreModel -> get_stock_info ( $invoice_number );
             $data[ 'stocks' ]     = $this -> StoreModel -> get_stock_by_invoice ( $invoice_number );
             $html_content         = $this -> load -> view ( '/invoices/store_stock_invoice', $data, true );
+            require_once FCPATH . '/vendor/autoload.php';
+            $mpdf = new \Mpdf\Mpdf( [
+                                        'margin_left'   => 5,
+                                        'margin_right'  => 5,
+                                        'margin_top'    => 35,
+                                        'margin_bottom' => 20,
+                                        'margin_header' => 5,
+                                        'margin_footer' => 5
+                                    ] );
+            $name = 'Store stock invoice ' . rand () . '.pdf';
+
+            $mpdf -> SetTitle ( strip_tags ( site_name ) );
+            $mpdf -> SetAuthor ( site_name );
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+            $mpdf -> SetDisplayMode ( 'real' );
+            $mpdf -> WriteHTML ( $html_content );
+            $mpdf -> Output ( $name, 'I' );
+        }
+
+        public function cafe_store_stock_invoice () {
+
+
+            $invoice_number = $_REQUEST[ 'invoice' ];
+            if ( !isset( $invoice_number ) or empty( trim ( $invoice_number ) ) )
+                return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+
+            $data[ 'stock_info' ] = $this -> CafeSettingModel -> get_stock_info ( $invoice_number );
+            
+            $data[ 'stocks' ]     = $this -> CafeSettingModel -> get_stock_by_invoice ( $invoice_number );
+
+            $html_content         = $this -> load -> view ( '/invoices/cafe_store_stock_invoice', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
                                         'margin_left'   => 5,

@@ -2813,6 +2813,13 @@
         return $ci -> StoreModel -> get_store_by_id ( $store_id );
     }
     
+    function get_product_by_id($product_id) {
+
+        $ci = &get_instance();
+        $ci->load->model('CafeSettingModel');
+        return $ci->CafeSettingModel->get_product_by_id($product_id);
+    }
+    
     /**
      * ---------------------
      * @return mixed

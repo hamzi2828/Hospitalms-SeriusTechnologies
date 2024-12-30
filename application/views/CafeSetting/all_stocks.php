@@ -23,29 +23,65 @@
                     <i class="fa fa-globe"></i> All Cafe Stock
                 </div>
             </div>
-           <div class="portlet-body" style="overflow: auto">
-                <table class="table table-striped table-bordered table-hover" id="sample_1">
-                    <thead>
-                    <tr>
-                        <th> Sr. No</th>
-                        <th> Invoice</th>
-                        <th> Supplier</th>
-                        <th> Item</th>
-                        <th> Quantity</th>
-                        <th> Price</th>
-                        <th> Discount</th>
-                        <th> Net Price</th>
-                        <th> Date Added</th>
-                        <th> Actions</th>
-                    </tr>
-                    </thead>
+            <div class="portlet-body" style="overflow: auto">
+            <table class="table table-striped table-bordered table-hover" id="sample_1">
+    <thead>
+        <tr>
+            <th> Sr. No</th>
+            <th> Invoice</th>
+            <th> Supplier</th>
+            <th> Discount</th>
+            <th> Total</th>
+            <th> Net</th>
+            <th> Date Added</th>
+            <th> Actions</th>
+        </tr>
+    </thead>
 
-                    <tbody>
+    <tbody>
+        <?php
+        if (count($stocks) > 0) {
+            $counter = 1;
+            foreach ($stocks as $stock) {
+                // Split concatenated values into arrays
+                $product_items = explode(',', $stock->product_items);
+                $quantities = explode(',', $stock->quantities);
+                $tp_units = explode(',', $stock->tp_units);
+                $discounts = explode(',', $stock->discounts);
+                $net_prices = explode(',', $stock->net_prices);
 
-                    </tbody>
-               
-                </table>
-            </div>
+                // Calculate total and net for each row
+                $total = 0;
+                $net = 0;
+                for ($i = 0; $i < count($quantities); $i++) {
+                    $total += (float)$quantities[$i] * (float)$tp_units[$i];
+                    $net += (float)$net_prices[$i];
+                }
+
+                ?>
+                <tr class="odd gradeX">
+                    <td> <?php echo $counter++; ?> </td>
+                    <td> <?php echo $stock->invoice; ?> </td>
+                    <td> <?php echo @get_account_head($stock->supplier_id)->title; ?> </td>
+                    <td> <?php echo array_sum(array_map('floatval', $discounts)); ?> </td> 
+                    <td> <?php echo $total; ?> </td>
+                    <td> <?php echo $net; ?> </td>
+                    <td> <?php echo date_setter($stock->date_added); ?> </td>
+                    <td>
+                        <a class="btn btn-xs purple" target="_blank" href="<?php echo base_url('/invoices/cafe-stock-invoice?invoice=' . $stock->invoice); ?>">
+                            Print
+                        </a>
+                    </td>
+                </tr>
+                <?php
+            }
+        }
+        ?>
+    </tbody>
+</table>
+        </div>
+
+        
         </div>
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>

@@ -27,7 +27,7 @@
                 <form role="form" method="post" autocomplete="off">
                     <input type="hidden" name="<?php echo $this -> security -> get_csrf_token_name (); ?>"
                            value="<?php echo $this -> security -> get_csrf_hash (); ?>" id="csrf_token">
-                    <input type="hidden" name="action" value="do_add_store_stock">
+                    <input type="hidden" name="action" value="do_add_store_stock_for_cafe">
                     <input type="hidden" id="added" value="1">
                     <div class="form-body">
                         
@@ -101,11 +101,11 @@
                         
                         <div class="row">
                             <div class="col-md-1 col-md-offset-9" style="text-align: right; margin-top: 10px">
-                                <strong>Disc. (%)</strong>
+                                <strong>Dis.(Flat) </strong>
                             </div>
                             <div class="col-md-2" style="margin-top: 10px">
                                 <input type="text" name="grand_total_discount" class="form-control grand_total_discount"
-                                       onchange="calculate_grand_total_discount(this.value)">
+                                       onchange="calculate_grand_total_discount_for_cafe(this.value)">
                             </div>
                         </div>
                         <div class="row">

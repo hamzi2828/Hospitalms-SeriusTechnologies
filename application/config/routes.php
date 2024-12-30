@@ -177,6 +177,10 @@
     $route[ 'invoices/discharge-summary-invoice/(:any)' ]             = 'Invoices/discharge_summary_invoice/$1';
     $route[ 'invoices/admission-order-invoice/(:any)' ]               = 'Invoices/admission_order_invoice/$1';
     $route[ 'invoices/store-stock-invoice' ]                          = 'Invoices/store_stock_invoice';
+
+    $route[ 'invoices/cafe-stock-invoice' ]                          = 'Invoices/cafe_store_stock_invoice';
+
+
     $route[ 'invoices/store-issuance-invoice' ]                       = 'Invoices/store_issuance_invoice';
     $route[ 'invoices/patient-invoice/(:any)' ]                       = 'Invoices/patient_invoice/$1';
     $route[ 'invoices/ultrasound-report' ]                            = 'Invoices/ultrasound_report';
@@ -601,6 +605,8 @@
 
 
     $route[ 'cafe-setting/all-stock' ]                                 = 'CafeSetting/all_stocks';
+    $route[ 'cafe-setting/stock-details/(:any)' ]                      = 'CafeSetting/stock_details';
+
     $route[ 'cafe-setting/add-stock' ]                                 = 'CafeSetting/add_stock';
     $route[ 'cafe-setting/store-stock' ]                               = 'CafeSetting/store_stock';
     $route[ 'cafe-setting/edit-stock/(:any)' ]                         = 'CafeSetting/edit_stock/$1';

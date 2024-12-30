@@ -29,9 +29,9 @@
                         value="<?php echo $this -> security -> get_csrf_hash (); ?>">
                     <div class="form-body" style="overflow:auto;">
                         <div class="form-group col-lg-3">
-                            <label for="exampleInputEmail1">Medicine Name</label>
+                            <label for="exampleInputEmail1">Product Name</label>
                             <input type="text" name="name" class="form-control"
-                                placeholder="Add medicine name e.g Adderall" autofocus="autofocus"
+                                placeholder="Add product name e.g Adderall" autofocus="autofocus"
                                 value="<?php echo set_value ( 'name' ) ?>">
                         </div>
                         <div class="form-group col-lg-3">
@@ -52,7 +52,7 @@
                         </div>
                         <div class="form-group col-lg-3">
                             <label for="exampleInputEmail1">Pack Size</label>
-                            <small>(Amount of drugs per box)</small>
+                            <small>(Amount of Items per box)</small>
                             <input type="text" name="quantity" class="form-control quantity" required="required"
                                 value="<?php echo set_value ( 'quantity' ) ?>" onchange="calculate_tp_unit_price()">
                         </div>
