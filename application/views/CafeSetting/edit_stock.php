@@ -122,9 +122,9 @@
 
                                                 <div class="form-group col-lg-3">
                                                     <label for="exampleInputEmail1">Quantity (Units)</label>
-                                                    <input type="text" name="quantity[]" class="form-control quantity-<?php echo $row ?>"
+                                                    <input type="number" name="quantity[]" class="form-control quantity-<?php echo $row ?>"
                                                         onchange="calculate_store_cafe_stock_net_price(<?php echo $row ?>)"
-                                                        value="<?php echo $product->quantity ?>">
+                                                        value="<?php echo (int) $product->quantity ?>">
                                                 </div>
 
                                                 <div class="form-group col-lg-3">

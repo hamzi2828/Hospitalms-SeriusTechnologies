@@ -115,7 +115,7 @@
     define ( 'local_purchase', 71 );
     define ( 'store_supplier', 791 );
     define ( 'lab_suppliers', 724 );
-    define ( 'Cafe_Suppliers', 965 ); // new created 
+    define ( 'Cafe_Suppliers', 9 ); // new created 
     define ( 'pharmacy_dept', 3 );
     define ( 'anesthetist_charges', '20% - 33% of surgeon fee' );
     define ( 'ipd_service_types', "'xray','ultrasound','ecg','echo'" );
@@ -400,7 +400,7 @@
     define ( 'OTHER_INCOME', 206 );
     define ( 'store_inventory', 470 );
     define ( 'lab_inventory', 486 );
-    define ( 'Cafe_Inventory', 963 );
+    define ( 'Cafe_Inventory', 10 );
     
     define ( 'COS_Procedures_IPD', 861 );
     define ( 'COS_Anesthesia_Fee', 181 );
