@@ -58,18 +58,32 @@
                     $net += (float)$net_prices[$i];
                 }
 
+                $stockDiscount = 0; 
+                if (!empty($stock_info)) {
+                    foreach ($stock_info as $info) {
+                        if ($info->invoice === $stock->invoice) {
+                            $stockDiscount = $info->discount;
+                            break; 
+                        }
+                    }
+                }
+
+          
                 ?>
                 <tr class="odd gradeX">
                     <td> <?php echo $counter++; ?> </td>
                     <td> <?php echo $stock->invoice; ?> </td>
                     <td> <?php echo @get_account_head($stock->supplier_id)->title; ?> </td>
-                    <td> <?php echo array_sum(array_map('floatval', $discounts)); ?> </td> 
+                    <td> <?php echo $stockDiscount; ?> </td> 
                     <td> <?php echo $total; ?> </td>
                     <td> <?php echo $net; ?> </td>
                     <td> <?php echo date_setter($stock->date_added); ?> </td>
                     <td>
                         <a class="btn btn-xs purple" target="_blank" href="<?php echo base_url('/invoices/cafe-stock-invoice?invoice=' . $stock->invoice); ?>">
                             Print
+                        </a>
+                        <a class="btn btn-xs blue" target="_blank" href="<?php echo base_url('/cafe-setting/edit-stock/'. $stock->invoice); ?>">
+                            Edit
                         </a>
                     </td>
                 </tr>

@@ -237,4 +237,18 @@ class CafeSettingModel extends CI_Model
         $stock = $this -> db -> get_where ( 'store_cafe_stocks', array ( 'product_id' => $product_id ) );
         return $stock -> result();
     }
+
+    public function get_all_stocks_by_invoice ( $invoice ) {
+        $sql   = "Select * from hmis_store_cafe_stocks  where invoice LIKE '$invoice%'";
+        $query = $this -> db -> query ( $sql );
+        return $query -> result ();
+    }
+
+
+    public function get_stock_info_by_invoice ( $invoice ) {
+        $stock = $this -> db -> get_where ( 'hmis_store_stock_discount', array ( 'invoice' => $invoice ) );
+        return $stock -> result();
+    }
+    
+    
 }

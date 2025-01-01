@@ -38,24 +38,16 @@
                                     <select name="supplier_id" class="form-control select2me" id="supplier_id"
                                             data-placeholder="Select" required="required">
                                         <option></option>
-                                        <optgroup label="Store Suppliers">
+                                        <optgroup label="Cafe Suppliers">
                                             <?php
-                                                if ( count ( $suppliers ) > 0 ) {
-                                                    foreach ( $suppliers as $supplier ) {
+                                                if ( count ( $Cafe_Suppliers ) > 0 ) {
+                                                    foreach ( $Cafe_Suppliers as $supplier ) {
                                                         echo '<option value="' . $supplier -> id . '">' . $supplier -> title . '</option>';
                                                     }
                                                 }
                                             ?>
                                         </optgroup>
-                                        <optgroup label="Lab Suppliers">
-                                            <?php
-                                                if ( count ( $lab_suppliers ) > 0 ) {
-                                                    foreach ( $lab_suppliers as $supplier ) {
-                                                        echo '<option value="' . $supplier -> id . '">' . $supplier -> title . '</option>';
-                                                    }
-                                                }
-                                            ?>
-                                        </optgroup>
+                                    
                                     </select>
                                 </div>
                                 <div class="form-group col-lg-4">
@@ -105,7 +97,7 @@
                             </div>
                             <div class="col-md-2" style="margin-top: 10px">
                                 <input type="text" name="grand_total_discount" class="form-control grand_total_discount"
-                                       onchange="calculate_grand_total_discount_for_cafe(this.value)">
+                                       onchange="calculate_grand_total_discount_for_cafe(this.value)"  value="0.00">
                             </div>
                         </div>
                         <div class="row">

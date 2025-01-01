@@ -56,6 +56,17 @@
                                                 }
                                             ?>
                                         </optgroup>
+                                        
+                                        <optgroup label="Cafe Suppliers">
+                                            <?php
+                                                if ( count ( $Cafe_Suppliers ) > 0 ) {
+                                                    foreach ( $Cafe_Suppliers as $supplier ) {
+                                                        echo '<option value="' . $supplier -> id . '">' . $supplier -> title . '</option>';
+                                                    }
+                                                }
+                                            ?>
+                                        </optgroup>
+
                                     </select>
                                 </div>
                                 <div class="form-group col-lg-4">

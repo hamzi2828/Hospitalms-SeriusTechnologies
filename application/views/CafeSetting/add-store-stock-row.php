@@ -71,7 +71,7 @@
     <div class="form-group col-lg-3">
         <label for="exampleInputEmail1">Discount (Flat)</label>
         <input type="text" name="discount[]" class="form-control discount-<?php echo $row ?>"
-               onchange="calculate_store_cafe_stock_net_price(<?php echo $row ?>)">
+               onchange="calculate_store_cafe_stock_net_price(<?php echo $row ?>)"  value="0.00">
     </div>
     
     <div class="form-group col-lg-3">

@@ -105,7 +105,12 @@ mpdf-->
         <th>Supplier</th>
         <th>Items</th>
         <th>Quantities</th>
+        <th>TP/Box</th>
+        <th>Pack Size</th>
         <th>TP Unit</th>
+        <th>Sale/Box</th>
+        <th>Sale/Unit</th>
+        <th>Discount</th>
         <th>Net Prices</th>
         <th>Date Added</th>
     </tr>
@@ -130,9 +135,24 @@ mpdf-->
                 <td>
                     <?php echo number_format($stock->quantity, 2); ?>
                 </td>
+                <th>
+                    <?php echo number_format($stock->tp_box, 2); ?>
+                </th>
+                <th>
+                    <?php echo number_format($stock->pack_size, 2); ?>
+                </th>
                 <td>
                     <?php echo number_format($stock->tp_unit, 2); ?>
                 </td>
+                <th>
+                    <?php echo number_format($stock->sale_box, 2); ?>
+                </th>
+                <th>
+                    <?php echo number_format($stock->sale_unit, 2); ?>
+                </th>
+                <th>
+                    <?php echo number_format($stock->discount, 2); ?>
+                </th>
                 <td>
                     <?php echo number_format($stock->net_price, 2); ?>
                 </td>
@@ -145,7 +165,7 @@ mpdf-->
         }
   ?>
             <tr>
-                <td colspan="7" class="text-right" align="right">
+                <td colspan="12" class="text-right" align="right">
                     <strong>Total:</strong>
                 </td>
                 <td>
@@ -153,7 +173,7 @@ mpdf-->
             </td>
             </tr>
             <tr>
-                <td colspan="7" class="text-right" align="right">
+                <td colspan="12" class="text-right" align="right">
                     <strong>Bill Discount (%):</strong>
                 </td>
                 <td>
@@ -161,7 +181,7 @@ mpdf-->
                 </td>
             </tr>
             <tr>
-                <td colspan="7" class=" text-right" align="right">
+                <td colspan="12" class=" text-right" align="right">
                     <strong>Net Bill:</strong>
                 </td>
                 <td>

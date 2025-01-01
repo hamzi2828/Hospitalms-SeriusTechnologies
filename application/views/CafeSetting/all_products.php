@@ -20,7 +20,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i> Products
+                    <i class="fa fa-globe"></i> All Cafe Products
                 </div>
             </div>
            <div class="portlet-body" style="overflow: auto">
@@ -59,19 +59,25 @@
                                     <td><?php echo $product -> quantity; ?></td>
                                     <td><?php echo $product -> sale_box; ?></td>
                                     <td><?php echo $product -> sale_unit; ?></td>
-                                    <td>
-                                    <a href="<?php echo base_url ( 'cafe-setting/edit-product/' . $product -> id ); ?>" class="btn btn-primary btn-xs">
-                                        <i class="fa fa-pencil"></i> Edit
-                                    </a>
-                                    <a href="<?php echo base_url ( 'cafe-setting/delete-product/' . $product -> id ); ?>" class="btn btn-danger btn-xs"  onclick="return confirm ('Are you sure want to delete this product?')">
-                                        <i class="fa fa-trash-o"></i> Delete
-                                    </a>
+                                    <td class="btn-group-xs">
 
-                                    <a href="<?php echo base_url ( 'cafe-setting/stock-details/' . $product -> id ); ?>" class="btn btn-primary btn-xs">
-                                        <i class="fa fa-cubes"></i> Stock
-                                    </a>
-                                
+                                    <a type="button" class="btn purple"
+                                    href="<?php echo base_url ( 'cafe-setting/stock-details/' . $product -> id ) ?>">Stock</a>
+
+                                    <a type="button" class="btn blue"
+                                    href="<?php echo base_url ( 'cafe-setting/edit-product/' . $product -> id ) ?>">Edit</a>
+
+
+
+                                    <a type="button" class="btn red"
+                                               href="<?php echo base_url (  'cafe-setting/delete-product/' . $product -> id ) ?>"
+                                               onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+
+
+
                                     </td>
+
+                                   
                                 </tr>
                         <?php
                                 $i++;

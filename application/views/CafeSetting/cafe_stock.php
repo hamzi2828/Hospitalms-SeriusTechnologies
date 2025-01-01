@@ -26,22 +26,26 @@
                 <?php endif; ?>
                 <table class="table table-striped table-bordered table-hover">
         <thead>
-            <tr>
-                <th> Sr. No</th>
-                <th> Supplier</th>
-                <th> Item Name</th>
-                <th> Invoice</th>
-                <th> Batch</th>
-                <th> Expiry</th>
-                <th> Quantity</th>
-                <th> Price</th>
-                <th> Discount</th>
-                <th> Net Price</th>
+                <tr>
+                <th>Sr. No</th>
+                <th>Supplier</th>
+                <th>Product</th>
+                <th>Invoice</th>
+                <th>Stock No</th>
+                <!-- <th>Expiry</th> -->
+                <th>Quantities</th>
+                <th>TP/Box</th>
+                <th>Pack Size</th>
+                <th>TP/Unit</th>
+                <th>Sale/Box</th>
+                <th>Sale/Unit</th>
+                <th>Discount</th>
+                <th>Net Prices</th>
                 <th> Total Quantity</th>
                 <th> Sold Quantity</th>
                 <th> Available Quantity</th>
                 <th> Date Added</th>
-                <!-- <th> Actions</th> -->
+                <th> Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -60,22 +64,26 @@
                         <td><?php echo $product->name; ?></td> 
                         <td><?php echo $stock->invoice ?></td>
                         <td><?php echo $stock->stock_no ?></td> 
-                        <td><?php echo date_setter($stock->expiry) ?></td>
+                        <!-- <td><?php echo date_setter($stock->expiry) ?></td> -->
                         <td><?php echo $stock->quantity ?></td>
+                        <td><?php echo $stock->tp_box ?></td>
+                        <td><?php echo $stock->pack_size ?></td>
                         <td><?php echo $stock->tp_unit ?></td> 
-                        <td><?php echo $stock->discount ?></td>
+                        <td><?php echo $stock->sale_box ?></td>
+                        <td><?php echo $stock->sale_unit ?></td>
+                        <td><?php echo $stock->discount ? number_format($stock->discount, 2) : '0.00' ?></td>
                         <td><?php echo $stock->net_price ?></td>
                         <td><?php echo $total_quantity > 0 ? $total_quantity : 0; ?></td>
                         <td><?php echo $sold_quantity > 0 ? $sold_quantity : 0; ?></td>
                         <td><?php echo $total_quantity - $sold_quantity ?></td>
                         <td><?php echo date_setter($stock->date_added); ?></td>
-                        <!-- <td class="btn-group-xs">
+                        <td class="btn-group-xs">
                             <?php if ($sold_quantity < 1) : ?>
                                 <a type="button" class="btn red" 
-                                href="<?php echo base_url('/store/delete_stock/' . $stock->id) ?>" 
+                                href="<?php echo base_url('cafe-setting/delete-stock/' . $stock->id) ?>" 
                                 onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                             <?php endif; ?>
-                        </td> -->
+                        </td>
                     </tr>
                     <?php
                 }

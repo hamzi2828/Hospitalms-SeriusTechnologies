@@ -8,6 +8,7 @@ class CafeSetting extends CI_Controller {
         $this->load->model('CafeSettingModel'); 
         $this -> load -> model ( 'SupplierModel' );
         $this -> load -> model ( 'StoreModel' );
+        $this -> load -> model ( 'AccountModel' );
     }
 
     /** 
@@ -65,8 +66,8 @@ class CafeSetting extends CI_Controller {
     public function store_product()
     {
     
-        print_r($this->input->post());
-        exit;
+        // print_r($this->input->post());
+        // exit;
         // Prepare product data
         $product_data = array(
             'name' => $this->input->post('name', true),
@@ -380,11 +381,8 @@ class CafeSetting extends CI_Controller {
         $title = site_name . ' - All Cafe Stock';
         $this->header($title);
         $this->sidebar();
-
         $data['stocks'] = $this->CafeSettingModel->get_store_stocks();
         $data[ 'stock_info' ] = $this -> CafeSettingModel -> get_all_stock_info ( );
-
- 
         $this->load->view('CafeSetting/all_stocks', $data);
         $this->footer();
     }
@@ -399,7 +397,7 @@ class CafeSetting extends CI_Controller {
         $this->header($title);
         $this->sidebar();
         $data['route'] = base_url('cafe-setting/store-stocks'); 
-        $data[ 'suppliers' ]     = $this -> SupplierModel -> get_child_suppliers ( store_supplier );
+        $data[ 'Cafe_Suppliers' ] = $this -> SupplierModel -> get_child_suppliers ( Cafe_Suppliers );
         $data[ 'products' ]      = $this -> CafeSettingModel -> get_all_products();
         $data[ 'stores' ]        = $this -> StoreModel -> get_all_store();
         $this->load->view('CafeSetting/add_stock', $data);
@@ -440,7 +438,6 @@ class CafeSetting extends CI_Controller {
         $date_added = date('Y-m-d', strtotime($data['date_added']));
         
         $success = true;
-    
         // Iterate through product IDs
         foreach ($product_ids as $key => $product_id) {
             if (!empty($product_id)) {
@@ -475,15 +472,49 @@ class CafeSetting extends CI_Controller {
                     'total'      =>  $data['grand_total'] ?? 0.00,
                     'date_added' => current_date_time ()
                 );
-                $this -> CafeSettingModel -> add_stock_discount ( $discount );
-
-
+                $result_discount = $this -> CafeSettingModel -> add_stock_discount ( $discount );
+                
                 if (!$result) {
                     $success = false;
                 }
             }
         }
     
+        $ledger_description = 'Cafe stock added. Invoice# ' . $data[ 'invoice' ];
+        $ledger             = array (
+            'user_id'          => get_logged_in_user_id (),
+            'acc_head_id'      => $data[ 'supplier_id' ],
+            'stock_id'         => $data[ 'invoice' ],
+            'invoice_id'       => $data[ 'invoice' ],
+            'payment_mode'     => 'none',
+            'paid_via'         => '',
+            'transaction_type' => 'debit',
+            'credit'           => 0,
+            'debit'            => $data[ 'grand_total' ],
+            'description'      => $ledger_description,
+            'trans_date'       => date ( 'Y-m-d' ),
+            'date_added'       => current_date_time ()
+        );
+        $result_ledger = $this -> AccountModel -> add_ledger ( $ledger );
+
+        $ledger_description = 'Cafe stock added. Invoice# ' . $data[ 'invoice' ];
+
+        $mm_ledger = array (
+            'user_id'          => get_logged_in_user_id (),
+            'acc_head_id'      =>  Cafe_Inventory ,
+            'stock_id'         => $data[ 'invoice' ],
+            'invoice_id'       => $data[ 'invoice' ],
+            'payment_mode'     => 'none',
+            'paid_via'         => '',
+            'transaction_type' => 'credit',
+            'credit'           => $data[ 'grand_total' ],
+            'debit'            => 0,
+            'description'      => $ledger_description,
+            'trans_date'       => date ( 'Y-m-d' ),
+            'date_added'       => current_date_time ()
+        );
+
+        $this -> AccountModel -> add_ledger ( $mm_ledger );
         // Set flash message based on success
         if ($success) {
             $this->session->set_flashdata('response', 'Stock added successfully!');
@@ -512,6 +543,7 @@ class CafeSetting extends CI_Controller {
 
 
     public function delete_stock($id) {
+      
         if ($this->CafeSettingModel->delete_stock($id)) {
             $this->session->set_flashdata('response', 'Stock deleted successfully!');
         } else {
@@ -522,28 +554,195 @@ class CafeSetting extends CI_Controller {
     }
 
     public function edit_stock($id) {
+        if (isset($_POST['action']) && $_POST['action'] == 'do_update_store_stock_for_cafe') {
+            $this->update_stock($_POST);
+        }
+
         $title = site_name . ' - Edit Stock';
         $this->header($title);
         $this->sidebar();
         $data['route'] = base_url('cafe-setting/update-stock'); 
-        $data['stock'] = $this->CafeSettingModel->get_stock_by_id($id);
+        $data[ 'Cafe_Suppliers' ] = $this -> SupplierModel    -> get_child_suppliers ( Cafe_Suppliers );
+        $data[ 'products' ]       = $this -> CafeSettingModel -> get_all_products();
+        $data[ 'stores' ]         = $this -> StoreModel       -> get_all_store();
+        $data['stock']            = $this -> CafeSettingModel -> get_all_stocks_by_invoice($id);
+        $data[ 'stock_info' ]     = $this -> CafeSettingModel -> get_stock_info_by_invoice ($id);
         $this->load->view('CafeSetting/edit_stock', $data);
         $this->footer();
     }
 
     public function update_stock() {
-        $id = $this->input->post('id', true);
-        $data = array(
-            'name' => $this->input->post('name', true),
-            'updated_at' => date('Y-m-d H:i:s')
-        );
-        if ($this->CafeSettingModel->update_stock($id, $data)) {
+        // Parse incoming POST data
+        $data = $this->input->post(null, true);
+    
+        // Extract data from the input
+        $invoice = $data['invoice'];
+        $stock_ids = $data['stock_id'] ?? [];
+        $stock_nos = $data['stock_no'] ?? [];
+        $expiries = $data['expiry'] ?? [];
+        $quantities = $data['quantity'] ?? [];
+        $tp_boxes = $data['tp_box'] ?? [];
+        $pack_sizes = $data['pack_size'] ?? [];
+        $tp_units = $data['tp_unit'] ?? [];
+        $sale_boxes = $data['sale_box'] ?? [];
+        $sale_units = $data['sale_unit'] ?? [];
+        $discounts = $data['discount'] ?? [];
+        $net_prices = $data['net_price'] ?? [];
+        $grand_total_discount = $data['grand_total_discount'] ?? 0;
+        $grand_total = $data['grand_total'] ?? 0;
+        $product_ids = $data['product_id'] ?? [];
+    
+        // Validate required fields
+        if (empty($invoice)) {
+            $this->session->set_flashdata('error', 'Invalid data. Invoice is missing.');
+            redirect('cafe-setting/all-stocks');
+        }
+    
+        // Prepare for database updates
+        $success = true;
+        $this->db->trans_start(); // Start transaction
+        $new_entries = []; 
+        foreach ($stock_nos as $key => $stock_no) {
+
+        
+            // Process expiry date
+            $expiry_date = !empty($expiries[$key]) ? date('Y-m-d', strtotime($expiries[$key])) : null;
+        
+            // Prepare stock data
+            $stock_data = [
+                'stock_no' => $stock_no ?? '',
+                'expiry' => $expiry_date,
+                'quantity' => $quantities[$key] ?? 0,
+                'tp_box' => $tp_boxes[$key] ?? 0.00,
+                'pack_size' => $pack_sizes[$key] ?? 0,
+                'tp_unit' => $tp_units[$key] ?? 0.00,
+                'sale_box' => $sale_boxes[$key] ?? 0.00,
+                'sale_unit' => $sale_units[$key] ?? 0.00,
+                'discount' => $discounts[$key] ?? 0.00,
+                'net_price' => $net_prices[$key] ?? 0.00,
+            ];
+
+            // Use add_stock method for updates and create_stock for new entries
+            if (!empty($stock_ids[$key])) {
+                $this->db->where('id', $stock_ids[$key]);
+                if (!$this->db->update('store_cafe_stocks', $stock_data)) {
+                    $success = false;
+                    break;
+                }
+            } 
+                
+                // Pass to create_stock for new stock entries
+                $stock_data['invoice'] = $invoice;
+                $stock_data['product_id'] = $product_ids[$key];
+                $new_entries[] = $stock_data;
+    
+        }
+        
+            //commented for the store new entry code 
+            // if (!$this->create_stock($new_entries)) {
+            //     $success = false;
+            // }
+        
+            // Update discount information
+            $discount_data = [
+                'discount' => $grand_total_discount,
+                'total' => $grand_total,
+            ];
+            $this->db->where('invoice', $invoice);
+            if (!$this->db->update('store_stock_discount', $discount_data)) {
+                $success = false;
+            }
+    
+
+             // Update general ledger
+            $this->db->where('invoice_id', $invoice);
+            $this->db->where('transaction_type', 'debit');
+            $general_ledger = $this->db->get('hmis_general_ledger')->row_array();
+
+            if (!empty($general_ledger)) {
+                $this->db->where('id', $general_ledger['id']);
+                $update_data = [
+                    'debit' => $grand_total,
+                ];
+                if (!$this->db->update('hmis_general_ledger', $update_data)) {
+                    $success = false;
+                }
+            } 
+
+
+            // Update general ledger
+            $this->db->where('invoice_id', $invoice);
+            $this->db->where('transaction_type', 'credit');
+            $general_ledger = $this->db->get('hmis_general_ledger')->row_array();
+
+            if (!empty($general_ledger)) {
+                $this->db->where('id', $general_ledger['id']);
+                $update_data = [
+                    'credit' => $grand_total,
+                ];
+                if (!$this->db->update('hmis_general_ledger', $update_data)) {
+                    $success = false;
+                }
+            } 
+             
+        $this->db->trans_complete(); // Commit or rollback transaction
+    
+
+
+
+        // Set flash messages and redirect
+        if ($this->db->trans_status() && $success) {
             $this->session->set_flashdata('response', 'Stock updated successfully!');
         } else {
             $this->session->set_flashdata('error', 'Failed to update stock.');
         }
-        redirect('cafe-setting/all-stocks');
+    
+        redirect('cafe-setting/all-stock');
     }
+    
+    public function create_stock($new_entries) {
+        // Debugging: Print the data for new stock creation
+        echo "Creating new stock entries:<br>";
+        print_r($new_entries);
+        echo "<br><br>";
+      exit;
+        // Loop through each entry and create individual stock entries
+        foreach ($new_entries as $entry) {
+            if (isset($entry['product_id']) && is_array($entry['product_id'])) {
+                // Handle multiple product IDs for a single stock entry
+                foreach ($entry['product_id'] as $product_id) {
+                    $stock_data = $entry;
+                    $stock_data['product_id'] = $product_id; // Assign individual product ID
+                    unset($stock_data['product_id']); // Ensure no array remains
+    
+                    if (!$this->CafeSettingModel->add_stock($stock_data)) {
+                        echo "Failed to add stock for product_id: $product_id<br>";
+                        print_r($stock_data);
+                        echo "<br><br>";
+                        return false;
+                    }
+                }
+            } else {
+                // Handle single product ID
+                if (!$this->CafeSettingModel->add_stock($entry)) {
+                    echo "Failed to add stock:<br>";
+                    print_r($entry);
+                    echo "<br><br>";
+                    return false;
+                }
+            }
+        }
+    
+        echo "All stock entries created successfully!<br><br>";
+        return true;
+    }
+    
+    
 
+
+    
+    
+    
+    
 
 }

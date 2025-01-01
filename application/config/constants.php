@@ -115,6 +115,7 @@
     define ( 'local_purchase', 71 );
     define ( 'store_supplier', 791 );
     define ( 'lab_suppliers', 724 );
+    define ( 'Cafe_Suppliers', 965 ); // new created 
     define ( 'pharmacy_dept', 3 );
     define ( 'anesthetist_charges', '20% - 33% of surgeon fee' );
     define ( 'ipd_service_types', "'xray','ultrasound','ecg','echo'" );
@@ -399,6 +400,8 @@
     define ( 'OTHER_INCOME', 206 );
     define ( 'store_inventory', 470 );
     define ( 'lab_inventory', 486 );
+    define ( 'Cafe_Inventory', 963 );
+    
     define ( 'COS_Procedures_IPD', 861 );
     define ( 'COS_Anesthesia_Fee', 181 );
     define ( 'Anesthetist_Charges', 30 );
@@ -411,7 +414,7 @@
     define ( 'COST_OF_SERVICES', 169 );
     define ( 'COS_Laboratory', 878 );
 
-    define ( 'online_report_url', 'http://159.223.61.59/reports/' );
-    define ( 'SMS_API_KEY', '923245318328-a1dd0a79-c98d-4727-a1cb-28f38b23ed69' );
+    // define ( 'online_report_url', 'http://159.223.61.59/reports/' );
+    // define ( 'SMS_API_KEY', '923245318328-a1dd0a79-c98d-4727-a1cb-28f38b23ed69' );
     define ( 'BIRTH_CERT_REG', 'KMC-Bcert-' );
     define ( 'STORE_CODE', 'KMC-' . date ( 'y' ) . '-0010' );
