@@ -285,8 +285,12 @@ function calculate_grand_total_discount ( discount ) {
     }
 }
 
+
+
 function calculate_grand_total_discount_for_cafe ( discount ) {
     var total_price = jQuery ( '.grand_total' ).val ();
+
+
     if ( total_price > 0 && discount >= 0 ) {
         if ( discount < 0 )
             discount = 0;
@@ -296,6 +300,34 @@ function calculate_grand_total_discount_for_cafe ( discount ) {
         jQuery ( '.grand_total' ).val ( net_price.toFixed ( 2 ) );
     }
 }
+
+
+
+function calculate_balance_after_payment_for_cafe() {
+    var paid_amount = parseFloat(jQuery('.paid_amount').val()) || 0; // Convert to number or default to 0
+    var grand_total = parseFloat(jQuery('.grand_total').val()) || 0; // Convert to number or default to 0
+
+    if (grand_total > 0 && paid_amount >= 0) {
+        if (paid_amount < 0) {
+            alert('Paid amount can not be less than 0');
+            jQuery('.paid_amount').val(0);
+            return 0;
+        }
+
+
+        if (paid_amount > grand_total) {
+            alert('Paid amount can not be greater than total');
+            jQuery('.paid_amount').val(grand_total);
+            jQuery('.net_balance_remaning').val(0);
+
+            return 0;
+        }
+
+        var net_balance_remaning = grand_total - paid_amount; // Correct calculation
+        jQuery('.net_balance_remaning').val(net_balance_remaning.toFixed(2));
+    }
+}
+
 
 
 /**
@@ -2305,6 +2337,12 @@ function calculate_added_amount_total ( added ) {
  * @param row
  * -------------
  */
+function grand_total_discount() {
+    var paid_amount = jQuery('.paid_amount').val(); 
+    alert(paid_amount);
+}
+
+
 
 function calculate_balance_after_payment ( paid ) {
     var total_price = jQuery ( '#total-net-price' ).val ();
@@ -3145,6 +3183,32 @@ function calculate_store_cafe_stock_net_price ( row ) {
     }
 }
 
+
+function calculate_store_cafe_sale_net_price ( row ) {
+    var slae_quantity         = Math.round(jQuery ( '.sale-qty-' + row ).val());
+    var sale_price          = jQuery ( '.sale_price-' + row ).val();
+    var availableQty = parseFloat(document.querySelector('.available-' + row).value) || 0;
+    var saleQty = document.querySelector('.sale-qty-' + row).value;
+   
+    if (saleQty % 1 != 0) {
+        document.querySelector('.sale-qty-' + row).value = Math.round(saleQty);
+    }
+    var calculated_price = 0;
+    var net              = 0;
+    if (slae_quantity > availableQty) {
+        alert("Sale quantity cannot exceed available quantity.");
+        document.querySelector('.sale-qty-' + row).value = availableQty;
+    } else if (slae_quantity < 0) {
+        alert("Sale quantity cannot be less than 0.");
+        document.querySelector('.sale-qty-' + row).value = 0;
+    }
+    if ( slae_quantity >= 0 && sale_price >= 0 ) {
+        calculated_price = parseFloat ( slae_quantity ) * parseFloat ( sale_price );
+        net              = calculated_price;
+        jQuery ( '.net-' + row ).val ( net.toFixed ( 2 ) );
+        calculate_store_stock_total();
+    }
+}
 /**
  * -------------
  * calculate grand total

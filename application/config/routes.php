@@ -612,6 +612,11 @@
     $route[ 'cafe-setting/edit-stock/(:any)' ]                         = 'CafeSetting/edit_stock/$1';
     $route[ 'cafe-setting/update-stock' ]                              = 'CafeSetting/update_stock';
     $route[ 'cafe-setting/delete-stock/(:any)' ]                       = 'CafeSetting/delete_stock/$1';
+    $route[ 'cafe-setting/add-sale' ]                                  = 'CafeSetting/add_sale';
+    $route[ 'cafe-setting/all-sale' ]                                  = 'CafeSetting/all_sale';
+    $route[ 'invoices/cafesale-invoice/(:any)' ]                       = 'Invoices/cafesale_invoice/$1';
+    $route[ 'cafe-setting/Refund-sale/(:any)' ]                         = 'CafeSetting/refund_sale/$1';
+
 
 
     $route[ '404_override' ]                                          = '';

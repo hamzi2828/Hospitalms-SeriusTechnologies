@@ -30,11 +30,15 @@
                         <th> Sr. No</th>
                         <th> Product Name</th>
                         <th> Category</th>
-                        <th> TP Box</th>
-                        <th> TP Unit</th>
-                        <th> Quantity</th>
-                        <th> Sale Box</th>
-                        <th> Sale Unit</th>
+                        <th> TP/Box</th>
+                        <th> TP/Unit</th>
+                        <th> Pack Size</th>
+                        <th> Sale/Box</th>
+                        <th> Sale/Unit</th>
+                        <th> Total Qty</th>
+                        <th> Sold Qty</th>
+                        <th> Refonded Qty</th>
+                        <th> Available Qty</th>
                         <th> Actions</th>
                     </tr>
                     </thead>
@@ -51,7 +55,7 @@
                                     <td>
                                         <?php
                                             $category = $this->CafeSettingModel->get_category_by_id($product -> category_id);
-                                            echo $category -> name;
+                                            echo $category -> name ?? 'not found';
                                         ?>
                                     </td>
                                     <td><?php echo $product -> tp_box; ?></td>
@@ -59,6 +63,10 @@
                                     <td><?php echo $product -> quantity; ?></td>
                                     <td><?php echo $product -> sale_box; ?></td>
                                     <td><?php echo $product -> sale_unit; ?></td>
+                                    <td><?php echo get_product_total_quantity_by_id($product->id) ?? 0; ?></td>
+                                    <td><?php echo get_total_sold_quantity_by_product_id($product->id) ?? 0; ?></td>
+                                    <td><?php echo get_total_refonded_quantity_by_product_id($product->id) ?? 0; ?></td>
+                                    <td><?php echo (get_product_total_quantity_by_id($product->id) - get_total_sold_quantity_by_product_id($product->id) ) + get_total_refonded_quantity_by_product_id($product->id); ?></td>
                                     <td class="btn-group-xs">
 
                                     <a type="button" class="btn purple"
@@ -67,15 +75,10 @@
                                     <a type="button" class="btn blue"
                                     href="<?php echo base_url ( 'cafe-setting/edit-product/' . $product -> id ) ?>">Edit</a>
 
-
-
                                     <a type="button" class="btn red"
-                                               href="<?php echo base_url (  'cafe-setting/delete-product/' . $product -> id ) ?>"
-                                               onclick="return confirm('Are you sure you want to delete?')">Delete</a>
-
-
-
-                                    </td>
+                                                href="<?php echo base_url (  'cafe-setting/delete-product/' . $product -> id ) ?>"
+                                                onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                                        </td>
 
                                    
                                 </tr>

@@ -11,7 +11,7 @@ class CafeSettingModel extends CI_Model
     // Store ingredients into the database
     public function store_ingredients($data)
     {
-        return $this->db->insert('ingredients', $data); 
+        return $this->db->insert('cafe_ingredients', $data); 
     }
 
     
@@ -19,7 +19,7 @@ class CafeSettingModel extends CI_Model
     public function get_all_ingredients()
     {
         $this->db->order_by('name');
-        $query = $this->db->get('ingredients');
+        $query = $this->db->get('cafe_ingredients');
         return $query->result();
     }
 
@@ -28,7 +28,7 @@ class CafeSettingModel extends CI_Model
     public function delete_ingredient($id)
     {
         $this->db->where('id', $id);
-        return $this->db->delete('ingredients'); 
+        return $this->db->delete('cafe_ingredients'); 
     }
 
     
@@ -36,7 +36,7 @@ class CafeSettingModel extends CI_Model
     public function get_ingredient_by_id($id)
     {
         $this->db->where('id', $id);
-        $query = $this->db->get('ingredients');
+        $query = $this->db->get('cafe_ingredients');
         return $query->row();
     }
     
@@ -45,7 +45,7 @@ class CafeSettingModel extends CI_Model
     public function update_ingredients($id, $data)
     {
         $this->db->where('id', $id);
-        return $this->db->update('ingredients', $data); 
+        return $this->db->update('cafe_ingredients', $data); 
     }
 
     
@@ -58,7 +58,7 @@ class CafeSettingModel extends CI_Model
     // Store categories into the database
     public function store_categories($data)
     {
-        return $this->db->insert('categories', $data); 
+        return $this->db->insert('cafe_categories', $data); 
     }
 
     
@@ -66,7 +66,7 @@ class CafeSettingModel extends CI_Model
     public function get_all_categories()
     {
         $this->db->order_by('name');
-        $query = $this->db->get('categories');
+        $query = $this->db->get('cafe_categories');
         return $query->result();
     }
 
@@ -75,7 +75,7 @@ class CafeSettingModel extends CI_Model
     public function delete_category($id)
     {
         $this->db->where('id', $id);
-        return $this->db->delete('categories'); 
+        return $this->db->delete('hmis_cafe_categories'); 
     }
 
     
@@ -83,7 +83,7 @@ class CafeSettingModel extends CI_Model
     public function get_category_by_id($id)
     {
         $this->db->where('id', $id);
-        $query = $this->db->get('categories');
+        $query = $this->db->get('cafe_categories');
         return $query->row();
     }
     
@@ -92,7 +92,7 @@ class CafeSettingModel extends CI_Model
     public function update_categories($id, $data)
     {
         $this->db->where('id', $id );
-        return $this->db->update('categories', $data); 
+        return $this->db->update('cafe_categories', $data); 
     }
     
 
@@ -106,8 +106,9 @@ class CafeSettingModel extends CI_Model
   // Store product data
   public function store_products($data)
   {
-      $this->db->insert('hmis_cafe_products', $data);
-      return $this->db->insert_id(); // Return the inserted product ID
+  
+      $this->db->insert('cafe_products', $data);
+      return $this->db->insert_id(); 
   }
 
     
@@ -153,14 +154,14 @@ class CafeSettingModel extends CI_Model
   // Store product-ingredient relationships
   public function store_product_ingredients($data)
   {
-      $this->db->insert_batch('product_ingredients', $data); 
+      $this->db->insert_batch('cafe_product_ingredients', $data); 
   }
 
     
     public function get_product_by_product_id($product_id)
     {
         $this->db->where('product_id', $product_id);
-        $query = $this->db->get('product_ingredients');
+        $query = $this->db->get('cafe_product_ingredients');
         return $query->result();
     }
 
@@ -251,4 +252,57 @@ class CafeSettingModel extends CI_Model
     }
     
     
+    // *******************************
+    // ******************************
+    // *******genrals***********
+    // ******************************
+    // ******************************
+
+    public function get_product_total_quantity_by_id($product_id) {
+        $this->db->select_sum('quantity');  
+        $this->db->where('product_id', $product_id); 
+        $query = $this->db->get('hmis_store_cafe_stocks'); 
+    
+        if ($query->num_rows() > 0) {
+            return $query->row()->quantity; 
+        } else {
+            return 0; 
+        }
+    }
+
+    public function get_total_sold_quantity_by_product_id($product_id) {
+        $this->db->select('SUM(sale_qty) AS total_sold_quantity');
+        $this->db->where('product_id', $product_id);
+        $this->db->where('refunded IS NULL');
+        $query = $this->db->get('hmis_cafe_sales');
+    
+        if ($query->num_rows() > 0) {
+            return $query->row()->total_sold_quantity;
+        } else {
+            return 0; 
+        }
+    }
+    
+    public function get_all_sales() {
+        $query = $this->db->get('hmis_cafe_sales');
+        return $query->result();
+    }
+    public function get_sales_by_sale_id ( $where ) {
+        $stock = $this -> db -> get_where ( 'hmis_cafe_sales', $where );
+        return $stock -> result();
+    }
+
+
+    public function get_total_refonded_quantity_by_product_id($product_id) {
+        $this->db->select('SUM(sale_qty) AS total_sold_quantity');
+        $this->db->where('product_id', $product_id);
+        $this->db->where('refunded IS NOT NULL');
+        $query = $this->db->get('hmis_cafe_sales');
+    
+        if ($query->num_rows() > 0) {
+            return $query->row()->total_sold_quantity;
+        } else {
+            return 0; 
+        }
+    }
 }

@@ -92,7 +92,7 @@ mpdf-->
 <table width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8" border="0">
     <tr>
         <td style="width: 100%; background: #f5f6f7; text-align: center">
-            <h3><strong> Cafe Store Stock Invoice </strong></h3>
+            <h3><strong> Cafe Stock Invoice </strong></h3>
         </td>
     </tr>
 </table>
@@ -101,10 +101,9 @@ mpdf-->
     <thead>
     <tr>
         <th>Sr. No</th>
-        <th>Invoice</th>
-        <th>Supplier</th>
         <th>Items</th>
-        <th>Quantities</th>
+
+        <th>Quantity (Units)</th>
         <th>TP/Box</th>
         <th>Pack Size</th>
         <th>TP Unit</th>
@@ -112,7 +111,6 @@ mpdf-->
         <th>Sale/Unit</th>
         <th>Discount</th>
         <th>Net Prices</th>
-        <th>Date Added</th>
     </tr>
     </thead>
 
@@ -124,48 +122,44 @@ mpdf-->
             ?>
             <tr class="odd gradeX">
                 <td> <?php echo $counter++; ?> </td>
-                <td> <?php echo $stock->invoice; ?> </td>
-                <td> <?php echo @get_account_head($stock->supplier_id)->title; ?> </td>
-                <td>
+                <td style="width: 130px;">
                     <?php
                     $product = get_product_by_id($stock->product_id); 
                     echo @$product->name ?? 'Unknown Item';
                     ?>
                 </td>
                 <td>
-                    <?php echo number_format($stock->quantity, 2); ?>
+                    <?php echo number_format($stock->quantity, 0); ?>
                 </td>
-                <th>
+                <td>
                     <?php echo number_format($stock->tp_box, 2); ?>
-                </th>
-                <th>
+                </td>
+                <td style="font-weight: normal;">
                     <?php echo number_format($stock->pack_size, 2); ?>
-                </th>
+                </td>
                 <td>
                     <?php echo number_format($stock->tp_unit, 2); ?>
                 </td>
-                <th>
+                <td style="font-weight: normal;">
                     <?php echo number_format($stock->sale_box, 2); ?>
                 </th>
-                <th>
+                <td style="font-weight: normal;">
                     <?php echo number_format($stock->sale_unit, 2); ?>
                 </th>
-                <th>
+                <td style="font-weight: normal;">
                     <?php echo number_format($stock->discount, 2); ?>
                 </th>
                 <td>
                     <?php echo number_format($stock->net_price, 2); ?>
                 </td>
-                <td>
-                    <?php echo date_setter($stock->date_added); ?>
-                </td>
+               
              
             </tr>
             <?php
         }
-  ?>
+      ?>
             <tr>
-                <td colspan="12" class="text-right" align="right">
+                <td colspan="9" class="text-right" align="right">
                     <strong>Total:</strong>
                 </td>
                 <td>
@@ -173,15 +167,15 @@ mpdf-->
             </td>
             </tr>
             <tr>
-                <td colspan="12" class="text-right" align="right">
-                    <strong>Bill Discount (%):</strong>
+                <td colspan="9" class="text-right" align="right">
+                    <strong>Bill Discount (Flat):</strong>
                 </td>
                 <td>
                     <strong><?php echo number_format ( $stock_info -> discount, 2 ) ?></strong>
                 </td>
             </tr>
             <tr>
-                <td colspan="12" class=" text-right" align="right">
+                <td colspan="9" class=" text-right" align="right">
                     <strong>Net Bill:</strong>
                 </td>
                 <td>

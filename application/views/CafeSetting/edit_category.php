@@ -5,7 +5,7 @@
         <div class="portlet box blue">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-reorder"></i> Add Category
+                    <i class="fa fa-reorder"></i> Add Cafe Category
                 </div>
             </div>
             <div class="portlet-body form">

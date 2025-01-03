@@ -182,6 +182,22 @@
         $mpdf->Output($invoice_id.'.pdf','I');*/
         }
 
+
+        public function cafesale_invoice () {
+            $invoice_id = $this -> uri -> segment ( 3 );
+           
+            if ( empty( trim ( $invoice_id ) ) or !is_numeric ( $invoice_id ) or $invoice_id < 1 )
+                return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+
+            $where = array (
+                'invoice_id' => $invoice_id
+            );
+
+            $data[ 'sale_id' ]   = $invoice_id;
+            $data[ 'sales' ]     = $this -> CafeSettingModel -> get_sales_by_sale_id ( $where );
+            $html_content        = $this -> load -> view ( '/invoices/cafe-sale-invoice', $data );
+
+        }
         /**
          * ---------------------
          * do print invoice

@@ -107,6 +107,7 @@
     define ( 'panel_patient', 15 );
     define ( 'cash_in_hand', 21 );
     define ( 'cash_from_pharmacy', 22 );
+    define ( 'cash_from_cafe', 11 );
     define ( 'cash_from_opd', 23 );
     define ( 'cash_from_lab', 24 );
     define ( 'return_customer', 45 );
@@ -413,6 +414,7 @@
     define ( 'COS_Online_Referral_Portal', 871 );
     define ( 'COST_OF_SERVICES', 169 );
     define ( 'COS_Laboratory', 878 );
+    
 
     // define ( 'online_report_url', 'http://159.223.61.59/reports/' );
     // define ( 'SMS_API_KEY', '923245318328-a1dd0a79-c98d-4727-a1cb-28f38b23ed69' );

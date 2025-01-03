@@ -109,8 +109,8 @@ class CafeSetting extends CI_Controller {
                 $this->CafeSettingModel->store_product_ingredients($product_ingredients);
             }
         }
-    
-        redirect('CafeSetting/all_products');
+      $this->session->set_flashdata('response', 'Product added successfully!');
+        redirect('cafe-setting/add-product');
     }
     
 
@@ -373,7 +373,7 @@ class CafeSetting extends CI_Controller {
 
     
     // ******************
-    //  *****Stocks******
+    // ******Stocks******
     // ******************
 
 
@@ -523,7 +523,7 @@ class CafeSetting extends CI_Controller {
         }
     
         // Redirect to stocks page
-        redirect('cafe-setting/all-stock');
+        redirect('cafe-setting/add-stock');
     }
     
 
@@ -685,7 +685,7 @@ class CafeSetting extends CI_Controller {
                 }
             } 
              
-        $this->db->trans_complete(); // Commit or rollback transaction
+             $this->db->trans_complete(); // Commit or rollback transaction
     
 
 
@@ -739,7 +739,212 @@ class CafeSetting extends CI_Controller {
     
     
 
+    public function load_store_item_cafe_sale () {
+        $item_id = $this -> input -> get ( 'item_id', true );
+        $row     = $this -> input -> get ( 'row', true );
+        
+        if ( !empty( trim ( $item_id ) ) and $item_id > 0 ) {
+            $data[ 'row' ]   = $row;
+            $data['product'] = $this->CafeSettingModel->get_product_by_id($item_id);
 
+            $this -> load -> view ( 'CafeSetting/add-product-for-sale', $data );
+        }
+    }
+
+    public function add_sale() 
+    {
+       
+        if (isset($_POST['action']) && $_POST['action'] == 'do_add_store_stock_for_cafe') {
+            $this->do_add_sale_for_cafe($_POST);
+        }
+        // Load the sale form
+        $title = site_name . ' - Cafe Sale';
+        $this->header($title);
+        $this->sidebar();
+        $data['products'] = $this->CafeSettingModel->get_all_products();
+        $this->load->view('/CafeSetting/sale', $data);
+        $this->footer();
+    }
+
+    public function all_sale() {
+        $title = site_name . ' - All Cafe Sales';
+        $this->header($title);
+        $this->sidebar();
+        $data['sales'] = $this->CafeSettingModel->get_all_sales();
+        $this->load->view('/CafeSetting/all_sale', $data);
+        $this->footer();
+    }
+    
+    public function do_add_sale_for_cafe($data) {
+        // Fetch the last invoice_id from the database
+        $this->db->select_max('invoice_id');
+        $last_invoice = $this->db->get('hmis_cafe_sales')->row();
+        $new_invoice_id = isset($last_invoice->invoice_id) ? $last_invoice->invoice_id + 1 : 1; 
+    
+        // Extract data from POST
+        $product_ids = $data['product_id'];
+        $sale_qtys = $data['sale_qty'];
+        $prices = $data['price'];
+        $net_prices = $data['net_price'];
+        $grand_total_discount = $data['grand_total_discount'];
+        $grand_total = $data['grand_total'];
+    
+        // Insert data for each product in the sale
+        foreach ($product_ids as $index => $product_id) {
+            $sale_data = [
+                'product_id' => $product_id,
+                'invoice_id' => $new_invoice_id, // Use the new invoice_id
+                'sale_qty' => $sale_qtys[$index],
+                'price' => $prices[$index],
+                'net_price' => $net_prices[$index],
+                'grand_total_discount' => $grand_total_discount,
+                'grand_total' => $grand_total,
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+    
+            // Insert into the database
+            $this->db->insert('hmis_cafe_sales', $sale_data);
+        }
+    
+        $ledger_description = 'Cafe Sale added. Invoice# ' . $new_invoice_id;
+        $ledger             = array (
+            'user_id'          => get_logged_in_user_id (),
+            'acc_head_id'      => Cafe_Inventory ,
+            'stock_id'         => $new_invoice_id,
+            'invoice_id'       => $new_invoice_id,
+            'payment_mode'     => 'cash',
+            'paid_via'         => '',
+            'transaction_type' => 'debit',
+            'credit'           => 0,
+            'debit'            => $grand_total,
+            'description'      => $ledger_description,
+            'trans_date'       => date ( 'Y-m-d' ),
+            'date_added'       => current_date_time ()
+        );
+         $this -> AccountModel -> add_ledger ( $ledger );
+
+        $ledger_description = 'Cafe stock added. Invoice# ' . $new_invoice_id;
+
+        $mm_ledger = array (
+            'user_id'          => get_logged_in_user_id (),
+            'acc_head_id'      => cash_from_cafe ,
+            'stock_id'         => $new_invoice_id,
+            'invoice_id'       => $new_invoice_id,
+            'payment_mode'     => 'cash',
+            'paid_via'         => '',
+            'transaction_type' => 'credit',
+            'credit'           => $grand_total,
+            'debit'            => 0,
+            'description'      => $ledger_description,
+            'trans_date'       => date ( 'Y-m-d' ),
+            'date_added'       => current_date_time ()
+        );
+
+         $this -> AccountModel -> add_ledger ( $mm_ledger );
+
+        // Set a success message and redirect
+        $this->session->set_flashdata('response', $new_invoice_id);
+        redirect('cafe-setting/add-sale');
+    }
+    
+    
+    public function refund_sale($id)
+    {
+        if (empty($id) || !is_numeric($id)) {
+            $this->session->set_flashdata('error', 'Invalid sale ID.');
+            redirect('cafe-setting/all-sale');
+        }
+    
+        // Fetch all sales associated with the given invoice_id
+        $sales = $this->db->get_where('hmis_cafe_sales', ['invoice_id' => $id])->result();
+        if (empty($sales)) {
+            $this->session->set_flashdata('error', 'Sale not found.');
+            redirect('cafe-setting/all-sale');
+        }
+    
+        $this->db->trans_start();
+    
+        // Mark all sales for the given invoice_id as refunded
+        $this->db->where('invoice_id', $id);
+        $this->db->update('hmis_cafe_sales', ['refunded' => 1]);
+    
+        // Get the last invoice_id
+        $this->db->select('invoice_id');
+        $this->db->order_by('invoice_id', 'DESC');
+        $last_invoice = $this->db->get('hmis_cafe_sales')->row();
+        $new_invoice_id = isset($last_invoice->invoice_id) ? $last_invoice->invoice_id + 1 : 1;
+        $grand_total = 0;
+        // Duplicate each sale with the new invoice_id
+        foreach ($sales as $sale) {
+            
+            $grand_total = $sale->grand_total;
+            $duplicate_sale = [
+                'product_id' => $sale->product_id,
+                'invoice_id' => $new_invoice_id,
+                'sale_qty' => $sale->sale_qty,
+                'price' => $sale->price,
+                'net_price' => -$sale->net_price, // Negative for refund
+                'grand_total_discount' => $sale->grand_total_discount,
+                'grand_total' => -$sale->grand_total, // Negative for refund
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'refunded' => 1, // Mark the duplicate as refunded
+            ];
+            $this->db->insert('hmis_cafe_sales', $duplicate_sale);
+        }
+    
+            
+            $ledger_description = 'Cafe Sale refunded. Invoice# ' . $new_invoice_id;
+            $ledger             = array (
+                'user_id'          => get_logged_in_user_id (),
+                'acc_head_id'      => cash_from_cafe ,
+                'stock_id'         => $new_invoice_id,
+                'invoice_id'       => $new_invoice_id,
+                'payment_mode'     => 'cash',
+                'paid_via'         => '',
+                'transaction_type' => 'debit',
+                'credit'           => 0,
+                'debit'            => $grand_total,
+                'description'      => $ledger_description,
+                'trans_date'       => date ( 'Y-m-d' ),
+                'date_added'       => current_date_time ()
+            );
+            $this -> AccountModel -> add_ledger ( $ledger );
+
+            $ledger_description = 'Cafe Sale refunded.. Invoice# ' . $new_invoice_id;
+
+            $mm_ledger = array (
+                'user_id'          => get_logged_in_user_id (),
+                'acc_head_id'      => Cafe_Inventory,
+                'stock_id'         => $new_invoice_id,
+                'invoice_id'       => $new_invoice_id,
+                'payment_mode'     => 'cash',
+                'paid_via'         => '',
+                'transaction_type' => 'credit',
+                'credit'           => $grand_total,
+                'debit'            => 0,
+                'description'      => $ledger_description,
+                'trans_date'       => date ( 'Y-m-d' ),
+                'date_added'       => current_date_time ()
+            );
+
+            $this -> AccountModel -> add_ledger ( $mm_ledger );
+
+
+
+        // Complete database transaction
+        $this->db->trans_complete();
+    
+        // Check the transaction status
+        if (!$this->db->trans_status()) {
+            $this->session->set_flashdata('error', 'An error occurred while processing the refund.');
+        } else {
+            $this->session->set_flashdata('success', 'Sale refunded successfully.');
+        }
+    
+        // Redirect to the all-sale page
+        redirect('cafe-setting/all-sale');
+    }
     
     
     

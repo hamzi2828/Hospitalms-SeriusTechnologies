@@ -94,5 +94,20 @@
                 </a>
             </li>
         <?php endif; ?>
+        <?php if (!empty($access) and !in_array('add-sale', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'add-sale') echo 'active'; ?>">
+                <a href="<?php echo base_url('/cafe-setting/add-sale') ?>">
+                    Add Sale
+                </a>
+            </li>
+        <?php endif; ?>
+
+        <?php if (!empty($access) and !in_array('all-sale', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'all-sale') echo 'active'; ?>">
+                <a href="<?php echo base_url('/cafe-setting/all-sale') ?>">
+                    All Sale
+                </a>
+            </li>
+        <?php endif; ?>
     </ul>
 </li>

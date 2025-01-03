@@ -40,11 +40,11 @@
                                 <td><?php echo $ingredient -> name; ?></td>
                                 <td>
                                     <a href="<?php echo base_url ( 'cafe-setting/edit-ingredient/' . $ingredient -> id ); ?>" class="btn btn-primary btn-xs">
-                                        <i class="fa fa-pencil"></i> Edit
+                                        Edit
                                     </a>
                                     <a href="<?php echo base_url ( 'cafe-setting/delete-ingredient/' . $ingredient -> id ); ?>" class="btn btn-danger btn-xs"
                                        onclick="return confirm ('Are you sure want to delete this ingredient?')">
-                                        <i class="fa fa-trash-o"></i> Delete
+                                        Delete
                                     </a>
                                 </td>
                             </tr>

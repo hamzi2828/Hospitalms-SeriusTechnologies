@@ -20,7 +20,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i> All Categories
+                    <i class="fa fa-globe"></i> All Cafe Categories
                 </div>
             </div>
            <div class="portlet-body" style="overflow: auto">
@@ -39,14 +39,15 @@
                                 <td><?php echo $i; ?></td>
                                 <td><?php echo $category -> name; ?></td>
                                 <td>
-                                    <a href="<?php echo base_url ( 'cafe-setting/edit-category/' . $category -> id ); ?>" class="btn btn-primary btn-xs">
-                                        <i class="fa fa-pencil"></i> Edit
+                                    <a href="<?php echo base_url ( 'cafe-setting/edit-category/' . $category -> id ); ?>" type="button"   class="btn btn-primary btn-xs">
+                                        Edit
                                     </a>
-                                    <a href="<?php echo base_url ( 'cafe-setting/delete-category/' . $category -> id ); ?>" class="btn btn-danger btn-xs" 
-                                    onclick="return confirm ('Are you sure want to delete this category?')">
-                                        <i class="fa fa-trash-o"></i> Delete
+                                    <a href="<?php echo base_url ( 'cafe-setting/delete-category/' . $category -> id ); ?>"type="button"   class="btn btn-danger btn-xs" 
+                                        onclick="return confirm ('Are you sure want to delete this category?')">
+                                        Delete
                                     </a>
                                 </td>
+
                             </tr>
                         <?php $i++; } ?>
                     </tbody>

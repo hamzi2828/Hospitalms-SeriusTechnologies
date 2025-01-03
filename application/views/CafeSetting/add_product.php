@@ -5,7 +5,7 @@
         <div class="portlet box blue">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-reorder"></i> Add Product
+                    <i class="fa fa-reorder"></i> Add Cafe Product
                 </div>
             </div>
             <div class="portlet-body form">
@@ -36,7 +36,7 @@
                         </div>
                         <div class="form-group col-lg-3">
                         <label for="exampleInputEmail1">Category</label>
-                            <select class="form-control" name="category_id">
+                            <select class="form-control select2me" name="category_id">
                                 <option value="">Select Category</option>
                                 <?php if(!empty($categories)) { foreach ($categories as $category) { ?>
                                     <option value="<?php echo $category -> id ?>"><?php echo $category -> name ?></option>
