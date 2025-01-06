@@ -185,9 +185,9 @@
             <?php endif; ?>
             <tr>
                 <td class="blanktotal" colspan="4" align="right">
-                    <strong>Grand Total</strong>
+                    <strong>Net Total</strong>
                 </td>
-                <td class="totals cost"><?php echo number_format($grand_total - $total_discount, 2); ?></td>
+                <td class="totals cost"><?php echo number_format($grand_total, 2); ?></td>
             </tr>
             <?php
         } else {
