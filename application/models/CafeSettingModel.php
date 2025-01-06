@@ -262,7 +262,6 @@ class CafeSettingModel extends CI_Model
         $this->db->select_sum('quantity');  
         $this->db->where('product_id', $product_id); 
         $query = $this->db->get('hmis_store_cafe_stocks'); 
-    
         if ($query->num_rows() > 0) {
             return $query->row()->quantity; 
         } else {
@@ -286,8 +285,9 @@ class CafeSettingModel extends CI_Model
     
     public function get_product_available_quantity_by_id($product_id) {
         $total_quantity = $this->get_product_total_quantity_by_id($product_id);
+        $total_refonded_quantity = $this->get_total_refonded_quantity_by_product_id($product_id);
         $total_sold_quantity = $this->get_total_sold_quantity_by_product_id($product_id);
-        return (int)($total_quantity - $total_sold_quantity);
+        return (int)(($total_quantity  - $total_sold_quantity) + $total_refonded_quantity);
     }
     
     public function get_all_sales() {
