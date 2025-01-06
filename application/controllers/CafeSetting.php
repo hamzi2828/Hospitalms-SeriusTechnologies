@@ -660,10 +660,10 @@ class CafeSetting extends CI_Controller {
 
              // Update general ledger
             $this->db->where('invoice_id', $invoice);
+            $this->db->where('stock_id', $invoice);
             $this->db->where('transaction_type', 'debit');
             $general_ledger = $this->db->get('hmis_general_ledger')->row_array();
-            // print_r($general_ledger);
-       
+
             if (!empty($general_ledger)) {
                 $this->db->where('id', $general_ledger['id']);
                 $update_data = [
@@ -677,6 +677,7 @@ class CafeSetting extends CI_Controller {
 
             // Update general ledger
             $this->db->where('invoice_id', $invoice);
+            $this->db->where('stock_id', $invoice);
             $this->db->where('transaction_type', 'credit');
             $general_ledger = $this->db->get('hmis_general_ledger')->row_array();
 
