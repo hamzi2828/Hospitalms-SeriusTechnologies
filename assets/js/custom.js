@@ -4594,10 +4594,11 @@ function get_medicine_pack_size ( medicine_id, row ) {
  */
 
 function calculate_tp_unit_price () {
-    var tp_box   = jQuery ( '.tp-box' ).val ();
-    var quantity = jQuery ( '.quantity' ).val ();
+    var tp_box   = jQuery ( '.tp-box' ).val();
+    var quantity = jQuery ( '.quantity' ).val();
     var tp_unit  = 0;
     if ( tp_box > 0 && quantity > 0 ) {
+        calculate_sale_unit_price();
         tp_unit = parseFloat ( tp_box ) / parseFloat ( quantity );
     }
     jQuery ( '.tp-unit' ).val ( tp_unit.toFixed ( 2 ) );
