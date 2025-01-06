@@ -97,14 +97,9 @@
 
 
                                     <?php if ($group['refunded'] == null): ?>
-                                        <a type="button" class="btn green"
+                                        <a type="button" class="btn green" onclick="return confirm('Are you sure you want to refund?')"
                                         href="<?php echo base_url('cafe-setting/Refund-sale/' . $invoice_id); ?>">Refund</a>
                                     <?php endif; ?>
-
-
-                                  
-
-                               
                                 </td>
                             </tr>
                         <?php $i++; } ?>

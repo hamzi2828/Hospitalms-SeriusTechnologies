@@ -282,6 +282,13 @@ class CafeSettingModel extends CI_Model
             return 0; 
         }
     }
+
+    
+    public function get_product_available_quantity_by_id($product_id) {
+        $total_quantity = $this->get_product_total_quantity_by_id($product_id);
+        $total_sold_quantity = $this->get_total_sold_quantity_by_product_id($product_id);
+        return (int)($total_quantity - $total_sold_quantity);
+    }
     
     public function get_all_sales() {
         $query = $this->db->get('hmis_cafe_sales');

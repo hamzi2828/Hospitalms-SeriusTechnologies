@@ -2836,6 +2836,12 @@
         $ci->load->model('CafeSettingModel');
         return $ci->CafeSettingModel->get_total_refonded_quantity_by_product_id($product_id);
     }
+
+    function get_product_available_quantity_by_id($product_id) {
+        $ci = &get_instance();
+        $ci->load->model('CafeSettingModel');
+        return $ci->CafeSettingModel->get_product_available_quantity_by_id($product_id);
+    }
     
     /**
      * ---------------------

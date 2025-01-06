@@ -17,7 +17,7 @@
     <div class="form-group col-lg-2">
         <label for="exampleInputEmail1">Available Qty</label>
         <input type="text" name="available_qty[]" class="form-control available-<?php echo $row ?>"
-               value="<?php echo (int) get_product_total_quantity_by_id($product -> id) ?>" readonly="readonly">
+               value="<?php echo (int) get_product_available_quantity_by_id($product -> id) ?>" readonly="readonly">
     </div>
 
     
