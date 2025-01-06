@@ -184,31 +184,46 @@ class CafeSetting extends CI_Controller {
     
     private function update_product_ingredients($product_id)
     {
+        // Retrieve and sanitize input
         $ingredient_ids = $this->input->post('ingredient_id', true);
         $usable_quantities = $this->input->post('usable_quantity', true);
- 
-
-        if (!empty($ingredient_ids) && !empty($usable_quantities)) {
-            // Prepare the data for batch insert
+    
+        // Check if the inputs are valid
+        if (!empty($ingredient_ids) && is_array($ingredient_ids) && 
+            !empty($usable_quantities) && is_array($usable_quantities)) {
+            
+            // Prepare data for batch insert
             $product_ingredients = [];
             foreach ($ingredient_ids as $index => $ingredient_id) {
-                $product_ingredients[] = [
-                    'product_id' => $product_id,
-                    'ingredient_id' => $ingredient_id,
-                    'price' => $usable_quantities[$index],
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s')
-                ];
+                // Validate individual values
+                if (!empty($ingredient_id) && isset($usable_quantities[$index])) {
+                    $product_ingredients[] = [
+                        'product_id' => $product_id,
+                        'ingredient_id' => $ingredient_id,
+                        'price' => $usable_quantities[$index],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ];
+                }
             }
-
-            // Clear existing ingredients for the product
-            $this->db->where('product_id', $product_id);
-            $this->db->delete('cafe_product_ingredients');
-
-            // Insert updated ingredients
-            $this->CafeSettingModel->store_product_ingredients($product_ingredients);
+    
+            if (!empty($product_ingredients)) {
+                // Clear existing ingredients for the product
+                $this->db->where('product_id', $product_id);
+                $this->db->delete('cafe_product_ingredients');
+    
+                // Insert updated ingredients
+                $this->CafeSettingModel->store_product_ingredients($product_ingredients);
+            } else {
+                // Log or handle a case where no valid ingredients exist to update
+                log_message('error', "No valid ingredients provided for product ID: $product_id.");
+            }
+        } else {
+            // Log or handle empty input case
+            log_message('error', "Invalid or missing input for updating product ingredients for product ID: $product_id.");
         }
     }
+    
 
     
     public function add_more_ingredients () {
