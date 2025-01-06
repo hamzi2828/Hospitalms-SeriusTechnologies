@@ -96,7 +96,7 @@ class CafeSetting extends CI_Controller {
                 // Ensure valid ingredient ID and price
                 if (!empty($ingredient_id) && isset($ingredient_prices[$index])) {
                     $product_ingredients[] = array(
-
+                        'user_id'          => get_logged_in_user_id (),
                         'product_id' => $product_id,
                         'ingredient_id' => $ingredient_id,
                         'price' => $ingredient_prices[$index], // Using usable_quantity as price
@@ -796,6 +796,7 @@ class CafeSetting extends CI_Controller {
         $this->footer();
     }
     
+
     public function do_add_sale_for_cafe($data) {
         // Fetch the last invoice_id from the database
         $this->db->select_max('invoice_id');
@@ -813,6 +814,7 @@ class CafeSetting extends CI_Controller {
         // Insert data for each product in the sale
         foreach ($product_ids as $index => $product_id) {
             $sale_data = [
+                'user_id'  => get_logged_in_user_id (),
                 'product_id' => $product_id,
                 'invoice_id' => $new_invoice_id, 
                 'sale_qty' => $sale_qtys[$index],
