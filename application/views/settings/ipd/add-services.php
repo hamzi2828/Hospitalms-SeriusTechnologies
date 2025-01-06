@@ -64,7 +64,7 @@
 								<option value="Dexa Scan">Dexa Scan</option>
                             </select>
 
-						
+                        
                         </div>
 						<div class="form-group col-lg-2">
 							<label for="exampleInputEmail1">Price</label>
@@ -79,6 +79,7 @@
                                 <option value="minute">Minute</option>
                                 <option value="visit">Visit</option>
                                 <option value="no">No.</option>
+								<option value="session">Session</option>
                             </select>
                         </div>
                         <div class="col-lg-4" style="margin-top: 30px">

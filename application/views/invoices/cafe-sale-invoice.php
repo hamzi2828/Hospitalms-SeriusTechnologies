@@ -135,7 +135,7 @@
     <thead>
         <tr style="background: #f5f5f5;">
             <td style="width: 10%; font-weight:bold">Sr. No.</td>
-            <td style="font-weight:bold">Medicine</td>
+            <td style="font-weight:bold">Items</td>
             <td style="font-weight:bold">Price</td>
             <td style="font-weight:bold">Quantity</td>
             <td style="font-weight:bold">Net Price</td>
@@ -150,7 +150,7 @@
             $total_discount = 0;
             $grand_total = 0;
             foreach ($sales as $sale) {
-                $medicine = get_medicine($sale->product_id); // Assuming `get_medicine` fetches product details
+                $medicine = get_product_by_id($sale->product_id);  
                 $net_price = $sale->net_price;
                 $total_net_price += $net_price;
                 $total_discount = $sale->grand_total_discount;
@@ -187,7 +187,7 @@
                 <td class="blanktotal" colspan="4" align="right">
                     <strong>Grand Total</strong>
                 </td>
-                <td class="totals cost"><?php echo number_format($grand_total, 2); ?></td>
+                <td class="totals cost"><?php echo number_format($grand_total - $total_discount, 2); ?></td>
             </tr>
             <?php
         } else {

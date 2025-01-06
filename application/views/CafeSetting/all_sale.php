@@ -53,6 +53,7 @@
                                 'net_prices' => [],
                                 'sale_qtys' => [],
                                 'grand_total_discount' => $sale->grand_total_discount,
+                                'grand_total' => $sale->grand_total,
                                 'refunded' => $sale->refunded ?? 0,
                                 'created_at' => $sale->created_at
                             ];
@@ -84,14 +85,12 @@
                                 <td><?php echo $group['grand_total_discount']; ?></td>
                                 <td>
                                 <?php 
-                                    if ($group['refunded'] == 1){
-                                        echo '-';
-                                    }
-                                    echo array_sum(array_map('abs', $group['net_prices'])) - $group['grand_total_discount']; 
+                                   
+                                    echo $group['grand_total']; 
                                     ?>
                                 </td>
 
-                                <td><?php echo date_setter($group['created_at']); ?></td>
+                                <td><?php echo $group['created_at']; ?></td>
                                 <td class="btn-group-xs">
                                     <a type="button" class="btn purple"
                                     href="<?php echo base_url('invoices/cafesale-invoice/' . $invoice_id); ?>">Print</a>

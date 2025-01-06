@@ -37,7 +37,7 @@
                         <th> Sale/Unit</th>
                         <th> Total Qty</th>
                         <th> Sold Qty</th>
-                        <th> Refonded Qty</th>
+                        <th> Refund Qty</th>
                         <th> Available Qty</th>
                         <th> Actions</th>
                     </tr>
@@ -63,10 +63,10 @@
                                     <td><?php echo $product -> quantity; ?></td>
                                     <td><?php echo $product -> sale_box; ?></td>
                                     <td><?php echo $product -> sale_unit; ?></td>
-                                    <td><?php echo get_product_total_quantity_by_id($product->id) ?? 0; ?></td>
-                                    <td><?php echo get_total_sold_quantity_by_product_id($product->id) ?? 0; ?></td>
-                                    <td><?php echo get_total_refonded_quantity_by_product_id($product->id) ?? 0; ?></td>
-                                    <td><?php echo (get_product_total_quantity_by_id($product->id) - get_total_sold_quantity_by_product_id($product->id) ) + get_total_refonded_quantity_by_product_id($product->id); ?></td>
+                                    <td><?php echo (int)get_product_total_quantity_by_id($product->id) ?? 0; ?></td>
+                                    <td><?php echo (int)get_total_sold_quantity_by_product_id($product->id) ?? 0; ?></td>
+                                    <td><?php echo (int)get_total_refonded_quantity_by_product_id($product->id) ?? 0; ?></td>
+                                    <td><?php echo (int)(get_product_total_quantity_by_id($product->id) - get_total_sold_quantity_by_product_id($product->id) ) + get_total_refonded_quantity_by_product_id($product->id); ?></td>
                                     <td class="btn-group-xs">
 
                                     <a type="button" class="btn purple"

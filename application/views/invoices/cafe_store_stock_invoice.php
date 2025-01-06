@@ -106,11 +106,11 @@ mpdf-->
         <th>Quantity (Units)</th>
         <th>TP/Box</th>
         <th>Pack Size</th>
-        <th>TP Unit</th>
+        <th>TP/Unit</th>
         <th>Sale/Box</th>
         <th>Sale/Unit</th>
         <th>Discount</th>
-        <th>Net Prices</th>
+        <th>Net Price</th>
     </tr>
     </thead>
 
@@ -168,7 +168,7 @@ mpdf-->
             </tr>
             <tr>
                 <td colspan="9" class="text-right" align="right">
-                    <strong>Bill Discount (Flat):</strong>
+                    <strong>Discount (Flat):</strong>
                 </td>
                 <td>
                     <strong><?php echo number_format ( $stock_info -> discount, 2 ) ?></strong>
@@ -176,7 +176,7 @@ mpdf-->
             </tr>
             <tr>
                 <td colspan="9" class=" text-right" align="right">
-                    <strong>Net Bill:</strong>
+                    <strong>Net:</strong>
                 </td>
                 <td>
                     <strong><?php echo number_format ( $stock_info -> total, 2 ) ?></strong>

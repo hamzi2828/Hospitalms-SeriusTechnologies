@@ -41,7 +41,7 @@
                 <th>Sale/Unit</th>
                 <th>Discount</th>
                 <th>Net Prices</th>
-                <th> Total Quantity</th>
+                <th> Total Qty</th>
                 <th> Date Added</th>
                 <th> Actions</th>
             </tr>
@@ -71,8 +71,8 @@
                         <td><?php echo $stock->sale_unit ?></td>
                         <td><?php echo $stock->discount ? number_format($stock->discount, 2) : '0.00' ?></td>
                         <td><?php echo $stock->net_price ?></td>
-                        <td><?php echo get_product_total_quantity_by_id($stock->product_id) ?></td> 
-                        <td><?php echo date_setter($stock->date_added); ?></td>
+                        <td><?php echo (int)$stock->quantity ?></td> 
+                        <td><?php echo $stock->date_added; ?></td>
                         <td class="btn-group-xs">
                             <?php if ($sold_quantity < 1) : ?>
                                 <a type="button" class="btn red" 

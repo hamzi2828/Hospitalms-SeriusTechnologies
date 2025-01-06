@@ -70,6 +70,7 @@ class CafeSetting extends CI_Controller {
         // exit;
         // Prepare product data
         $product_data = array(
+            'user_id'    => get_logged_in_user_id (),
             'name' => $this->input->post('name', true),
             'category_id' => $this->input->post('category_id', true),
             'tp_box' => $this->input->post('tp_box', true),
@@ -95,6 +96,7 @@ class CafeSetting extends CI_Controller {
                 // Ensure valid ingredient ID and price
                 if (!empty($ingredient_id) && isset($ingredient_prices[$index])) {
                     $product_ingredients[] = array(
+
                         'product_id' => $product_id,
                         'ingredient_id' => $ingredient_id,
                         'price' => $ingredient_prices[$index], // Using usable_quantity as price
@@ -201,7 +203,7 @@ class CafeSetting extends CI_Controller {
 
             // Clear existing ingredients for the product
             $this->db->where('product_id', $product_id);
-            $this->db->delete('product_ingredients');
+            $this->db->delete('cafe_product_ingredients');
 
             // Insert updated ingredients
             $this->CafeSettingModel->store_product_ingredients($product_ingredients);
@@ -241,6 +243,7 @@ class CafeSetting extends CI_Controller {
 
     public function store_category() {        
         $data = array(
+            'user_id'    => get_logged_in_user_id (),
             'name' => $this->input->post('name', true), 
             'created_at' => date('Y-m-d H:i:s'),     
             'updated_at' => date('Y-m-d H:i:s')        
@@ -319,6 +322,7 @@ class CafeSetting extends CI_Controller {
     public function store_ingredients()
     {
         $data = array(
+            'user_id'    => get_logged_in_user_id (),
             'name' => $this->input->post('name', true), 
             'created_at' => date('Y-m-d H:i:s'),     
             'updated_at' => date('Y-m-d H:i:s')        
@@ -658,7 +662,8 @@ class CafeSetting extends CI_Controller {
             $this->db->where('invoice_id', $invoice);
             $this->db->where('transaction_type', 'debit');
             $general_ledger = $this->db->get('hmis_general_ledger')->row_array();
-
+            // print_r($general_ledger);
+       
             if (!empty($general_ledger)) {
                 $this->db->where('id', $general_ledger['id']);
                 $update_data = [
@@ -894,7 +899,7 @@ class CafeSetting extends CI_Controller {
         }
     
             
-            $ledger_description = 'Cafe Sale refunded. Invoice# ' . $new_invoice_id;
+            $ledger_description = 'Cafe Sale refunded. Invoice# ' . $id;
             $ledger             = array (
                 'user_id'          => get_logged_in_user_id (),
                 'acc_head_id'      => cash_from_cafe ,
@@ -911,7 +916,7 @@ class CafeSetting extends CI_Controller {
             );
             $this -> AccountModel -> add_ledger ( $ledger );
 
-            $ledger_description = 'Cafe Sale refunded.. Invoice# ' . $new_invoice_id;
+            $ledger_description = 'Cafe Sale refunded.. Invoice# ' .  $id;
 
             $mm_ledger = array (
                 'user_id'          => get_logged_in_user_id (),
