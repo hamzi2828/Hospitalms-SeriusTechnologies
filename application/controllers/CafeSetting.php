@@ -798,7 +798,7 @@ class CafeSetting extends CI_Controller {
         foreach ($product_ids as $index => $product_id) {
             $sale_data = [
                 'product_id' => $product_id,
-                'invoice_id' => $new_invoice_id, // Use the new invoice_id
+                'invoice_id' => $new_invoice_id, 
                 'sale_qty' => $sale_qtys[$index],
                 'price' => $prices[$index],
                 'net_price' => $net_prices[$index],

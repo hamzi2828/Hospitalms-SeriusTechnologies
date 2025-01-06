@@ -274,6 +274,7 @@ class CafeSettingModel extends CI_Model
         $this->db->select('SUM(sale_qty) AS total_sold_quantity');
         $this->db->where('product_id', $product_id);
         $this->db->where('refunded IS NULL');
+        $this->db->where('grand_total > 0');
         $query = $this->db->get('hmis_cafe_sales');
     
         if ($query->num_rows() > 0) {
@@ -297,6 +298,7 @@ class CafeSettingModel extends CI_Model
         $this->db->select('SUM(sale_qty) AS total_sold_quantity');
         $this->db->where('product_id', $product_id);
         $this->db->where('refunded IS NOT NULL');
+        $this->db->where('grand_total < 0');
         $query = $this->db->get('hmis_cafe_sales');
     
         if ($query->num_rows() > 0) {
