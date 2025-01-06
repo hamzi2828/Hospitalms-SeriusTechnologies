@@ -36,7 +36,7 @@
         <label for="exampleInputEmail1">TP/Box</label>
         <input type="text" name="tp_box[]" class="form-control tp-box-<?php echo $row ?>"
                onchange="calculate_tp_unit_price(<?php echo $row ?>)"
-               value="<?php echo $product -> tp_box ?>">
+               value="<?php echo $product -> tp_box ?>" readonly="readonly">
     </div>
 
     
@@ -44,7 +44,7 @@
         <label for="exampleInputEmail1">Pack Size</label>
         <input type="text" name="pack_size[]" class="form-control pack-size-<?php echo $row ?>"
                onchange="calculate_tp_unit_price(<?php echo $row ?>)"
-               value="<?php echo $product -> quantity ?>">
+               value="<?php echo $product -> quantity ?>" readonly="readonly">
     </div>
 
     <div class="form-group col-lg-3">
@@ -59,7 +59,7 @@
         <label for="exampleInputEmail1">Sale/Box</label>
         <input type="text" name="sale_box[]" class="form-control sale-box-<?php echo $row ?>"
                 onchange="calculate_sale_unit_price( <?php echo $row ?>)"
-               value="<?php echo $product -> sale_box ?>">
+               value="<?php echo $product -> sale_box ?>" readonly="readonly">
     </div>
     
     <div class="form-group col-lg-3">
