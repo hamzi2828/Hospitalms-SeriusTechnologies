@@ -273,7 +273,6 @@ class CafeSettingModel extends CI_Model
     public function get_total_sold_quantity_by_product_id($product_id) {
         $this->db->select('SUM(sale_qty) AS total_sold_quantity');
         $this->db->where('product_id', $product_id);
-        $this->db->where('refunded IS NULL');
         $this->db->where('grand_total > 0');
         $query = $this->db->get('hmis_cafe_sales');
     
