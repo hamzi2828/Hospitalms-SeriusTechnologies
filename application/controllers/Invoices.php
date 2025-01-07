@@ -287,8 +287,47 @@
          */
 
         public function general_report () {
-            $data[ 'reports' ] = $this -> ReportingModel -> get_sale_reports ();
-            $html_content      = $this -> load -> view ( '/invoices/general-report', $data, true );
+            if (isset($_GET['cafesales_report']) && $_GET['cafesales_report'] == 1) {
+                $start_date = isset($_GET['start_date']) ? $_GET['start_date'] : '';
+                $end_date = isset($_GET['end_date']) ? $_GET['end_date'] : '';
+                $sales = $this->ReportingModel->get_all_sales_with_date_range($start_date, $end_date);
+                 // Initialize grouped sales
+        $grouped_sales = [];
+        foreach ($sales as $sale) {
+            if (!isset($grouped_sales[$sale->invoice_id])) {
+                $grouped_sales[$sale->invoice_id] = [
+                    'invoice_id' => $sale->invoice_id,
+                    'items' => [],
+                    'prices' => [],
+                    'net_prices' => [],
+                    'sale_qtys' => [],
+                    'grand_total_discount' => $sale->grand_total_discount,
+                    'grand_total' => $sale->grand_total,
+                    'refunded' => $sale->refunded ?? 0,
+                    'created_at' => $sale->created_at,
+                ];
+            }
+    
+            // Get product details
+            $product = $this->CafeSettingModel->get_product_by_id($sale->product_id);
+    
+            // Populate grouped sales
+            $grouped_sales[$sale->invoice_id]['items'][] = $product->name;
+            $grouped_sales[$sale->invoice_id]['sale_qtys'][] = $sale->sale_qty;
+            $grouped_sales[$sale->invoice_id]['prices'][] = $sale->price;
+            $grouped_sales[$sale->invoice_id]['net_prices'][] = $sale->net_price;
+        }
+    
+        // Pass grouped sales data to the view
+        $data['grouped_sales'] = $grouped_sales;
+    
+                $html_content = $this->load->view('/invoices/genral-cafe-sales-report', $data, true);
+            }else{
+                $data[ 'reports' ] = $this -> ReportingModel -> get_sale_reports ();
+                $html_content      = $this -> load -> view ( '/invoices/general-report', $data, true );
+            }
+
+
 
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
@@ -312,6 +351,9 @@
             $mpdf -> Output ( $name, 'I' );
         }
 
+
+       
+        
         /**
          * ---------------------
          * do print invoice

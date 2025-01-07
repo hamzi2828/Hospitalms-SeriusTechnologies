@@ -905,9 +905,9 @@ class CafeSetting extends CI_Controller {
                 'product_id' => $sale->product_id,
                 'invoice_id' => $new_invoice_id,
                 'sale_qty' => $sale->sale_qty,
-                'price' => $sale->price,
+                'price' => -$sale->price,
                 'net_price' => -$sale->net_price, // Negative for refund
-                'grand_total_discount' => $sale->grand_total_discount,
+                'grand_total_discount' => -$sale->grand_total_discount,
                 'grand_total' => -$sale->grand_total, // Negative for refund
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
@@ -969,7 +969,66 @@ class CafeSetting extends CI_Controller {
         redirect('cafe-setting/all-sale');
     }
     
+    public function general_sale_report() {
+        $title = site_name . ' - All Cafe Sales';
+        $this->header($title);
+        $this->sidebar();
     
+        // Get date range from the request
+        $start_date = isset($_REQUEST['start_date']) ? $_REQUEST['start_date'] : null;
+        $end_date = isset($_REQUEST['end_date']) ? $_REQUEST['end_date'] : null;
+    
+        // Fetch sales data based on the date range
+        if ($start_date && $end_date) {
+            $sales = $this->CafeSettingModel->get_all_sales_with_date_range($start_date, $end_date);
+        } else {
+            $sales = []; // No data if dates are not provided
+        }
+    
+        // Initialize grouped sales
+        $grouped_sales = [];
+        foreach ($sales as $sale) {
+            if (!isset($grouped_sales[$sale->invoice_id])) {
+                $grouped_sales[$sale->invoice_id] = [
+                    'invoice_id' => $sale->invoice_id,
+                    'items' => [],
+                    'prices' => [],
+                    'net_prices' => [],
+                    'sale_qtys' => [],
+                    'grand_total_discount' => $sale->grand_total_discount,
+                    'grand_total' => $sale->grand_total,
+                    'refunded' => $sale->refunded ?? 0,
+                    'created_at' => $sale->created_at,
+                ];
+            }
+    
+            // Get product details
+            $product = $this->CafeSettingModel->get_product_by_id($sale->product_id);
+    
+            // Populate grouped sales
+            $grouped_sales[$sale->invoice_id]['items'][] = $product->name;
+            $grouped_sales[$sale->invoice_id]['sale_qtys'][] = $sale->sale_qty;
+            $grouped_sales[$sale->invoice_id]['prices'][] = $sale->price;
+            $grouped_sales[$sale->invoice_id]['net_prices'][] = $sale->net_price;
+        }
+    
+        // Pass grouped sales data to the view
+        $data['grouped_sales'] = $grouped_sales;
+    
+        // Load the view
+        $this->load->view('/CafeSetting/genral_sales_report', $data);
+        $this->footer();
+    }
+    
+
+    public function stock_valuation_report( ){
+        $title = site_name . ' - Stock Valuation';
+        $this->header($title);
+        $this->sidebar();
+        $data['products'] = $this->CafeSettingModel->get_all_products();
+        $this->load->view('CafeSetting/stock_valudation_report', $data);
+        $this->footer();
+    }
     
     
 

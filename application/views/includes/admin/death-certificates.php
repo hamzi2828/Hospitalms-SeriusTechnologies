@@ -41,7 +41,7 @@
     <?php if (!empty($access) and !in_array('all-sale', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'all-sale') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/all-sale') ?>">
-                    All Sale
+                    All Sales
                 </a>
             </li>
         <?php endif; ?>
@@ -59,7 +59,7 @@
         <?php if (!empty($access) and !in_array('all-stock', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'all-stock') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/all-stock') ?>">
-                    All Stock
+                    All Stocks
                 </a>
             </li>
         <?php endif; ?>
@@ -131,7 +131,21 @@
         <?php endif; ?>
 
 
+        <?php if (!empty($access) and !in_array('general-sale-report', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'general-sale-report') echo 'active'; ?>">
+                <a href="<?php echo base_url('/cafe-setting/general-sale-report') ?>">
+                    General Report (Sales)
+                </a>
+            </li>
+        <?php endif; ?>
 
+        <?php if (!empty($access) and !in_array('stock-valuation-report', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'stock-valuation-report') echo 'active'; ?>">
+                <a href="<?php echo base_url('/cafe-setting/stock-valuation-report') ?>">
+                    Stock Valuation Report
+                </a>
+            </li>
+        <?php endif; ?>
 
 
     </ul>

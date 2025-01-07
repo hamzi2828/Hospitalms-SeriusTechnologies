@@ -616,8 +616,8 @@
     $route[ 'cafe-setting/all-sale' ]                                  = 'CafeSetting/all_sale';
     $route[ 'invoices/cafesale-invoice/(:any)' ]                       = 'Invoices/cafesale_invoice/$1';
     $route[ 'cafe-setting/Refund-sale/(:any)' ]                         = 'CafeSetting/refund_sale/$1';
-
-
+    $route[ 'cafe-setting/general-sale-report' ]                       = 'CafeSetting/general_sale_report';
+    $route[ 'cafe-setting/stock-valuation-report' ]                    = 'CafeSetting/stock_valuation_report';
 
     $route[ '404_override' ]                                          = '';
     $route[ 'translate_uri_dashes' ]                                  = FALSE;
