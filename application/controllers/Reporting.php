@@ -638,7 +638,7 @@
             $data[ 'panels' ]   = $this -> PanelModel -> get_active_panels ();
             $data[ 'sections' ] = $this -> SectionModel -> get_sections ();
             $data[ 'reports' ]  = $this -> ReportingModel -> get_test_prices_report ();
-            $this -> load -> view ( '/reporting/test-prices-report', $data );
+            $this -> load -> view ( '/reporting/test-prices-report', $data ); 
             $this -> footer ();
         }
         /**

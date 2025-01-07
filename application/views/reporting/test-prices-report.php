@@ -60,6 +60,10 @@
                 </div>
             </form>
         </div> -->
+
+
+
+
         <!-- BEGIN SAMPLE FORM PORTLET-->
         <div class="portlet box blue">
             <div class="portlet-title">
@@ -74,6 +78,7 @@
                        class="pull-right print-btn">Download Excel</a>
                 <?php endif ?>
             </div>
+
            <div class="portlet-body" style="overflow: auto">
             <table class="table table-striped table-bordered table-hover" id="excel-table">
             <thead>
@@ -88,47 +93,46 @@
             </thead>
             <tbody>
             <?php
-                if (count($tests) > 0) {
-                    $counter = 1;
-                    $current_section = ''; // To track the current section
+if (count($tests) > 0) {
+    $counter = 1;
+    $current_section = ''; // To track the current section
 
-                    foreach ($tests as $test) {
-                        $price = get_regular_test_price($test->id);
-                        $has_child = check_if_test_has_sub_tests($test->id);
+    foreach ($tests as $test) {
+        $price = get_regular_test_price($test->id);
 
-                        // Check if the section has changed and display the section name as a heading
-                        if ($current_section != $test->section_name) {
-                            $current_section = $test->section_name;
-                            ?>
-                            <!-- Display section name as a heading -->
-                            <tr>
-                            <td colspan="6" style="font-weight: bold; background-color: #f5f5f5; text-align: left; color: red; font-size: 16px">
-                                <?php echo $current_section; ?>
-                            </td>
+        // Check if the section has changed
+        if ($current_section != $test->section_name) {
+            $current_section = $test->section_name;
 
-                          </tr>
-                            <?php
-                         
-                        
-                        }
-                        // Display the test details under the corresponding section
-                        ?>
-                        <tr class="odd gradeX">
-                            <td> <?php echo $counter++ ?> </td>
-                            <td><?php echo $test->code ?></td>
-                            <td><?php echo $test->name ?></td>
-                            <td><?php echo ucfirst($test->type) ?></td>
-                            <td><?php if (!empty($price)) echo $price->price; ?></td>
-                            <td><?php echo date_setter($test->date_added) ?></td>
-                        </tr>
-                        <?php
-                    }
-                }
-            ?>
+            // Display section heading
+            echo '<tr>';
+            echo '<td colspan="6" style="font-weight: bold; background-color: #f5f5f5; text-align: left; color: red; font-size: 16px">';
+            echo htmlspecialchars($current_section); // Output section name
+            echo '</td>';
+            echo '</tr>';
+        }
+
+        // Display the test details under the current section
+        echo '<tr>';
+        echo '<td>' . $counter++ . '</td>';
+        echo '<td>' . htmlspecialchars($test->code) . '</td>';
+        echo '<td>' . htmlspecialchars($test->name) . '</td>';
+        echo '<td>' . ucfirst(htmlspecialchars($test->type)) . '</td>';
+        echo '<td>' . (!empty($price) ? htmlspecialchars($price->price) : '0') . '</td>';
+        echo '<td>' . htmlspecialchars(date_setter($test->date_added)) . '</td>';
+        echo '</tr>';
+    }
+} else {
+    echo '<tr><td colspan="6" style="text-align: center;">No tests available</td></tr>';
+}
+?>
+
             </tbody>
-</table>
+        </table>
 
             </div>
+
+            
         </div>
         <!-- END SAMPLE FORM PORTLET-->
     </div>
