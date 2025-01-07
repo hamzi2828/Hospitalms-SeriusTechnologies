@@ -111,8 +111,10 @@ mpdf-->
         <th align="left"> Charges</th>
         <th align="left"> Hospital Discount</th>
         <th align="left"> Hospital Commission</th>
+        <th align="left" style="background-color: #ffff99"> Hospital Commission (Receivable)</th>
         <th align="left"> Doctor Discount</th>
         <th align="left"> Doctor Commission</th>
+        <th align="left" style="background-color: #99ff99"> Doctor Commission (Payable)</th>
         <th align="left"> Net Bill</th>
         <th align="left"> Payment Method</th>
         <th align="left"> Referral Portal</th>
@@ -185,12 +187,18 @@ mpdf-->
                     <td>
                         <?php echo number_format ( $hospital_commission, 2 ) ?>
                     </td>
+                    <td style="background-color: #ffff99">
+                           <?php echo number_format ( $hospital_commission - $hospital_discount, 2 ) ?>
+                     </td>
                     <td>
                         <?php echo number_format ( $doctor_discount, 2 ) ?>
                     </td>
                     <td>
                         <?php echo number_format ( $doctor_charges, 2 ) ?>
                     </td>
+                    <td style="background-color: #99ff99">
+                        <?php echo number_format ($doctor_charges - $doctor_discount, 2 ) ?>
+                   </td>
                     <td>
                         <?php echo number_format ( $netBill, 2 ) ?>
                     </td>
@@ -222,12 +230,18 @@ mpdf-->
                 <td>
                     <strong><?php echo number_format ( $hosp_commission, 2 ) ?></strong>
                 </td>
+                <td style="background-color: #ffff99">
+                   <strong><?php echo number_format ( $hosp_commission - $netHospitalDiscount, 2 ) ?></strong>
+                 </td>
                 <td>
                     <strong><?php echo number_format ( $netDoctorDiscount, 2 ) ?></strong>
                 </td>
                 <td>
                     <strong><?php echo number_format ( $doc_commission, 2 ) ?></strong>
                 </td>
+                <td style="background-color: #99ff99">
+                   <strong><?php echo number_format ( $doc_commission - $netDoctorDiscount, 2 ) ?></strong>
+                 </td>
                 <td>
                     <strong><?php echo number_format ( $net, 2 ) ?></strong>
                 </td>
