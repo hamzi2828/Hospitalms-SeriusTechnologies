@@ -1773,54 +1773,135 @@
             return $query -> result_array ();
         }
 
-        function build_chart_of_accounts_table ( $data, $level = 0, $hide_actions = false ) {
+        // function build_chart_of_accounts_table ( $data, $level = 0, $hide_actions = false ) {
 
+        //     $html = '<tbody>';
+        //     foreach ( $data as $row ) {
+        //         $acc_head_id = $row[ 'id' ];
+        //         $ledger      = $this -> get_ledger_by_account_head ( $acc_head_id );
+        //         $parent      = $this -> check_if_account_is_parent ( $acc_head_id );
+
+        //         $padding = str_repeat ( '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $level );
+
+        //         if ( isset( $row[ 'children' ] ) && count ( $row[ 'children' ] ) > 0 )
+        //             $title = '<strong>' . $row[ 'title' ] . '</strong>';
+        //         else
+        //             $title = $row[ 'title' ];
+
+        //         $html .= "<tr>";
+        //         $html .= "<td>{$padding}{$title}</td>";
+
+        //         $html .= "<td>";
+        //         if ( $row[ 'status' ] == '0' )
+        //             $html .= "<span class='badge badge-warning'>Inactive</span>";
+        //         else
+        //             $html .= "<span class='badge badge-success'>Active</span>";
+        //         $html .= "</td>";
+
+        //         if ( !$hide_actions ) {
+        //             $html .= "<td>";
+        //             if ( $row[ 'editable' ] == '1' ) {
+        //                 if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'edit_chart_of_accounts', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) {
+        //                     $html .= '<a href="' . base_url ( '/accounts/edit/' . $acc_head_id ) . '" class="btn btn-warning btn-xs"> <i class="fa fa-pencil"></i> Edit </a>';
+        //                 }
+        //             }
+
+        //             if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'delete_chart_of_accounts', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) && ( $row[ 'parent_id' ] < 1 || empty( trim ( $row[ 'parent_id' ] ) ) || count ( $ledger ) < 1 ) && !$parent && $row[ 'deleteable' ] == '1' )
+        //                 $html .= '<a href="' . base_url ( '/accounts/delete/' . $acc_head_id ) . '" class="btn btn-danger btn-xs" onclick="return confirm(\'Are you sure to delete?\')"> <i class="fa fa-trash-o"></i> Delete </a>';
+        //             $html .= "</td>";
+        //         }
+        //         $html .= "</tr>";
+
+        //         if ( isset( $row[ 'children' ] ) && is_array ( $row[ 'children' ] ) ) {
+        //             $html .= $this -> build_chart_of_accounts_table ( $row[ 'children' ], $level + 1, $hide_actions );
+        //         }
+        //     }
+
+        //     $html .= '</tbody>';
+        //     return $html;
+        // }
+
+
+        function build_chart_of_accounts_table($data, $level = 0, $hide_actions = false, &$first_level_sr = 0, &$second_level_sr = '', &$third_level_sr = '', &$fourth_level_sr = '') {
             $html = '<tbody>';
-            foreach ( $data as $row ) {
-                $acc_head_id = $row[ 'id' ];
-                $ledger      = $this -> get_ledger_by_account_head ( $acc_head_id );
-                $parent      = $this -> check_if_account_is_parent ( $acc_head_id );
-
-                $padding = str_repeat ( '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $level );
-
-                if ( isset( $row[ 'children' ] ) && count ( $row[ 'children' ] ) > 0 )
-                    $title = '<strong>' . $row[ 'title' ] . '</strong>';
-                else
-                    $title = $row[ 'title' ];
-
+            $sr_number = 1; // Initialize serial number counter
+        
+            foreach ($data as $row) {
+                $acc_head_id = $row['id'];
+                $ledger = $this->get_ledger_by_account_head($acc_head_id);
+                $parent = $this->check_if_account_is_parent($acc_head_id);
+        
+                $padding = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $level);
+        
+                if (isset($row['children']) && count($row['children']) > 0) {
+                    $title = '<strong>' . $row['title'] . '</strong>';
+                } else {
+                    $title = $row['title'];
+                }
+        
                 $html .= "<tr>";
+        
+                // Handling serial numbers for different levels
+                if ($level === 0) {
+                    $first_level_sr = $sr_number; // Store the first-level serial number
+                    $html .= "<td><strong>{$sr_number}</strong></td>";
+                    $sr_number++;
+                } else if ($level === 1) {
+                    $second_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format second-level serial number
+                    $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}</strong></td>";
+                    $sr_number++;
+                } else if ($level === 2) {
+                    $third_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format third-level serial number
+                    $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}</strong></td>";
+                    $sr_number++;
+                } else if ($level === 3) {
+                    $fourth_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format fourth-level serial number
+                    $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}</td>";
+                    $sr_number++;
+                } else if ($level === 4) {
+                    $fifth_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format fifth-level serial number
+                    $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}-{$fifth_level_sr}</td>";
+                    $sr_number++;
+                } else {
+                    $html .= "<td></td>";
+                }
+        
                 $html .= "<td>{$padding}{$title}</td>";
-
+        
                 $html .= "<td>";
-                if ( $row[ 'status' ] == '0' )
+                if ($row['status'] == '0') {
                     $html .= "<span class='badge badge-warning'>Inactive</span>";
-                else
+                } else {
                     $html .= "<span class='badge badge-success'>Active</span>";
+                }
                 $html .= "</td>";
-
-                if ( !$hide_actions ) {
+        
+                if (!$hide_actions) {
                     $html .= "<td>";
-                    if ( $row[ 'editable' ] == '1' ) {
-                        if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'edit_chart_of_accounts', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) {
-                            $html .= '<a href="' . base_url ( '/accounts/edit/' . $acc_head_id ) . '" class="btn btn-warning btn-xs"> <i class="fa fa-pencil"></i> Edit </a>';
+                    if ($row['editable'] == '1') {
+                        if (get_user_access(get_logged_in_user_id()) && in_array('edit_chart_of_accounts', explode(',', get_user_access(get_logged_in_user_id())->access))) {
+                            $html .= '<a href="' . base_url('/accounts/edit/' . $acc_head_id) . '" class="btn btn-warning btn-xs"> <i class="fa fa-pencil"></i> Edit </a>';
                         }
                     }
-
-                    if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'delete_chart_of_accounts', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) && ( $row[ 'parent_id' ] < 1 || empty( trim ( $row[ 'parent_id' ] ) ) || count ( $ledger ) < 1 ) && !$parent && $row[ 'deleteable' ] == '1' )
-                        $html .= '<a href="' . base_url ( '/accounts/delete/' . $acc_head_id ) . '" class="btn btn-danger btn-xs" onclick="return confirm(\'Are you sure to delete?\')"> <i class="fa fa-trash-o"></i> Delete </a>';
+        
+                    if (get_user_access(get_logged_in_user_id()) && in_array('delete_chart_of_accounts', explode(',', get_user_access(get_logged_in_user_id())->access)) && ($row['parent_id'] < 1 || empty(trim($row['parent_id'])) || count($ledger) < 1) && !$parent && $row['deleteable'] == '1') {
+                        $html .= '<a href="' . base_url('/accounts/delete/' . $acc_head_id) . '" class="btn btn-danger btn-xs" onclick="return confirm(\'Are you sure to delete?\')"> <i class="fa fa-trash-o"></i> Delete </a>';
+                    }
                     $html .= "</td>";
                 }
+        
                 $html .= "</tr>";
-
-                if ( isset( $row[ 'children' ] ) && is_array ( $row[ 'children' ] ) ) {
-                    $html .= $this -> build_chart_of_accounts_table ( $row[ 'children' ], $level + 1, $hide_actions );
+        
+                if (isset($row['children']) && is_array($row['children'])) {
+                    $html .= $this->build_chart_of_accounts_table($row['children'], $level + 1, $hide_actions, $first_level_sr, $second_level_sr, $third_level_sr, $fourth_level_sr);
                 }
             }
-
+        
             $html .= '</tbody>';
             return $html;
         }
 
+        
         function build_chart_of_accounts_table_for_Trial_Balance($data, $level = 0) {
             $html = '<tbody>';
             $start_date = (isset($_GET['start_date']) && !empty(trim($_GET['start_date'])))
