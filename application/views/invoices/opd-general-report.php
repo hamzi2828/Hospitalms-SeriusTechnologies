@@ -93,7 +93,7 @@ mpdf-->
 <table width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8" border="0">
     <tr>
         <td style="width: 100%; background: #f5f6f7; text-align: center">
-            <h3><strong> OPD General Report (Cash) </strong></h3>
+            <h3><strong> OPD General Report (Cash) </strong></h3> 
         </td>
     </tr>
 </table>
@@ -125,6 +125,7 @@ mpdf-->
         $total          = 0;
         $net            = 0;
         $doctorNetShare = 0;
+        $flat_discount  = 0;
         if ( count ( $sales ) > 0 ) {
             foreach ( $sales as $sale ) {
                 $patient   = get_patient ( $sale -> patient_id );
@@ -133,6 +134,7 @@ mpdf-->
                 if ( $sale_info -> refund !== '1' ) {
                     $total          = $total + $sale_info -> net;
                     $net            += $sale -> net_price;
+                    $flat_discount += $sale_info -> flat_discount;
                     $doctorNetShare += ( $sale_info -> total * ( $sale_info -> doctor_share / 100 ) );
                 }
                 
@@ -197,12 +199,16 @@ mpdf-->
                 <?php
             }
             ?>
-            <tr>
-                <td colspan="6"></td>
+             <tr>
+                <td colspan="5"></td>
                 <td>
                     <strong><?php echo number_format ( $net, 2 ) ?></strong>
                 </td>
                 <td colspan="2"></td>
+                <td>
+                    <strong><?php echo number_format ( $flat_discount, 2 ) ?></strong>
+                </td>
+              
                 <td>
                     <strong><?php echo number_format ( $total, 2 ) ?></strong>
                 </td>
