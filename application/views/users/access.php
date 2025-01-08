@@ -4735,7 +4735,7 @@
         </tr>
 
         <tr style="background: #dff0d8;">
-            <td>Death Certificates</td>
+            <td>Death Certificates</td> 
             <td></td>
             <td>
                 <input type="checkbox" class="checkbox" name="access[]"
@@ -4777,6 +4777,135 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
+
+
+
+        <tr style="background: #d9edf7;">
+        <td>Cafe Setting</td> 
+        <td></td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="cafe-setting" <?php if (!empty($access) and in_array('cafe-setting', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td>
+        <td></td>
+    </tr>
+
+    <tr style="background: #d9edf7;">
+        <td></td>
+        <td>All Sales</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="all-sale" <?php if (!empty($access) and in_array('all-sale', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td>
+    </tr>
+    <tr style="background: #d9edf7;">
+        <td></td>
+        <td>Add Sale</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="add-sale" <?php if (!empty($access) and in_array('add-sale', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td>
+    </tr>
+
+    <tr style="background: #d9edf7;">
+        <td></td>
+        <td>All Stocks</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="all-stock" <?php if (!empty($access) and in_array('all-stock', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td>
+    </tr>
+    <tr style="background: #d9edf7;">
+        <td></td>
+        <td>Add Stock</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="add-stock" <?php if (!empty($access) and in_array('add-stock', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td>
+    </tr>
+
+    <tr style="background: #d9edf7;">
+        <td></td>
+        <td>All Products</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="all-products" <?php if (!empty($access) and in_array('all-products', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td>
+    </tr>
+    <tr style="background: #d9edf7;">
+        <td></td>
+        <td>Add Product</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="add-product" <?php if (!empty($access) and in_array('add-product', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td>
+    </tr>
+
+    <tr style="background: #d9edf7;">
+        <td></td>
+        <td>All Category</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="all-category" <?php if (!empty($access) and in_array('all-category', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td>
+    </tr>
+    <tr style="background: #d9edf7;">
+        <td></td>
+        <td>Add Category</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="add-category" <?php if (!empty($access) and in_array('add-category', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td>
+    </tr>
+
+    <tr style="background: #d9edf7;">
+        <td></td>
+        <td>All Ingredients</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="all-ingredients" <?php if (!empty($access) and in_array('all-ingredients', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td>
+    </tr>
+    <tr style="background: #d9edf7;">
+        <td></td>
+        <td>Add Ingredients</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="add-ingredients" <?php if (!empty($access) and in_array('add-ingredients', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td>
+    </tr>
+
+    <tr style="background: #d9edf7;">
+        <td></td>
+        <td>General Report (Sales)</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="general-sale-report" <?php if (!empty($access) and in_array('general-sale-report', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td>
+    </tr>
+    <tr style="background: #d9edf7;">
+        <td></td>
+        <td>Stock Valuation Report</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="stock-valuation-report" <?php if (!empty($access) and in_array('stock-valuation-report', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td>
+    </tr>
+
+        
         </tbody>
     </table>
 </div>

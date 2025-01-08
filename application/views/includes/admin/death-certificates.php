@@ -38,7 +38,7 @@
     </a>
     <ul class="sub-menu">
 
-    <?php if (!empty($access) and !in_array('all-sale', explode(',', $access->access))) : ?>
+    <?php if (!empty($access) and in_array('all-sale', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'all-sale') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/all-sale') ?>">
                     All Sales
@@ -46,7 +46,7 @@
             </li>
         <?php endif; ?>
 
-        <?php if (!empty($access) and !in_array('add-sale', explode(',', $access->access))) : ?>
+        <?php if (!empty($access) and in_array('add-sale', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'add-sale') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/add-sale') ?>">
                     Add Sale
@@ -56,14 +56,14 @@
 
 
 
-        <?php if (!empty($access) and !in_array('all-stock', explode(',', $access->access))) : ?>
+        <?php if (!empty($access) and in_array('all-stock', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'all-stock') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/all-stock') ?>">
                     All Stocks
                 </a>
             </li>
         <?php endif; ?>
-        <?php if (!empty($access) and !in_array('add-stock', explode(',', $access->access))) : ?>
+        <?php if (!empty($access) and in_array('add-stock', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'add-stock') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/add-stock') ?>">
                     Add Stock
@@ -76,15 +76,14 @@
 
 
 
-
-        <?php if (!empty($access) and !in_array('all-products', explode(',', $access->access))) : ?>
+        <?php if (!empty($access) and in_array('all-products', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'all-products') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/all-products') ?>">
                     All Products
                 </a>
             </li>
         <?php endif; ?>
-        <?php if (!empty($access) and !in_array('add-product', explode(',', $access->access))) : ?>
+        <?php if (!empty($access) and in_array('add-product', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'add-product') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/add-product') ?>">
                     Add Product
@@ -97,14 +96,14 @@
 
 
 
-        <?php if (!empty($access) and !in_array('all-category', explode(',', $access->access))) : ?>
+        <?php if (!empty($access) and in_array('all-category', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'all-category') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/all-category') ?>">
                     All Category
                 </a>
             </li>
         <?php endif; ?>
-        <?php if (!empty($access) and !in_array('add-category', explode(',', $access->access))) : ?>
+        <?php if (!empty($access) and in_array('add-category', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'add-category') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/add-category') ?>">
                     Add Category
@@ -115,14 +114,14 @@
 
 
         
-        <?php if (!empty($access) and !in_array('all-ingredients', explode(',', $access->access))) : ?>
+        <?php if (!empty($access) and in_array('all-ingredients', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'all-ingredients') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/all-ingredients') ?>">
                     All Ingredients
                 </a>
             </li>
         <?php endif; ?>
-        <?php if (!empty($access) and !in_array('add-ingredients', explode(',', $access->access))) : ?>
+        <?php if (!empty($access) and in_array('add-ingredients', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'add-ingredients') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/add-ingredients') ?>">
                     Add Ingredients
@@ -131,7 +130,7 @@
         <?php endif; ?>
 
 
-        <?php if (!empty($access) and !in_array('general-sale-report', explode(',', $access->access))) : ?>
+        <?php if (!empty($access) and in_array('general-sale-report', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'general-sale-report') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/general-sale-report') ?>">
                     General Report (Sales)
@@ -139,7 +138,7 @@
             </li>
         <?php endif; ?>
 
-        <?php if (!empty($access) and !in_array('stock-valuation-report', explode(',', $access->access))) : ?>
+        <?php if (!empty($access) and in_array('stock-valuation-report', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'stock-valuation-report') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/stock-valuation-report') ?>">
                     Stock Valuation Report
