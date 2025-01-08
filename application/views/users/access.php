@@ -4780,7 +4780,7 @@
 
 
 
-        <tr style="background: #d9edf7;">
+        <tr style="background: #dff0d8;">
         <td>Cafe Setting</td> 
         <td></td>
         <td>
@@ -4791,7 +4791,7 @@
         <td></td>
     </tr>
 
-    <tr style="background: #d9edf7;">
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>All Sales</td>
         <td>
@@ -4800,7 +4800,7 @@
                 echo 'checked="checked"' ?>>
         </td>
     </tr>
-    <tr style="background: #d9edf7;">
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>Add Sale</td>
         <td>
@@ -4810,7 +4810,7 @@
         </td>
     </tr>
 
-    <tr style="background: #d9edf7;">
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>All Stocks</td>
         <td>
@@ -4819,7 +4819,7 @@
                 echo 'checked="checked"' ?>>
         </td>
     </tr>
-    <tr style="background: #d9edf7;">
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>Add Stock</td>
         <td>
@@ -4829,7 +4829,7 @@
         </td>
     </tr>
 
-    <tr style="background: #d9edf7;">
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>All Products</td>
         <td>
@@ -4838,7 +4838,7 @@
                 echo 'checked="checked"' ?>>
         </td>
     </tr>
-    <tr style="background: #d9edf7;">
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>Add Product</td>
         <td>
@@ -4848,7 +4848,7 @@
         </td>
     </tr>
 
-    <tr style="background: #d9edf7;">
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>All Category</td>
         <td>
@@ -4857,7 +4857,7 @@
                 echo 'checked="checked"' ?>>
         </td>
     </tr>
-    <tr style="background: #d9edf7;">
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>Add Category</td>
         <td>
@@ -4867,7 +4867,7 @@
         </td>
     </tr>
 
-    <tr style="background: #d9edf7;">
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>All Ingredients</td>
         <td>
@@ -4876,7 +4876,7 @@
                 echo 'checked="checked"' ?>>
         </td>
     </tr>
-    <tr style="background: #d9edf7;">
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>Add Ingredients</td>
         <td>
@@ -4886,7 +4886,7 @@
         </td>
     </tr>
 
-    <tr style="background: #d9edf7;">
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>General Report (Sales)</td>
         <td>
@@ -4895,7 +4895,7 @@
                 echo 'checked="checked"' ?>>
         </td>
     </tr>
-    <tr style="background: #d9edf7;">
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>Stock Valuation Report</td>
         <td>
