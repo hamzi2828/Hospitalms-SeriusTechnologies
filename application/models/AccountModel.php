@@ -1844,28 +1844,48 @@
                 // Handling serial numbers for different levels
                 if ($level === 0) {
                     $first_level_sr = $sr_number; // Store the first-level serial number
-                    $html .= "<td><strong>{$sr_number}</strong></td>";
+                    if (isset($row['children']) && count($row['children']) > 0) {
+                        $html .= "<td><strong>{$sr_number}</strong></td>";
+                    } else {
+                        $html .= "<td>{$sr_number}</td>";
+                    }
                     $sr_number++;
                 } else if ($level === 1) {
                     $second_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format second-level serial number
-                    $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}</strong></td>";
+                    if (isset($row['children']) && count($row['children']) > 0) {
+                        $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}</strong></td>";
+                    } else {
+                        $html .= "<td>{$first_level_sr}-{$second_level_sr}</td>";
+                    }
                     $sr_number++;
                 } else if ($level === 2) {
                     $third_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format third-level serial number
-                    $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}</strong></td>";
+                    if (isset($row['children']) && count($row['children']) > 0) {
+                        $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}</strong></td>";
+                    } else {
+                        $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}</td>";
+                    }
                     $sr_number++;
                 } else if ($level === 3) {
                     $fourth_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format fourth-level serial number
-                    $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}</td>";
+                    if (isset($row['children']) && count($row['children']) > 0) {
+                        $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}</strong></td>";
+                    } else {
+                        $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}</td>";
+                    }
                     $sr_number++;
                 } else if ($level === 4) {
                     $fifth_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format fifth-level serial number
-                    $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}-{$fifth_level_sr}</td>";
+                    if (isset($row['children']) && count($row['children']) > 0) {
+                        $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}-{$fifth_level_sr}</strong></td>";
+                    } else {
+                        $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}-{$fifth_level_sr}</td>";
+                    }
                     $sr_number++;
                 } else {
                     $html .= "<td></td>";
                 }
-        
+
                 $html .= "<td>{$padding}{$title}</td>";
         
                 $html .= "<td>";
