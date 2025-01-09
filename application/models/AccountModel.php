@@ -1841,50 +1841,50 @@
         
                 $html .= "<tr>";
         
-                // Handling serial numbers for different levels
-                if ($level === 0) {
-                    $first_level_sr = $sr_number; // Store the first-level serial number
-                    if (isset($row['children']) && count($row['children']) > 0) {
-                        $html .= "<td><strong>{$sr_number}</strong></td>";
-                    } else {
-                        $html .= "<td>{$sr_number}</td>";
-                    }
-                    $sr_number++;
-                } else if ($level === 1) {
-                    $second_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format second-level serial number
-                    if (isset($row['children']) && count($row['children']) > 0) {
-                        $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}</strong></td>";
-                    } else {
-                        $html .= "<td>{$first_level_sr}-{$second_level_sr}</td>";
-                    }
-                    $sr_number++;
-                } else if ($level === 2) {
-                    $third_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format third-level serial number
-                    if (isset($row['children']) && count($row['children']) > 0) {
-                        $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}</strong></td>";
-                    } else {
-                        $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}</td>";
-                    }
-                    $sr_number++;
-                } else if ($level === 3) {
-                    $fourth_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format fourth-level serial number
-                    if (isset($row['children']) && count($row['children']) > 0) {
-                        $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}</strong></td>";
-                    } else {
-                        $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}</td>";
-                    }
-                    $sr_number++;
-                } else if ($level === 4) {
-                    $fifth_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format fifth-level serial number
-                    if (isset($row['children']) && count($row['children']) > 0) {
-                        $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}-{$fifth_level_sr}</strong></td>";
-                    } else {
-                        $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}-{$fifth_level_sr}</td>";
-                    }
-                    $sr_number++;
+            // Handling serial numbers for different levels
+            if ($level === 0) {
+                $first_level_sr = $sr_number; // Store the first-level serial number
+                if (isset($row['children']) && count($row['children']) > 0) {
+                    $html .= "<td><strong>{$sr_number}</strong></td>";
                 } else {
-                    $html .= "<td></td>";
+                    $html .= "<td>{$sr_number}</td>";
                 }
+                $sr_number++;
+            } else if ($level === 1) {
+                $second_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format second-level serial number
+                if (isset($row['children']) && count($row['children']) > 0) {
+                    $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}</strong></td>";
+                } else {
+                    $html .= "<td>{$first_level_sr}-{$second_level_sr}</td>";
+                }
+                $sr_number++;
+            } else if ($level === 2) {
+                $third_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format third-level serial number
+                if (isset($row['children']) && count($row['children']) > 0) {
+                    $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}</strong></td>";
+                } else {
+                    $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}</td>";
+                }
+                $sr_number++;
+            } else if ($level === 3) {
+                $fourth_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format fourth-level serial number
+                if (isset($row['children']) && count($row['children']) > 0) {
+                    $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}</strong></td>";
+                } else {
+                    $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}</td>";
+                }
+                $sr_number++;
+            } else if ($level === 4) {
+                $fifth_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format fifth-level serial number
+                if (isset($row['children']) && count($row['children']) > 0) {
+                    $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}-{$fifth_level_sr}</strong></td>";
+                } else {
+                    $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}-{$fifth_level_sr}</td>";
+                }
+                $sr_number++;
+            } else {
+                $html .= "<td></td>";
+            }
 
                 $html .= "<td>{$padding}{$title}</td>";
         
@@ -1922,68 +1922,136 @@
         }
 
         
-        function build_chart_of_accounts_table_for_Trial_Balance($data, $level = 0) {
+        // function build_chart_of_accounts_table_for_Trial_Balance($data, $level = 0) {
+        //     $html = '<tbody>';
+        //     $start_date = (isset($_GET['start_date']) && !empty(trim($_GET['start_date'])))
+        //         ? date('Y-m-d', strtotime($_GET['start_date']))
+        //         : null;
+
+
+        //     foreach ($data as $row) {
+        //         $acc_head_id = $row['id'];
+        //         $padding = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $level);
+        //         $title = isset($row['children']) && count($row['children']) > 0
+        //             ? '<strong>' . $row['title'] . '</strong>'
+        //             : $row['title'];
+
+        //         // Get opening balances
+        //         $opening_balance_dr = 0;
+        //         $opening_balance_cr = 0;
+        //         if (!empty($start_date)) {
+        //             $opening_balance_dr = $this->get_opening_balance_previous_than_searched_start_date_debit($start_date, $acc_head_id);
+        //             $opening_balance_cr = $this->get_opening_balance_previous_than_searched_start_date_credit($start_date, $acc_head_id);
+        //         }
+
+
+
+        //         // Calculate transactions
+        //         $transaction = calculate_acc_head_transaction($acc_head_id);
+        //         $movement_cr = 0;
+        //         $movement_dr = 0;
+        //         if (!empty($transaction)) {
+        //             $movement_cr = $transaction->credit;
+        //             $movement_dr = $transaction->debit;
+        //         }
+
+        //         // Calculate closing balances
+        //         $closing_cr = $opening_balance_dr + $movement_dr - $opening_balance_cr - $movement_cr;
+        //         $closing_dr = $opening_balance_cr + $movement_cr - $opening_balance_dr - $movement_dr;
+        //         $closing_dr = $closing_dr < 0 ? 0 : $closing_dr;
+        //         $closing_cr = $closing_cr < 0 ? 0 : $closing_cr;
+
+        //         // Update totals
+        //         $this -> total_opening_balance_dr += $opening_balance_dr;
+        //         $this -> total_opening_balance_cr += $opening_balance_cr;
+        //         $this -> total_movement_cr += $movement_cr;
+        //         $this -> total_movement_dr += $movement_dr;
+        //         $this -> total_closing_dr += $closing_dr;
+        //         $this -> total_closing_cr += $closing_cr;
+
+        //         // Add row to the table
+        //         if ( isset( $row[ 'children' ] ) && count ( $row[ 'children' ] ) > 0 ) {
+
+        //             $html .= "<tr>";
+        //             $html .= "<td>{$padding}{$title}</td>";
+        //             $html .= "<td></td>";
+        //             $html .= "<td></td>";
+        //             $html .= "<td></td>";
+        //             $html .= "<td></td>";
+        //             $html .= "<td></td>";
+        //             $html .= "<td></td>";
+        //             $html .= "</tr>";
+
+        //         }else{
+        //         $html .= "<tr>";
+        //         $html .= "<td>{$padding}{$title}</td>";
+        //         $html .= "<td>" . number_format($opening_balance_cr, 2) . "</td>";
+        //         $html .= "<td>" . number_format($opening_balance_dr, 2) . "</td>";
+        //         $html .= "<td>" . number_format($movement_cr, 2) . "</td>";
+        //         $html .= "<td>" . number_format($movement_dr, 2) . "</td>";
+        //         $html .= "<td>" . number_format($closing_dr, 2) . "</td>";
+        //         $html .= "<td>" . number_format($closing_cr, 2) . "</td>";
+        //         $html .= "</tr>";
+        //         }
+        //         // Recursively add rows for children
+        //         if (isset($row['children']) && is_array($row['children'])) {
+        //             $html .= $this->build_chart_of_accounts_table_for_Trial_Balance($row['children'], $level + 1);
+        //         }
+        //     }
+
+        //     $html .= '</tbody>';
+
+
+        //     return $html;
+        // }
+
+     
+
+
+        function build_chart_of_accounts_table_for_Trial_Balance($data, $level = 0, $hide_actions = false, &$first_level_sr = 0, &$second_level_sr = '', &$third_level_sr = '', &$fourth_level_sr = '' , &$fifth_level_sr = '') {
             $html = '<tbody>';
-            $start_date = (isset($_GET['start_date']) && !empty(trim($_GET['start_date'])))
-                ? date('Y-m-d', strtotime($_GET['start_date']))
+            $sr_number = 0;
+        
+            $start_date = isset($_GET['start_date']) && !empty(trim($_GET['start_date'])) 
+                ? date('Y-m-d', strtotime($_GET['start_date'])) 
                 : null;
-
-
+        
             foreach ($data as $row) {
                 $acc_head_id = $row['id'];
-                $padding = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $level);
-                $title = isset($row['children']) && count($row['children']) > 0
-                    ? '<strong>' . $row['title'] . '</strong>'
+                $padding = str_repeat('&nbsp;', $level * 6); // Adjust padding based on level
+                $title = isset($row['children']) && count($row['children']) > 0 
+                    ? '<strong>' . $row['title'] . '</strong>' 
                     : $row['title'];
-
+        
                 // Get opening balances
-                $opening_balance_dr = 0;
-                $opening_balance_cr = 0;
-                if (!empty($start_date)) {
-                    $opening_balance_dr = $this->get_opening_balance_previous_than_searched_start_date_debit($start_date, $acc_head_id);
-                    $opening_balance_cr = $this->get_opening_balance_previous_than_searched_start_date_credit($start_date, $acc_head_id);
-                }
-
-
-
+                $opening_balance_dr = $start_date 
+                    ? $this->get_opening_balance_previous_than_searched_start_date_debit($start_date, $acc_head_id) 
+                    : 0;
+                $opening_balance_cr = $start_date 
+                    ? $this->get_opening_balance_previous_than_searched_start_date_credit($start_date, $acc_head_id) 
+                    : 0;
+        
                 // Calculate transactions
                 $transaction = calculate_acc_head_transaction($acc_head_id);
-                $movement_cr = 0;
-                $movement_dr = 0;
-                if (!empty($transaction)) {
-                    $movement_cr = $transaction->credit;
-                    $movement_dr = $transaction->debit;
-                }
-
+                $movement_cr = $transaction->credit ?? 0;
+                $movement_dr = $transaction->debit ?? 0;
+        
                 // Calculate closing balances
-                $closing_cr = $opening_balance_dr + $movement_dr - $opening_balance_cr - $movement_cr;
-                $closing_dr = $opening_balance_cr + $movement_cr - $opening_balance_dr - $movement_dr;
-                $closing_dr = $closing_dr < 0 ? 0 : $closing_dr;
-                $closing_cr = $closing_cr < 0 ? 0 : $closing_cr;
-
+                $closing_cr = max(0, $opening_balance_dr + $movement_dr - $opening_balance_cr - $movement_cr);
+                $closing_dr = max(0, $opening_balance_cr + $movement_cr - $opening_balance_dr - $movement_dr);
+        
                 // Update totals
-                $this -> total_opening_balance_dr += $opening_balance_dr;
-                $this -> total_opening_balance_cr += $opening_balance_cr;
-                $this -> total_movement_cr += $movement_cr;
-                $this -> total_movement_dr += $movement_dr;
-                $this -> total_closing_dr += $closing_dr;
-                $this -> total_closing_cr += $closing_cr;
-
+                $this->total_opening_balance_dr += $opening_balance_dr;
+                $this->total_opening_balance_cr += $opening_balance_cr;
+                $this->total_movement_cr += $movement_cr;
+                $this->total_movement_dr += $movement_dr;
+                $this->total_closing_dr += $closing_dr;
+                $this->total_closing_cr += $closing_cr;
+        
                 // Add row to the table
-                if ( isset( $row[ 'children' ] ) && count ( $row[ 'children' ] ) > 0 ) {
-
-                    $html .= "<tr>";
-                    $html .= "<td>{$padding}{$title}</td>";
-                    $html .= "<td></td>";
-                    $html .= "<td></td>";
-                    $html .= "<td></td>";
-                    $html .= "<td></td>";
-                    $html .= "<td></td>";
-                    $html .= "<td></td>";
-                    $html .= "</tr>";
-
-                }else{
-                $html .= "<tr>";
+                $html .= '<tr>';
+                $serial_number = $this->generate_serial_number($level, $sr_number, $first_level_sr, $second_level_sr, $third_level_sr, $fourth_level_sr, $fifth_level_sr, isset($row['children']) && count($row['children']) > 0);
+                $html .= "<td>{$serial_number}</td>";
                 $html .= "<td>{$padding}{$title}</td>";
                 $html .= "<td>" . number_format($opening_balance_cr, 2) . "</td>";
                 $html .= "<td>" . number_format($opening_balance_dr, 2) . "</td>";
@@ -1991,24 +2059,43 @@
                 $html .= "<td>" . number_format($movement_dr, 2) . "</td>";
                 $html .= "<td>" . number_format($closing_dr, 2) . "</td>";
                 $html .= "<td>" . number_format($closing_cr, 2) . "</td>";
-                $html .= "</tr>";
-                }
+                $html .= '</tr>';
+        
                 // Recursively add rows for children
                 if (isset($row['children']) && is_array($row['children'])) {
-                    $html .= $this->build_chart_of_accounts_table_for_Trial_Balance($row['children'], $level + 1);
+                    $html .= $this->build_chart_of_accounts_table_for_Trial_Balance($row['children'], $level + 1, $hide_actions, $first_level_sr, $second_level_sr, $third_level_sr, $fourth_level_sr);
                 }
             }
-
+        
             $html .= '</tbody>';
-
-
             return $html;
         }
+        
 
-
-
-
-
+        private function generate_serial_number($level, &$sr_number, &$first_level_sr, &$second_level_sr, &$third_level_sr, &$fourth_level_sr, &$fifth_level_sr, $has_children) {
+            $serial = '';
+        
+            if ($level === 0) {
+                $serial = ++$sr_number;
+                $first_level_sr = $serial;
+            } elseif ($level === 1) {
+                $second_level_sr = str_pad(++$sr_number, 3, '0', STR_PAD_LEFT);
+                $serial = "{$first_level_sr}-{$second_level_sr}";
+            } elseif ($level === 2) {
+                $third_level_sr = str_pad(++$sr_number, 3, '0', STR_PAD_LEFT);
+                $serial = "{$first_level_sr}-{$second_level_sr}-{$third_level_sr}";
+            } elseif ($level === 3) {
+                $fourth_level_sr = str_pad(++$sr_number, 3, '0', STR_PAD_LEFT);
+                $serial = "{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}";
+            }elseif ($level === 4){
+                $fifth_level_sr = str_pad(++$sr_number, 3, '0', STR_PAD_LEFT);
+                $serial = "{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}-{$fifth_level_sr}";
+            }
+        
+            return $has_children ? "<strong>{$serial}</strong>" : $serial;
+        }
+        
+        
         public function trial_balance_sum () {
             $html = '<tfoot>';
             $html .= '<tr>';
@@ -2023,8 +2110,6 @@
             $html .= '</tr>';
             return $html;
         }
-
-
 
 
 

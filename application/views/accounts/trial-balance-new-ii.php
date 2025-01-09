@@ -54,6 +54,7 @@
 
            <thead>
            <tr>
+                <th rowspan="2" style="text-align: left;">Code</th>
                 <th rowspan="2" style="text-align: left;">Account Heads</th>
                 <th colspan="2" style="text-align: center;">Opening</th>
                 <th colspan="2" style="text-align: center;">Movement</th>

@@ -32,6 +32,7 @@
                 <table class="table table-bordered table-responsive">
                     <thead>
                     <tr>
+                         <th>Code</th>
                         <th>Account Heads</th>
                         <th>Status</th>
                         <th>Actions</th>
