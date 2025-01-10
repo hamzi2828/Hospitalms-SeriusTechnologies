@@ -1824,7 +1824,7 @@
 
         function build_chart_of_accounts_table($data, $level = 0, $hide_actions = false, &$first_level_sr = 0, &$second_level_sr = '', &$third_level_sr = '', &$fourth_level_sr = '') {
             $html = '<tbody>';
-            $sr_number = 1; // Initialize serial number counter
+            $sr_number = 0; // Initialize serial number counter
         
             foreach ($data as $row) {
                 $acc_head_id = $row['id'];
