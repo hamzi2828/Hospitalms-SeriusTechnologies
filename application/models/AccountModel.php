@@ -1849,8 +1849,10 @@
                 if (!$hide_actions) {
                     $html .= "<td>";
                     if ($row['editable'] == '1' && get_user_access(get_logged_in_user_id()) && in_array('edit_chart_of_accounts', explode(',', get_user_access(get_logged_in_user_id())->access))) {
-                        $html .= '<a href="' . base_url('/accounts/edit/' . $acc_head_id) . '" class="btn btn-warning btn-xs"> <i class="fa fa-pencil"></i> Edit </a>';
+                        $html .= '<a href="' . base_url('/accounts/edit/' . $acc_head_id . '?serial_number=' . urlencode($serial_number)) . '" class="btn btn-warning btn-xs" target="_blank"> <i class="fa fa-pencil"></i> Edit </a>';
                     }
+
+                    
         
                     if (get_user_access(get_logged_in_user_id()) && in_array('delete_chart_of_accounts', explode(',', get_user_access(get_logged_in_user_id())->access)) && ($row['parent_id'] < 1 || empty(trim($row['parent_id'])) || count($ledger) < 1) && !$parent && $row['deleteable'] == '1') {
                         $html .= '<a href="' . base_url('/accounts/delete/' . $acc_head_id) . '" class="btn btn-danger btn-xs" onclick="return confirm(\'Are you sure to delete?\')"> <i class="fa fa-trash-o"></i> Delete </a>';
@@ -1858,6 +1860,9 @@
                     $html .= "</td>";
                 }
         
+                $html .= "<td>";
+                $html .= !empty($row['serial_number']) ? "✔" : "";
+                $html .= "</td>";
                 $html .= "</tr>";
         
                 // Recursively handle children

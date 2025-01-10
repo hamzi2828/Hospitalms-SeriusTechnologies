@@ -208,6 +208,7 @@
 
         public function edit () {
             $acc_head_id = $this -> uri -> segment ( 3 );
+            $data['serial_number']  = $this->input->get('serial_number');
             if ( empty( trim ( $acc_head_id ) ) or !is_numeric ( $acc_head_id ) or $acc_head_id < 1 )
                 return rediect ( '/accounts/chart-of-accounts' );
 
@@ -238,6 +239,7 @@
          */
 
         public function do_edit_account_head ( $POST ) {
+
             $data        = filter_var_array ( $POST, FILTER_SANITIZE_STRING );
             $acc_head_id = $data[ 'acc_id' ];
             $info        = array (
@@ -252,6 +254,7 @@
                 'type'           => $data[ 'type' ],
                 'balance_sheet'  => $data[ 'balance-sheet' ],
                 'description'    => $data[ 'description' ],
+                'serial_number'  => $data[ 'serial_number'],
             );
             $updated     = $this -> AccountModel -> edit ( $info, $acc_head_id );
             if ( $updated ) {
@@ -1301,7 +1304,10 @@
             $title = site_name . ' - Balance Sheet';
             $this -> header ( $title );
             $this -> sidebar ();
-
+            $account_heads           = $this -> AccountModel -> get_chart_of_accounts ();
+            $tree                    = buildTree ( $account_heads );
+            $data[ 'account_heads' ] = $this -> AccountModel -> build_chart_of_accounts_table_for_balance_sheet ( $tree );
+            
             $data[ 'currentAssets' ]                   = $this -> AccountModel -> get_balance_sheet_account_heads ( 'current-assets' );
             $data[ 'nonCurrentAssets' ]                = $this -> AccountModel -> get_balance_sheet_account_heads ( 'non-current-assets' );
             $data[ 'currentLiabilities' ]              = $this -> AccountModel -> get_balance_sheet_account_heads ( 'current-liabilities' );

@@ -36,6 +36,7 @@
                         <th>Account Heads</th>
                         <th>Status</th>
                         <th>Actions</th>
+                        <th>saved</th>
                     </tr>
                     </thead>
                     <?php echo $account_heads ?>

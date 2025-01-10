@@ -145,6 +145,13 @@
                                     </option>
                                 </select>
                             </div>
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">Serial Number</label>
+                                <input type="text" name="serial_number" class="form-control"
+                                    placeholder="Enter serial number"
+                                    value="<?php echo strip_tags($serial_number); ?>" readonly>
+                            </div>
+
                             <div class="form-group col-lg-12">
                                 <label for="exampleInputEmail1">Description</label>
                                 <textarea name="description" class="form-control" placeholder="Description"
