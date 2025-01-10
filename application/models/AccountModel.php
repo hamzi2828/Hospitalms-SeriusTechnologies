@@ -1832,76 +1832,24 @@
                 $parent = $this->check_if_account_is_parent($acc_head_id);
         
                 $padding = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $level);
+                $title = isset($row['children']) && count($row['children']) > 0 ? '<strong>' . $row['title'] . '</strong>' : $row['title'];
         
-                if (isset($row['children']) && count($row['children']) > 0) {
-                    $title = '<strong>' . $row['title'] . '</strong>';
-                } else {
-                    $title = $row['title'];
-                }
+                // Generate serial number using the reusable function
+                $has_children = isset($row['children']) && count($row['children']) > 0;
+                $serial_number = $this->generate_serial_number($level, $sr_number, $first_level_sr, $second_level_sr, $third_level_sr, $fourth_level_sr, $fifth_level_sr, $has_children);
         
                 $html .= "<tr>";
-        
-            // Handling serial numbers for different levels
-            if ($level === 0) {
-                $first_level_sr = $sr_number; // Store the first-level serial number
-                if (isset($row['children']) && count($row['children']) > 0) {
-                    $html .= "<td><strong>{$sr_number}</strong></td>";
-                } else {
-                    $html .= "<td>{$sr_number}</td>";
-                }
-                $sr_number++;
-            } else if ($level === 1) {
-                $second_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format second-level serial number
-                if (isset($row['children']) && count($row['children']) > 0) {
-                    $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}</strong></td>";
-                } else {
-                    $html .= "<td>{$first_level_sr}-{$second_level_sr}</td>";
-                }
-                $sr_number++;
-            } else if ($level === 2) {
-                $third_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format third-level serial number
-                if (isset($row['children']) && count($row['children']) > 0) {
-                    $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}</strong></td>";
-                } else {
-                    $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}</td>";
-                }
-                $sr_number++;
-            } else if ($level === 3) {
-                $fourth_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format fourth-level serial number
-                if (isset($row['children']) && count($row['children']) > 0) {
-                    $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}</strong></td>";
-                } else {
-                    $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}</td>";
-                }
-                $sr_number++;
-            } else if ($level === 4) {
-                $fifth_level_sr = str_pad($sr_number, 3, '0', STR_PAD_LEFT); // Format fifth-level serial number
-                if (isset($row['children']) && count($row['children']) > 0) {
-                    $html .= "<td><strong>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}-{$fifth_level_sr}</strong></td>";
-                } else {
-                    $html .= "<td>{$first_level_sr}-{$second_level_sr}-{$third_level_sr}-{$fourth_level_sr}-{$fifth_level_sr}</td>";
-                }
-                $sr_number++;
-            } else {
-                $html .= "<td></td>";
-            }
-
+                $html .= "<td>{$serial_number}</td>";
                 $html .= "<td>{$padding}{$title}</td>";
         
                 $html .= "<td>";
-                if ($row['status'] == '0') {
-                    $html .= "<span class='badge badge-warning'>Inactive</span>";
-                } else {
-                    $html .= "<span class='badge badge-success'>Active</span>";
-                }
+                $html .= $row['status'] == '0' ? "<span class='badge badge-warning'>Inactive</span>" : "<span class='badge badge-success'>Active</span>";
                 $html .= "</td>";
         
                 if (!$hide_actions) {
                     $html .= "<td>";
-                    if ($row['editable'] == '1') {
-                        if (get_user_access(get_logged_in_user_id()) && in_array('edit_chart_of_accounts', explode(',', get_user_access(get_logged_in_user_id())->access))) {
-                            $html .= '<a href="' . base_url('/accounts/edit/' . $acc_head_id) . '" class="btn btn-warning btn-xs"> <i class="fa fa-pencil"></i> Edit </a>';
-                        }
+                    if ($row['editable'] == '1' && get_user_access(get_logged_in_user_id()) && in_array('edit_chart_of_accounts', explode(',', get_user_access(get_logged_in_user_id())->access))) {
+                        $html .= '<a href="' . base_url('/accounts/edit/' . $acc_head_id) . '" class="btn btn-warning btn-xs"> <i class="fa fa-pencil"></i> Edit </a>';
                     }
         
                     if (get_user_access(get_logged_in_user_id()) && in_array('delete_chart_of_accounts', explode(',', get_user_access(get_logged_in_user_id())->access)) && ($row['parent_id'] < 1 || empty(trim($row['parent_id'])) || count($ledger) < 1) && !$parent && $row['deleteable'] == '1') {
@@ -1912,6 +1860,7 @@
         
                 $html .= "</tr>";
         
+                // Recursively handle children
                 if (isset($row['children']) && is_array($row['children'])) {
                     $html .= $this->build_chart_of_accounts_table($row['children'], $level + 1, $hide_actions, $first_level_sr, $second_level_sr, $third_level_sr, $fourth_level_sr);
                 }
@@ -1920,6 +1869,7 @@
             $html .= '</tbody>';
             return $html;
         }
+        
 
         
         // function build_chart_of_accounts_table_for_Trial_Balance($data, $level = 0) {
@@ -2072,7 +2022,8 @@
         }
         
 
-        private function generate_serial_number($level, &$sr_number, &$first_level_sr, &$second_level_sr, &$third_level_sr, &$fourth_level_sr, &$fifth_level_sr, $has_children) {
+
+        public function generate_serial_number($level, &$sr_number, &$first_level_sr, &$second_level_sr, &$third_level_sr, &$fourth_level_sr, &$fifth_level_sr, $has_children) {
             $serial = '';
         
             if ($level === 0) {
