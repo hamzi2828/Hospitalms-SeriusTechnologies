@@ -8,6 +8,7 @@
             $net_other_incomes = abs ( $net_other_incomes + $transaction -> debit );
             ?>
             <tr>
+                <td></td>
                 <td>
                     <strong>
                         <?php
@@ -37,6 +38,7 @@
                     
                     ?>
                     <tr>
+                        <td></td>
                         <td style="padding-left: 40px">
                             <?php
                                 echo $childAccHead -> title;
@@ -61,6 +63,7 @@
                             
                             ?>
                             <tr>
+                                <td> <?php  echo $subChildAccHead -> serial_number; ?></td>
                                 <td style="padding-left: 80px">
                                     <?php
                                         echo $subChildAccHead -> title;
@@ -82,6 +85,7 @@
     }
 ?>
 <tr>
+    <td></td>
     <td align="right"><strong>Total:</strong></td>
     <td align="left">
         <strong><?php echo number_format ( abs ( $net_other_incomes ), 2 ) ?></strong>

@@ -53,6 +53,7 @@
                     <table class="table table-striped table-bordered table-hover" id="excel-table">
                         <thead>
                         <tr>
+                            <th>Code</th>
                             <th align="left"> Account Head</th>
                             <th></th>
                         </tr>
@@ -67,6 +68,7 @@
                         ?>
                         
                         <tr>
+                            <td></td>
                             <td>
                                 <!--                                <strong>Sales - Net - Returns and Allowances</strong>-->
                                 <strong>Net Sale</strong>
@@ -84,6 +86,7 @@
                             include_once APPPATH . 'views/invoices/pnl-direct-costs.php' ?>
                         
                         <tr>
+                            <td></td>
                             <td>
                                 <strong>Gross Profit / (Loss)</strong>
                             </td>
@@ -101,6 +104,7 @@
                             include_once APPPATH . 'views/invoices/pnl-general-admin-expenses.php' ?>
                         
                         <tr>
+                            <td></td>
                             <td>
                                 <?php
                                     $finance_cost_debit = 0;
@@ -122,6 +126,7 @@
                         <?php include_once APPPATH . 'views/invoices/other-incomes.php' ?>
                         
                         <tr>
+                            <td></td>
                             <td>
                                 <strong>Net Profit / (Loss) before tax</strong>
                             </td>
@@ -136,6 +141,7 @@
                         </tr>
                         
                         <tr>
+                            <td></td>
                             <td>
                                 <?php
                                     $tax_debit   = 0;
@@ -155,6 +161,7 @@
                         </tr>
                         
                         <tr>
+                            <td></td>
                             <td>
                                 <strong>Net Profit / (Loss) after tax</strong>
                             </td>

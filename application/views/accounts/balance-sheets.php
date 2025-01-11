@@ -41,12 +41,14 @@
                 <table class="table table-striped table-bordered table-hover" id="excel-table">
                     <thead>
                     <tr>
+                        <th> Code</th>
                         <th> Account Head</th>
                         <th> Closing Balance</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
+                    <td></td>
                         <td>
                             <h6 style="color: #000000; font-weight: 800 !important;"> Current Assets: </h6>
                         </td>
@@ -60,6 +62,9 @@
                                 $netCurrentAssets += $balance_sheet[ 'net_closing' ];
                                 ?>
                                 <tr>
+                                 <td >
+                                        <?php echo $currentAsset -> serial_number ?>
+                                    </td>
                                     <td style="padding-left: 25px">
                                         <?php echo $currentAsset -> title ?>
                                     </td>
@@ -73,6 +78,7 @@
                     ?>
                     
                     <tr>
+                        <td></td>
                         <td align="right">
                             <h6 style="color: #000000; font-weight: 800 !important;"> Total: </h6>
                         </td>
@@ -86,6 +92,7 @@
                         </td>
                     </tr>
                     <tr>
+                    <td></td>
                         <td>
                             <h6 style="color: #000000; font-weight: 800 !important;"> Non-Current assets:</h6>
                         </td>
@@ -99,6 +106,9 @@
                                 $netNonCurrentAssets += $balance_sheet[ 'net_closing' ];
                                 ?>
                                 <tr>
+                                <td >
+                                        <?php echo $nonCurrentAsset -> serial_number ?>
+                                    </td>
                                     <td style="padding-left: 25px">
                                         <?php echo $nonCurrentAsset -> title ?>
                                     </td>
@@ -111,6 +121,7 @@
                         }
                     ?>
                     <tr>
+                    <td></td>
                         <td align="right">
                             <h6 style="color: #000000; font-weight: 800 !important;"> Total: </h6>
                         </td>
@@ -124,6 +135,7 @@
                         </td>
                     </tr>
                     <tr>
+                    <td></td>
                         <td>Total Accumulated Depreciation</td>
                         <td style="padding-left: 25px">
                             <strong>
@@ -135,6 +147,7 @@
                         </td>
                     </tr>
                     <tr>
+                    <td></td>
                         <td>
                             <?php echo get_account_head ( $accumulated_depreciation[ 'account_head_id' ] ) -> title ?>
                         </td>
@@ -146,6 +159,7 @@
                         </td>
                     </tr>
                     <tr>
+                    <td></td>
                         <td>
                             <h6 style="color: #000000; font-weight: 800 !important; float: left"> Net Non-Current
                                                                                                   Assets</h6>
@@ -161,6 +175,7 @@
                         </td>
                     </tr>
                     <tr>
+                    <td></td>
                         <td>
                             <h6 style="color: #000000; font-weight: 800 !important;"> Current liabilities:
                             </h6>
@@ -175,6 +190,9 @@
                                 $netCurrentLiabilities += $balance_sheet[ 'net_closing' ];
                                 ?>
                                 <tr>
+                                <td >
+                                        <?php echo $currentLiability -> serial_number ?>
+                                    </td>
                                     <td style="padding-left: 25px">
                                         <?php echo $currentLiability -> title ?>
                                     </td>
@@ -187,6 +205,7 @@
                         }
                     ?>
                     <tr>
+                        <td></td>
                         <td align="right">
                             <h6 style="color: #000000; font-weight: 800 !important;"> Total: </h6>
                         </td>
@@ -197,6 +216,7 @@
                         </td>
                     </tr>
                     <tr>
+                    <td></td>
                         <td>
                             <?php echo get_account_head ( $long_term_debt[ 'account_head_id' ] ) -> title ?>
                         </td>
@@ -205,6 +225,7 @@
                         </td>
                     </tr>
                     <tr>
+                    <td></td>
                         <td>
                             <?php echo get_account_head ( $other_long_term_liabilities[ 'account_head_id' ] ) -> title ?>
                         </td>
@@ -213,6 +234,7 @@
                         </td>
                     </tr>
                     <tr>
+                    <td></td>
                         <td align="right">
                             <h6 style="color: #000000; font-weight: 800 !important;"> Total: </h6>
                         </td>
@@ -223,6 +245,7 @@
                         </td>
                     </tr>
                     <tr>
+                    <td></td>
                         <td>
                             <h3 style="font-size: 18px; font-weight: 800 !important;"> Shareholder's Equity
                             
@@ -233,6 +256,7 @@
                         </td>
                     </tr>
                     <tr>
+                    <td></td>
                         <td>
                             <?php echo get_account_head ( $capital[ 'account_head_id' ] ) -> title ?>
                         </td>
@@ -244,6 +268,7 @@
                         </td>
                     </tr>
                     <tr>
+                    <td></td>
                         <td>Net Profit</td>
                         <td style="padding-left: 25px">
                             <?php
@@ -287,6 +312,7 @@
                         </td>
                     </tr>
                     <tr>
+                    <td></td>
                         <td align="right">
                             <h6 style="color: #000000; font-weight: 800 !important;"> Total: </h6>
                         </td>

@@ -8,6 +8,7 @@
             $expense_account_credit = abs ( $expense_account_credit + $transaction -> debit );
             ?>
             <tr>
+                <td></td>
                 <td>
                     <strong>
                         <?php
@@ -37,6 +38,7 @@
                     
                     ?>
                     <tr>
+                        <td></td>
                         <td style="padding-left: 40px">
                             <?php
                                 echo $childAccHead -> title;
@@ -61,6 +63,7 @@
                             
                             ?>
                             <tr>
+                                <td> <?php  echo $subChildAccHead -> serial_number; ?></td>
                                 <td style="padding-left: 80px">
                                     <?php
                                         echo $subChildAccHead -> title;
@@ -82,6 +85,7 @@
     }
 ?>
 <tr>
+    <td></td>
     <td><strong>Total Accumulated Depreciation</strong></td>
     <td>
         <strong>
@@ -95,6 +99,7 @@
     </td>
 </tr>
 <tr>
+    <td></td>
     <td align="right"><strong>Total:</strong></td>
     <td align="left">
         <strong><?php echo number_format ( abs ( $expense_account_credit ), 2 ) ?></strong>

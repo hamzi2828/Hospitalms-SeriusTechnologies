@@ -8,6 +8,7 @@
             $fee_discounts_credit = abs ( $fee_discounts_credit + $transaction -> credit );
             ?>
             <tr>
+                <td></td>
                 <td>
                     <strong>
                         <?php
@@ -39,6 +40,7 @@
                     
                     ?>
                     <tr>
+                        <td> <?php  echo $childAccHead -> serial_number; ?></td>
                         <td style="padding-left: 40px">
                             <?php
                                 echo $childAccHead -> title;
@@ -59,6 +61,7 @@
     }
 ?>
 <tr>
+    <td></td>
     <td align="right"><strong>Total:</strong></td>
     <td align="left">
         <strong><?php

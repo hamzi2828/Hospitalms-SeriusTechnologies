@@ -11,6 +11,7 @@
                 $sales_debit += abs ( ( $transaction -> debit ) );
                 ?>
                 <tr>
+                <td><?php echo $sale_account_head -> serial_number; ?></td> <!-- Serial number column -->
                     <td>
                         <strong>
                             <?php
@@ -38,6 +39,7 @@
                         
                         ?>
                         <tr>
+                        <td><?php echo $childAccHead -> serial_number; ?></td> <!-- Serial number column -->
                             <td style="padding-left: 40px">
                                 <?php
                                     echo $childAccHead -> title;
@@ -62,6 +64,7 @@
     }
 ?>
 <tr>
+    <td></td> <!-- Empty cell for serial number in the total row -->
     <td align="right"><strong>Total:</strong></td>
     <td align="left"><strong><?php
                 echo number_format ( abs ( $sales_debit ), 2 ) ?></strong></td>

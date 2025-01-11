@@ -1304,9 +1304,7 @@
             $title = site_name . ' - Balance Sheet';
             $this -> header ( $title );
             $this -> sidebar ();
-            $account_heads           = $this -> AccountModel -> get_chart_of_accounts ();
-            $tree                    = buildTree ( $account_heads );
-            $data[ 'account_heads' ] = $this -> AccountModel -> build_chart_of_accounts_table_for_balance_sheet ( $tree );
+
             
             $data[ 'currentAssets' ]                   = $this -> AccountModel -> get_balance_sheet_account_heads ( 'current-assets' );
             $data[ 'nonCurrentAssets' ]                = $this -> AccountModel -> get_balance_sheet_account_heads ( 'non-current-assets' );

@@ -11,6 +11,7 @@
                 $sales_credit += abs ( $transaction -> credit );
                 ?>
                 <tr>
+                    <td></td>
                     <td>
                         <strong>Sales (Refund)</strong>
                     </td>
@@ -29,6 +30,7 @@
                         
                         ?>
                         <tr>
+                            <td><?php echo $childAccHead -> serial_number; ?></td> <!-- Serial number column -->
                             <td style="padding-left: 40px">
                                 <?php
                                     echo $childAccHead -> title;
@@ -53,6 +55,7 @@
     }
 ?>
 <tr>
+    <td></td>
     <td align="right"><strong>Total:</strong></td>
     <td align="left"><strong><?php
                 echo number_format ( abs ( $sales_credit ), 2 ) ?></strong></td>

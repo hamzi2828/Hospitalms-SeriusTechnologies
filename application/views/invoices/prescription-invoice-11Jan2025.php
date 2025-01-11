@@ -83,8 +83,29 @@
     </style>
 </head>
 <body>
-
-
+<!--mpdf
+<htmlpageheader name="myheader">
+<?php require_once 'pdf-header.php' ?>
+</htmlpageheader>
+<htmlpagefooter name="myfooter">
+<div style="width:100%; display:block; text-align:right;">
+    <small><b>Advice/Follow up:</b>
+    <?php if ( !empty( trim ( $prescription -> follow_up ) ) and $prescription -> follow_up > 0 )
+        echo get_follow_up_by_id ( $prescription -> follow_up ) -> title;
+        
+        if ( !empty( trim ( $prescription -> follow_up_date ) ) )
+            echo '<br><small><b>Next Follow up Date: </b>'.date_setter_without_time ($prescription -> follow_up_date);
+    ?>
+    <br/><br/><br/>
+    _________________________________<br>
+    <small><b>Doctor's Sign</b></small>
+    <br/><br/><br/>
+</div>
+<?php require_once 'pdf-footer.php' ?>
+</htmlpagefooter>
+<sethtmlpageheader name="myheader" value="on" show-this-page="1"/>
+<sethtmlpagefooter name="myfooter" value="on"/>
+mpdf-->
 <table width="100%">
     <tr>
         <td width="50%">
@@ -202,8 +223,6 @@
         ?>
     </div>
 </div>
-
-</div>
 <div class="details">
     <?php
         if ( count ( $tests ) > 0 ) {
@@ -231,6 +250,5 @@
         }
     ?>
 </div>
-
 </body>
 </html>

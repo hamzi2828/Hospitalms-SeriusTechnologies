@@ -128,7 +128,7 @@ mpdf-->
 <div class="left">
     <div class="details">
         <?php $patient = get_patient ( $prescription -> patient_id ); ?>
-        <h3 style="border-bottom: 1px solid #a4a4a4; margin-top: 0"><strong>Patient Information</strong></h3>
+        <h3 style="border-bottom: 1px solid #a4a4a4; margin-top: -15px"><strong>Patient Information</strong></h3>
         EMR:
         <?php echo $patient -> id ?><br>
         Name:
@@ -167,8 +167,8 @@ mpdf-->
         </div>
     <?php else : ?>
         <div class="details">
-            <h3 style="border-bottom: 1px solid #a4a4a4"><strong>Complaints</strong></h3>
-            <br /><br /><br /><br /><br /><br />
+            <h3 style="border-bottom: 1px solid #a4a4a4"><strong>Subjective Complaints</strong></h3>
+            <br /><br /><br /><br /><br /><br /><br />
         </div>
     <?php endif; ?>
     <?php if ( !empty( trim ( $prescription -> diagnosis ) ) ) : ?>
@@ -178,13 +178,13 @@ mpdf-->
         </div>
     <?php else : ?>
         <div class="details">
-            <h3 style="border-bottom: 1px solid #a4a4a4"><strong>Diagnosis</strong></h3>
-            <br /><br /><br /><br /><br /><br />
+            <h3 style="border-bottom: 1px solid #a4a4a4"><strong>Objective Complaints</strong></h3>
+            <br /><br /><br /><br /><br /><br /><br />
         </div>
     <?php endif; ?>
 </div>
-<div class="right" style="margin-top: 50px">
-    <h1 style="margin-top: -5px; margin-bottom: 0; margin-left: -2px"><strong>R<sub>x</sub></strong></h1>
+<div class="right" style="margin-top: 10px">
+    <h1 style="margin-top: -5px; margin-bottom: 0; margin-left: 3px"><strong>PLAN</strong></h1>
     <div class="details">
         <?php
             if ( count ( $medicines ) > 0 ) {

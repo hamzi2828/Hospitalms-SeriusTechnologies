@@ -1,4 +1,5 @@
 <tr>
+    <td></td>
     <td>
         <strong>
             <?php
@@ -6,7 +7,7 @@
                 echo $returns_allowances_account_head -> title;
                 $acc_head_id = $returns_allowances_account_head -> id;
                 $transaction = calculate_acc_head_transaction ( $acc_head_id );
-                //            $allowances_credit = $allowances_credit + $transaction -> debit;
+                //$allowances_credit = $allowances_credit + $transaction -> debit;
                 
                 $allowances_credit = abs ( $allowances_credit + ( -$transaction -> credit + $transaction -> debit ) );
                 
