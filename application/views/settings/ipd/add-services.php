@@ -79,7 +79,7 @@
                                 <option value="minute">Minute</option>
                                 <option value="visit">Visit</option>
                                 <option value="no">No.</option>
-								<option value="session">Session</option>
+								
                             </select>
                         </div>
                         <div class="col-lg-4" style="margin-top: 30px">
