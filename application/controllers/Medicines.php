@@ -1510,7 +1510,7 @@
                         
                         $ledger[ 'acc_head_id' ]      = discount_pharmacy_panel;
                         $ledger[ 'transaction_type' ] = 'credit';
-                        $ledger[ 'credit' ]           = $sale_total;
+                        $ledger[ 'credit' ]           = $pharmacy_sale_total - $sale_total;
                         $ledger[ 'debit' ]            = 0;
                         
                         $this -> AccountModel -> add_ledger ( $ledger );
@@ -1557,7 +1557,7 @@
                         
                         $ledger[ 'acc_head_id' ]      = $panal_account_head ;
                         $ledger[ 'transaction_type' ] = 'credit';
-                        $ledger[ 'credit' ]           = $pharmacy_sale_total - $sale_total;
+                        $ledger[ 'credit' ]           =  $sale_total;
                         $ledger[ 'debit' ]            = 0;
                         
                         $check  = $this -> AccountModel -> add_ledger ( $ledger );
