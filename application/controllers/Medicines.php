@@ -1386,7 +1386,8 @@
            
             if ( $panel_id > 0 ) {
                 $accHeadID = get_account_head_id_by_panel_id ( $panel_id );
-                $panal_account_head =  $accHeadID->title;
+
+                $panal_account_head =  $accHeadID->id;
            
                 if ( empty( $accHeadID ) ) {
                     $this -> session -> set_flashdata ( 'error', 'Alert! No account head is linked against patient panel id	.' );
@@ -1539,14 +1540,15 @@
                     $ledger[ 'credit' ]           = 0;
                     $ledger[ 'debit' ]            = $sale_total;
                     
-                    $this -> AccountModel -> add_ledger ( $ledger );
-
+                    $check  = $this -> AccountModel -> add_ledger ( $ledger );
+              
                     $ledger[ 'acc_head_id' ]      = $panal_account_head ;
                     $ledger[ 'transaction_type' ] = 'credit';
                     $ledger[ 'credit' ]           = $sale_total;
                     $ledger[ 'debit' ]            = 0;
                     
-                    $this -> AccountModel -> add_ledger ( $ledger );
+                    $check  = $this -> AccountModel -> add_ledger ( $ledger );
+                   
 
                     }else{
                         
