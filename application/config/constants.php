@@ -158,6 +158,7 @@
     define ( 'discount_ipd_services_panel', 415 );
     define ( 'sales_lab_services_panel', 419 );
     define ( 'discount_lab_services_panel', 420 );
+    define ( 'sales_pharmacy_panel', 12 );  // pharmacy new 
     define ( 'sales_from_opd_services_panel', 425 );
     define ( 'discount_from_opd_services_panel', 426 );
     define ( 'sales_consultancy_service_panel', 428 );

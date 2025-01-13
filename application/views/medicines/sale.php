@@ -2,6 +2,7 @@
 <!-- BEGIN PAGE CONTENT-->
 <div class="row">
     <div class="col-md-12">
+    <div class="alert alert-danger panel-info hidden"></div>
         <?php if ( validation_errors () != false ) { ?>
             <div class="alert alert-danger validation-errors">
                 <?php echo validation_errors (); ?>
@@ -31,6 +32,7 @@
                            value="<?php echo $this -> security -> get_csrf_hash (); ?>" id="csrf_token">
                     <input type="hidden" name="action" value="do_sale_medicine">
                     <input type="hidden" name="selected" value="" id="selected_batch">
+                    <input type="hidden" id="panel_id" name="panel_id" value="">
                     <input type="hidden" value="1" id="added">
                     <div class="form-body" style="overflow:auto; overflow-x: hidden">
                         

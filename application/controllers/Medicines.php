@@ -1360,6 +1360,7 @@
         
         public function do_sale_medicine ( $POST ) {
             $data = filter_var_array ( $POST, FILTER_SANITIZE_STRING );
+       
             if ( isset( $_POST[ 'cash_from_pharmacy' ] ) )
                 $patient_id = $data[ 'cash_from_pharmacy' ];
             else
@@ -1380,6 +1381,16 @@
             
             $this -> MedicineModel -> clear_medicine_sale ( get_logged_in_user_id () );
             
+            $panel_id = $data[ 'panel_id' ];
+           
+            if ( $panel_id > 0 ) {
+                $accHeadID = get_account_head_id_by_panel_id ( $panel_id );
+                if ( empty( $accHeadID ) ) {
+                    $this -> session -> set_flashdata ( 'error', 'Alert! No account head is linked against patient panel id	.' );
+                    return redirect ( base_url ( '/lab/sale' ) );
+                }
+            }
+
             if ( count ( $medicines ) > 0 ) {
                 
                 $sale_total = calculate_medicines_sale_total ( $medicines );
@@ -1515,13 +1526,27 @@
                     
                     $this -> AccountModel -> add_ledger ( $ledger );
                 }
+                // Adding ledger for sales_pharmacy
                 else {
+                    if ($panel_id > 0 ) {
+                                                
+                    $ledger[ 'acc_head_id' ]      = sales_pharmacy_panel;
+                    $ledger[ 'transaction_type' ] = 'debit';
+                    $ledger[ 'credit' ]           = 0;
+                    $ledger[ 'debit' ]            = $sale_total;
+                    
+                    $this -> AccountModel -> add_ledger ( $ledger );
+
+                    }else{
+                        
                     $ledger[ 'acc_head_id' ]      = sales_pharmacy;
                     $ledger[ 'transaction_type' ] = 'debit';
                     $ledger[ 'credit' ]           = 0;
                     $ledger[ 'debit' ]            = $sale_total;
                     
                     $this -> AccountModel -> add_ledger ( $ledger );
+                    }
+
                 }
                 
                 $total_cost_tp_wise = calculate_cost_of_medicines_sold ( $sale_id );

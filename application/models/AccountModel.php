@@ -2056,6 +2056,7 @@
             $html = '<tfoot>';
             $html .= '<tr>';
             $html .= '<td align="right"></td>';
+            $html .= '<td></td>';
             $html .= '<td><strong> ' . number_format ( $this -> total_opening_balance_dr, 2 ) . '</strong></td>';
             $html .= '<td><strong> ' . number_format ( $this -> total_opening_balance_cr, 2 ) . '</strong></td>';
             $html .= '<td><strong> ' . number_format ( $this -> total_movement_cr, 2 ) . ' </strong></td>';

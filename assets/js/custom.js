@@ -724,7 +724,7 @@ function get_patient ( patient_id, fetch_vitals = false, fetch_ipd_details = fal
                                                    jQuery ( '#sales-btn' ).prop ( 'disabled', false );
                                                    if ( obj.panel_patient == 'yes' ) {
                                                        jQuery ( '.panel-info' ).removeClass ( 'hidden' );
-                                                       jQuery ( '.panel-info' ).html ( '<strong>Note!</strong> Patient is a panel patient.' );
+                                                       jQuery ( '.panel-info' ).html ( '<strong>Note!</strong> Patient is a panel patient. <strong>' + obj.panel_name + '</strong>' );
                                                    }
                                                    else {
                                                        jQuery ( '.panel-info' ).addClass ( 'hidden' );

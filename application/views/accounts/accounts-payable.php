@@ -55,7 +55,7 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td colspan="2"></td>
+                        <td colspan="3"></td>
                         <td>
                             <strong><?php echo number_format ( $payable[ 'netCredit' ], 2 ) ?></strong>
                         </td>

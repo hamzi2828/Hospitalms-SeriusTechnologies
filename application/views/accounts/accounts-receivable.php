@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-md-12">
         <div class="search-form">
@@ -55,7 +56,7 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td colspan="2"></td>
+                        <td colspan="3"></td>
                         <td>
                             <strong><?php echo number_format ( $receivables[ 'netCredit' ], 2 ) ?></strong>
                         </td>
