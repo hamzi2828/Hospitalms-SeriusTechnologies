@@ -37,6 +37,7 @@
                 <table class="table table-striped table-bordered table-hover" id="excel-table">
                     <thead>
                     <tr>
+                        <th>Code</th>
                         <th> Account Head</th>
                         <th> Opening Balance</th>
                         <th> Debit</th>
