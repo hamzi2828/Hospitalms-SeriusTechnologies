@@ -1500,41 +1500,73 @@
                 $pharmacy_sale_total = $data[ 'pharmacy_sale_total' ];
                 
                 if ( isset( $data[ 'sale_discount' ] ) and $data[ 'sale_discount' ] > 0 ) {
-                    $ledger[ 'acc_head_id' ]      = sales_pharmacy;
-                    $ledger[ 'transaction_type' ] = 'debit';
-                    $ledger[ 'credit' ]           = 0;
-                    $ledger[ 'debit' ]            = $pharmacy_sale_total;
-                    
-                    $this -> AccountModel -> add_ledger ( $ledger );
-                    
-                    $ledger[ 'acc_head_id' ]      = discount_pharmacy;
-                    $ledger[ 'transaction_type' ] = 'credit';
-                    $ledger[ 'credit' ]           = $pharmacy_sale_total - $sale_total;
-                    $ledger[ 'debit' ]            = 0;
-                    
-                    $this -> AccountModel -> add_ledger ( $ledger );
+                    if ($panel_id > 0 ) {
+                        $ledger[ 'acc_head_id' ]      = sales_pharmacy_panel;
+                        $ledger[ 'transaction_type' ] = 'debit';
+                        $ledger[ 'credit' ]           = 0;
+                        $ledger[ 'debit' ]            = $pharmacy_sale_total;
+                        
+                        $this -> AccountModel -> add_ledger ( $ledger );
+                        
+                        $ledger[ 'acc_head_id' ]      = discount_pharmacy_panel;
+                        $ledger[ 'transaction_type' ] = 'credit';
+                        $ledger[ 'credit' ]           = $pharmacy_sale_total - $sale_total;
+                        $ledger[ 'debit' ]            = 0;
+                        
+                        $this -> AccountModel -> add_ledger ( $ledger );
+
+                    }else{
+                        $ledger[ 'acc_head_id' ]      = sales_pharmacy;
+                        $ledger[ 'transaction_type' ] = 'debit';
+                        $ledger[ 'credit' ]           = 0;
+                        $ledger[ 'debit' ]            = $pharmacy_sale_total;
+                        
+                        $this -> AccountModel -> add_ledger ( $ledger );
+                        
+                        $ledger[ 'acc_head_id' ]      = discount_pharmacy;
+                        $ledger[ 'transaction_type' ] = 'credit';
+                        $ledger[ 'credit' ]           = $pharmacy_sale_total - $sale_total;
+                        $ledger[ 'debit' ]            = 0;
+                        
+                        $this -> AccountModel -> add_ledger ( $ledger );
+                    }
                 }
-                
                 else if ( isset( $data[ 'flat_discount' ] ) and $data[ 'flat_discount' ] > 0 ) {
-                    $ledger[ 'acc_head_id' ]      = sales_pharmacy;
-                    $ledger[ 'transaction_type' ] = 'debit';
-                    $ledger[ 'credit' ]           = 0;
-                    $ledger[ 'debit' ]            = $pharmacy_sale_total;
-                    
-                    $this -> AccountModel -> add_ledger ( $ledger );
-                    
-                    $ledger[ 'acc_head_id' ]      = discount_pharmacy;
-                    $ledger[ 'transaction_type' ] = 'credit';
-                    $ledger[ 'credit' ]           = $pharmacy_sale_total - $sale_total;
-                    $ledger[ 'debit' ]            = 0;
-                    
-                    $this -> AccountModel -> add_ledger ( $ledger );
+                    if ($panel_id > 0 ) {
+                        $ledger[ 'acc_head_id' ]      = sales_pharmacy_panel;
+                        $ledger[ 'transaction_type' ] = 'debit';
+                        $ledger[ 'credit' ]           = 0;
+                        $ledger[ 'debit' ]            = $pharmacy_sale_total;
+                        
+                        $this -> AccountModel -> add_ledger ( $ledger );
+                        
+                        $ledger[ 'acc_head_id' ]      = discount_pharmacy_panel;
+                        $ledger[ 'transaction_type' ] = 'credit';
+                        $ledger[ 'credit' ]           = $pharmacy_sale_total - $sale_total;
+                        $ledger[ 'debit' ]            = 0;
+                        
+                        $this -> AccountModel -> add_ledger ( $ledger );
+
+                    }else{
+
+                        $ledger[ 'acc_head_id' ]      = sales_pharmacy;
+                        $ledger[ 'transaction_type' ] = 'debit';
+                        $ledger[ 'credit' ]           = 0;
+                        $ledger[ 'debit' ]            = $pharmacy_sale_total;
+                        
+                        $this -> AccountModel -> add_ledger ( $ledger );
+                        
+                        $ledger[ 'acc_head_id' ]      = discount_pharmacy;
+                        $ledger[ 'transaction_type' ] = 'credit';
+                        $ledger[ 'credit' ]           = $pharmacy_sale_total - $sale_total;
+                        $ledger[ 'debit' ]            = 0;
+                        
+                        $this -> AccountModel -> add_ledger ( $ledger );
+                    }
                 }
                 // Adding ledger for sales_pharmacy
                 else {
                     if ($panel_id > 0 ) {
-                               
-                
                     $ledger[ 'acc_head_id' ]      = sales_pharmacy_panel;
                     $ledger[ 'transaction_type' ] = 'debit';
                     $ledger[ 'credit' ]           = 0;
