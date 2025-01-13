@@ -24,7 +24,7 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-globe"></i>
-                    Accounts Receivable Report
+                    Accounts Receivable Report  
                 </div>
                 <a href="<?php echo base_url ( '/invoices/accounts-receivable?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"
                    target="_blank"
@@ -37,6 +37,7 @@
                 <table class="table table-striped table-bordered table-hover" id="excel-table">
                     <thead>
                     <tr>
+                        <th>Code</th>
                         <th> Account Head</th>
                         <th> Opening Balance</th>
                         <th> Debit</th>

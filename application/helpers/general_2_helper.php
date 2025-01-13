@@ -498,6 +498,7 @@
             // Check if the record should be displayed
             if ((isset($record->children) && count($record->children) > 0) || (abs($credit) > 0 || abs($debit) > 0)) {
                 $results .= '<tr>';
+                $results .= '<td>' . $record->serial_number  . '</td>';
                 $results .= '<td style="padding-left: ' . (20 * $level) . 'px">';
                 
                 if (isset($record->children) && count($record->children) > 0) {
