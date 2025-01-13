@@ -163,7 +163,7 @@
     define ( 'discount_from_opd_services_panel', 426 );
     define ( 'sales_consultancy_service_panel', 428 );
     define ( 'discount_consultancy_service_panel', 429 );
-    define ( 'sales_ipd_services_covid', 13 ); // new added
+    define ( 'discount_pharmacy_panel', 13 );
     define ( 'secret_key', 'CxPluNs8jHK3sb7KVX6gJgT3yY5t9A1x' );
 
 // current assets
