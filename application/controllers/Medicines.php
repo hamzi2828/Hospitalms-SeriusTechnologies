@@ -1367,6 +1367,7 @@
                 $patient_id = $data[ 'patient_id' ];
             
             $cashAccountHead = cash_from_pharmacy;
+            $panal_account_head = '';
             if ( $this -> input -> post ( 'payment-method' ) == 'card' )
                 $cashAccountHead = CARD;
             else if ( $this -> input -> post ( 'payment-method' ) == 'bank' )
@@ -1385,6 +1386,8 @@
            
             if ( $panel_id > 0 ) {
                 $accHeadID = get_account_head_id_by_panel_id ( $panel_id );
+                $panal_account_head =  $accHeadID->title;
+           
                 if ( empty( $accHeadID ) ) {
                     $this -> session -> set_flashdata ( 'error', 'Alert! No account head is linked against patient panel id	.' );
                     return redirect ( base_url ( '/lab/sale' ) );
@@ -1529,11 +1532,19 @@
                 // Adding ledger for sales_pharmacy
                 else {
                     if ($panel_id > 0 ) {
-                                                
+                               
+                
                     $ledger[ 'acc_head_id' ]      = sales_pharmacy_panel;
                     $ledger[ 'transaction_type' ] = 'debit';
                     $ledger[ 'credit' ]           = 0;
                     $ledger[ 'debit' ]            = $sale_total;
+                    
+                    $this -> AccountModel -> add_ledger ( $ledger );
+
+                    $ledger[ 'acc_head_id' ]      = $panal_account_head ;
+                    $ledger[ 'transaction_type' ] = 'credit';
+                    $ledger[ 'credit' ]           = $sale_total;
+                    $ledger[ 'debit' ]            = 0;
                     
                     $this -> AccountModel -> add_ledger ( $ledger );
 
