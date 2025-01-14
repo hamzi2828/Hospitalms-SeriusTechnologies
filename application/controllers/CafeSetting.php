@@ -848,12 +848,13 @@ class CafeSetting extends CI_Controller {
             'trans_date'       => date ( 'Y-m-d' ),
             'date_added'       => current_date_time ()
         );
+
          $this -> AccountModel -> add_ledger ( $ledger );
 
          $ledger_description = 'Cafe Sale discount added. Invoice# ' . $new_invoice_id;
          $ledger             = array (
              'user_id'          => get_logged_in_user_id (),
-             'acc_head_id'      => Discount_on_Cafe_Services ,
+             'acc_head_id'      => '16' , // Discount_on_Cafe_Services
              'stock_id'         => $new_invoice_id,
              'invoice_id'       => $new_invoice_id,
              'payment_mode'     => 'cash',
@@ -865,7 +866,9 @@ class CafeSetting extends CI_Controller {
              'trans_date'       => date ( 'Y-m-d' ),
              'date_added'       => current_date_time ()
          );
-          $this -> AccountModel -> add_ledger ( $ledger );
+
+          $check = $this -> AccountModel -> add_ledger ( $ledger );
+
 
         $ledger_description = 'Cafe stock added. Invoice# ' . $new_invoice_id;
 
