@@ -775,7 +775,7 @@ class CafeSetting extends CI_Controller {
     public function add_sale() 
     {
        
-        if (isset($_POST['action']) && $_POST['action'] == 'do_add_store_stock_for_cafe') {
+        if (isset($_POST['action']) && $_POST['action'] == 'do_add_store_sale_for_cafe') {
             $this->do_add_sale_for_cafe($_POST);
         }
         // Load the sale form
@@ -802,7 +802,8 @@ class CafeSetting extends CI_Controller {
         $this->db->select_max('invoice_id');
         $last_invoice = $this->db->get('hmis_cafe_sales')->row();
         $new_invoice_id = isset($last_invoice->invoice_id) ? $last_invoice->invoice_id + 1 : 1; 
-    
+        $total_tp_unit = 0;
+
         // Extract data from POST
         $product_ids = $data['product_id'];
         $sale_qtys = $data['sale_qty'];
@@ -810,9 +811,12 @@ class CafeSetting extends CI_Controller {
         $net_prices = $data['net_price'];
         $grand_total_discount = $data['grand_total_discount'];
         $grand_total = $data['grand_total'];
-    
+        $total_sale_quantity = array_sum($sale_qtys);
+
         // Insert data for each product in the sale
         foreach ($product_ids as $index => $product_id) {
+            $product_details = get_product_by_id($product_id);
+            $total_tp_unit += (float)$product_details->tp_unit;
             $sale_data = [
                 'user_id'  => get_logged_in_user_id (),
                 'product_id' => $product_id,
@@ -865,6 +869,46 @@ class CafeSetting extends CI_Controller {
 
          $this -> AccountModel -> add_ledger ( $mm_ledger );
 
+
+         $ledger_description = 'Cafe Inventory added. Invoice# ' . $new_invoice_id;
+
+         $mm_ledger = array (
+             'user_id'          => get_logged_in_user_id (),
+             'acc_head_id'      => Cafe_Inventory ,
+             'stock_id'         => $new_invoice_id,
+             'invoice_id'       => $new_invoice_id,
+             'payment_mode'     => 'cash',
+             'paid_via'         => '',
+             'transaction_type' => 'debit',
+             'credit'           => 0,
+             'debit'            => $total_sale_quantity * $total_tp_unit,
+             'description'      => $ledger_description,
+             'trans_date'       => date ( 'Y-m-d' ),
+             'date_added'       => current_date_time ()
+         );
+ 
+          $this -> AccountModel -> add_ledger ( $mm_ledger );
+
+
+          $ledger_description = 'Cafe Service added. Invoice# ' . $new_invoice_id;
+
+          $mm_ledger = array (
+              'user_id'          => get_logged_in_user_id (),
+              'acc_head_id'      => COS_Cafe_Services ,
+              'stock_id'         => $new_invoice_id,
+              'invoice_id'       => $new_invoice_id,
+              'payment_mode'     => 'cash',
+              'paid_via'         => '',
+              'transaction_type' => 'credit',
+              'credit'           => $total_sale_quantity * $total_tp_unit,
+              'debit'            => 0,
+              'description'      => $ledger_description,
+              'trans_date'       => date ( 'Y-m-d' ),
+              'date_added'       => current_date_time ()
+          );
+  
+           $this -> AccountModel -> add_ledger ( $mm_ledger );
+
         // Set a success message and redirect
         $this->session->set_flashdata('response', $new_invoice_id);
         redirect('cafe-setting/add-sale');
@@ -911,7 +955,7 @@ class CafeSetting extends CI_Controller {
                 'grand_total' => -$sale->grand_total, // Negative for refund
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
-                'refunded' => 1, // Mark the duplicate as refunded
+                'refunded' => 1, 
             ];
             $this->db->insert('hmis_cafe_sales', $duplicate_sale);
         }
@@ -938,7 +982,7 @@ class CafeSetting extends CI_Controller {
 
             $mm_ledger = array (
                 'user_id'          => get_logged_in_user_id (),
-                'acc_head_id'      => Cafe_Inventory,
+                'acc_head_id'      => Sales_Cafe_Services,
                 'stock_id'         => $new_invoice_id,
                 'invoice_id'       => $new_invoice_id,
                 'payment_mode'     => 'cash',

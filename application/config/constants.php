@@ -404,6 +404,8 @@
     define ( 'store_inventory', 470 );
     define ( 'lab_inventory', 486 );
     define ( 'Cafe_Inventory', 10 );
+    define ( 'Sales_Cafe_Services', 14 );
+    define ( 'COS_Cafe_Services', 15 );
     
     define ( 'COS_Procedures_IPD', 861 );
     define ( 'COS_Anesthesia_Fee', 181 );
