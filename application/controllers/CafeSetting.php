@@ -984,7 +984,7 @@ class CafeSetting extends CI_Controller {
             ];
             $this->db->insert('hmis_cafe_sales', $duplicate_sale);
         }
-        $grand_total_before_discount = $grand_total - $grand_total_discount;
+        $grand_total_before_discount = $grand_total + $grand_total_discount;
 
         $new_invoice_id = $id;
         $total_sale_quantity_and_tp_unit = 0;
@@ -998,7 +998,7 @@ class CafeSetting extends CI_Controller {
             'payment_mode'     => 'cash',
             'paid_via'         => '',
             'transaction_type' => 'credit',
-            'credit'           => $grand_total,
+            'credit'           => $grand_total_before_discount,
             'debit'            => 0,
             'description'      => $ledger_description,
             'trans_date'       => date ( 'Y-m-d' ),
