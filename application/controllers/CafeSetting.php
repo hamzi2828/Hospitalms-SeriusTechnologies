@@ -910,7 +910,7 @@ class CafeSetting extends CI_Controller {
           $this -> AccountModel -> add_ledger ( $mm_ledger );
 
 
-          $ledger_description = 'Cafe Service added. Invoice# ' . $new_invoice_id;
+          $ledger_description = 'Cafe Service refund. Invoice# ' . $new_invoice_id;
 
           $mm_ledger = array (
               'user_id'          => get_logged_in_user_id (),
@@ -919,9 +919,9 @@ class CafeSetting extends CI_Controller {
               'invoice_id'       => $new_invoice_id,
               'payment_mode'     => 'cash',
               'paid_via'         => '',
-              'transaction_type' => 'credit',
-              'credit'           => $total_sale_quantity_and_tp_unit,
-              'debit'            => 0,
+              'transaction_type' => 'debit',
+              'credit'           => 0,
+              'debit'            => $total_sale_quantity_and_tp_unit,
               'description'      => $ledger_description,
               'trans_date'       => date ( 'Y-m-d' ),
               'date_added'       => current_date_time ()
