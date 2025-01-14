@@ -296,8 +296,6 @@ class CafeSettingModel extends CI_Model
     }
 
     public function get_all_sales_with_date_range($start_date, $end_date) {
-        print_r(array($start_date, $end_date));
-        exit;
         // Convert dates to the appropriate format for SQL (Y-m-d)
         $start_date = date('Y-m-d', strtotime($start_date));
         $end_date = date('Y-m-d', strtotime($end_date));
