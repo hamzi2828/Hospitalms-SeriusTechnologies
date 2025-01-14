@@ -60,9 +60,9 @@
             $start_date = date('Y-m-d', strtotime($start_date));
             $end_date = date('Y-m-d', strtotime($end_date));
         
-            // Apply date range filter to the query
-            $this->db->where('created_at >=', $start_date);
-            $this->db->where('created_at <=', $end_date);
+        // Apply date range filter to the query and include sales for the common date
+        $this->db->where('created_at >=', $start_date);
+        $this->db->where('created_at <=', $end_date . ' 23:59:59');
         
             $query = $this->db->get('hmis_cafe_sales');
             return $query->result();
