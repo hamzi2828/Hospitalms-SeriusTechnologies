@@ -998,7 +998,7 @@ class CafeSetting extends CI_Controller {
             'payment_mode'     => 'cash',
             'paid_via'         => '',
             'transaction_type' => 'credit',
-            'credit'           => $grand_total_before_discount,
+            'credit'           => $grand_total,
             'debit'            => 0,
             'description'      => $ledger_description,
             'trans_date'       => date ( 'Y-m-d' ),
@@ -1043,7 +1043,7 @@ class CafeSetting extends CI_Controller {
             'date_added'       => current_date_time ()
         );
 
-         $this -> AccountModel -> add_ledger ( $mm_ledger );
+        $this -> AccountModel -> add_ledger ( $mm_ledger );
 
         
         $all_sales_by_invoice_id = $this -> CafeSettingModel -> get_sales_by_invoice_id ( $new_invoice_id );
@@ -1090,7 +1090,7 @@ class CafeSetting extends CI_Controller {
               'date_added'       => current_date_time ()
           );
   
-           $this -> AccountModel -> add_ledger ( $mm_ledger );
+          $this -> AccountModel -> add_ledger ( $mm_ledger );
 
 
         // Complete database transaction
