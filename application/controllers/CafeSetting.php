@@ -870,7 +870,7 @@ class CafeSetting extends CI_Controller {
           $check = $this -> AccountModel -> add_ledger ( $ledger );
 
 
-        $ledger_description = 'Cafe stock added. Invoice# ' . $new_invoice_id;
+        $ledger_description = 'Cafe sale added. Invoice# ' . $new_invoice_id;
 
         $mm_ledger = array (
             'user_id'          => get_logged_in_user_id (),
@@ -1028,7 +1028,7 @@ class CafeSetting extends CI_Controller {
           $check = $this -> AccountModel -> add_ledger ( $ledger );
 
 
-        $ledger_description = 'Cafe stock returned. Invoice# ' . $new_invoice_id;
+        $ledger_description = 'Cafe sale returned. Invoice# ' . $new_invoice_id;
 
         $mm_ledger = array (
             'user_id'          => get_logged_in_user_id (),
