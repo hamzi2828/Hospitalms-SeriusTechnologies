@@ -802,7 +802,7 @@ class CafeSetting extends CI_Controller {
         $this->db->select_max('invoice_id');
         $last_invoice = $this->db->get('hmis_cafe_sales')->row();
         $new_invoice_id = isset($last_invoice->invoice_id) ? $last_invoice->invoice_id + 1 : 1; 
-        $total_tp_unit = 0;
+        $total_sale_quantity_and_tp_unit = 0;
 
         // Extract data from POST
         $product_ids = $data['product_id'];
@@ -811,12 +811,11 @@ class CafeSetting extends CI_Controller {
         $net_prices = $data['net_price'];
         $grand_total_discount = $data['grand_total_discount'];
         $grand_total = $data['grand_total'];
-        $total_sale_quantity = array_sum($sale_qtys);
 
         // Insert data for each product in the sale
         foreach ($product_ids as $index => $product_id) {
             $product_details = get_product_by_id($product_id);
-            $total_tp_unit += (float)$product_details->tp_unit;
+            $total_sale_quantity_and_tp_unit += (float)$product_details->tp_unit * (float)$sale_qtys[$index];
             $sale_data = [
                 'user_id'  => get_logged_in_user_id (),
                 'product_id' => $product_id,
@@ -881,7 +880,7 @@ class CafeSetting extends CI_Controller {
              'paid_via'         => '',
              'transaction_type' => 'debit',
              'credit'           => 0,
-             'debit'            => $total_sale_quantity * $total_tp_unit,
+             'debit'            => $total_sale_quantity_and_tp_unit,
              'description'      => $ledger_description,
              'trans_date'       => date ( 'Y-m-d' ),
              'date_added'       => current_date_time ()
@@ -900,7 +899,7 @@ class CafeSetting extends CI_Controller {
               'payment_mode'     => 'cash',
               'paid_via'         => '',
               'transaction_type' => 'credit',
-              'credit'           => $total_sale_quantity * $total_tp_unit,
+              'credit'           => $total_sale_quantity_and_tp_unit,
               'debit'            => 0,
               'description'      => $ledger_description,
               'trans_date'       => date ( 'Y-m-d' ),
