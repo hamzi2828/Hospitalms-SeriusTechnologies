@@ -809,6 +809,7 @@ class CafeSetting extends CI_Controller {
         $sale_qtys = $data['sale_qty'];
         $prices = $data['price'];
         $net_prices = $data['net_price'];
+        $grand_total_before_discount = $data['grand_total_discount'] + $data['grand_total'];
         $grand_total_discount = $data['grand_total_discount'];
         $grand_total = $data['grand_total'];
 
@@ -842,7 +843,7 @@ class CafeSetting extends CI_Controller {
             'paid_via'         => '',
             'transaction_type' => 'debit',
             'credit'           => 0,
-            'debit'            => $net_prices,
+            'debit'            => $grand_total_before_discount,
             'description'      => $ledger_description,
             'trans_date'       => date ( 'Y-m-d' ),
             'date_added'       => current_date_time ()
