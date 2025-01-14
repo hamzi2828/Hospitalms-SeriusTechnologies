@@ -295,16 +295,15 @@ class CafeSettingModel extends CI_Model
         return $query->result();
     }
 
-
     public function get_all_sales_with_date_range($start_date, $end_date) {
         // Convert dates to the appropriate format for SQL (Y-m-d)
         $start_date = date('Y-m-d', strtotime($start_date));
         $end_date = date('Y-m-d', strtotime($end_date));
-    
-        // Apply date range filter to the query
+
+        // Apply date range filter to the query and include sales for the common date
         $this->db->where('created_at >=', $start_date);
-        $this->db->where('created_at <=', $end_date);
-    
+        $this->db->where('created_at <=', $end_date . ' 23:59:59');
+
         $query = $this->db->get('hmis_cafe_sales');
         return $query->result();
     }
