@@ -842,12 +842,29 @@ class CafeSetting extends CI_Controller {
             'paid_via'         => '',
             'transaction_type' => 'debit',
             'credit'           => 0,
-            'debit'            => $grand_total,
+            'debit'            => $net_prices,
             'description'      => $ledger_description,
             'trans_date'       => date ( 'Y-m-d' ),
             'date_added'       => current_date_time ()
         );
          $this -> AccountModel -> add_ledger ( $ledger );
+
+         $ledger_description = 'Cafe Sale added. Invoice# ' . $new_invoice_id;
+         $ledger             = array (
+             'user_id'          => get_logged_in_user_id (),
+             'acc_head_id'      => Discount_on_Cafe_Services ,
+             'stock_id'         => $new_invoice_id,
+             'invoice_id'       => $new_invoice_id,
+             'payment_mode'     => 'cash',
+             'paid_via'         => '',
+             'transaction_type' => 'credit',
+             'credit'           => $grand_total_discount ?? 0,
+             'debit'            => 0,
+             'description'      => $ledger_description,
+             'trans_date'       => date ( 'Y-m-d' ),
+             'date_added'       => current_date_time ()
+         );
+          $this -> AccountModel -> add_ledger ( $ledger );
 
         $ledger_description = 'Cafe stock added. Invoice# ' . $new_invoice_id;
 
