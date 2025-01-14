@@ -24,7 +24,7 @@
     <div class="form-group col-lg-2">
         <label for="exampleInputEmail1">Sale Qty.</label>
         <input type="number" name="sale_qty[]" class="form-control sale-qty-<?php echo $row ?>"
-               onchange="calculate_store_cafe_sale_net_price(<?php echo $row ?>)" value="0" min="0">
+               onchange="calculate_store_cafe_sale_net_price(<?php echo $row ?>)"  required="required">
     </div>
 
     <div class="form-group col-lg-2">

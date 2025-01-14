@@ -314,6 +314,13 @@ class CafeSettingModel extends CI_Model
         return $stock -> result();
     }
 
+    
+    public function get_sales_by_invoice_id ( $invoice_id ) {
+        $this->db->where('invoice_id', $invoice_id);
+        $query = $this->db->get('hmis_cafe_sales');
+        return $query->result();
+    }
+
 
     public function get_total_refonded_quantity_by_product_id($product_id) {
         $this->db->select('SUM(sale_qty) AS total_sold_quantity');

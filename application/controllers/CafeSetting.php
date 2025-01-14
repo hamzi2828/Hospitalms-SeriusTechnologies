@@ -961,10 +961,15 @@ class CafeSetting extends CI_Controller {
         $last_invoice = $this->db->get('hmis_cafe_sales')->row();
         $new_invoice_id = isset($last_invoice->invoice_id) ? $last_invoice->invoice_id + 1 : 1;
         $grand_total = 0;
+        $grand_total_discount = 0;
+        $grand_total_before_discount = 0;
+
         // Duplicate each sale with the new invoice_id
         foreach ($sales as $sale) {
             
             $grand_total = $sale->grand_total;
+            $grand_total_discount = $sale->grand_total_discount;
+
             $duplicate_sale = [
                 'product_id' => $sale->product_id,
                 'invoice_id' => $new_invoice_id,
@@ -979,44 +984,113 @@ class CafeSetting extends CI_Controller {
             ];
             $this->db->insert('hmis_cafe_sales', $duplicate_sale);
         }
-    
-            
-            $ledger_description = 'Cafe Sale refunded. Invoice# ' . $id;
-            $ledger             = array (
-                'user_id'          => get_logged_in_user_id (),
-                'acc_head_id'      => cash_from_cafe ,
-                'stock_id'         => $new_invoice_id,
-                'invoice_id'       => $new_invoice_id,
-                'payment_mode'     => 'cash',
-                'paid_via'         => '',
-                'transaction_type' => 'debit',
-                'credit'           => 0,
-                'debit'            => $grand_total,
-                'description'      => $ledger_description,
-                'trans_date'       => date ( 'Y-m-d' ),
-                'date_added'       => current_date_time ()
-            );
-            $this -> AccountModel -> add_ledger ( $ledger );
+        $grand_total_before_discount = $grand_total - $grand_total_discount;
 
-            $ledger_description = 'Cafe Sale refunded.. Invoice# ' .  $id;
+        $new_invoice_id = $id;
+        $total_sale_quantity_and_tp_unit = 0;
+        
+        $ledger_description = 'Cafe Sale refunded. Invoice# ' . $new_invoice_id;
+        $ledger             = array (
+            'user_id'          => get_logged_in_user_id (),
+            'acc_head_id'      => Sales_Cafe_Services ,
+            'stock_id'         => $new_invoice_id,
+            'invoice_id'       => $new_invoice_id,
+            'payment_mode'     => 'cash',
+            'paid_via'         => '',
+            'transaction_type' => 'credit',
+            'credit'           => $grand_total_before_discount,
+            'debit'            => 0,
+            'description'      => $ledger_description,
+            'trans_date'       => date ( 'Y-m-d' ),
+            'date_added'       => current_date_time ()
+        );
 
-            $mm_ledger = array (
-                'user_id'          => get_logged_in_user_id (),
-                'acc_head_id'      => Sales_Cafe_Services,
-                'stock_id'         => $new_invoice_id,
-                'invoice_id'       => $new_invoice_id,
-                'payment_mode'     => 'cash',
-                'paid_via'         => '',
-                'transaction_type' => 'credit',
-                'credit'           => $grand_total,
-                'debit'            => 0,
-                'description'      => $ledger_description,
-                'trans_date'       => date ( 'Y-m-d' ),
-                'date_added'       => current_date_time ()
-            );
+         $this -> AccountModel -> add_ledger ( $ledger );
 
-            $this -> AccountModel -> add_ledger ( $mm_ledger );
+         $ledger_description = 'Cafe Sale discount refunded. Invoice# ' . $new_invoice_id;
+         $ledger             = array (
+             'user_id'          => get_logged_in_user_id (),
+             'acc_head_id'      => '16' , // Discount_on_Cafe_Services
+             'stock_id'         => $new_invoice_id,
+             'invoice_id'       => $new_invoice_id,
+             'payment_mode'     => 'cash',
+             'paid_via'         => '',
+             'transaction_type' => 'debit',
+             'credit'           => 0,
+             'debit'            => $grand_total_discount,
+             'description'      => $ledger_description,
+             'trans_date'       => date ( 'Y-m-d' ),
+             'date_added'       => current_date_time ()
+         );
 
+          $check = $this -> AccountModel -> add_ledger ( $ledger );
+
+
+        $ledger_description = 'Cafe stock returned. Invoice# ' . $new_invoice_id;
+
+        $mm_ledger = array (
+            'user_id'          => get_logged_in_user_id (),
+            'acc_head_id'      => cash_from_cafe ,
+            'stock_id'         => $new_invoice_id,
+            'invoice_id'       => $new_invoice_id,
+            'payment_mode'     => 'cash',
+            'paid_via'         => '',
+            'transaction_type' => 'debit',
+            'credit'           => 0 ,
+            'debit'            =>  $grand_total,
+            'description'      => $ledger_description,
+            'trans_date'       => date ( 'Y-m-d' ),
+            'date_added'       => current_date_time ()
+        );
+
+         $this -> AccountModel -> add_ledger ( $mm_ledger );
+
+        
+        $all_sales_by_invoice_id = $this -> CafeSettingModel -> get_sales_by_invoice_id ( $new_invoice_id );
+        foreach ($all_sales_by_invoice_id as $sale) {
+            $product_details = get_product_by_id($sale->product_id);
+            $total_sale_quantity_and_tp_unit += (float)$product_details->tp_unit * (float)$sale->sale_qty;
+        }
+
+
+         $ledger_description = 'Cafe Inventory added. Invoice# ' . $new_invoice_id;
+
+         $mm_ledger = array (
+             'user_id'          => get_logged_in_user_id (),
+             'acc_head_id'      => Cafe_Inventory ,
+             'stock_id'         => $new_invoice_id,
+             'invoice_id'       => $new_invoice_id,
+             'payment_mode'     => 'cash',
+             'paid_via'         => '',
+             'transaction_type' => 'debit',
+             'credit'           => 0,
+             'debit'            => $total_sale_quantity_and_tp_unit,
+             'description'      => $ledger_description,
+             'trans_date'       => date ( 'Y-m-d' ),
+             'date_added'       => current_date_time ()
+         );
+ 
+          $this -> AccountModel -> add_ledger ( $mm_ledger );
+
+
+          $ledger_description = 'Cafe Service added. Invoice# ' . $new_invoice_id;
+
+          $mm_ledger = array (
+              'user_id'          => get_logged_in_user_id (),
+              'acc_head_id'      => COS_Cafe_Services ,
+              'stock_id'         => $new_invoice_id,
+              'invoice_id'       => $new_invoice_id,
+              'payment_mode'     => 'cash',
+              'paid_via'         => '',
+              'transaction_type' => 'credit',
+              'credit'           => $total_sale_quantity_and_tp_unit,
+              'debit'            => 0,
+              'description'      => $ledger_description,
+              'trans_date'       => date ( 'Y-m-d' ),
+              'date_added'       => current_date_time ()
+          );
+  
+           $this -> AccountModel -> add_ledger ( $mm_ledger );
 
 
         // Complete database transaction
