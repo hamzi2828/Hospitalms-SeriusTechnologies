@@ -836,7 +836,7 @@ class CafeSetting extends CI_Controller {
         $ledger_description = 'Cafe Sale added. Invoice# ' . $new_invoice_id;
         $ledger             = array (
             'user_id'          => get_logged_in_user_id (),
-            'acc_head_id'      => Cafe_Inventory ,
+            'acc_head_id'      => Sales_Cafe_Services ,
             'stock_id'         => $new_invoice_id,
             'invoice_id'       => $new_invoice_id,
             'payment_mode'     => 'cash',
