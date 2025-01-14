@@ -190,7 +190,7 @@ mpdf-->
         </td>
     </tr>
     <tr>
-    <td></td>
+    <td><strong>5-006</strong></td>
         <td>Total Accumulated Depreciation</td>
         <td style="padding-left: 25px">
             <strong>
@@ -231,7 +231,7 @@ mpdf-->
         </td>
     </tr>
     <tr>
-    <td></td>
+    <td><strong>2-001</strong></td>
         <td>
             <h2 style="color: #000000; font-weight: 800 !important;">
                 <strong>Current liabilities:</strong>
@@ -273,7 +273,12 @@ mpdf-->
         </td>
     </tr>
     <tr>
-    <td></td>
+    <td>
+        <?php 
+        $account_head_details = get_account_head($long_term_debt['account_head_id']);
+        echo $account_head_details->serial_number; 
+        ?>
+    </td>
         <td>
             <?php echo get_account_head ( $long_term_debt[ 'account_head_id' ] ) -> title ?>
         </td>
@@ -282,7 +287,12 @@ mpdf-->
         </td>
     </tr>
     <tr>
-    <td></td>
+    <td>
+        <?php 
+            $account_head_details = get_account_head($other_long_term_liabilities['account_head_id']);
+            echo $account_head_details->serial_number; 
+            ?>
+    </td>
         <td>
             <?php echo get_account_head ( $other_long_term_liabilities[ 'account_head_id' ] ) -> title ?>
         </td>
@@ -315,7 +325,12 @@ mpdf-->
         </td>
     </tr>
     <tr>
-    <td></td>
+    <td>
+        <?php 
+            $account_head_details = get_account_head($capital['account_head_id']);
+            echo $account_head_details->serial_number; 
+            ?>
+    </td>
         <td>
             <?php echo get_account_head ( $capital[ 'account_head_id' ] ) -> title ?>
         </td>
