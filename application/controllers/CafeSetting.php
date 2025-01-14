@@ -1074,7 +1074,7 @@ class CafeSetting extends CI_Controller {
           $this -> AccountModel -> add_ledger ( $mm_ledger );
 
 
-          $ledger_description = 'Cafe Service added. Invoice# ' . $new_invoice_id;
+          $ledger_description = 'Cafe Service refunded. Invoice# ' . $new_invoice_id;
 
             $mm_ledger = array (
                 'user_id'          => get_logged_in_user_id (),
