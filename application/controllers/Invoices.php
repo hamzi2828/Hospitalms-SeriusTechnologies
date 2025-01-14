@@ -292,20 +292,20 @@
                 $end_date = isset($_GET['end_date']) ? $_GET['end_date'] : '';
                 $sales = $this->ReportingModel->get_all_sales_with_date_range($start_date, $end_date);
                  // Initialize grouped sales
-        $grouped_sales = [];
-        foreach ($sales as $sale) {
-            if (!isset($grouped_sales[$sale->invoice_id])) {
-                $grouped_sales[$sale->invoice_id] = [
-                    'invoice_id' => $sale->invoice_id,
-                    'items' => [],
-                    'prices' => [],
-                    'net_prices' => [],
-                    'sale_qtys' => [],
-                    'grand_total_discount' => $sale->grand_total_discount,
-                    'grand_total' => $sale->grand_total,
-                    'refunded' => $sale->refunded ?? 0,
-                    'created_at' => $sale->created_at,
-                ];
+                    $grouped_sales = [];
+                    foreach ($sales as $sale) {
+                        if (!isset($grouped_sales[$sale->invoice_id])) {
+                            $grouped_sales[$sale->invoice_id] = [
+                                'invoice_id' => $sale->invoice_id,
+                                'items' => [],
+                                'prices' => [],
+                                'net_prices' => [],
+                                'sale_qtys' => [],
+                                'grand_total_discount' => $sale->grand_total_discount,
+                                'grand_total' => $sale->grand_total,
+                                'refunded' => $sale->refunded ?? 0,
+                                'created_at' => $sale->created_at,
+                            ];
             }
     
             // Get product details

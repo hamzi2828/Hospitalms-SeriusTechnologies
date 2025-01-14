@@ -29,16 +29,17 @@
 
 
 
+<?php if (!empty($access) and in_array('cafe-module-sidebar', explode(',', $access->access))) : ?>
 
-<li class="<?php if ($parent_uri == 'cafe-setting') echo 'start active'; ?>">
+<li class="<?php if ($parent_uri == 'cafe-module') echo 'start active'; ?>">
     <a href="javascript:void(0);">
         <i class="fa fa-coffee"></i>
-        <span class="title"> Cafe Setting </span>
+        <span class="title"> Cafe Module </span>
         <span class="arrow "></span>
     </a>
     <ul class="sub-menu">
 
-    <?php if (!empty($access) and in_array('all-sale', explode(',', $access->access))) : ?>
+         <?php if (!empty($access) and in_array('all-sale', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'all-sale') echo 'active'; ?>">
                 <a href="<?php echo base_url('/cafe-setting/all-sale') ?>">
                     All Sales
@@ -148,4 +149,8 @@
 
 
     </ul>
+
+    
 </li>
+
+<?php endif; ?>

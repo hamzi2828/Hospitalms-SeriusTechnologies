@@ -4780,16 +4780,17 @@
 
 
 
+
         <tr style="background: #dff0d8;">
-        <td>Cafe Setting</td> 
+          
+        <td>Cafe Module</td> 
         <td></td>
-        <td>
-            <input type="checkbox" class="checkbox" name="access[]"
-                value="cafe-setting" <?php if (!empty($access) and in_array('cafe-setting', explode(',', $access->access)))
-                echo 'checked="checked"' ?>>
-        </td>
-        <td></td>
-    </tr>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                    value="cafe-module-sidebar" <?php if (!empty($access) and in_array('cafe-module-sidebar', explode(',', $access->access)))
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr>
 
     <tr style="background: #dff0d8;">
         <td></td>
