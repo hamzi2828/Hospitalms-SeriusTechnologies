@@ -62,12 +62,6 @@
                     
                     $this -> ci -> AccountModel -> add_ledger ( $ledger );
 
-                    $ledger[ 'acc_head_id' ]      = $accHeadID;
-                    $ledger[ 'transaction_type' ] = 'debit';
-                    $ledger[ 'credit' ]           = 0;
-                    $ledger[ 'debit' ]            = $sale -> total;
-                    
-                    $check  = $this -> ci -> AccountModel -> add_ledger ( $ledger );
 
                 }else{
                 $ledger[ 'acc_head_id' ] = sales_pharmacy;
