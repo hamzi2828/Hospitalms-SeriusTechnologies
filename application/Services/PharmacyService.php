@@ -27,6 +27,8 @@
             
             $patient_id = ( empty( trim ( $patient_id ) ) || $patient_id < 1 ) ? cash_from_pharmacy : $cashAccountHead;
             if (!$panel_id) {
+                print_r($panel_id);
+                exit;
                 $description = 'Invoice Refunded. Invoice# ' . $sale -> id;
                 $ledger = array (
                     'user_id'          => get_logged_in_user_id (),
