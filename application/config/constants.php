@@ -406,6 +406,7 @@
     define ( 'Cafe_Inventory', 10 );
     define ( 'Sales_Cafe_Services', 14 );
     define ( 'COS_Cafe_Services', 15 );
+    define ( 'Discount_on_Cafe_Services', 16 );
     
     define ( 'COS_Procedures_IPD', 861 );
     define ( 'COS_Anesthesia_Fee', 181 );

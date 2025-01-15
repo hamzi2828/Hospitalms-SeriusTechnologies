@@ -163,6 +163,7 @@
         return $ci -> MedicineModel -> get_medicine ( $medicine_id );
     }
     
+    
     /**
      * ---------------------
      * @param $supplier_id

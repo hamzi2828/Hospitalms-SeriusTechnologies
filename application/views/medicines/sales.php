@@ -1,3 +1,4 @@
+
 <style>
     .search {
         width: 100%;
@@ -105,7 +106,9 @@
                     <?php
                         $counter = 1;
                         if ( count ( $sales ) > 0 ) {
+
                             foreach ( $sales as $sale ) {
+                               
                                 $medicine_id   = explode ( ',', $sale -> medicine_id );
                                 $stock_id      = explode ( ',', $sale -> stock_id );
                                 $quantities    = explode ( ',', $sale -> quantity );
@@ -131,6 +134,9 @@
                                             if ( count ( $medicine_id ) > 0 ) {
                                                 foreach ( $medicine_id as $id ) {
                                                     $med = get_medicine ( $id );
+     
+
+
                                                     if ( $med -> strength_id > 1 )
                                                         $strength = get_strength ( $med -> strength_id ) -> title;
                                                     else
@@ -146,10 +152,14 @@
                                     </td>
                                     <td>
                                         <?php
-                                            if ( !empty( trim ( $sale_info -> customer_name ) ) )
+                                            $patient_name = get_patient ( $sale -> patient_id )->name;
+                                            if ( !empty( trim ( $sale_info -> customer_name ) ) ){
                                                 echo $sale_info -> customer_name;
-                                            else
-                                                echo $patient -> title
+                                            }
+                                            else{
+                                                echo $patient -> title ?? $patient_name;
+                                            }
+                                              
                                         ?>
                                     </td>
                                     <td>

@@ -114,7 +114,14 @@
     
     <div style="text-align: right">
         <p style="font-size: 20px;font-weight: 700;    margin-top: -15px;"><?php echo $sale_id ?></p>
-        <p><?php echo get_sale ( $this -> uri -> segment ( 3 ) ) -> customer_name; ?></p>
+        <?php
+            if ( get_sale ( $this -> uri -> segment ( 3 ) ) -> patient_id == 0 ) {
+                $patient_name = get_sale ( $this -> uri -> segment ( 3 ) ) -> customer_name;
+            } else {
+                $patient_name = get_patient ( $sale -> patient_id )->name;
+            }
+        ?>
+        <p><?php echo $patient_name; ?></p>
         <?php echo date_setter ( $sale_info -> date_sale ) ?>
     </div>
     <br>

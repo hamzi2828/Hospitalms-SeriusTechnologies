@@ -1407,6 +1407,8 @@
                     'flat_discount'   => $data[ 'flat_discount' ],
                     'added_amount'    => $data[ 'added_amount' ],
                     'paid_amount'     => $data[ 'paid_amount' ],
+                    'panel_id'        => ($panel_id == 0) ? null : $panel_id,
+                    'patient_id'      => $data[ 'patient_id' ] == 0 ? null : $data[ 'patient_id' ], 
                     'customer_name'   => $data[ 'customer_name' ],
                     'payment_method'  => $this -> input -> post ( 'payment-method' ),
                     'transaction_no'  => $this -> input -> post ( 'transaction-no' ),
@@ -3584,6 +3586,7 @@
         public function refund ( $id ) {
             
             try {
+
                 $ci   = &get_instance ();
                 $sale = get_sale ( $id );
                 

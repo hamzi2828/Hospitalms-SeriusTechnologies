@@ -22,6 +22,8 @@
                 $cashAccountHead = CARD;
             else if ( $sale -> payment_method == 'bank' )
                 $cashAccountHead = $sale -> account_head_id;
+            $panel_id = $sale->panel_id;
+            $accHeadID = get_account_head_id_by_panel_id ( $panel_id );
             
             $patient_id = ( empty( trim ( $patient_id ) ) || $patient_id < 1 ) ? cash_from_pharmacy : $cashAccountHead;
             
@@ -40,11 +42,34 @@
                 'date_added'       => current_date_time (),
             );
             $this -> ci -> AccountModel -> add_ledger ( $ledger );
+            $net_total_before_discount = 0;
             
             if ( is_numeric ( $sale -> discount ) && $sale -> discount > 0 ) {
                 
                 $net_total_before_discount = $this -> add_discount_back_to_total ( $sale -> total, $sale -> discount );
-                
+                if ($panel_id > 0 ) {
+                    $ledger[ 'acc_head_id' ]      = sales_pharmacy_panel;
+                    $ledger[ 'transaction_type' ] = 'credit';
+                    $ledger[ 'credit' ]           = $net_total_before_discount;
+                    $ledger[ 'debit' ]            = 0;
+                    
+                    $this -> ci -> AccountModel -> add_ledger ( $ledger );
+                    
+                    $ledger[ 'acc_head_id' ]      = discount_pharmacy_panel;
+                    $ledger[ 'transaction_type' ] = 'debit';
+                    $ledger[ 'credit' ]           = 0;
+                    $ledger[ 'debit' ]            = $net_total_before_discount - $sale -> total;
+                    
+                    $this -> ci -> AccountModel -> add_ledger ( $ledger );
+
+                    $ledger[ 'acc_head_id' ]      = $accHeadID;
+                    $ledger[ 'transaction_type' ] = 'debit';
+                    $ledger[ 'credit' ]           = 0;
+                    $ledger[ 'debit' ]            = $sale -> total;
+                    
+                    $check  = $this -> ci -> AccountModel -> add_ledger ( $ledger );
+
+                }else{
                 $ledger[ 'acc_head_id' ] = sales_pharmacy;
                 $ledger[ 'transaction_type' ] = 'credit';
                 $ledger[ 'credit' ] = $net_total_before_discount;
@@ -56,51 +81,98 @@
                 $ledger[ 'credit' ] = 0;
                 $ledger[ 'debit' ] = $net_total_before_discount - $sale -> total;
                 $this -> ci -> AccountModel -> add_ledger ( $ledger );
+                }
                 
             }
             
             else if ( is_numeric ( $sale -> flat_discount ) && $sale -> flat_discount > 0 ) {
                 
-                $ledger[ 'acc_head_id' ] = sales_pharmacy;
-                $ledger[ 'transaction_type' ] = 'credit';
-                $ledger[ 'credit' ] = $sale -> total + $sale -> flat_discount;
-                $ledger[ 'debit' ] = 0;
-                $this -> ci -> AccountModel -> add_ledger ( $ledger );
-                
-                $ledger[ 'acc_head_id' ] = discount_pharmacy;
-                $ledger[ 'transaction_type' ] = 'debit';
-                $ledger[ 'credit' ] = 0;
-                $ledger[ 'debit' ] = $sale -> flat_discount;
-                $this -> ci -> AccountModel -> add_ledger ( $ledger );
+                if ($panel_id > 0 ) {
+                    $ledger[ 'acc_head_id' ]      = sales_pharmacy_panel;
+                    $ledger[ 'transaction_type' ] = 'credit';
+                    $ledger[ 'credit' ]           = $net_total_before_discount;
+                    $ledger[ 'debit' ]            = 0;
+                    
+                    $this -> ci -> AccountModel -> add_ledger ( $ledger );
+                    
+                    $ledger[ 'acc_head_id' ]      = discount_pharmacy_panel;
+                    $ledger[ 'transaction_type' ] = 'debit';
+                    $ledger[ 'credit' ]           = 0;
+                    $ledger[ 'debit' ]            = $net_total_before_discount - $sale -> total;
+                    
+                    $this -> ci -> AccountModel -> add_ledger ( $ledger );
+
+                    
+                    $ledger[ 'acc_head_id' ]      = $accHeadID ;
+                    $ledger[ 'transaction_type' ] = 'debit';
+                    $ledger[ 'credit' ]           = 0;
+                    $ledger[ 'debit' ]            =  $sale -> total;
+                    
+                    $this -> ci -> AccountModel -> add_ledger ( $ledger );
+
+                }else{
+
+                    $ledger[ 'acc_head_id' ] = sales_pharmacy;
+                    $ledger[ 'transaction_type' ] = 'credit';
+                    $ledger[ 'credit' ] = $sale -> total + $sale -> flat_discount;
+                    $ledger[ 'debit' ] = 0;
+                    $this -> ci -> AccountModel -> add_ledger ( $ledger );
+                    
+                    $ledger[ 'acc_head_id' ] = discount_pharmacy;
+                    $ledger[ 'transaction_type' ] = 'debit';
+                    $ledger[ 'credit' ] = 0;
+                    $ledger[ 'debit' ] = $sale -> flat_discount;
+                    $this -> ci -> AccountModel -> add_ledger ( $ledger );
+                }
                 
             }
             
             else {
+
+                if ($panel_id > 0 ) {
+                    $ledger[ 'acc_head_id' ]      = sales_pharmacy_panel;
+                    $ledger[ 'transaction_type' ] = 'debit';
+                    $ledger[ 'credit' ]           = 0;
+                    $ledger[ 'debit' ]            = $sale -> total;
+                    
+                    $check  = $this -> ci -> AccountModel -> add_ledger ( $ledger );
+              
+                    $ledger[ 'acc_head_id' ]      = $accHeadID ;
+                    $ledger[ 'transaction_type' ] = 'credit';
+                    $ledger[ 'credit' ]           = $sale -> total;
+                    $ledger[ 'debit' ]            = 0;
+                    
+                    $check  = $this -> ci -> AccountModel -> add_ledger ( $ledger );
+                   
+
+                    }else{
+                        
                 $ledger[ 'acc_head_id' ] = sales_pharmacy;
                 $ledger[ 'transaction_type' ] = 'credit';
                 $ledger[ 'credit' ] = $sale -> total;
                 $ledger[ 'debit' ] = 0;
                 $this -> ci -> AccountModel -> add_ledger ( $ledger );
+                    }
             }
             
-            $total_cost_tp_wise = calculate_cost_of_medicines_sold_by_sale_id ( $sale -> id );
-            $ledger[ 'acc_head_id' ] = cost_of_medicine_sold;
-            $ledger[ 'transaction_type' ] = 'debit';
-            $ledger[ 'credit' ] = 0;
-            $ledger[ 'debit' ] = $total_cost_tp_wise;
-            $this -> ci -> AccountModel -> add_ledger ( $ledger );
-            
-            $ledger[ 'acc_head_id' ] = medical_supply_inventory;
-            $ledger[ 'transaction_type' ] = 'credit';
-            $ledger[ 'credit' ] = $total_cost_tp_wise;
-            $ledger[ 'debit' ] = 0;
-            $this -> ci -> AccountModel -> add_ledger ( $ledger );
-            
-            $info = array (
-                'refunded' => '1',
-                'total'    => ( $sale -> total * -1 )
-            );
-            $this -> ci -> MedicineModel -> edit_sale ( $info, $sale -> id );
+                $total_cost_tp_wise = calculate_cost_of_medicines_sold_by_sale_id ( $sale -> id );
+                $ledger[ 'acc_head_id' ] = cost_of_medicine_sold;
+                $ledger[ 'transaction_type' ] = 'debit';
+                $ledger[ 'credit' ] = 0;
+                $ledger[ 'debit' ] = $total_cost_tp_wise;
+                $this -> ci -> AccountModel -> add_ledger ( $ledger );
+                
+                $ledger[ 'acc_head_id' ] = medical_supply_inventory;
+                $ledger[ 'transaction_type' ] = 'credit';
+                $ledger[ 'credit' ] = $total_cost_tp_wise;
+                $ledger[ 'debit' ] = 0;
+                $this -> ci -> AccountModel -> add_ledger ( $ledger );
+                
+                $info = array (
+                    'refunded' => '1',
+                    'total'    => ( $sale -> total * -1 )
+                );
+                $this -> ci -> MedicineModel -> edit_sale ( $info, $sale -> id );
             
         }
         
