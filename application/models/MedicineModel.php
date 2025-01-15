@@ -924,6 +924,12 @@
                 if ( $patient_id > 0 and is_numeric ( $patient_id ) )
                     $sql .= " and patient_id=$patient_id";
             }
+            if (isset($_REQUEST['panel']) ) {
+                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where panel_id IS NOT NULL)";
+            }
+            if (isset($_REQUEST['cash']) ) {
+                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where panel_id IS NULL)";
+            }
             $sql   .= " group by sale_id order by id DESC limit $limit offset $offset";
             $sales = $this -> db -> query ( $sql );
             return $sales -> result ();

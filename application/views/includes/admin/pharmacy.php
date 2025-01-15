@@ -18,10 +18,17 @@
                 </li>
             <?php endif; ?>
             <?php if ( !empty( $access ) and in_array ( 'pharmacy_sale_invoices', explode ( ',', $access -> access ) ) ) : ?>
-                <li class="<?php if ( $child_uri == 'sales' )
+                <li class="<?php if ( $child_uri == 'sales'  && isset( $_REQUEST[ 'cash' ] ) && $_REQUEST[ 'cash' ] == 'true' )
                     echo 'active'; ?>">
-                    <a href="<?php echo base_url ( '/medicines/sales' ) ?>">
-                        Sale Invoices
+                    <a href="<?php echo base_url ( '/medicines/sales?cash=true' ) ?>">
+                        Sale Invoices (Cash)
+                    </a>
+                </li>
+ 
+                <li class="<?php if ( $child_uri == 'sales' && isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'true' )
+                    echo 'active'; ?>">
+                    <a href="<?php echo base_url ( '/medicines/sales?panel=true' ) ?>">
+                        Sale Invoices (Panel)
                     </a>
                 </li>
             <?php endif; ?>
