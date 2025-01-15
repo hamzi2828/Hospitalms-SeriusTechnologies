@@ -23,7 +23,7 @@
             else if ( $sale -> payment_method == 'bank' )
                 $cashAccountHead = $sale -> account_head_id;
             $panel_id = $sale->panel_id;
-            $accHeadID = get_account_head_id_by_panel_id ( $panel_id );
+            $accHeadID = get_account_head_id_by_panel_id ( $panel_id )-> id;
             
             $patient_id = ( empty( trim ( $patient_id ) ) || $patient_id < 1 ) ? cash_from_pharmacy : $cashAccountHead;
             
@@ -128,6 +128,7 @@
             }
             
             else {
+             
 
                 if ($panel_id > 0 ) {
                     $ledger[ 'acc_head_id' ]      = sales_pharmacy_panel;
@@ -137,6 +138,7 @@
                     
                     $check  = $this -> ci -> AccountModel -> add_ledger ( $ledger );
               
+                    
                     $ledger[ 'acc_head_id' ]      = $accHeadID ;
                     $ledger[ 'transaction_type' ] = 'credit';
                     $ledger[ 'credit' ]           = $sale -> total;
