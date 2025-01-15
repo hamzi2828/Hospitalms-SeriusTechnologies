@@ -26,22 +26,23 @@
             $accHeadID = get_account_head_id_by_panel_id ( $panel_id )-> id;
             
             $patient_id = ( empty( trim ( $patient_id ) ) || $patient_id < 1 ) ? cash_from_pharmacy : $cashAccountHead;
-            
-            $description = 'Invoice Refunded. Invoice# ' . $sale -> id;
-            $ledger = array (
-                'user_id'          => get_logged_in_user_id (),
-                'acc_head_id'      => $patient_id,
-                'invoice_id'       => $sale -> id,
-                'trans_date'       => date ( 'Y-m-d' ),
-                'payment_mode'     => 'cash',
-                'paid_via'         => 'cash',
-                'transaction_type' => 'debit',
-                'credit'           => 0,
-                'debit'            => $sale -> total,
-                'description'      => $description,
-                'date_added'       => current_date_time (),
-            );
-            $this -> ci -> AccountModel -> add_ledger ( $ledger );
+            if (!$panel_id) {
+                $description = 'Invoice Refunded. Invoice# ' . $sale -> id;
+                $ledger = array (
+                    'user_id'          => get_logged_in_user_id (),
+                    'acc_head_id'      => $patient_id,
+                    'invoice_id'       => $sale -> id,
+                    'trans_date'       => date ( 'Y-m-d' ),
+                    'payment_mode'     => 'cash',
+                    'paid_via'         => 'cash',
+                    'transaction_type' => 'debit',
+                    'credit'           => 0,
+                    'debit'            => $sale -> total,
+                    'description'      => $description,
+                    'date_added'       => current_date_time (),
+                );
+                $this -> ci -> AccountModel -> add_ledger ( $ledger );
+             }
             $net_total_before_discount = 0;
             
             if ( is_numeric ( $sale -> discount ) && $sale -> discount > 0 ) {
