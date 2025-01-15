@@ -48,12 +48,7 @@
                 
                 $net_total_before_discount = $this -> add_discount_back_to_total ( $sale -> total, $sale -> discount );
                 if ($panel_id > 0 ) {
-                    $ledger[ 'acc_head_id' ]      = sales_pharmacy_panel;
-                    $ledger[ 'transaction_type' ] = 'credit';
-                    $ledger[ 'credit' ]           = $net_total_before_discount;
-                    $ledger[ 'debit' ]            = 0;
-                    
-                    $this -> ci -> AccountModel -> add_ledger ( $ledger );
+
                     
                     $ledger[ 'acc_head_id' ]      = discount_pharmacy_panel;
                     $ledger[ 'transaction_type' ] = 'debit';
@@ -62,6 +57,12 @@
                     
                     $this -> ci -> AccountModel -> add_ledger ( $ledger );
 
+                    $ledger[ 'acc_head_id' ]      = $accHeadID;
+                    $ledger[ 'transaction_type' ] = 'debit';
+                    $ledger[ 'credit' ]           = 0;
+                    $ledger[ 'debit' ]            = $sale -> total;
+                    
+                    $check  = $this -> ci -> AccountModel -> add_ledger ( $ledger );
 
                 }else{
                 $ledger[ 'acc_head_id' ] = sales_pharmacy;
