@@ -13,9 +13,29 @@
                     <input type="text" name="end_date" class="form-control date date-picker"
                            value="<?php echo ( isset( $_REQUEST[ 'end_date' ] ) and !empty( $_REQUEST[ 'start_date' ] ) ) ? date ( 'm/d/Y', strtotime ( @$_REQUEST[ 'end_date' ] ) ) : ''; ?>">
                 </div>
+                <div class="form-group col-lg-4">
+                    <label for="exampleInputEmail1">Panel</label>
+                    <select class="form-control select2me" name="panel-id">
+                        <option value="">Select</option>
+                        <option value="cash" <?php if ( @$_REQUEST[ 'panel-id' ] == 'cash' )
+                            echo 'selected="selected"' ?>>Cash
+                        </option>
+                        <?php
+                            if ( count ( $panels ) > 0 ) {
+                                foreach ( $panels as $panel ) {
+                                    ?>
+                                    <option value="<?php echo $panel -> id ?>" <?php if ( $panel -> id == @$_REQUEST[ 'panel-id' ] )
+                                        echo 'selected="selected"' ?>><?php echo $panel -> name ?></option>
+                                    <?php
+                                }
+                            }
+                        ?>
+                    </select>
+                </div>
                 <div class="form-group col-lg-1">
                     <button type="submit" class="btn btn-block btn-primary" style="margin-top: 25px;">Search</button>
                 </div>
+                
             </form>
         </div>
         <!-- BEGIN SAMPLE FORM PORTLET-->

@@ -30,6 +30,27 @@
                         ?>
                     </select>
                 </div>
+
+                <div class="form-group col-lg-4">
+                    <label for="exampleInputEmail1">Panel</label>
+                    <select class="form-control select2me" name="panel-id">
+                        <option value="">Select</option>
+                        <option value="cash" <?php if ( @$_REQUEST[ 'panel-id' ] == 'cash' )
+                            echo 'selected="selected"' ?>>Cash
+                        </option>
+                        <?php
+                            if ( count ( $panels ) > 0 ) {
+                                foreach ( $panels as $panel ) {
+                                    ?>
+                                    <option value="<?php echo $panel -> id ?>" <?php if ( $panel -> id == @$_REQUEST[ 'panel-id' ] )
+                                        echo 'selected="selected"' ?>><?php echo $panel -> name ?></option>
+                                    <?php
+                                }
+                            }
+                        ?>
+                    </select>
+                </div>
+
                 <div class="form-group col-lg-3">
                     <label for="exampleInputEmail1">Start Date</label>
                     <input type="text" name="start_date" class="form-control date date-picker"

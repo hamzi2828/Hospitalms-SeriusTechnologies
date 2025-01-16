@@ -181,6 +181,11 @@
                 $sale_to   = $_REQUEST[ 'sale_to' ];
                 $sql       .= " and sale_id BETWEEN $sale_from and $sale_to";
             }
+            if (isset($_REQUEST['panel-id']) && !empty($_REQUEST['panel-id']) && intval($_REQUEST['panel-id']) > 0) {
+                $panel_id = intval($_REQUEST['panel-id']); 
+                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id = $panel_id)";
+            }
+
             $sql   .= " group by sale_id order by id DESC";
             $sales = $this -> db -> query ( $sql );
             return $sales -> result ();
@@ -204,6 +209,7 @@
                 $medicine_id = $_REQUEST[ 'medicine_id' ];
                 $sql         .= " and medicine_id=$medicine_id";
             }
+            
             $sql   .= " order by id ASC";
             $sales = $this -> db -> query ( $sql );
             return $sales -> result ();
@@ -867,6 +873,10 @@
                 $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
                 $sql        .= " and DATE(date_sold) BETWEEN '$start_date' and '$end_date'";
                 $search     = true;
+            }
+            if (isset($_REQUEST['panel-id']) && !empty($_REQUEST['panel-id']) && intval($_REQUEST['panel-id']) > 0) {
+                $panel_id = intval($_REQUEST['panel-id']); 
+                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id = $panel_id)";
             }
             $sql   .= " group by medicine_id order by SUM(quantity) DESC";
             $stock = $this -> db -> query ( $sql );

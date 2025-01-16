@@ -119,9 +119,12 @@
                 $patient_name = get_sale ( $this -> uri -> segment ( 3 ) ) -> customer_name;
             } else {
                 $patient_name = get_patient ( $sale -> patient_id )->name;
+                $panel_id_of_patient = get_patient ( $sale -> patient_id )->panel_id;
+                $panel = get_panel_by_id ($panel_id_of_patient);
             }
         ?>
         <p><?php echo $patient_name; ?></p>
+        <p><?php echo $panel->name ?? ''; ?></p>
         <?php echo date_setter ( $sale_info -> date_sale ) ?>
     </div>
     <br>

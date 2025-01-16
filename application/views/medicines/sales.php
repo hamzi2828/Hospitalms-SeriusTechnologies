@@ -66,11 +66,14 @@
                            required="required"
                            value="<?php echo ( @$_REQUEST[ 'end_date' ] ) ? @$_REQUEST[ 'end_date' ] : date ( 'm/d/Y' ) ?>">
                 </div>
+
+                <?php if (!isset($_GET['panel']) || $_GET['panel'] !== 'true') { ?>
                 <div class="form-group col-lg-4">
                     <label for="exampleInputEmail1">Customer Name</label>
                     <input type="text" name="customer" class="form-control" placeholder="Customer Name"
-                           value="<?php echo @$_GET[ 'customer' ] ?>">
+                           value="<?php echo @$_GET['customer'] ?>">
                 </div>
+                <?php } ?>
                 <div class="col-lg-2" style="padding-top: 25px">
                     <button type="submit" class="btn btn-block btn-primary">Search</button>
                 </div>

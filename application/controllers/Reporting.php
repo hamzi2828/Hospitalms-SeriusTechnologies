@@ -178,6 +178,7 @@
             $this -> sidebar ();
             $data[ 'medicines' ]     = $this -> MedicineModel -> get_medicines ();
             $data[ 'generics' ]      = $this -> MedicineModel -> get_generics ();
+            $data[ 'panels' ]        = $this -> PanelModel -> get_panels ();
             $data[ 'account_heads' ] = $this -> AccountModel -> get_main_account_heads ();
             if ( isset( $_REQUEST[ 'start_date' ] ) or isset( $_REQUEST[ 'end_date' ] ) or isset( $_REQUEST[ 'acc_head_id' ] ) or isset( $_REQUEST[ 'sale_from' ] ) or isset( $_REQUEST[ 'sale_to' ] ) or isset( $_REQUEST[ 'medicine_id' ] ) ) {
                 $data[ 'reports' ] = $this -> ReportingModel -> get_profit_reports ();
@@ -447,6 +448,7 @@
             $data[ 'pharmacy_sales' ]    = array ();
             $data[ 'return_sales' ]      = array ();
             $data[ 'lab_sales' ]         = array ();
+            $data[ 'panels' ]     = $this -> PanelModel -> get_active_panels ();
             if ( isset( $_REQUEST[ 'start_date' ] ) or isset( $_REQUEST[ 'end_date' ] ) ) {
                 $data[ 'consultancy_sales' ] = $this -> ReportingModel -> get_consultancy_sales_summary ();
                 $data[ 'opd_sales' ]         = $this -> ReportingModel -> get_opd_sales_summary ();
@@ -454,6 +456,7 @@
                 $data[ 'lab_sales' ]         = $this -> ReportingModel -> get_lab_sales_summary ();
                 $data[ 'pharmacy_sales' ]    = $this -> ReportingModel -> get_pharmacy_sales_summary ();
                 $data[ 'pharmacy_discount' ] = $this -> ReportingModel -> get_pharmacy_discount ();
+         
             }
             $this -> load -> view ( '/reporting/summary-report', $data );
             $this -> footer ();
@@ -546,6 +549,7 @@
             $this -> sidebar ();
             $data[ 'medicines' ] = $this -> MedicineModel -> get_all_medicines ();
             $data[ 'analysis' ]  = $this -> ReportingModel -> get_stock_analysis_by_sale ();
+            $data[ 'panels' ]     = $this -> PanelModel -> get_active_panels ();
             
             $this -> load -> view ( '/reporting/analysis_report_sale', $data );
             $this -> footer ();
