@@ -915,10 +915,14 @@
                 $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
                 $sql        .= " and DATE(date_sold) BETWEEN '$start_date' and '$end_date'";
             }
+         
             if ( isset( $_REQUEST[ 'customer' ] ) and !empty( trim ( $_REQUEST[ 'customer' ] ) ) ) {
+                print_r($_REQUEST);
+            
                 $name = stripcslashes ( strip_tags ( $_REQUEST[ 'customer' ] ) );
                 $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where customer_name LIKE '%$name%')";
             }
+            print_r($sql);
             if ( isset( $_REQUEST[ 'patient_id' ] ) ) {
                 $patient_id = $_REQUEST[ 'patient_id' ];
                 if ( $patient_id > 0 and is_numeric ( $patient_id ) )
@@ -3767,5 +3771,14 @@
             $query = $this -> db -> get ();
             return $query -> row () -> net;
         }
+
+
         
+        public function check_id_is_refonded_or_not($invoice_id) {
+            $this->db->select('refunded');
+            $this->db->where('id', $invoice_id);
+            $query = $this->db->get('hmis_sales');
+            $result = $query->row();
+            return $result && $result->refunded == 1;
+        }
     }

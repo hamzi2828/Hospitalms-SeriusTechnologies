@@ -48,13 +48,16 @@
                                     <label for="exampleInputEmail1">Customer Name</label>
                                     <input type="text" name="customer_name" class="form-control">
                                 </div>
+
                                 <div class="form-group col-lg-2" style="position: relative">
                                     <label for="exampleInputEmail1"><?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?>
-                                        .</label>
+                                        . 
+                                    <label for="exampleInputEmail1" style="color: red;">(Use Only For Panel)</label>
                                     <input type="text" name="patient_id" class="form-control patient-id"
                                            placeholder="EMR"
                                            autofocus="autofocus" onchange="get_patient(this.value)">
                                 </div>
+
                                 <div class="form-group col-lg-3">
                                     <label for="exampleInputEmail1"><?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></label>
                                     <input type="text" class="form-control" readonly="readonly" id="patient-name">

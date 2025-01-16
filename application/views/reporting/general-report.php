@@ -37,6 +37,26 @@
                             <?php endforeach; ?>
                     </select>
                 </div>
+                <div class="form-group col-lg-4">
+                    <label for="exampleInputEmail1">Panel</label>
+                    <select class="form-control select2me" name="panel-id">
+                        <option value="">Select</option>
+                        <option value="cash" <?php if ( @$_REQUEST[ 'panel-id' ] == 'cash' )
+                            echo 'selected="selected"' ?>>Cash
+                        </option>
+                        <?php
+                            if ( count ( $panels ) > 0 ) {
+                                foreach ( $panels as $panel ) {
+                                    ?>
+                                    <option value="<?php echo $panel -> id ?>" <?php if ( $panel -> id == @$_REQUEST[ 'panel-id' ] )
+                                        echo 'selected="selected"' ?>><?php echo $panel -> name ?></option>
+                                    <?php
+                                }
+                            }
+                        ?>
+                    </select>
+                </div>
+
                 <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Sale From</label>
                     <input type="text" name="sale_from" class="form-control"
@@ -144,7 +164,7 @@
                                 ?>
                                 <tr>
                                     <td><?php echo $count++; ?></td>
-                                    <td><?php echo $report -> sale_id; ?></td>
+                                    <td><?php echo $report -> sale_id; ?><?php if ( check_id_is_refonded_or_not ( $report -> sale_id ) ) echo '&nbsp;&nbsp; <span class="badge badge-important">Refunded</span>'; ?></td>
                                     <td><?php echo $user -> name; ?></td>
                                     <td>
                                         <?php

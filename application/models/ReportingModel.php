@@ -21,6 +21,7 @@
          */
         
         public function get_sale_reports () {
+            
             $sql = "Select GROUP_CONCAT(medicine_id) as medicine_id, user_id, GROUP_CONCAT(stock_id) as stock_id, sale_id, patient_id, GROUP_CONCAT(quantity) as quantity, GROUP_CONCAT(price) as price, SUM(net_price) as net_price, date_sold  from hmis_medicines_sold where 1";
             if ( isset( $_REQUEST[ 'start_date' ] ) and isset( $_REQUEST[ 'end_date' ] ) and !empty( $_REQUEST[ 'start_date' ] ) and !empty( $_REQUEST[ 'end_date' ] ) ) {
                 $start_date = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'start_date' ] ) );
@@ -49,8 +50,17 @@
                 $sale_to   = $_REQUEST[ 'sale_to' ];
                 $sql       .= " and sale_id BETWEEN $sale_from and $sale_to";
             }
+  
+          
+            if (isset($_REQUEST['panel-id']) && !empty($_REQUEST['panel-id']) && intval($_REQUEST['panel-id']) > 0) {
+                $panel_id = intval($_REQUEST['panel-id']); 
+                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id = $panel_id)";
+            }
             $sql   .= " group by sale_id order by id ASC";
+
+            
             $sales = $this -> db -> query ( $sql );
+      
             return $sales -> result ();
         }
         

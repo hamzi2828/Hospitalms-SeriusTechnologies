@@ -152,11 +152,12 @@
                                     </td>
                                     <td>
                                         <?php
-                                            $patient_name = get_patient ( $sale -> patient_id )->name;
+                                            
                                             if ( !empty( trim ( $sale_info -> customer_name ) ) ){
                                                 echo $sale_info -> customer_name;
                                             }
                                             else{
+                                                $patient_name = get_patient ( $sale -> patient_id )->name;
                                                 echo $patient -> title ?? $patient_name;
                                             }
                                               

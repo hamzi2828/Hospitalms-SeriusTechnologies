@@ -1947,6 +1947,11 @@
         return $ci -> MedicineModel -> get_supplier_id_by_invoice_id ( $invoice_id );
     }
     
+    function check_id_is_refonded_or_not($invoice_id){
+        $ci = &get_instance();
+        $ci -> load -> model ( 'MedicineModel' );
+        return $ci -> MedicineModel -> check_id_is_refonded_or_not($invoice_id);
+    }
     /**
      * ---------------------
      * @param $invoice_id

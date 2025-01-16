@@ -84,13 +84,15 @@
          */
         
         public function general_report () {
+
             $title = site_name . ' - General Report';
             $this -> header ( $title );
             $this -> sidebar ();
             $data[ 'medicines' ]     = $this -> MedicineModel -> get_medicines ();
             $data[ 'generics' ]      = $this -> MedicineModel -> get_generics ();
             $data[ 'account_heads' ] = $this -> AccountModel -> get_main_account_heads ();
-            if ( isset( $_REQUEST[ 'start_date' ] ) or isset( $_REQUEST[ 'end_date' ] ) or isset( $_REQUEST[ 'acc_head_id' ] ) or isset( $_REQUEST[ 'sale_from' ] ) or isset( $_REQUEST[ 'sale_to' ] ) or isset( $_REQUEST[ 'medicine_id' ] ) or isset( $_REQUEST[ 'user_id' ] ) ) {
+            if ( isset( $_REQUEST[ 'start_date' ] ) or isset( $_REQUEST[ 'end_date' ] ) or isset( $_REQUEST[ 'acc_head_id' ] ) or isset( $_REQUEST[ 'sale_from' ] ) or isset( $_REQUEST[ 'sale_to' ] ) or isset( $_REQUEST[ 'medicine_id' ] ) or isset( $_REQUEST[ 'user_id' ] ) or isset( $_REQUEST[ 'panel-id' ] ) ) {
+
                 $data[ 'reports' ] = $this -> ReportingModel -> get_sale_reports ();
             }
             else {
@@ -104,6 +106,7 @@
                 $data[ 'users' ] = array ();
             
             $data[ 'user' ] = get_logged_in_user ();
+            $data[ 'panels' ]     = $this -> PanelModel -> get_active_panels ();
             
             $this -> load -> view ( '/reporting/general-report', $data );
             $this -> footer ();
@@ -282,7 +285,7 @@
             else
                 $data[ 'users' ] = array ();
             
-            $data[ 'user' ] = get_logged_in_user ();
+            $data[ 'user' ] = get_logged_in_user (); 
             $this -> load -> view ( '/reporting/lab-general-report', $data );
             $this -> footer ();
         }
