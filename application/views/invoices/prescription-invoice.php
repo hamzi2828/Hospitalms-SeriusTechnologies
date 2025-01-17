@@ -184,7 +184,7 @@ mpdf-->
     <?php endif; ?>
 </div>
 <div class="right" style="margin-top: 10px">
-    <h1 style="margin-top: -5px; margin-bottom: 0; margin-left: 3px"><strong>PLAN</strong></h1>
+    <h1 style="margin-top: -5px; margin-bottom: 0; margin-left: 3px"><strong>R<sub>x</sub></strong></h1>
     <div class="details">
         <?php
             if ( count ( $medicines ) > 0 ) {

@@ -105,7 +105,7 @@
             else
                 $data[ 'users' ] = array ();
             
-            $data[ 'user' ] = get_logged_in_user ();
+            $data[ 'user' ] = get_logged_in_user (); 
             $data[ 'panels' ]     = $this -> PanelModel -> get_active_panels ();
             
             $this -> load -> view ( '/reporting/general-report', $data );

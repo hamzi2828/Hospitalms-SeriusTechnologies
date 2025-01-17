@@ -158,7 +158,13 @@
                                 $acc_head      = get_account_head ( $report -> patient_id );
                                 $total         = $total + $report -> net_price;
                                 $sale          = get_sale ( $report -> sale_id );
-                                $net           = $net + $sale -> total;
+
+                                if ( check_id_is_refonded_or_not ( $report -> sale_id ) ) {
+                                    $net           += 0;
+                                } else {
+                                    $net           = $net + $sale -> total;
+                                }
+
                                 $flat_discount = $flat_discount + $sale -> flat_discount;
                                 $user          = get_user ( $report -> user_id );
                                 ?>
