@@ -215,7 +215,7 @@
                                     <td><?php echo number_format ( $report -> net_price, 2 ); ?></td>
                                     <td><?php echo $sale -> discount; ?></td>
                                     <td><?php echo $sale -> flat_discount; ?></td>
-                                    <td><?php echo number_format ( $sale -> total, 2 ); ?></td>
+                                    <td><?php echo check_id_is_refonded_or_not ( $report -> sale_id ) ? 0 : number_format ( $sale -> total, 2 ); ?></td>
                                     <td><?php echo date_setter ( $report -> date_sold ); ?></td>
                                 </tr>
                                 <?php
