@@ -640,14 +640,27 @@
                 $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
                 $sql        .= " and DATE(date_sold) BETWEEN '$start_date' AND '$end_date'";
             }
+            if (isset($_REQUEST['panel-id']) && !empty($_REQUEST['panel-id']) && intval($_REQUEST['panel-id']) > 0) {
+                $panel_id = intval($_REQUEST['panel-id']);
+                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id = $panel_id)";
+            }else{
+                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id is null)";
+            }
             $sql     .= " AND sale_id IN (SELECT id FROM hmis_sales) group by sale_id";
             $returns = $this -> db -> query ( $sql );
             $records = $returns -> result ();
+           
             $net     = 0;
             if ( count ( $records ) > 0 ) {
                 foreach ( $records as $record ) {
                     $sale = get_sale ( $record -> sale_id );
-                    $net  = $net + $sale -> total;
+
+                    if ( check_id_is_refonded_or_not ( $sale -> id ) ) {
+                        $net           += 0;
+                    } else {
+                        $net  = $net + $sale -> total;
+                    }
+                   
                 }
             }
             return $net;
@@ -667,6 +680,12 @@
                 $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
                 $sql        .= " and DATE(date_sold) BETWEEN '$start_date' AND '$end_date'";
             }
+            if (isset($_REQUEST['panel-id']) && !empty($_REQUEST['panel-id']) && intval($_REQUEST['panel-id']) > 0) {
+                $panel_id = intval($_REQUEST['panel-id']);
+                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id = $panel_id)";
+            }else{
+                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id is null)";
+            }
             $sql     .= " AND sale_id IN (SELECT id FROM hmis_sales) group by sale_id";
             $returns = $this -> db -> query ( $sql );
             $records = $returns -> result ();
@@ -674,8 +693,13 @@
             if ( count ( $records ) > 0 ) {
                 foreach ( $records as $record ) {
                     $sale = get_sale ( $record -> sale_id );
-                    $dis  = $record -> net - $sale -> total;
-                    $net  += $dis;
+
+                    if ( check_id_is_refonded_or_not ( $sale -> id ) ) {
+                        $net           += 0;
+                    } else {
+                        $dis  = $record -> net - $sale -> total;
+                        $net  += $dis;
+                    }
                 }
             }
             return $net;
