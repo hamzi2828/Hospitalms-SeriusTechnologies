@@ -165,7 +165,15 @@
                                     $net           = $net + $sale -> total;
                                 }
 
-                                $flat_discount = $flat_discount + $sale -> flat_discount;
+
+                                if ( check_id_is_refonded_or_not ( $report -> sale_id ) ) {
+                                    $flat_discount           += 0;
+                                } else {
+                                    $flat_discount = $flat_discount + $sale -> flat_discount;
+                                }
+
+
+                               
                                 $user          = get_user ( $report -> user_id );
                                 ?>
                                 <tr>
