@@ -52,7 +52,7 @@
                 <li class="<?php if ( $child_uri == 'return-customer' )
                     echo 'active'; ?>">
                     <a href="<?php echo base_url ( '/medicines/return-customer' ) ?>">
-                        Add Return Customer
+                        Add Return Customer(cash)
                     </a>
                 </li>
             <?php endif; ?>
@@ -60,7 +60,7 @@
                 <li class="<?php if ( $child_uri == 'edit-return-customer' )
                     echo 'active'; ?>">
                     <a href="<?php echo base_url ( '/medicines/edit-return-customer' ) ?>">
-                        Edit Return Customer
+                        Edit Return Customer(cash)
                     </a>
                 </li>
             <?php endif; ?>

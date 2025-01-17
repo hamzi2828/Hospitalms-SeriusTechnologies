@@ -57,7 +57,7 @@
                     <tr>
                         <th> Total Pharmacy Sale</th>
                         <th> Total Discount <small>(Includes flat & percentage discount)</small></th>
-                        <th> Total Sale Return</th>
+                        <th> Total Sale Return(cash)</th>
                         <th> Net Sale</th>
                     </tr>
                     </thead>
@@ -90,7 +90,11 @@
                         <?php else : $total_return = 0; ?>
                             <td>
                                 <?php
-                                    echo number_format ( $total_return, 2 )
+                                    if ( isset( $_REQUEST[ 'panel-id' ] ) and $_REQUEST[ 'panel-id' ] > 0 ) {
+                                        echo '00.00';
+                                    } else {
+                                        echo number_format ( $total_return, 2 );
+                                    }
                                 ?>
                             </td>
                         <?php endif; ?>
