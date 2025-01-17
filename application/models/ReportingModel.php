@@ -881,6 +881,8 @@
             if (isset($_REQUEST['panel-id']) && !empty($_REQUEST['panel-id']) && intval($_REQUEST['panel-id']) > 0) {
                 $panel_id = intval($_REQUEST['panel-id']); 
                 $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id = $panel_id)";
+            }else{
+                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id is null)";
             }
             $sql   .= " group by medicine_id order by SUM(quantity) DESC";
             $stock = $this -> db -> query ( $sql );
