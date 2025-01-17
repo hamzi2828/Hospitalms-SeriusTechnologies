@@ -922,7 +922,7 @@
                 $name = stripcslashes ( strip_tags ( $_REQUEST[ 'customer' ] ) );
                 $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where customer_name LIKE '%$name%')";
             }
-            print_r($sql);
+       
             if ( isset( $_REQUEST[ 'patient_id' ] ) ) {
                 $patient_id = $_REQUEST[ 'patient_id' ];
                 if ( $patient_id > 0 and is_numeric ( $patient_id ) )
