@@ -941,7 +941,6 @@
         
         public function get_sum_of_sales_by_card() {
 
-  
             $sql = "SELECT SUM(hms.net_price) as total_sales
                     FROM hmis_medicines_sold hms
                     JOIN hmis_sales hs ON hms.sale_id = hs.id
@@ -958,6 +957,30 @@
 
 
         }
+
+
+        public function get_sum_of_sales_discount_by_cash() {
+
+            // Modify SQL to calculate the sum of flat_discount from hmis_sales
+            $sql = "SELECT SUM(hs.flat_discount) as total_discount
+                    FROM hmis_sales hs
+                    WHERE hs.payment_method = 'cash'";
+        
+            // Add date range filter if provided
+            if (isset($_REQUEST['start_date']) && isset($_REQUEST['end_date'])) {
+                $start_date = date('Y-m-d', strtotime($_REQUEST['start_date']));
+                $end_date = date('Y-m-d', strtotime($_REQUEST['end_date']));
+                $sql .= " AND DATE(hs.date_sale) BETWEEN '$start_date' AND '$end_date'";
+            }
+        
+            // Execute the query and fetch the result
+            $result = $this->db->query($sql)->row();
+        
+            // Return the total discount or 0 if no result is found
+            return $result->total_discount ?? 0;
+        }
+        
+
         
         public function get_sum_of_sales_by_cash() {
             $sql = "SELECT SUM(hms.net_price) as total_sales

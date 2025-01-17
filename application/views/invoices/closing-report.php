@@ -94,7 +94,7 @@ mpdf-->
 <table width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8" border="0">
     <tr>
         <td style="width: 100%; background: #f5f6f7; text-align: center">
-            <h3><strong> Closing Report </strong></h3>
+            <h3><strong> Closing Report   </strong></h3>
         </td>
     </tr>
 </table>
@@ -105,6 +105,7 @@ mpdf-->
     <tr>
          <th>Payment Method</th>
         <th>Sale</th>
+        <th>Discount</th>
         <th>Return/Customer</th>
         <th>Cash in Hand </th>
     </tr>
@@ -125,7 +126,8 @@ mpdf-->
                 ?>
                 <tr>
                     <td>Cash</td>
-                    <td><?php echo number_format($cash_sale, 2); ?></td>
+                    <td><?php echo number_format($cash_sale - $total_sales_discount_by_cash, 2); ?></td>
+                    <td><?php echo number_format($total_sales_discount_by_cash, 2); ?></td>
                     <td><?php echo number_format($return_customer, 2); ?></td>
             
                     <td><?php echo number_format($net_cash, 2); ?></td>
@@ -146,7 +148,8 @@ mpdf-->
                 </tr>
                 <tr>
                     <td><strong>Total</strong></td>
-                    <td><strong><?php echo number_format($total_sale, 2); ?></strong></td>
+                    <td><strong><?php echo number_format($total_sale - $total_sales_discount_by_cash, 2); ?></strong></td>
+                    <td><strong><?php echo number_format($total_sales_discount_by_cash, 2); ?></strong></td>
                     <td><strong><?php echo number_format($return_customer, 2); ?></strong></td>
                     <td></td>
                 </tr>

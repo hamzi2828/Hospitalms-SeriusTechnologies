@@ -470,15 +470,14 @@
             $data[ 'consultancy_sales' ] = array ();
             $data[ 'opd_sales' ]         = array ();
             $data[ 'pharmacy_sales' ]    = array ();
-            $data[ 'return_sales' ]      = array ();
+            $data[ 'return_sales' ]      = array (); 
             $data[ 'lab_sales' ]         = array ();
             if ( isset( $_REQUEST[ 'start_date' ] ) or isset( $_REQUEST[ 'end_date' ] ) ) {
                 $data[ 'total_sale_by_card' ]     = $this -> MedicineModel -> get_sum_of_sales_by_card (  );
+                $data[ 'total_sales_discount_by_cash' ] = $this -> MedicineModel -> get_sum_of_sales_discount_by_cash ();
                 $data[ 'total_sale_by_cash' ]     = $this -> MedicineModel -> get_sum_of_sales_by_cash(  );
                 $data[ 'total_sale_by_bank'  ]      = $this -> MedicineModel -> get_sum_of_sales_by_bank(  );
                 $data[ 'total_returns' ]           = $this -> MedicineModel -> get_total_return_medicines ( );
-
-
             }
             $this -> load -> view ( '/reporting/closing-report', $data );
             $this -> footer ();
