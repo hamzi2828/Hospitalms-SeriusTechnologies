@@ -156,14 +156,17 @@
                                     <td>
                                         <?php
                                             
+                                            if (!isset($_GET['panel']) || $_GET['panel'] !== 'true') {
                                             if ( !empty( trim ( $sale_info -> customer_name ) ) ){
                                                 echo $sale_info -> customer_name;
                                             }
-                                            else{
+                                        }
+                                           
+                                              
+                                            if (!isset($_GET['cash']) || $_GET['cash'] !== 'true') {
                                                 $patient_name = get_patient ( $sale -> patient_id )->name;
                                                 echo $patient -> title ?? $patient_name;
                                             }
-                                              
                                         ?>
                                     </td>
                                     <td>
