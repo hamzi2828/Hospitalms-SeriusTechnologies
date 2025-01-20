@@ -1589,7 +1589,7 @@
                 $data[ 'total_sale_by_cash' ]     = $this -> MedicineModel -> get_sum_of_sales_by_cash(  );
                 $data[ 'total_sale_by_bank'  ]      = $this -> MedicineModel -> get_sum_of_sales_by_bank(  );
                 $data[ 'total_returns' ]           = $this -> MedicineModel -> get_total_return_medicines ( );
-                $data[ 'total_sales_discount_by_cash' ] = $this -> MedicineModel -> get_sum_of_sales_discount_by_cash ();
+                $data[ 'total_sales_discount' ] = $this -> MedicineModel -> get_pharmacy_discount ();
             }
  
             $html_content                   = $this -> load -> view ( '/invoices/closing-report', $data, true );

@@ -38,7 +38,7 @@
                 <tr>
                     <th>Payment Method</th>
                     <th>Sale</th>
-                    <th>Discount</th>
+                    <th>Discount (Flat)</th>
                     <th>Return/Customer</th>
                     <th>Cash in Hand </th>
                 </tr>
@@ -58,10 +58,10 @@
                 ?>
                 <tr>
                     <td>Cash</td>
-                    <td><?php echo number_format($cash_sale - $total_sales_discount_by_cash, 2); ?></td>
-                    <td><?php echo number_format($total_sales_discount_by_cash, 2); ?></td>
+                    <td><?php echo number_format($cash_sale , 2); ?></td>
+                    <td><?php echo number_format($total_sales_discount, 2); ?></td>
                     <td><?php echo number_format($return_customer, 2); ?></td>
-                    <td><?php echo number_format($net_cash, 2); ?></td>
+                    <td><?php echo number_format($net_cash - $total_sales_discount, 2); ?></td>
                 </tr>
                 <tr>
                     <td>Card</td>
@@ -79,8 +79,8 @@
                 </tr>
                 <tr>
                     <td><strong>Total</strong></td>
-                    <td><strong><?php echo number_format($total_sale - $total_sales_discount_by_cash, 2); ?></strong></td>
-                    <td><strong><?php echo number_format($total_sales_discount_by_cash, 2); ?></strong></td>
+                    <td><strong><?php echo number_format($total_sale , 2); ?></strong></td>
+                    <td><strong><?php echo number_format($total_sales_discount, 2); ?></strong></td>
                     <td><strong><?php echo number_format($return_customer, 2); ?></strong></td>
                     <td></td>
                 </tr>

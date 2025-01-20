@@ -959,25 +959,36 @@
         }
 
 
-        public function get_sum_of_sales_discount_by_cash() {
-
-            // Modify SQL to calculate the sum of flat_discount from hmis_sales
-            $sql = "SELECT SUM(hs.flat_discount) as total_discount
-                    FROM hmis_sales hs
-                    WHERE hs.payment_method = 'cash'";
-        
-            // Add date range filter if provided
-            if (isset($_REQUEST['start_date']) && isset($_REQUEST['end_date'])) {
-                $start_date = date('Y-m-d', strtotime($_REQUEST['start_date']));
-                $end_date = date('Y-m-d', strtotime($_REQUEST['end_date']));
-                $sql .= " AND DATE(hs.date_sale) BETWEEN '$start_date' AND '$end_date'";
+        public function get_pharmacy_discount () {
+            $sql = "SELECT SUM(net_price) as net, sale_id FROM hmis_medicines_sold WHERE 1";
+            if ( isset( $_REQUEST[ 'start_date' ] ) and !empty( trim ( $_REQUEST[ 'start_date' ] ) ) and isset( $_REQUEST[ 'end_date' ] ) and !empty( trim ( $_REQUEST[ 'end_date' ] ) ) ) {
+                $start_date = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'start_date' ] ) );
+                $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
+                $sql        .= " and DATE(date_sold) BETWEEN '$start_date' AND '$end_date'";
             }
-        
-            // Execute the query and fetch the result
-            $result = $this->db->query($sql)->row();
-        
-            // Return the total discount or 0 if no result is found
-            return $result->total_discount ?? 0;
+            if (isset($_REQUEST['panel-id']) && !empty($_REQUEST['panel-id']) && intval($_REQUEST['panel-id']) > 0) {
+                $panel_id = intval($_REQUEST['panel-id']);
+                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id = $panel_id)";
+            }else{
+                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id is null)";
+            }
+            $sql     .= " AND sale_id IN (SELECT id FROM hmis_sales) group by sale_id";
+            $returns = $this -> db -> query ( $sql );
+            $records = $returns -> result ();
+            $net     = 0;
+            if ( count ( $records ) > 0 ) {
+                foreach ( $records as $record ) {
+                    $sale = get_sale ( $record -> sale_id );
+
+                    if ( check_id_is_refonded_or_not ( $sale -> id ) ) {
+                        $net           += 0;
+                    } else {
+                        $dis  = $record -> net - $sale -> total;
+                        $net  += $dis;
+                    }
+                }
+            }
+            return $net;
         }
         
 
@@ -986,14 +997,20 @@
             $sql = "SELECT SUM(hms.net_price) as total_sales
                     FROM hmis_medicines_sold hms
                     JOIN hmis_sales hs ON hms.sale_id = hs.id
-                    WHERE hs.payment_method = 'cash'";
-        
+                    WHERE hs.payment_method = 'cash'
+                    AND hs.panel_id IS NULL
+                    AND hs.refunded = 0 ";
+            
+               
+    
             // Add date range filter if provided
             if (isset($_REQUEST['start_date']) && isset($_REQUEST['end_date'])) {
                 $start_date = date('Y-m-d', strtotime($_REQUEST['start_date']));
                 $end_date = date('Y-m-d', strtotime($_REQUEST['end_date']));
                 $sql .= " AND DATE(hs.date_sale) BETWEEN '$start_date' AND '$end_date'";
             }
+        
+   
             $result = $this->db->query($sql)->row();
             return $result->total_sales ?? 0; 
         }
