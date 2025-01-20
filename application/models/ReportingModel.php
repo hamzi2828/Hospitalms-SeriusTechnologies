@@ -20,50 +20,132 @@
          * -------------------------
          */
         
-        public function get_sale_reports () {
+        // public function get_sale_reports () {
             
-            $sql = "Select GROUP_CONCAT(medicine_id) as medicine_id, user_id, GROUP_CONCAT(stock_id) as stock_id, sale_id, patient_id, GROUP_CONCAT(quantity) as quantity, GROUP_CONCAT(price) as price, SUM(net_price) as net_price, date_sold  from hmis_medicines_sold where 1";
-            if ( isset( $_REQUEST[ 'start_date' ] ) and isset( $_REQUEST[ 'end_date' ] ) and !empty( $_REQUEST[ 'start_date' ] ) and !empty( $_REQUEST[ 'end_date' ] ) ) {
-                $start_date = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'start_date' ] ) );
-                $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
-                $sql        .= " and DATE(date_sold) BETWEEN '$start_date' and '$end_date'";
-            }
-            if ( isset( $_REQUEST[ 'start_time' ] ) and isset( $_REQUEST[ 'end_time' ] ) and !empty( $_REQUEST[ 'start_time' ] ) and !empty( $_REQUEST[ 'end_time' ] ) ) {
-                $start_time = date ( 'H:i:s', strtotime ( $_REQUEST[ 'start_time' ] ) );
-                $end_time   = date ( 'H:i:s', strtotime ( $_REQUEST[ 'end_time' ] ) );
-                $sql        .= " and TIME(date_sold) BETWEEN '$start_time' and '$end_time'";
-            }
-            if ( isset( $_REQUEST[ 'medicine_id' ] ) and is_numeric ( $_REQUEST[ 'medicine_id' ] ) and $_REQUEST[ 'medicine_id' ] > 0 ) {
-                $medicine_id = $_REQUEST[ 'medicine_id' ];
-                $sql         .= " and medicine_id=$medicine_id";
-            }
-            if ( isset( $_REQUEST[ 'acc_head_id' ] ) and !empty( trim ( $_REQUEST[ 'acc_head_id' ] ) ) ) {
-                $acc_head_id = explode ( '-', $_REQUEST[ 'acc_head_id' ] );
-                $sql         .= " and patient_id=$acc_head_id[1]";
-            }
-            if ( isset( $_REQUEST[ 'user_id' ] ) and !empty( trim ( $_REQUEST[ 'user_id' ] ) ) ) {
-                $user_id = $_REQUEST[ 'user_id' ];
-                $sql     .= " and user_id=$user_id";
-            }
-            if ( isset( $_REQUEST[ 'sale_from' ] ) and is_numeric ( $_REQUEST[ 'sale_from' ] ) and $_REQUEST[ 'sale_from' ] > 0 and isset( $_REQUEST[ 'sale_to' ] ) and is_numeric ( $_REQUEST[ 'sale_to' ] ) and $_REQUEST[ 'sale_to' ] > 0 ) {
-                $sale_from = $_REQUEST[ 'sale_from' ];
-                $sale_to   = $_REQUEST[ 'sale_to' ];
-                $sql       .= " and sale_id BETWEEN $sale_from and $sale_to";
-            }
+        //     $sql = "Select GROUP_CONCAT(medicine_id) as medicine_id, user_id, GROUP_CONCAT(stock_id) as stock_id, sale_id, patient_id, GROUP_CONCAT(quantity) as quantity, GROUP_CONCAT(price) as price, SUM(net_price) as net_price, date_sold  from hmis_medicines_sold where 1";
+    
+        //     if ( isset( $_REQUEST[ 'start_date' ] ) and isset( $_REQUEST[ 'end_date' ] ) and !empty( $_REQUEST[ 'start_date' ] ) and !empty( $_REQUEST[ 'end_date' ] ) ) {
+        //         $start_date = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'start_date' ] ) );
+        //         $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
+        //         $sql        .= " and DATE(date_sold) BETWEEN '$start_date' and '$end_date'";
+        //     }
+        //     if ( isset( $_REQUEST[ 'start_time' ] ) and isset( $_REQUEST[ 'end_time' ] ) and !empty( $_REQUEST[ 'start_time' ] ) and !empty( $_REQUEST[ 'end_time' ] ) ) {
+        //         $start_time = date ( 'H:i:s', strtotime ( $_REQUEST[ 'start_time' ] ) );
+        //         $end_time   = date ( 'H:i:s', strtotime ( $_REQUEST[ 'end_time' ] ) );
+        //         $sql        .= " and TIME(date_sold) BETWEEN '$start_time' and '$end_time'";
+        //     }
+        //     if ( isset( $_REQUEST[ 'medicine_id' ] ) and is_numeric ( $_REQUEST[ 'medicine_id' ] ) and $_REQUEST[ 'medicine_id' ] > 0 ) {
+        //         $medicine_id = $_REQUEST[ 'medicine_id' ];
+        //         $sql         .= " and medicine_id=$medicine_id";
+        //     }
+        //     if ( isset( $_REQUEST[ 'acc_head_id' ] ) and !empty( trim ( $_REQUEST[ 'acc_head_id' ] ) ) ) {
+        //         $acc_head_id = explode ( '-', $_REQUEST[ 'acc_head_id' ] );
+        //         $sql         .= " and patient_id=$acc_head_id[1]";
+        //     }
+        //     if ( isset( $_REQUEST[ 'user_id' ] ) and !empty( trim ( $_REQUEST[ 'user_id' ] ) ) ) {
+        //         $user_id = $_REQUEST[ 'user_id' ];
+        //         $sql     .= " and user_id=$user_id";
+        //     }
+        //     if ( isset( $_REQUEST[ 'payment-method' ] ) and !empty( trim ( $_REQUEST[ 'payment-method' ] ) ) ) {
+        //         $payment_method = $_REQUEST[ 'payment-method' ];
+        //         $sql            .= " and payment_method='$payment_method'";
+        //     }
+        //     if ( isset( $_REQUEST[ 'sale_from' ] ) and is_numeric ( $_REQUEST[ 'sale_from' ] ) and $_REQUEST[ 'sale_from' ] > 0 and isset( $_REQUEST[ 'sale_to' ] ) and is_numeric ( $_REQUEST[ 'sale_to' ] ) and $_REQUEST[ 'sale_to' ] > 0 ) {
+        //         $sale_from = $_REQUEST[ 'sale_from' ];
+        //         $sale_to   = $_REQUEST[ 'sale_to' ];
+        //         $sql       .= " and sale_id BETWEEN $sale_from and $sale_to";
+        //     }
   
           
-            if (isset($_REQUEST['panel-id']) && !empty($_REQUEST['panel-id']) && intval($_REQUEST['panel-id']) > 0) {
-                $panel_id = intval($_REQUEST['panel-id']); 
-                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id = $panel_id)";
-            }else{
-                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id is null)";
-            }
-            $sql   .= " group by sale_id order by id ASC";
+        //     if (isset($_REQUEST['panel-id']) && !empty($_REQUEST['panel-id']) && intval($_REQUEST['panel-id']) > 0) {
+        //         $panel_id = intval($_REQUEST['panel-id']); 
+        //         $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id = $panel_id)";
+        //     }else{
+        //         $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id is null)";
+        //     }
+        //     $sql   .= " group by sale_id order by id ASC";
 
             
-            $sales = $this -> db -> query ( $sql );
+        //     $sales = $this -> db -> query ( $sql );
       
-            return $sales -> result();
+        //     return $sales -> result();
+        // }
+        public function get_sale_reports() {
+            // Base SQL query using JOIN for payment method and other filters
+            $sql = "SELECT 
+                        GROUP_CONCAT(hms.medicine_id) as medicine_id, 
+                        hms.user_id, 
+                        GROUP_CONCAT(hms.stock_id) as stock_id, 
+                        hms.sale_id, 
+                        hs.patient_id, 
+                        GROUP_CONCAT(hms.quantity) as quantity, 
+                        GROUP_CONCAT(hms.price) as price, 
+                        SUM(hms.net_price) as net_price, 
+                        hms.date_sold
+                    FROM hmis_medicines_sold hms
+                    JOIN hmis_sales hs ON hms.sale_id = hs.id";
+        
+            // Add date range filter
+            if (isset($_REQUEST['start_date']) && isset($_REQUEST['end_date']) && !empty($_REQUEST['start_date']) && !empty($_REQUEST['end_date'])) {
+                $start_date = date('Y-m-d', strtotime($_REQUEST['start_date']));
+                $end_date = date('Y-m-d', strtotime($_REQUEST['end_date']));
+                $sql .= " AND DATE(hms.date_sold) BETWEEN '$start_date' AND '$end_date'";
+            }
+        
+            // Add time range filter
+            if (isset($_REQUEST['start_time']) && isset($_REQUEST['end_time']) && !empty($_REQUEST['start_time']) && !empty($_REQUEST['end_time'])) {
+                $start_time = date('H:i:s', strtotime($_REQUEST['start_time']));
+                $end_time = date('H:i:s', strtotime($_REQUEST['end_time']));
+                $sql .= " AND TIME(hms.date_sold) BETWEEN '$start_time' AND '$end_time'";
+            }
+        
+            // Filter by medicine ID
+            if (isset($_REQUEST['medicine_id']) && is_numeric($_REQUEST['medicine_id']) && $_REQUEST['medicine_id'] > 0) {
+                $medicine_id = $_REQUEST['medicine_id'];
+                $sql .= " AND hms.medicine_id = $medicine_id";
+            }
+        
+            // Filter by account head ID (assumes patient_id is extracted from acc_head_id)
+            if (isset($_REQUEST['acc_head_id']) && !empty(trim($_REQUEST['acc_head_id']))) {
+                $acc_head_id = explode('-', $_REQUEST['acc_head_id']);
+                $sql .= " AND hs.patient_id = $acc_head_id[1]";
+            }
+        
+            // Filter by user ID
+            if (isset($_REQUEST['user_id']) && !empty(trim($_REQUEST['user_id']))) {
+                $user_id = $_REQUEST['user_id'];
+                $sql .= " AND hms.user_id = $user_id";
+            }
+        
+            // Filter by payment method
+            if (isset($_REQUEST['payment-method']) && !empty(trim($_REQUEST['payment-method']))) {
+                $payment_method = $_REQUEST['payment-method'];
+                $sql .= " AND hs.payment_method = '$payment_method'";
+            }
+        
+            // Filter by sale ID range
+            if (isset($_REQUEST['sale_from']) && is_numeric($_REQUEST['sale_from']) && $_REQUEST['sale_from'] > 0 &&
+                isset($_REQUEST['sale_to']) && is_numeric($_REQUEST['sale_to']) && $_REQUEST['sale_to'] > 0) {
+                $sale_from = $_REQUEST['sale_from'];
+                $sale_to = $_REQUEST['sale_to'];
+                $sql .= " AND hms.sale_id BETWEEN $sale_from AND $sale_to";
+            }
+        
+            // Filter by panel ID
+            if (isset($_REQUEST['panel-id']) && !empty($_REQUEST['panel-id']) && intval($_REQUEST['panel-id']) > 0) {
+                $panel_id = intval($_REQUEST['panel-id']);
+                $sql .= " AND hs.panel_id = $panel_id";
+            } else {
+                $sql .= " AND hs.panel_id IS NULL";
+            }
+        
+            // Group and order results
+            $sql .= " GROUP BY hms.sale_id ORDER BY hms.id ASC";
+        
+            // Execute the query
+            $sales = $this->db->query($sql);
+        
+            return $sales->result();
         }
         
 

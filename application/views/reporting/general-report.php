@@ -37,7 +37,7 @@
                             <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Panel</label>
                     <select class="form-control select2me" name="panel-id">
                         <option value="">Select</option>
@@ -54,6 +54,23 @@
                                 }
                             }
                         ?>
+                    </select>
+                </div>
+                <div class="form-group col-lg-2">
+                    <label for="payment-method">Payment Method</label>
+                    <select class="form-control select2me" name="payment-method"
+                            id="payment-method"
+                            data-placeholder="Select">
+                        <option></option>
+                        <option value="cash" <?php echo $this -> input -> get ( 'payment-method' ) == 'cash' ? 'selected="selected"' : '' ?>>
+                            Cash
+                        </option>
+                        <option value="bank" <?php echo $this -> input -> get ( 'payment-method' ) == 'bank' ? 'selected="selected"' : '' ?>>
+                            Bank
+                        </option>
+                        <option value="card" <?php echo $this -> input -> get ( 'payment-method' ) == 'card' ? 'selected="selected"' : '' ?>>
+                            Credit Card
+                        </option>
                     </select>
                 </div>
 
@@ -112,7 +129,7 @@
         <div class="portlet box blue">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-reorder"></i> General Report
+                    <i class="fa fa-reorder"></i> General Report Pharmacy Sales
                 </div>
                 <?php if ( count ( $reports ) > 0 ) : ?>
                     <a href="<?php echo base_url ( '/invoices/general-report?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"
