@@ -70,7 +70,7 @@
         <div class="portlet box blue">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-reorder"></i> General Report
+                    <i class="fa fa-reorder"></i>Pharmacy Profit Report (Sales)
                 </div>
                 <?php if ( count ( $reports ) > 0 ) : ?>
                     <a href="<?php echo base_url ( '/invoices/profit-report?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"
@@ -185,8 +185,14 @@
                                     <td><?php echo check_id_is_refonded_or_not ( $report -> sale_id ) ? 0 : number_format ( $sale -> total, 2 ); ?></td>
                                     <td>
                                         <?php
+                                          if ( check_id_is_refonded_or_not ( $report -> sale_id ) ) {
+                                              $profit = 0;
+                                              echo  $profit;
+                                          }
+                                          else {
                                             foreach ( $stock as $key => $id ) {
                                                 $sto    = get_stock ( $id );
+                                                
                                                 $profit += ( $prices[ $key ] * $quantities[ $key ] ) - ( $sto -> tp_unit * $quantities[ $key ] );
                                                 //$purchase_price = $sto -> tp_unit * $quantities[$key];
                                                 //$profit = $sale -> total - $purchase_price;
@@ -199,6 +205,7 @@
                                             }
                                             $total_profit += $profit;
                                             echo number_format ( $profit, 2 );
+                                        }
                                         ?>
                                     </td>
                                 </tr>
@@ -241,7 +248,7 @@
         <div class="portlet box blue">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-reorder"></i> General Report - Sale Return
+                    <i class="fa fa-reorder"></i> Pharmacy Profit Report (Sales Return) 
                 </div>
             </div>
            <div class="portlet-body" style="overflow: auto">
