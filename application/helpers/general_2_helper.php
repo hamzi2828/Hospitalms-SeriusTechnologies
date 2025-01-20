@@ -533,6 +533,64 @@
         );
     }
     
+// he issue with the reverse formula was occurring in our display receivable account function, which was affecting the account payable report. So, we fixed the reverse formula by statically capturing the required values. We then removed the unnecessary for-each loop, pasted the necessary values, and applied our required formula to display the correct values. We also created a clone of this for the payable report.    
+
+    function displayRecursiveAccountHeadsPayableReport($records, $level = 1, $reverseFormula = false) {
+        $results = '';
+        $ci      = &get_instance();
+        $netCredit = 0;
+        $netDebit  = 0;
+    
+        foreach ($records as $record) {
+            $credit          = get_account_head_credit_sum($record->id);
+            $debit           = get_account_head_debit_sum($record->id);
+            $opening_balance = get_opening_balance_previous_than_searched_start_date($ci->input->get('start-date'), $record->id);
+            
+            // Accumulate current record's credit and debit
+            $netCredit += $credit;
+            $netDebit  += $debit;
+            
+            // Calculate running balance
+            $running_balance = ($opening_balance + $debit) - $credit;
+
+            // Check if the record should be displayed
+            if ((isset($record->children) && count($record->children) > 0) || (abs($credit) > 0 || abs($debit) > 0)) {
+                $results .= '<tr>';
+                $results .= '<td>' . $record->serial_number  . '</td>';
+                $results .= '<td style="padding-left: ' . (20 * $level) . 'px">';
+                
+                if (isset($record->children) && count($record->children) > 0) {
+                    $results .= '<strong>' . htmlspecialchars($record->title, ENT_QUOTES, 'UTF-8') . '</strong>';
+                } else {
+                    $results .= htmlspecialchars($record->title, ENT_QUOTES, 'UTF-8');
+                }
+                
+                $results .= '</td>';
+                $results .= '<td>' . number_format($opening_balance, 2) . '</td>';
+                $results .= '<td>' . number_format($credit, 2) . '</td>';
+                $results .= '<td>' . number_format($debit, 2) . '</td>';
+                $results .= '<td>' . number_format($running_balance, 2) . '</td>';
+                $results .= '</tr>';
+                
+                // Process children recursively
+                if (!empty($record->children)) {
+                    $childResult = displayRecursiveAccountHeadsPayableReport($record->children, $level + 1, $reverseFormula);
+                    $results     .= $childResult['table'];
+                    
+                    // Accumulate child's netCredit and netDebit
+                    $netCredit += $childResult['netCredit'];
+                    $netDebit  += $childResult['netDebit'];
+                }
+            }
+        }
+    
+        return array(
+            'table'     => $results,
+            'netCredit' => $netCredit,
+            'netDebit'  => $netDebit
+        );
+    }
+    
     function get_account_head_credit_sum ( $account_head_id ) {
         $ci = &get_instance ();
         $ci -> load -> model ( 'AccountModel' );

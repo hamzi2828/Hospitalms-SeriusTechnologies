@@ -121,7 +121,7 @@ mpdf-->
             <strong><?php echo number_format ( $receivables[ 'netDebit' ], 2 ) ?></strong>
         </td>
         <td align="left">
-            <strong><?php echo number_format ( ( $receivables[ 'netDebit' ] - $receivables[ 'netCredit' ] ), 2 ) ?></strong>
+            <!-- <strong><?php echo number_format ( ( $receivables[ 'netDebit' ] - $receivables[ 'netCredit' ] ), 2 ) ?></strong> -->
         </td>
     </tr>
     </tfoot>

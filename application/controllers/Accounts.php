@@ -1454,7 +1454,7 @@
             $this -> header ( $title );
             $this -> sidebar ();
             $account_heads     = $this -> AccountModel -> getRecursiveAccountHeads ( payable_accounts );
-            $data[ 'payable' ] = displayRecursiveAccountHeads ( $account_heads, 0, 0, 1, true );
+            $data[ 'payable' ] = displayRecursiveAccountHeadsPayableReport ( $account_heads, 0, 0, 1, true );
             $this -> load -> view ( '/accounts/accounts-payable', $data );
             $this -> footer ();
         }
