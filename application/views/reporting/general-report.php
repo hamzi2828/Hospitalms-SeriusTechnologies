@@ -156,20 +156,14 @@
                                 $quantities    = explode ( ',', $report -> quantity );
                                 $prices        = explode ( ',', $report -> price );
                                 $acc_head      = get_account_head ( $report -> patient_id );
-                                $total         = $total + $report -> net_price;
+                             
                                 $sale          = get_sale ( $report -> sale_id );
 
-                                if ( check_id_is_refonded_or_not ( $report -> sale_id ) ) {
-                                    $net           += 0;
-                                } else {
-                                    $net           = $net + $sale -> total;
-                                }
 
-
-                                if ( check_id_is_refonded_or_not ( $report -> sale_id ) ) {
-                                    $flat_discount           += 0;
-                                } else {
-                                    $flat_discount = $flat_discount + $sale -> flat_discount;
+                                if ( ! check_id_is_refonded_or_not ( $report -> sale_id ) ) {
+                                    $total         += $report -> net_price;
+                                    $net           += $sale -> total;
+                                    $flat_discount += $sale -> flat_discount;
                                 }
 
 
@@ -208,8 +202,13 @@
                                     <td>
                                         <?php
                                             foreach ( $quantities as $quantity ) {
-                                                $sold_qty = $sold_qty + $quantity;
-                                                echo $quantity . '<br>';
+                                                if ( check_id_is_refonded_or_not ( $report -> sale_id ) ) {
+                                                    $sold_qty           += 0;
+                                                } else {
+                                                    $sold_qty = $sold_qty + $quantity;
+                                                }
+   
+                                                echo check_id_is_refonded_or_not ( $report -> sale_id ) ? -$quantity. '<br>': $quantity . '<br>';
                                             }
                                         ?>
                                     </td>
@@ -220,7 +219,7 @@
                                             }
                                         ?>
                                     </td>
-                                    <td><?php echo number_format ( $report -> net_price, 2 ); ?></td>
+                                    <td><?php echo check_id_is_refonded_or_not ( $report -> sale_id ) ? number_format ( -$report -> net_price, 2 ) : number_format ( $report -> net_price, 2 ); ?></td>
                                     <td><?php echo $sale -> discount; ?></td>
                                     <td><?php echo check_id_is_refonded_or_not ( $report -> sale_id ) ? 0 : number_format ( $sale -> flat_discount, 2 ); ?></td>
                                     <td><?php echo check_id_is_refonded_or_not ( $report -> sale_id ) ? 0 : number_format ( $sale -> total, 2 ); ?></td>
