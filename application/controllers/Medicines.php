@@ -3595,7 +3595,12 @@
                     ( new PharmacyService( $ci ) ) -> refund ( $sale );
                     $this -> db -> trans_complete ();
                     $this -> session -> set_flashdata ( 'response', 'Success! Invoice refunded.' );
-                    return redirect ( base_url ( '/medicines/sales' ) );
+                    
+           
+                     if ( $_REQUEST[ 'cash' ] == 'false' )
+                        return redirect ( base_url ( '/medicines/sales?panel=true' ) );
+                    else
+                        return redirect ( base_url ( '/medicines/sales?cash=true' ) );
                 }
                 else {
                     $this -> db -> trans_rollback ();

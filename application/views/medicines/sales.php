@@ -84,7 +84,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i> Medicines List
+                    <i class="fa fa-globe"></i> Sales Invoices <?php if (!isset($_GET['panel']) || $_GET['panel'] !== 'true') { ?> (Cash) <?php } else { ?> (Panel) <?php } ?>
                 </div>
             </div>
             <div class="portlet-body" style="overflow: auto">
@@ -254,7 +254,7 @@
                                         
                                         <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'refund_medicine_sale_invoice', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) && $sale_info -> refunded == '0' ) : ?>
                                             <a type="button" class="btn dark btn-block"
-                                               href="<?php echo base_url ( '/medicines/refund/' . $sale -> sale_id ) ?>"
+                                               href="<?php echo base_url ( '/medicines/refund/' . $sale -> sale_id . '?cash=' . ( (isset($_GET['panel']) && $_GET['panel'] == 'true') ? 'false' : 'true' ) ) ?>"
                                                onclick="return confirm('Are you sure you want to refund?')">
                                                 Refund
                                             </a>
