@@ -88,6 +88,21 @@ mpdf-->
                 <?php echo date ( 'd-m-Y', strtotime ( @$_REQUEST[ 'end_date' ] ) ) ?>
             </span>
         </td>
+
+    </tr>
+            
+    <tr>
+        <?php if ( @$_REQUEST[ 'panel-id' ] > 0 ) : ?>
+
+        <td width="100%" style="text-align: right;">
+            <span style="font-size: 8pt;">
+                <strong>Panel Name:</strong>
+                <?php $panel = get_panel_by_id ( @$_REQUEST[ 'panel-id' ] );
+                    echo $panel -> name   ?>
+            </span>
+        </td>
+        <?php endif; ?>
+
     </tr>
 </table>
 <br />

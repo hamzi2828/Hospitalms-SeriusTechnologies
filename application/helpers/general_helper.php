@@ -801,6 +801,7 @@
     function get_account_head ( $account_head_id ) {
         $ci = &get_instance ();
         $ci -> load -> model ( 'AccountModel' );
+
         return $ci -> AccountModel -> get_account_head ( $account_head_id );
     }
     

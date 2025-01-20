@@ -74,7 +74,7 @@
         
         public function general_report () {
             $title = site_name . ' - General Report';
-            $this -> header ( $title );
+            $this -> header ( $title ); 
             $this -> sidebar ();
             $data[ 'users' ]       = $this -> UserModel -> get_users ();
             $data[ 'departments' ] = $this -> MemberModel -> get_departments ();

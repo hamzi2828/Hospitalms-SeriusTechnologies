@@ -186,7 +186,7 @@
             }
             else {
                 $data[ 'reports' ] = array ();
-                $data[ 'returns' ] = array ();
+                $data[ 'returns' ] = array (); 
             }
             $this -> load -> view ( '/reporting/profit-report', $data );
             $this -> footer ();

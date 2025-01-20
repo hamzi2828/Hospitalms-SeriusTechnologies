@@ -91,13 +91,27 @@ mpdf-->
             </span>
         </td>
     </tr>
+            
+    <tr>
+        <?php if ( @$_REQUEST[ 'panel-id' ] > 0 ) : ?>
+
+        <td width="100%" style="text-align: right;">
+            <span style="font-size: 8pt;">
+                <strong>Panel Name:</strong>
+                <?php $panel = get_panel_by_id ( @$_REQUEST[ 'panel-id' ] );
+                    echo $panel -> name   ?>
+            </span>
+        </td>
+        <?php endif; ?>
+
+    </tr>
 </table>
 <br />
 <table width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8" border="0">
     <tr>
         <td style="width: 100%; background: #f5f6f7; text-align: center">
             <h3><strong> Pharmacy General Report (Sales) </strong></h3>
-        </td>
+        </td> 
     </tr>
 </table>
 <br>
@@ -142,7 +156,7 @@ mpdf-->
                 ?>
                 <tr>
                     <td><?php echo $count++; ?></td>
-                    <td><?php echo $report -> sale_id; ?></td>
+                    <td><?php echo $report -> sale_id; ?><?php if ( check_id_is_refonded_or_not ( $report -> sale_id ) ) echo '&nbsp;&nbsp; <span style="background-color: yellow;">Refunded</span>'; ?></td>
                     <td><?php echo $user -> name; ?></td>
                     <td>
                         <?php
@@ -168,7 +182,7 @@ mpdf-->
                             }
                         ?>
                     </td>
-                    <td><?php echo $acc_head -> title; ?></td>
+                    <td><?php echo $acc_head -> title ?? ''; ?></td>
                     <td>
                         <?php
                             foreach ( $quantities as $quantity ) {

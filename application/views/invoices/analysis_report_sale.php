@@ -106,7 +106,7 @@ mpdf-->
         <th> Sr. No</th>
         <th> Medicines</th>
         <th> Supplier(s)</th>
-        <th> Quantity (Pharmacy)</th>
+          <th> Quantity (Cash)  <br><span style="color: red">Refund/Return not included</span></th>
         <th> Quantity (IPD)</th>
         <th> Total (Pharmacy)</th>
         <th> Total (IPD)</th>
