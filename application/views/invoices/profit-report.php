@@ -150,9 +150,22 @@ mpdf-->
                 $acc_head      = get_account_head ( $report -> patient_id );
                 $total         = $total + $report -> net_price;
                 $sale          = get_sale ( $report -> sale_id );
-                $net           = $net + $sale -> total;
+                
                 $profit        = 0;
-                $flat_discount = $flat_discount + $sale -> flat_discount;
+                if ( check_id_is_refonded_or_not ( $report -> sale_id ) ) {
+                    $net           += 0;
+                } else {
+                    $net           = $net + $sale -> total;
+                  
+                }
+
+                if ( check_id_is_refonded_or_not ( $report -> sale_id ) ) {
+                    $flat_discount           += 0;
+                } else {
+                    $flat_discount = $flat_discount + $sale -> flat_discount;
+                  
+                }
+              
                 ?>
                 <tr>
                     <td><?php echo $count++; ?></td>
@@ -213,8 +226,8 @@ mpdf-->
                     </td>
                     <td><?php echo number_format ( $report -> net_price, 2 ); ?></td>
                     <td><?php echo $sale -> discount; ?></td>
-                    <td><?php echo $sale -> flat_discount; ?></td>
-                    <td><?php echo number_format ( $sale -> total, 2 ); ?></td>
+                    <td><?php echo check_id_is_refonded_or_not ( $report -> sale_id ) ? 0 : $sale -> flat_discount; ?></td>
+                    <td><?php echo check_id_is_refonded_or_not ( $report -> sale_id ) ? 0 : number_format ( $sale -> total, 2 ); ?></td>
                     <td>
                         <?php
                        
