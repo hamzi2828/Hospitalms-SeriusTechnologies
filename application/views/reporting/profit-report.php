@@ -118,9 +118,10 @@
                                     $net           += 0;
                                 } else {
                                     $net           = $net + $sale -> total;
+                                    $flat_discount = $flat_discount + $sale -> flat_discount;
                                 }
                                 $profit        = 0;
-                                $flat_discount = $flat_discount + $sale -> flat_discount;
+                              
                                 ?>
                                 <tr>
                                     <td><?php echo $count++; ?></td>
