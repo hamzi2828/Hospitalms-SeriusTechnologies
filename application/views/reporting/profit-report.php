@@ -118,8 +118,16 @@
                                     $net           += 0;
                                 } else {
                                     $net           = $net + $sale -> total;
-                                    $flat_discount = $flat_discount + $sale -> flat_discount;
+                                  
                                 }
+
+                                if ( check_id_is_refonded_or_not ( $report -> sale_id ) ) {
+                                    $flat_discount           += 0;
+                                } else {
+                                    $flat_discount = $flat_discount + $sale -> flat_discount;
+                                  
+                                }
+                              
                                 $profit        = 0;
                               
                                 ?>
@@ -182,7 +190,7 @@
                                     </td>
                                     <td><?php echo number_format ( $report -> net_price, 2 ); ?></td>
                                     <td><?php echo $sale -> discount; ?></td>
-                                    <td><?php echo $sale -> flat_discount; ?></td>
+                                    <td><?php echo check_id_is_refonded_or_not ( $report -> sale_id ) ? 0 : $sale -> flat_discount; ?></td>
                                     <td><?php echo check_id_is_refonded_or_not ( $report -> sale_id ) ? 0 : number_format ( $sale -> total, 2 ); ?></td>
                                     <td>
                                         <?php
