@@ -944,7 +944,9 @@
             $sql = "SELECT SUM(hms.net_price) as total_sales
                     FROM hmis_medicines_sold hms
                     JOIN hmis_sales hs ON hms.sale_id = hs.id
-                    WHERE hs.payment_method = 'card'";
+                    WHERE hs.payment_method = 'card'      
+                     AND hs.panel_id IS NULL
+                    AND hs.refunded = 0 ";
         
             // Add date range filter if provided
             if (isset($_REQUEST['start_date']) && isset($_REQUEST['end_date'])) {
@@ -959,37 +961,39 @@
         }
 
 
-        public function get_pharmacy_discount () {
-            $sql = "SELECT SUM(net_price) as net, sale_id FROM hmis_medicines_sold WHERE 1";
-            if ( isset( $_REQUEST[ 'start_date' ] ) and !empty( trim ( $_REQUEST[ 'start_date' ] ) ) and isset( $_REQUEST[ 'end_date' ] ) and !empty( trim ( $_REQUEST[ 'end_date' ] ) ) ) {
-                $start_date = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'start_date' ] ) );
-                $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
-                $sql        .= " and DATE(date_sold) BETWEEN '$start_date' AND '$end_date'";
+        public function get_pharmacy_discount($payment_method = 'cash') {
+            // Base SQL query to get net price and related sales
+            $sql = "SELECT hms.sale_id, SUM(hms.net_price) as net_price, hs.total
+                    FROM hmis_medicines_sold hms
+                    JOIN hmis_sales hs ON hms.sale_id = hs.id
+                    WHERE hs.payment_method = '$payment_method'
+                    AND hs.panel_id IS NULL
+                    AND hs.refunded = 0"; // Ensures refunded sales are excluded
+        
+            // Add date range filter if provided
+            if (isset($_REQUEST['start_date']) && !empty(trim($_REQUEST['start_date'])) &&
+                isset($_REQUEST['end_date']) && !empty(trim($_REQUEST['end_date']))) {
+                $start_date = date('Y-m-d', strtotime($_REQUEST['start_date']));
+                $end_date = date('Y-m-d', strtotime($_REQUEST['end_date']));
+                $sql .= " AND DATE(hms.date_sold) BETWEEN '$start_date' AND '$end_date'";
             }
-            if (isset($_REQUEST['panel-id']) && !empty($_REQUEST['panel-id']) && intval($_REQUEST['panel-id']) > 0) {
-                $panel_id = intval($_REQUEST['panel-id']);
-                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id = $panel_id)";
-            }else{
-                $sql  .= " and sale_id IN (SELECT id FROM hmis_sales where  panel_id is null)";
+        
+            $sql .= " GROUP BY hms.sale_id, hs.total";
+        
+            // Execute the query
+            $returns = $this->db->query($sql);
+            $records = $returns->result();
+        
+            // Calculate the total discount
+            $net_discount = 0;
+            foreach ($records as $record) {
+                $discount = $record->net_price - $record->total;
+                $net_discount += $discount > 0 ? $discount : 0;
             }
-            $sql     .= " AND sale_id IN (SELECT id FROM hmis_sales) group by sale_id";
-            $returns = $this -> db -> query ( $sql );
-            $records = $returns -> result ();
-            $net     = 0;
-            if ( count ( $records ) > 0 ) {
-                foreach ( $records as $record ) {
-                    $sale = get_sale ( $record -> sale_id );
-
-                    if ( check_id_is_refonded_or_not ( $sale -> id ) ) {
-                        $net           += 0;
-                    } else {
-                        $dis  = $record -> net - $sale -> total;
-                        $net  += $dis;
-                    }
-                }
-            }
-            return $net;
+        
+            return $net_discount;
         }
+        
         
 
         
@@ -1019,7 +1023,9 @@
             $sql = "SELECT SUM(hms.net_price) as total_sales
                     FROM hmis_medicines_sold hms
                     JOIN hmis_sales hs ON hms.sale_id = hs.id
-                    WHERE hs.payment_method = 'bank'";
+                    WHERE hs.payment_method = 'bank'
+                    AND hs.panel_id IS NULL
+                    AND hs.refunded = 0 ";
         
             // Add date range filter if provided
             if (isset($_REQUEST['start_date']) && isset($_REQUEST['end_date'])) {

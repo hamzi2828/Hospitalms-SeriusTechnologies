@@ -52,35 +52,35 @@
                    $return_customer = $total_returns ?? 0;
 
                     // Calculations
-                    $net_cash = $cash_sale - $return_customer;
+                    $net_cash = $cash_sale - $return_customer - $total_sales_discount_cash;
                     $total_sale = $cash_sale + $card_sale + $bank_sale;
                     $total_net = $total_sale - $return_customer;
                 ?>
                 <tr>
                     <td>Cash</td>
                     <td><?php echo number_format($cash_sale , 2); ?></td>
-                    <td><?php echo number_format($total_sales_discount, 2); ?></td>
+                    <td><?php echo number_format($total_sales_discount_cash, 2); ?></td>
                     <td><?php echo number_format($return_customer, 2); ?></td>
-                    <td><?php echo number_format($net_cash - $total_sales_discount, 2); ?></td>
+                    <td><?php echo number_format($net_cash , 2); ?></td>
                 </tr>
                 <tr>
                     <td>Card</td>
                     <td><?php echo number_format($card_sale, 2); ?></td>
-                    <td>0.00</td>
+                    <td><?php echo number_format($total_sales_discount_card, 2); ?></td>
                     <td></td>
                     <!-- <td><?php echo number_format($card_sale, 2); ?></td> -->
                 </tr>
                 <tr>
                     <td>Bank</td>
                     <td><?php echo number_format($bank_sale, 2); ?></td>
-                    <td>0.00</td>
+                    <td><?php echo number_format($total_sales_discount_bank, 2); ?> </td>
                     <td></td>
                     <!-- <td><?php echo number_format($bank_sale, 2); ?></td> -->
                 </tr>
                 <tr>
                     <td><strong>Total</strong></td>
                     <td><strong><?php echo number_format($total_sale , 2); ?></strong></td>
-                    <td><strong><?php echo number_format($total_sales_discount, 2); ?></strong></td>
+                    <td><strong><?php echo number_format($total_sales_discount_cash + $total_sales_discount_card + $total_sales_discount_bank, 2); ?></strong></td>
                     <td><strong><?php echo number_format($return_customer, 2); ?></strong></td>
                     <td></td>
                 </tr>
