@@ -307,7 +307,8 @@
                     </tbody>
                 </table>
                 <h2 class="text-right"> Total
-                                        Profit: <?php echo number_format ( $total_profit - $return_gross ); ?> </h2>
+                                        Profit: <?php echo number_format ( $total_profit - $return_gross, 2 ); ?> </h2>
+                                    
             </div>
         </div>
         <!-- END SAMPLE FORM PORTLET-->

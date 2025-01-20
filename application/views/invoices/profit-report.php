@@ -217,6 +217,12 @@ mpdf-->
                     <td><?php echo number_format ( $sale -> total, 2 ); ?></td>
                     <td>
                         <?php
+                       
+                          if ( check_id_is_refonded_or_not ( $report -> sale_id ) ) {
+                              $profit = 0;
+                              echo  $profit;
+                          }
+                          else {
                             foreach ( $stock as $key => $id ) {
                                 $sto    = get_stock ( $id );
                                 $profit += ( $prices[ $key ] * $quantities[ $key ] ) - ( $sto -> tp_unit * $quantities[ $key ] );
@@ -225,6 +231,7 @@ mpdf-->
                             }
                             $total_profit += $profit;
                             echo number_format ( $profit, 2 );
+                        }
                         ?>
                     </td>
                 </tr>
@@ -323,6 +330,6 @@ mpdf-->
     ?>
     </tbody>
 </table>
-<h2 style="text-align: right"> Total Profit: <?php echo number_format ( $total_profit - $return_gross ); ?> </h2>
+<h2 style="text-align: right"> Total Profit: <?php echo number_format ( $total_profit - $return_gross , 2 ); ?> </h2>
 </body>
 </html>
