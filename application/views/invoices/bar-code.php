@@ -1,1 +1,1 @@
-<img src="https://quickchart.io/qr?text=<?php echo $barcodeValue ?>&size=120" />
+<img src="https://quickchart.io/qr?text=<?php echo $barcodeValue ?>&size=70" />

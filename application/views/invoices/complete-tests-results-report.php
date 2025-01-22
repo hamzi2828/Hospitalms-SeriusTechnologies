@@ -94,6 +94,12 @@
     </style>
 </head>
 <body>
+
+<?php
+    $verified_data = get_result_verification_data_of_sale ( $_GET[ 'sale-id' ] );
+?>
+
+
 <!--mpdf
 <htmlpageheader name="myheader">
 <?php if ( $this -> input -> get ( 'logo' ) == 'true' ) : ?>
@@ -104,7 +110,12 @@
 <htmlpagefooter name="myfooter">
 <?php if ( $this -> input -> get ( 'logo' ) == 'true' ) : ?>
     <small><b>Note:This is a digitally verified report and does not require manual signature.</small></b>
+      <br/>
+    <?php if ( !empty( $verified_data ) ) : ?>                      
+        <b>Verified By:</b><?php echo get_user ( $verified_data -> user_id ) -> name ?>
+    <?php endif; ?>
     <br/>
+    <b>Print Date/Time: </b><?php echo date ( 'd-m-Y' ) . ' ' . date ( 'g:i a' ) ?> <br/>
     <?php require 'pdf-footer.php'; ?>
 <?php endif; ?>
 </htmlpagefooter>
@@ -164,7 +175,7 @@ mpdf-->
             if ( $test_info -> parent_id < 1 and $key > 0 ) {
                 echo '<pagebreak/>'; ?>
                 <br /><br />
-                <table width="100%">
+                <table width="100%" style="margin-top: -20px; padding-top: -20px;">
                     <tbody>
                     <tr>
                         <?php
@@ -173,7 +184,7 @@ mpdf-->
                                 <td width="50%" style="color:#000; font-size: 9pt">
                                     <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
                                     <b>MR Number: </b><?php echo $patient_id ?><br />
-                                    <b>Name: </b><?php echo get_patient_name (0, $patient) ?><br />
+                                    <b>Name: </b><?php echo get_patient_name (0, $patient) ?>
                                     <?php
                                         if ( !empty( trim ( $patient -> father_name ) ) )
                                             echo '<b>' . $patient -> relationship . ': </b>' . $patient -> father_name . '<br/>';
@@ -206,6 +217,18 @@ mpdf-->
                                 </td>
                                 <td width="50%" style="text-align: right;">
                                     <?php include 'bar-code.php'; ?>
+
+                                    <div style="text-align: right; float:left; width: 100%; display: block; font-size: 9pt">
+                                <strong>Sample Date:</strong> <?php echo date_setter ( $sale -> date_sale ) ?>
+                                <br />
+                                <?php if ( !empty( $verified ) ) : ?>
+                                    <strong>Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
+                                   
+                                <?php endif; ?>
+                                
+                            </div>
+                            <br />
+                            <br />
                                 </td>
                                 <?php
                             }
@@ -256,6 +279,7 @@ mpdf-->
                                 </td>
                                 <td width="25%" style="text-align: right;">
                                     <?php include 'bar-code.php'; ?>
+                                   
                                 </td>
                                 <?php
                             }
@@ -263,31 +287,25 @@ mpdf-->
                     </tr>
                     </tbody>
                 </table>
-                <div style="text-align: right; float:left; width: 100%; display: block; font-size: 9pt">
-                    <strong>Sample Date:</strong> <?php echo date_setter ( $sale -> date_sale ) ?>
-                    <br />
-                    <?php if ( !empty( $verified ) ) : ?>
-                        <strong>Verify Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
-                    <?php endif; ?>
-                    <br />
-                    <br />
-                </div>
+
+                
+          
                 <?php
             }
             
             if ( $key < 1 ) {
                 ?>
                 <br /><br />
-                <table width="100%">
+                <table width="100%" style="margin-top: -20px; padding-top: -20px;">
                     <tbody>
                     <tr>
                         <?php
                             if ( empty( $airline ) ) {
                                 ?>
-                                <td width="50%" style="color:#000; font-size: 9pt">
+                                <td width="50%" style="color:#000; font-size: 9pt" >
                                     <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
-                                    <b>MR Number: </b><?php echo $patient_id ?><br />
-                                    <b>Name: </b><?php echo get_patient_name (0, $patient) ?><br />
+                                    <b>MR Number: </b><?php echo get_patient_mr_number ( 0, $patient ) ?><br />
+                                    <b>Name: </b><?php echo get_patient_name ( 0, $patient ) ?>
                                     <?php
                                         if ( !empty( trim ( $patient -> father_name ) ) )
                                             echo '<b>' . $patient -> relationship . ': </b>' . $patient -> father_name . '<br/>';
@@ -295,31 +313,39 @@ mpdf-->
                                             echo '<b>Patient Passport: </b>' . $patient -> passport . '<br/>';
                                         if ( !empty( trim ( $patient -> cnic ) ) )
                                             echo '<b>CNIC: </b>' . $patient -> cnic . '<br/>';
+                                        
+                                        if ( $patient -> panel_id > 0 )
+                                            echo '<b>Panel Name: </b>' . get_panel_by_id ( $patient -> panel_id ) -> name . '<br/>';
                                     ?>
-                                    <b>Gender: </b><?php echo ( $patient -> gender == 1 ) ? 'Male' : 'Female' ?>
-                                    <br />
-                                <?php if ( !empty( trim ( $patient -> age ) ) ) : ?>
-                                    <b>Age: </b><?php echo $patient -> age . ' ' . $patient -> age_year_month ?>
-                                    <br />
+                                    <b>Contact No: </b><?php echo $patient -> mobile ?><br />
+                                    <b>Gender: </b><?php echo ( $patient -> gender == 1 ) ? 'Male' : 'Female' ?><br />
+                                    <?php if ( !empty( trim ( $patient -> age ) ) ) : ?>
+                                        <b>Age: </b><?php echo $patient -> age . ' ' . $patient -> age_year_month ?><br />
+                                        
+                                    <?php endif; ?>
                                     <?php
-                                    endif;
-                                        if ( $patient -> panel_id > 0 ) {
+                                        if ( $tests[ 0 ] -> doctor_id > 0 ) {
                                             ?>
-                                            <b>Panel: </b><?php echo get_panel_by_id ( $patient -> panel_id ) -> name ?>
-                                            <br />
-                                            <?php
-                                        }
-                                        if ( $patient -> doctor_id > 0 ) {
-                                            ?>
-                                            <b>Referred
-                                               By: </b><?php echo get_doctor ( $patient -> doctor_id ) -> name ?>
-                                            <br />
+                                            <b>Referred By: </b><?php echo get_doctor ( $tests[ 0 ] -> doctor_id ) -> name ?><br />
                                             <?php
                                         }
                                     ?>
+                                   
                                 </td>
                                 <td width="50%" style="text-align: right;">
-                                    <?php include 'bar-code.php'; ?>
+                                    <img src="https://quickchart.io/qr?text=<?php echo $barcodeValue ?>&size=70" />
+                                    <div style="text-align: right; float:left; width: 100%; display: block; font-size: 9pt">
+                                        <?php if ( !empty( trim ( @$tests[ 0 ] -> batch_no ) ) ) : ?>
+                                            <strong>Batch No:</strong> <?php echo @$tests[ 0 ] -> batch_no ?>
+                                            <br />
+                                        <?php endif; ?>
+                                        <strong>Sample Date:</strong> <?php echo date_setter ( $sale -> date_sale ) ?>
+                                        <br />
+                                        <strong>Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
+                                        <br />
+                                        <br />
+                                       
+                                    </div>
                                 </td>
                                 <?php
                             }
@@ -377,13 +403,7 @@ mpdf-->
                     </tr>
                     </tbody>
                 </table>
-                <div style="text-align: right; float:left; width: 100%; display: block; font-size: 9pt">
-                    <strong>Sample Date:</strong> <?php echo date_setter ( $sale -> date_sale ) ?>
-                    <br />
-                    <strong>Verify Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
-                    <br />
-                    <br />
-                </div>
+              
                 <?php
             }
             
@@ -422,17 +442,15 @@ mpdf-->
                        cellpadding="2" border="0">
                     <?php if ( $test_info -> parent_id < 1 ) : ?>
                         <thead>
+                      
+
                         <tr style="background: #f5f5f5;">
-                            <th align="left">Test Name</th>
-                            <th align="left">
-                                Results
-                            </th>
-                            <th colspan="2" align="center">
-                                Previous Results
-                            </th>
-                            <th align="left">Units</th>
-                            <th align="left">Reference Ranges</th>
-                        </tr>
+                        <th align="left" style="width: 30%;">Test Name</th>
+                        <th align="left" style="width: 10%;">Results</th>
+                        <th colspan="2" align="center" style="width: 20%;">Previous Results</th>
+                        <th align="left" style="width: 10%;">Units</th>
+                        <th align="left" style="width: 20%;">Reference Ranges</th>
+                    </tr>
                         </thead>
                     <?php endif; ?>
                     <tbody>

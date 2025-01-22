@@ -2,14 +2,12 @@
        cellpadding="4" border="0">
     <thead>
     <tr style="background: #f5f5f5;">
-        <th align="left">Test Name</th>
-        <th align="center">Results</th>
-        <th colspan="2" align="center">
-            Previous Results
-        </th>
-        <th align="left">Units</th>
-        <th align="left">Reference Ranges</th>
-    </tr>
+            <th align="left" style="width: 30%;">Test Name</th>
+            <th align="left" style="width: 10%;">Results</th>
+            <th colspan="2" align="center" style="width: 20%;">Previous Results</th>
+            <th align="left" style="width: 10%;">Units</th>
+            <th align="left" style="width: 20%;">Reference Ranges</th>
+        </tr>
     </thead>
     <tbody>
     <!-- ITEMS HERE -->

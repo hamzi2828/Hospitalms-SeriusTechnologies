@@ -3842,8 +3842,8 @@
             $html_content                    = $this -> load -> view ( '/invoices/lab-result-invoice-lab', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
+                                        'margin_left'   => 10,
+                                        'margin_right'  => 10,
                                         'margin_top'    => 41,
                                         'margin_bottom' => 5,
                                         'margin_header' => 5,
@@ -4887,8 +4887,8 @@
             $html_content                 = $this -> load -> view ( '/invoices/urine-re-analysis-report', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
+                                        'margin_left'   => 10,
+                                        'margin_right'  => 10,
                                         'margin_top'    => 35,
                                         'margin_bottom' => 25,
                                         'margin_header' => 0,
@@ -5112,8 +5112,8 @@
             $html_content                 = $this -> load -> view ( '/invoices/complete-tests-results-report', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
+                                        'margin_left'   => 10,
+                                        'margin_right'  => 10,
                                         'margin_top'    => 41,
                                         'margin_bottom' => 5,
                                         'margin_header' => 5,

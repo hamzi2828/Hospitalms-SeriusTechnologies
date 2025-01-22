@@ -198,6 +198,12 @@
         
         return $patient -> prefix . ' ' . $patient -> name;
     }
+    function get_patient_mr_number ( $id = 0, $patient = null ) {
+        if ( $id > 0 )
+            $patient = get_patient_by_id ( $id );
+        
+        return $patient -> id;
+    }
     
     function get_patient_age ( $id = 0, $patient = null ) {
         if ( $id > 0 )

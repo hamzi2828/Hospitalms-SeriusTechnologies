@@ -137,7 +137,7 @@ mpdf-->
 
 ?>
 
-<table width="100%">
+<table width="100%" style="margin-top: -20px; padding-top: -20px;">
     <tr>
         <?php
             $password     = !empty( $online_report_info ) ? encode ( $online_report_info -> password ) : '';
@@ -145,8 +145,10 @@ mpdf-->
             
             if ( empty( $airline ) ) {
                 ?>
-                <td width="50%" style="color:#000; font-size: 9pt">
-                    <b>Name: </b><?php echo get_patient_name ( 0, $patient ) ?><br />
+                <td width="50%" style="color:#000; font-size: 9pt" >
+                    <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
+                    <b>MR Number: </b><?php echo get_patient_mr_number ( 0, $patient ) ?><br />
+                    <b>Name: </b><?php echo get_patient_name ( 0, $patient ) ?>
                     <?php
                         if ( !empty( trim ( $patient -> father_name ) ) )
                             echo '<b>' . $patient -> relationship . ': </b>' . $patient -> father_name . '<br/>';
@@ -162,6 +164,7 @@ mpdf-->
                     <b>Gender: </b><?php echo ( $patient -> gender == 1 ) ? 'Male' : 'Female' ?><br />
                     <?php if ( !empty( trim ( $patient -> age ) ) ) : ?>
                         <b>Age: </b><?php echo $patient -> age . ' ' . $patient -> age_year_month ?><br />
+                        
                     <?php endif; ?>
                     <?php
                         if ( $tests[ 0 ] -> doctor_id > 0 ) {
@@ -170,10 +173,20 @@ mpdf-->
                             <?php
                         }
                     ?>
-                    <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
+                   
                 </td>
                 <td width="50%" style="text-align: right;">
-                    <img src="https://quickchart.io/qr?text=<?php echo $barcodeValue ?>&size=120" />
+                    <img src="https://quickchart.io/qr?text=<?php echo $barcodeValue ?>&size=70" />
+                    <div style="text-align: right; float:left; width: 100%; display: block; font-size: 9pt">
+                        <?php if ( !empty( trim ( @$tests[ 0 ] -> batch_no ) ) ) : ?>
+                            <strong>Batch No:</strong> <?php echo @$tests[ 0 ] -> batch_no ?>
+                            <br />
+                        <?php endif; ?>
+                        <strong>Sample Date:</strong> <?php echo date_setter ( $sale -> date_sale ) ?>
+                        <br />
+                        <strong>Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
+                    
+                    </div>
                 </td>
                 <?php
             }
@@ -239,32 +252,18 @@ mpdf-->
     </tr>
 </table>
 
-<div style="text-align: right; float:left; width: 100%; display: block; font-size: 9pt">
-    <?php if ( !empty( trim ( @$tests[ 0 ] -> batch_no ) ) ) : ?>
-        <strong>Batch No:</strong> <?php echo @$tests[ 0 ] -> batch_no ?>
-        <br />
-    <?php endif; ?>
-    <strong>Sample Date:</strong> <?php echo date_setter ( $sale -> date_sale ) ?>
-    <br />
-    <strong>Verify Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
-    <br />
-    <br />
-</div>
+
 
 <table class="items" width="100%" style="font-size: 8pt; border-collapse: collapse; margin-top: 15px; border: 0"
        cellpadding="8" border="0">
     <thead>
     <tr style="background: #f5f5f5;">
-        <th align="left">Test Name</th>
-        <th align="left">
-            Results
-        </th>
-        <th colspan="2" align="center">
-            Previous Results
-        </th>
-        <th align="left">Units</th>
-        <th align="left">Reference Ranges</th>
-    </tr>
+            <th align="left" style="width: 30%;">Test Name</th>
+            <th align="left" style="width: 10%;">Results</th>
+            <th colspan="2" align="center" style="width: 20%;">Previous Results</th>
+            <th align="left" style="width: 10%;">Units</th>
+            <th align="left" style="width: 25%;">Reference Ranges</th>
+        </tr>
     </thead>
     <tbody>
     <!-- ITEMS HERE -->
@@ -334,7 +333,7 @@ mpdf-->
                         if ( count ( $previous_results ) > 0 ) {
                             foreach ( $previous_results as $key => $previous_result ) {
                                 ?>
-                                <td style="font-weight: 900; font-size: 9pt">
+                                <td width="15%" align="center" style="font-weight: 900; font-size: 9pt">
                                     <?php echo date ( 'd-m-Y', strtotime ( $previous_result -> date_added ) ) ?>
                                 </td>
                                 <?php
@@ -395,7 +394,9 @@ mpdf-->
                                             $previousResultTestIDS = get_child_tests_ids ( $previous_result -> test_id );
                                             $previousSubTests      = get_lab_test_results_by_ids ( $previous_result -> sale_id, $previousResultTestIDS -> ids, $previous_result -> id );
                                             ?>
-                                            <td style="font-size: 8pt">
+                                         
+                                 <td align="left" style="font-weight: 900; font-size: 9pt; <?php if ( @$previousSubTests[ $key ] -> abnormal == '1' )
+                        echo 'color: #FF0000; font-weight: bold' ?>">
                                                 <?php echo @$previousSubTests[ $key ] -> result; ?>
                                             </td>
                                             <?php
@@ -458,6 +459,9 @@ mpdf-->
     ?>
     </tbody>
 </table>
+
+
+
 <div class="remarks">
     <h3>Remarks:</h3>
     <?php

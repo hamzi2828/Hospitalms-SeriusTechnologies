@@ -140,59 +140,67 @@ mpdf-->
             //            $barcodeValue = online_report_url . 'qr-login/?parameters=' . encode ( $_GET[ 'id' ] ) . ',' . encode ( $_GET[ 'sale-id' ] ) . ',' . encode ( $_GET[ 'parent-id' ] ) . ',' . $_GET[ 'machine' ] . ',' . encode ( $online_report_info -> password );
             $barcodeValue = str_replace ( '&', ',', $link ) . ',qrcode=true';
         ?>
-        <td width="50%" style="color:#000; ">
-            <b>Name: </b><?php echo get_patient_name ( 0, $patient ) ?><br />
-            <?php
-                if ( !empty( trim ( $patient -> father_name ) ) )
-                    echo '<b>' . $patient -> relationship . ': </b>' . $patient -> father_name . '<br/>';
-                if ( !empty( trim ( $patient -> passport ) ) )
-                    echo '<b>Patient Passport: </b>' . $patient -> passport . '<br/>';
-                if ( !empty( trim ( $patient -> cnic ) ) )
-                    echo '<b>CNIC: </b>' . $patient -> cnic . '<br/>';
-            ?>
-            <b>Contact No: </b><?php echo $patient -> mobile ?><br />
-            <b>Gender: </b><?php echo ( $patient -> gender == 1 ) ? 'Male' : 'Female' ?><br />
-            <?php if ( !empty( trim ( $patient -> age ) ) ) : ?>
-                <b>Age: </b><?php echo $patient -> age . ' ' . $patient -> age_year_month ?><br />
-            <?php endif; ?>
-            <?php
-                if ( count ( $tests ) && $tests[ 0 ] -> doctor_id > 0 ) {
-                    ?>
-                    <b>Referred By: </b><?php echo get_doctor ( $tests[ 0 ] -> doctor_id ) -> name ?><br />
+              <td width="50%" style="color:#000; font-size: 9pt" >
+                    <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
+                    <b>MR Number: </b><?php echo get_patient_mr_number ( 0, $patient ) ?><br />
+                    <b>Name: </b><?php echo get_patient_name ( 0, $patient ) ?>
                     <?php
-                }
-            ?>
-            <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
-        </td>
+                        if ( !empty( trim ( $patient -> father_name ) ) )
+                            echo '<b>' . $patient -> relationship . ': </b>' . $patient -> father_name . '<br/>';
+                        if ( !empty( trim ( $patient -> passport ) ) )
+                            echo '<b>Patient Passport: </b>' . $patient -> passport . '<br/>';
+                        if ( !empty( trim ( $patient -> cnic ) ) )
+                            echo '<b>CNIC: </b>' . $patient -> cnic . '<br/>';
+                        
+                        if ( $patient -> panel_id > 0 )
+                            echo '<b>Panel Name: </b>' . get_panel_by_id ( $patient -> panel_id ) -> name . '<br/>';
+                    ?>
+                    <b>Contact No: </b><?php echo $patient -> mobile ?><br />
+                    <b>Gender: </b><?php echo ( $patient -> gender == 1 ) ? 'Male' : 'Female' ?><br />
+                    <?php if ( !empty( trim ( $patient -> age ) ) ) : ?>
+                        <b>Age: </b><?php echo $patient -> age . ' ' . $patient -> age_year_month ?><br />
+                        
+                    <?php endif; ?>
+                    <?php
+                        if ( $tests[ 0 ] -> doctor_id > 0 ) {
+                            ?>
+                            <b>Referred By: </b><?php echo get_doctor ( $tests[ 0 ] -> doctor_id ) -> name ?><br />
+                            <?php
+                        }
+                    ?>
+                   
+                </td>
         <td width="50%" style="text-align: right;">
             <?php include_once 'bar-code.php'; ?>
-        </td>
-    </tr>
-</table>
 
-<div style="text-align: right; float:left; width: 100%; display: block">
+            <div style="text-align: right; float:left; width: 100%; display: block">
     <?php if ( !empty( trim ( @$tests[ 0 ] -> batch_no ) ) ) : ?>
         <strong>Batch No:</strong> <?php echo @$tests[ 0 ] -> batch_no ?>
         <br />
     <?php endif; ?>
     <strong>Sample Date:</strong> <?php echo date_setter ( $sale -> date_sale ) ?>
     <br />
-    <strong>Verify Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
+    <strong>Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
     <br />
     <br />
 </div>
+        </td>
+    </tr>
+</table>
+
+
 
 <table class="items" width="100%" style="font-size: 8pt; border-collapse: collapse; margin-top: 0; border: 0"
        cellpadding="4" border="0">
     <thead>
     <tr style="background: #f5f5f5;">
-        <th align="left">Test Name</th>
-        <th align="center">Results</th>
-        <th colspan="2" align="center">
+     <th align="left" style="width: 30%;">Test Name</th>
+        <th align="center" style="width: 10%;">Results</th>
+        <th colspan="2" style="width: 20%;" align="center">
             Previous Results
         </th>
-        <th align="left">Units</th>
-        <th align="left">Reference Ranges</th>
+        <th align="left" style="width: 10%;">Units</th>
+        <th align="left" style="width: 25%;">Reference Ranges</th>
     </tr>
     </thead>
     <tbody>

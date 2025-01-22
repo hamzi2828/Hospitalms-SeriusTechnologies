@@ -1133,6 +1133,11 @@
         $ci -> load -> model ( 'LabModel' );
         return $ci -> LabModel -> get_result_verification_data ( $sale_id, $result_id );
     }
+    function get_result_verification_data_of_sale ( $sale_id ) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'LabModel' );
+        return $ci -> LabModel -> get_result_verification_data_of_sale ( $sale_id );
+    }
     
     /**
      * ---------------------

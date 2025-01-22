@@ -335,6 +335,16 @@
             ) );
             return $data -> row ();
         }
+
+
+        public function get_result_verification_data_of_sale ( $sale_id ) {
+            $data = $this -> db -> get_where ( 'lab_results_verified', array (
+                'sale_id' => $sale_id
+            ), 1 );
+            return $data -> row ();
+        }
+
+
         
         /**
          * -------------------------
