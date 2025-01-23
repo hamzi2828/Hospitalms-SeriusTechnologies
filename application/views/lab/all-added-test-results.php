@@ -136,7 +136,7 @@
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-globe"></i> All Added Test Results
+                        <i class="fa fa-globe"></i> All Added Test Results  
                     </div>
                     <?php if ( isset( $_GET[ 'invoice_id' ] ) and $_GET[ 'invoice_id' ] > 0 ) : ?>
                         <a href="<?php echo base_url ( '/invoices/complete-test-results-report/?sale-id=' . $_GET[ 'invoice_id' ] . '&logo=true' ) ?>"

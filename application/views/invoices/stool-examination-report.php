@@ -141,14 +141,17 @@ mpdf-->
     $previous_results = get_previous_test_results ( $sale_id, SEMEN_ANALYSIS );
 ?>
 
-<table width="100%">
+
+<table width="100%" style="margin-top: -10px; padding-top: -10px;">
     <tr>
         <?php
             //            $barcodeValue = online_report_url . 'qr-login/?parameters=' . encode ( $_GET[ 'id' ] ) . ',' . encode ( $_GET[ 'sale-id' ] ) . ',' . encode ( $_GET[ 'parent-id' ] ) . ',' . $_GET[ 'machine' ] . ',' . encode ( $online_report_info -> password );
             $barcodeValue = str_replace ( '&', ',', $link ) . ',qrcode=true';
         ?>
         <td width="50%" style="color:#000; ">
-            <b>Name: </b><?php echo get_patient_name ( 0, $patient ) ?><br />
+            <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
+            <b>MR Number: </b><?php echo $patient_id ?><br />
+            <b>Name: </b><?php echo get_patient_name (0, $patient) ?>
             <?php
                 if ( !empty( trim ( $patient -> father_name ) ) )
                     echo '<b>' . $patient -> relationship . ': </b>' . $patient -> father_name . '<br/>';
@@ -157,39 +160,48 @@ mpdf-->
                 if ( !empty( trim ( $patient -> cnic ) ) )
                     echo '<b>CNIC: </b>' . $patient -> cnic . '<br/>';
             ?>
-            <b>Contact No: </b><?php echo $patient -> mobile ?><br />
-            <b>Gender: </b><?php echo ( $patient -> gender == 1 ) ? 'Male' : 'Female' ?><br />
-            <?php if ( !empty( trim ( $patient -> age ) ) ) : ?>
-                <b>Age: </b><?php echo $patient -> age . ' ' . $patient -> age_year_month ?><br />
+            <b>Gender: </b><?php echo ( $patient -> gender == 1 ) ? 'Male' : 'Female' ?>
+            <br />
+        <?php if ( !empty( trim ( $patient -> age ) ) ) : ?>
+            <b>Age: </b><?php echo $patient -> age . ' ' . $patient -> age_year_month ?>
+            <br />
+            <?php endif; ?>
             <?php
-            endif;
-                if ( $tests[ 0 ] -> doctor_id > 0 ) {
+                if ( $patient -> panel_id > 0 ) {
                     ?>
-                    <b>Referred By: </b><?php echo get_doctor ( $tests[ 0 ] -> doctor_id ) -> name ?><br />
+                    <b>Panel: </b><?php echo get_panel_by_id ( $patient -> panel_id ) -> name ?>
+                    <br />
+                    <?php
+                }
+                if ( $patient -> doctor_id > 0 ) {
+                    ?>
+                    <b>Referred
+                        By: </b><?php echo get_doctor ( $patient -> doctor_id ) -> name ?>
+                    <br />
                     <?php
                 }
             ?>
-            <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
         </td>
         <td width="50%" style="text-align: right;">
             <?php include_once 'bar-code.php'; ?>
+            <div style="text-align: right; float:left; width: 100%; display: block">
+                <?php if ( !empty( trim ( @$tests[ 0 ] -> batch_no ) ) ) : ?>
+                    <strong>Batch No:</strong> <?php echo @$tests[ 0 ] -> batch_no ?>
+                    <br />
+                <?php endif; ?>
+                <strong>Sample Date:</strong> <?php echo date_setter ( $sale -> date_sale ) ?>
+                <br />
+                <strong> Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
+                <br />
+               
+            </div>
         </td>
     </tr>
 </table>
 
-<div style="text-align: right; float:left; width: 100%; display: block">
-    <?php if ( !empty( trim ( @$tests[ 0 ] -> batch_no ) ) ) : ?>
-        <strong>Batch No:</strong> <?php echo @$tests[ 0 ] -> batch_no ?>
-        <br />
-    <?php endif; ?>
-    <strong>Sample Date:</strong> <?php echo date_setter ( $sale -> date_sale ) ?>
-    <br />
-    <strong>Verify Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
-    <br />
-    <br />
-</div>
 
-<table class="items" width="100%" style="font-size: 8pt; border-collapse: collapse; margin-top: 0; border: 0"
+
+<table class="items" width="100%" style="font-size: 8pt; border-collapse: collapse; margin-top: 10px; border: 0"
        cellpadding="4" border="0">
     <thead>
     <tr style="background: #f5f5f5;">

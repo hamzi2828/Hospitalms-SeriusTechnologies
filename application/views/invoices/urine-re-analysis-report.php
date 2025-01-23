@@ -190,7 +190,7 @@ mpdf-->
 
 
 
-<table class="items" width="100%" style="font-size: 8pt; border-collapse: collapse; margin-top: 0; border: 0"
+<table class="items" width="100%" style="font-size: 8pt; border-collapse: collapse; margin-top: 10px; border: 0"
        cellpadding="4" border="0">
     <thead>
     <tr style="background: #f5f5f5;">
@@ -236,7 +236,7 @@ mpdf-->
         <td colspan="2"></td>
     </tr>
     <tr>
-        <td colspan="4" style="font-size: 10pt; padding-top: 30px; border-bottom: 0">
+        <td colspan="4" style="font-size: 10pt; padding-top: 15px; border-bottom: 0">
             <strong>
                 <u>Physical Examination</u>
             </strong>
