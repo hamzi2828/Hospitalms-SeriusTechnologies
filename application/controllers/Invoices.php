@@ -5103,7 +5103,7 @@
 
             $data[ 'sale_id' ]            = $sale_id;
             $data[ 'patient_id' ]         = get_patient_id_by_sale_id ( $sale_id );
-            $data[ 'patient' ]            = get_patient ( $data[ 'patient_id' ] );
+            $data[ 'patient' ]            = get_patient ( $data[ 'patient_id' ] ); 
             $data[ 'user' ]               = get_user ( get_logged_in_user_id () );
             $data[ 'sale' ]               = $this -> LabModel -> get_lab_sale ( $sale_id );
             $data[ 'tests' ]              = $this -> LabModel -> get_lab_sale_parent_tests_by_sale_id ( $sale_id );
