@@ -12,7 +12,7 @@
         
         body {
             font-family : sans-serif;
-            font-size   : 8pt;
+            font-size   : 9pt;
         }
         
         p {
@@ -254,7 +254,7 @@ mpdf-->
 
 
 
-<table class="items" width="100%" style="font-size: 8pt; border-collapse: collapse; margin-top: 15px; border: 0"
+<table class="items" width="100%" style="font-size: 9pt; border-collapse: collapse; margin-top: 15px; border: 0"
        cellpadding="8" border="0">
     <thead>
     <tr style="background: #f5f5f5;">

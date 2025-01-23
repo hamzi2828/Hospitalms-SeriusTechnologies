@@ -3898,8 +3898,8 @@
             $html_content                 = $this -> load -> view ( '/invoices/cp-peripheral-film-report', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
+                                        'margin_left'   => 10,
+                                        'margin_right'  => 10,
                                         'margin_top'    => 35,
                                         'margin_bottom' => 25,
                                         'margin_header' => 0,
@@ -4775,8 +4775,8 @@
             $html_content                 = $this -> load -> view ( '/invoices/semen-analysis-report', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
+                                        'margin_left'   => 10,
+                                        'margin_right'  => 10,
                                         'margin_top'    => 35,
                                         'margin_bottom' => 25,
                                         'margin_header' => 0,
@@ -4831,8 +4831,8 @@
             $html_content                 = $this -> load -> view ( '/invoices/stool-examination-report', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
+                                        'margin_left'   => 10,
+                                        'margin_right'  => 10,
                                         'margin_top'    => 35,
                                         'margin_bottom' => 25,
                                         'margin_header' => 0,
@@ -4943,8 +4943,8 @@
             $html_content                 = $this -> load -> view ( '/invoices/csf-analysis-report', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
+                                        'margin_left'   => 10,
+                                        'margin_right'  => 10,
                                         'margin_top'    => 35,
                                         'margin_bottom' => 25,
                                         'margin_header' => 0,
@@ -4999,8 +4999,8 @@
             $html_content                 = $this -> load -> view ( '/invoices/ascitic-fluid-analysis-report', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
+                                        'margin_left'   => 10,
+                                        'margin_right'  => 10,
                                         'margin_top'    => 35,
                                         'margin_bottom' => 25,
                                         'margin_header' => 0,
@@ -5048,8 +5048,8 @@
             $html_content                 = $this -> load -> view ( '/invoices/pericardial-fluid-report', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
+                                        'margin_left'   => 10,
+                                        'margin_right'  => 10,
                                         'margin_top'    => 35,
                                         'margin_bottom' => 25,
                                         'margin_header' => 0,

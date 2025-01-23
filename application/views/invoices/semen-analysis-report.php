@@ -12,7 +12,7 @@
         
         body {
             font-family : sans-serif;
-            font-size   : 8pt;
+            font-size   : 9pt;
         }
         
         p {
@@ -147,58 +147,55 @@ mpdf-->
             //            $barcodeValue = online_report_url . 'qr-login/?parameters=' . encode ( $_GET[ 'id' ] ) . ',' . encode ( $_GET[ 'sale-id' ] ) . ',' . encode ( $_GET[ 'parent-id' ] ) . ',' . $_GET[ 'machine' ] . ',' . encode ( $online_report_info -> password );
             $barcodeValue = str_replace ( '&', ',', $link ) . ',qrcode=true';
         ?>
-        <td width="50%" style="color:#000; ">
-            <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
-            <b>MR Number: </b><?php echo $patient_id ?><br />
-            <b>Name: </b><?php echo get_patient_name (0, $patient) ?>
-            <?php
-                if ( !empty( trim ( $patient -> father_name ) ) )
-                    echo '<b>' . $patient -> relationship . ': </b>' . $patient -> father_name . '<br/>';
-                if ( !empty( trim ( $patient -> passport ) ) )
-                    echo '<b>Patient Passport: </b>' . $patient -> passport . '<br/>';
-                if ( !empty( trim ( $patient -> cnic ) ) )
-                    echo '<b>CNIC: </b>' . $patient -> cnic . '<br/>';
-            ?>
-            <b>Gender: </b><?php echo ( $patient -> gender == 1 ) ? 'Male' : 'Female' ?>
-            <br />
-        <?php if ( !empty( trim ( $patient -> age ) ) ) : ?>
-            <b>Age: </b><?php echo $patient -> age . ' ' . $patient -> age_year_month ?>
-            <br />
-            <?php endif; ?>
-            <?php
-                if ( $patient -> panel_id > 0 ) {
-                    ?>
-                    <b>Panel: </b><?php echo get_panel_by_id ( $patient -> panel_id ) -> name ?>
-                    <br />
+              <td width="50%" style="color:#000; font-size: 9pt" >
+                    <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
+                    <b>MR Number: </b><?php echo get_patient_mr_number ( 0, $patient ) ?><br />
+                    <b>Name: </b><?php echo get_patient_name ( 0, $patient ) ?>
                     <?php
-                }
-                if ( $patient -> doctor_id > 0 ) {
+                        if ( !empty( trim ( $patient -> father_name ) ) )
+                            echo '<b>' . $patient -> relationship . ': </b>' . $patient -> father_name . '<br/>';
+                        if ( !empty( trim ( $patient -> passport ) ) )
+                            echo '<b>Patient Passport: </b>' . $patient -> passport . '<br/>';
+                        if ( !empty( trim ( $patient -> cnic ) ) )
+                            echo '<b>CNIC: </b>' . $patient -> cnic . '<br/>';
+                        
+                        if ( $patient -> panel_id > 0 )
+                            echo '<b>Panel Name: </b>' . get_panel_by_id ( $patient -> panel_id ) -> name . '<br/>';
                     ?>
-                    <b>Referred
-                        By: </b><?php echo get_doctor ( $patient -> doctor_id ) -> name ?>
-                    <br />
+                    <b>Contact No: </b><?php echo $patient -> mobile ?><br />
+                    <b>Gender: </b><?php echo ( $patient -> gender == 1 ) ? 'Male' : 'Female' ?><br />
+                    <?php if ( !empty( trim ( $patient -> age ) ) ) : ?>
+                        <b>Age: </b><?php echo $patient -> age . ' ' . $patient -> age_year_month ?><br />
+                        
+                    <?php endif; ?>
                     <?php
-                }
-            ?>
-        </td>
+                        if ( $tests[ 0 ] -> doctor_id > 0 ) {
+                            ?>
+                            <b>Referred By: </b><?php echo get_doctor ( $tests[ 0 ] -> doctor_id ) -> name ?><br />
+                            <?php
+                        }
+                    ?>
+                   
+                </td>
         <td width="50%" style="text-align: right;">
             <?php include_once 'bar-code.php'; ?>
+
             <div style="text-align: right; float:left; width: 100%; display: block">
-                <?php if ( !empty( trim ( @$tests[ 0 ] -> batch_no ) ) ) : ?>
-                    <strong>Batch No:</strong> <?php echo @$tests[ 0 ] -> batch_no ?>
-                    <br />
-                <?php endif; ?>
-                <strong>Sample Date:</strong> <?php echo date_setter ( $sale -> date_sale ) ?>
+            <?php if ( !empty( trim ( @$tests[ 0 ] -> batch_no ) ) ) : ?>
+                <strong>Batch No:</strong> <?php echo @$tests[ 0 ] -> batch_no ?>
                 <br />
-                <strong> Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
-                <br />
-               
-            </div>
+            <?php endif; ?>
+            <strong>Sample Date:</strong> <?php echo date_setter ( $sale -> date_sale ) ?>
+            <br />
+            <strong>Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
+            <br />
+            <br />
+        </div>
         </td>
     </tr>
 </table>
 
-<table class="items" width="100%" style="font-size: 8pt; border-collapse: collapse; margin-top: 10px; border: 0"
+<table class="items" width="100%" style="font-size: 9pt; border-collapse: collapse; margin-top: 10px; border: 0"
        cellpadding="4" border="0">
     <thead>
 
@@ -250,10 +247,10 @@ mpdf-->
                 $previous_results = get_previous_test_results ( $sale_id, $test_id );
                 ?>
                 <tr>
-                    <td align="left" style="font-size: 8pt" width="35%">
+                    <td align="left" style="font-size: 9pt" width="35%">
                         <?php echo $test_info -> report_title ?>
                     </td>
-                    <td align="left" style="font-size: 8pt; <?php if ( $result -> abnormal == '1' )
+                    <td align="left" style="font-size: 9pt; <?php if ( $result -> abnormal == '1' )
                         echo 'color: #FF0000; font-weight: bold' ?>">
                         <?php echo $result -> result ?>
                     </td>
@@ -274,10 +271,10 @@ mpdf-->
                             echo '<td></td>';
                         }
                     ?>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php echo @get_unit_by_id ( $unit ) ?>
                     </td>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php
                             if ( count ( $ranges ) > 0 ) {
                                 foreach ( $ranges as $range ) {
@@ -321,10 +318,10 @@ mpdf-->
                 $previous_results = get_previous_test_results ( $sale_id, $test_id );
                 ?>
                 <tr>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php echo $test_info -> report_title ?>
                     </td>
-                    <td align="left" style="font-size: 8pt; <?php if ( $result -> abnormal == '1' )
+                    <td align="left" style="font-size: 9pt; <?php if ( $result -> abnormal == '1' )
                         echo 'color: #FF0000; font-weight: bold' ?>">
                         <?php echo $result -> result ?>
                     </td>
@@ -345,10 +342,10 @@ mpdf-->
                             echo '<td></td>';
                         }
                     ?>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php echo @get_unit_by_id ( $unit ) ?>
                     </td>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php
                             if ( count ( $ranges ) > 0 ) {
                                 foreach ( $ranges as $range ) {
@@ -392,10 +389,10 @@ mpdf-->
                 $previous_results = get_previous_test_results ( $sale_id, $test_id );
                 ?>
                 <tr>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php echo $test_info -> report_title ?>
                     </td>
-                    <td align="left" style="font-size: 8pt; <?php if ( $result -> abnormal == '1' )
+                    <td align="left" style="font-size: 9pt; <?php if ( $result -> abnormal == '1' )
                         echo 'color: #FF0000; font-weight: bold' ?>">
                         <?php echo $result -> result ?>
                     </td>
@@ -416,10 +413,10 @@ mpdf-->
                             echo '<td></td>';
                         }
                     ?>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php echo @get_unit_by_id ( $unit ) ?>
                     </td>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php
                             if ( count ( $ranges ) > 0 ) {
                                 foreach ( $ranges as $range ) {
@@ -455,10 +452,10 @@ mpdf-->
                 $previous_results = get_previous_test_results ( $sale_id, $test_id );
                 ?>
                 <tr>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php echo $test_info -> report_title ?>
                     </td>
-                    <td align="left" style="font-size: 8pt; <?php if ( $result -> abnormal == '1' )
+                    <td align="left" style="font-size: 9pt; <?php if ( $result -> abnormal == '1' )
                         echo 'color: #FF0000; font-weight: bold' ?>">
                         <?php echo $result -> result ?>
                     </td>
@@ -479,10 +476,10 @@ mpdf-->
                             echo '<td></td>';
                         }
                     ?>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php echo @get_unit_by_id ( $unit ) ?>
                     </td>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php
                             if ( count ( $ranges ) > 0 ) {
                                 foreach ( $ranges as $range ) {

@@ -12,7 +12,7 @@
 
         body {
             font-family: sans-serif;
-            font-size: 8pt;
+            font-size: 9pt;
         }
 
         p {
@@ -174,23 +174,23 @@ mpdf-->
             <?php include_once 'bar-code.php'; ?>
 
             <div style="text-align: right; float:left; width: 100%; display: block">
-    <?php if ( !empty( trim ( @$tests[ 0 ] -> batch_no ) ) ) : ?>
-        <strong>Batch No:</strong> <?php echo @$tests[ 0 ] -> batch_no ?>
-        <br />
-    <?php endif; ?>
-    <strong>Sample Date:</strong> <?php echo date_setter ( $sale -> date_sale ) ?>
-    <br />
-    <strong>Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
-    <br />
-    <br />
-</div>
+            <?php if ( !empty( trim ( @$tests[ 0 ] -> batch_no ) ) ) : ?>
+                <strong>Batch No:</strong> <?php echo @$tests[ 0 ] -> batch_no ?>
+                <br />
+            <?php endif; ?>
+            <strong>Sample Date:</strong> <?php echo date_setter ( $sale -> date_sale ) ?>
+            <br />
+            <strong>Date/Time:</strong> <?php echo date_setter ( $verified -> created_at ) ?>
+            <br />
+            <br />
+        </div>
         </td>
     </tr>
 </table>
 
 
 
-<table class="items" width="100%" style="font-size: 8pt; border-collapse: collapse; margin-top: 10px; border: 0"
+<table class="items" width="100%" style="font-size: 9pt; border-collapse: collapse; margin-top: 10px; border: 0"
        cellpadding="4" border="0">
     <thead>
     <tr style="background: #f5f5f5;">
@@ -252,10 +252,10 @@ mpdf-->
                 $previous_results = get_previous_test_results ( $sale_id, $test_id );
                 ?>
                 <tr>
-                    <td align="left" style="font-size: 8pt" width="35%">
+                    <td align="left" style="font-size: 9pt" width="35%">
                         <?php echo $test_info -> report_title ?>
                     </td>
-                    <td align="center" style="font-size: 8pt; <?php if ( $result -> abnormal == '1' )
+                    <td align="center" style="font-size: 9pt; <?php if ( $result -> abnormal == '1' )
                         echo 'color: #FF0000; font-weight: bold' ?>">
                         <?php echo @$result -> result ?>
                     </td>
@@ -276,10 +276,10 @@ mpdf-->
                             echo '<td></td>';
                         }
                     ?>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php echo @get_unit_by_id ( $unit ) ?>
                     </td>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php
                             if ( count ( $ranges ) > 0 ) {
                                 foreach ( $ranges as $range ) {
@@ -323,10 +323,10 @@ mpdf-->
                 $previous_results = get_previous_test_results ( $sale_id, $test_id );
                 ?>
                 <tr>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php echo $test_info -> report_title ?>
                     </td>
-                    <td align="center" style="font-size: 8pt; <?php if ( $result -> abnormal == '1' )
+                    <td align="center" style="font-size: 9pt; <?php if ( $result -> abnormal == '1' )
                         echo 'color: #FF0000; font-weight: bold' ?>">
                         <?php echo @$result -> result ?>
                     </td>
@@ -347,10 +347,10 @@ mpdf-->
                             echo '<td></td>';
                         }
                     ?>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php echo @get_unit_by_id ( $unit ) ?>
                     </td>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php
                             if ( count ( $ranges ) > 0 ) {
                                 foreach ( $ranges as $range ) {
@@ -394,10 +394,10 @@ mpdf-->
                 $previous_results = get_previous_test_results ( $sale_id, $test_id );
                 ?>
                 <tr>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php echo $test_info -> report_title ?>
                     </td>
-                    <td align="center" style="font-size: 8pt; <?php if ( $result -> abnormal == '1' )
+                    <td align="center" style="font-size: 9pt; <?php if ( $result -> abnormal == '1' )
                         echo 'color: #FF0000; font-weight: bold' ?>">
                         <?php echo @$result -> result ?>
                     </td>
@@ -418,10 +418,10 @@ mpdf-->
                             echo '<td></td>';
                         }
                     ?>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php echo @get_unit_by_id ( $unit ) ?>
                     </td>
-                    <td align="left" style="font-size: 8pt">
+                    <td align="left" style="font-size: 9pt">
                         <?php
                             if ( count ( $ranges ) > 0 ) {
                                 foreach ( $ranges as $range ) {
