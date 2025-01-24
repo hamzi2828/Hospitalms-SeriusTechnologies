@@ -193,6 +193,7 @@ mpdf-->
                                         if ( !empty( trim ( $patient -> cnic ) ) )
                                             echo '<b>CNIC: </b>' . $patient -> cnic . '<br/>';
                                     ?>
+                                     <b>Contact No: </b><?php echo $patient -> mobile ?><br />
                                     <b>Gender: </b><?php echo ( $patient -> gender == 1 ) ? 'Male' : 'Female' ?>
                                     <br />
                                 <?php if ( !empty( trim ( $patient -> age ) ) ) : ?>
@@ -444,7 +445,7 @@ mpdf-->
                       
 
                         <tr style="background: #f5f5f5;">
-                        <th align="left" style="width: 30%;">Test Name</th>
+                        <th align="left" style="width: 30%;">Test Namessss</th>
                         <th align="left" style="width: 10%;">Results</th>
                         <th colspan="2" align="center" style="width: 20%;">Previous Results</th>
                         <th align="left" style="width: 10%;">Units</th>
