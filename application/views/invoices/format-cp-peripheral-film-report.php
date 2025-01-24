@@ -1,3 +1,23 @@
+
+<table width="100%" style="font-size: 10pt; border-collapse: collapse;" cellpadding="5" border="0">
+    <tbody>
+    <tr>
+    <td align="left" colspan="2" width="35%">
+            <span style="font-weight: 900; font-size: 14px">
+                <?php
+                    $previous_results = get_previous_test_results ( $sale_id, CP_Peripheral_Film );
+                    $testDetails      = get_test_by_id ( CP_Peripheral_Film );
+                    echo '<strong>' . $testDetails -> report_title . '</strong>';
+                ?>
+            </span>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Haematology</strong></td>
+    </tr>
+    </tbody>
+</table>
+
 <table class="items" width="100%" style="font-size: 9pt; border-collapse: collapse; margin-top: 0; border: 0"
        cellpadding="4" border="0">
     <thead>
@@ -13,15 +33,7 @@
     <tbody>
     <!-- ITEMS HERE -->
     <tr>
-        <td align="left" colspan="2" width="35%">
-            <span style="font-weight: 900; font-size: 14px">
-                <?php
-                    $previous_results = get_previous_test_results ( $sale_id, CP_Peripheral_Film );
-                    $testDetails      = get_test_by_id ( CP_Peripheral_Film );
-                    echo '<strong>' . $testDetails -> report_title . '</strong>';
-                ?>
-            </span>
-        </td>
+   
         
         <?php
             if ( count ( $previous_results ) > 0 ) {
