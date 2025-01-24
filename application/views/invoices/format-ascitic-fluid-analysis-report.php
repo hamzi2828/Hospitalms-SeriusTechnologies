@@ -1,8 +1,14 @@
 <table width="100%" style="font-size: 10pt; border-collapse: collapse;" cellpadding="5" border="0">
     <tbody>
     <tr>
-        <td>
-            <strong><?php echo @$testInfo -> report_title; ?></strong>
+    <td align="left" colspan="2" width="35%">
+            <span style="font-weight: 900; font-size: 14px">
+                <?php
+                    $previous_results = get_previous_test_results ( $sale_id, Ascitic_Fluid_Analysis );
+                    $testDetails      = get_test_by_id ( Ascitic_Fluid_Analysis );
+                    echo '<strong>' . $testDetails -> report_title . '</strong>';
+                ?>
+            </span>
         </td>
     </tr>
     </tbody>

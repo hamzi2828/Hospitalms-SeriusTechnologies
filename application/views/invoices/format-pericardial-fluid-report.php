@@ -1,7 +1,7 @@
 <table class="items" width="100%" style="font-size: 10pt; border-collapse: collapse; margin-top: 0; border: 0"
        cellpadding="4" border="0">
     <thead>
-    <tr style="background: #FFFFFF;">
+    <tr style="background: #f5f5f5;">
         <th align="left">
             <u>Test Name</u>
         </th>
