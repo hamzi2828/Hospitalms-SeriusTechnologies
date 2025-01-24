@@ -442,10 +442,9 @@ mpdf-->
             cellpadding="8" border="0">
                     <?php if ( $test_info -> parent_id < 1 ) : ?>
                         <thead>
-                      
-
+                    
                         <tr style="background: #f5f5f5;">
-                        <th align="left" style="width: 30%;">Test Namessss</th>
+                        <th align="left" style="width: 30%;">Test Name</th>
                         <th align="left" style="width: 10%;">Results</th>
                         <th colspan="2" align="center" style="width: 20%;">Previous Results</th>
                         <th align="left" style="width: 10%;">Units</th>
