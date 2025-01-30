@@ -28,7 +28,11 @@
                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                     <input type="hidden" name="action" value="do_add_section">
                     <div class="form-body" style="overflow:auto;">
-                        <div class="form-group col-lg-12">
+                        <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">Section Code</label>
+                            <input type="text" name="code" class="form-control" placeholder="Add Section Code" autofocus="autofocus" value="<?php echo set_value('code') ?>">
+                        </div>
+                        <div class="form-group col-lg-6">
                             <label for="exampleInputEmail1">Section</label>
                             <input type="text" name="name" class="form-control" placeholder="Add Section" autofocus="autofocus" value="<?php echo set_value('name') ?>">
                         </div>

@@ -97,6 +97,26 @@
                                     ?>
                                 </select>
                             </div>
+
+                            <div class="form-group col-lg-3">
+                            <label for="location">Location</label>
+                            <select name="location" class="form-control select2me">
+                                <option value="">Select Location</option>
+                                <?php
+                                if (count($locations) > 0) {
+                                    foreach ($locations as $location) {
+                                        if ($user->	locations_id == $location->id) {
+                                            echo '<option value="' . $location->id . '" selected="selected">' . htmlspecialchars($location->name) . '</option>';
+                                        } else {
+                                            echo '<option value="' . $location->id . '">' . htmlspecialchars($location->name) . '</option>';
+                                        }
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+
                             <div class="form-group col-lg-12">
                                 <label for="exampleInputEmail1">Address</label>
                                 <textarea name="address" class="form-control" rows="5"

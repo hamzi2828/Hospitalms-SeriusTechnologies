@@ -70,6 +70,18 @@
         $user_data = $ci -> session -> userdata ( 'user_data' );
         return $user_data -> id;
     }
+    function get_logged_in_user_locations_id() {
+        $ci = &get_instance(); // Get CodeIgniter instance
+        
+        if (!isset($ci->UserModel)) {
+            $ci->load->model('UserModel');
+        }
+        $userId = get_logged_in_user_id(); // Assume this function gets the logged-in user's ID
+        
+        $user_data = $ci->UserModel->get_location_id_by_user_id($userId);
+    
+        return $user_data;
+    }
     
     /**
      * ---------------------
@@ -3425,6 +3437,29 @@
         return $ci -> AccountModel -> get_account_head_id_by_panel_id ( $panel_id );
     }
     
+    function get_next_location_sale_id($location_id) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'LabModel' );
+        return $ci -> LabModel -> get_next_location_sale_id($location_id);
+    }
+    function get_next_location_sale_id_on_daily_basies($location_id) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'LabModel' );
+        return $ci -> LabModel -> get_next_location_sale_id_on_daily_basies($location_id);
+    }
+
+    function get_location_sale_id_by_hmis_lab_sales_id($hmis_lab_sales_id) {
+
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'LabModel' );
+        return $ci -> LabModel -> get_location_sale_id_by_hmis_lab_sales_id($hmis_lab_sales_id);
+    }
+
+    function get_daily_location_sale_id_by_hmis_lab_sales_id($hmis_lab_sales_id) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'LabModel' );
+        return $ci -> LabModel -> get_daily_location_sale_id_by_hmis_lab_sales_id($hmis_lab_sales_id);
+    }
     /**
      * ---------------------
      * @param $doctor_id

@@ -104,22 +104,21 @@
 ?>
 <!--mpdf
 <htmlpageheader name="myheader">
-<?php if ( $this -> input -> get ( 'logo' ) == 'true' ) : ?>
-    <?php require 'pdf-header.php'; ?>
+<?php if ( isset( $_GET[ 'logo' ] ) and $_GET[ 'logo' ] == 'true' ) : ?>
+<?php require 'pdf-header.php'; ?>
 <?php endif; ?>
 </htmlpageheader>
-
 <htmlpagefooter name="myfooter">
-    <div style="width:100%; display:block; text-align:left">
-        <small><b>Note:This is a digitally verified report and does not require manual signature.</small></b><br/>
-        <b>Verified By:</b><?php echo get_user ( $verified -> user_id ) -> name ?> &nbsp;&nbsp;&nbsp;&nbsp;<br/>
-        <b>Print Date/Time: </b><?php echo date ( 'd-m-Y' ) . ' ' . date ( 'g:i a' ) ?> <br/>
-    </div>
-    <?php if ( $this -> input -> get ( 'logo' ) == 'true' ) : ?>
-        <?php require 'pdf-footer.php'; ?>
-    <?php endif; ?>
+<?php if ( isset( $_GET[ 'logo' ] ) and $_GET[ 'logo' ] == 'true' ) : ?>
+<div style="width:100%; display:block; text-align:left">
+<small><b>Note:This is a digitally verified report and does not require manual signature.</small></b><br/>
+<b>Verified By:</b><?php echo get_user ( $verified -> user_id ) -> name ?> &nbsp;&nbsp;&nbsp;&nbsp;
+<b>Print Date/Time: </b><?php echo date ( 'd-m-Y' ) . ' ' . date ( 'g:i a' ) ?> <br/><br/>
+</div>
+<?php require 'doctors-footer.php'; ?>
+<?php require 'pdf-footer.php'; ?>
+<?php endif; ?>
 </htmlpagefooter>
-
 <sethtmlpageheader name="myheader" value="on" show-this-page="1" />
 <sethtmlpagefooter name="myfooter" value="on" />
 mpdf-->
@@ -148,7 +147,7 @@ mpdf-->
                 <td width="50%" style="color:#000; font-size: 9pt" >
                     <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
                     <b>MR Number: </b><?php echo get_patient_mr_number ( 0, $patient ) ?><br />
-                    <b>Name: </b><?php echo get_patient_name ( 0, $patient ) ?>
+                    <b>Name: </b><?php echo get_patient_name ( 0, $patient ) ?><br />
                     <?php
                         if ( !empty( trim ( $patient -> father_name ) ) )
                             echo '<b>' . $patient -> relationship . ': </b>' . $patient -> father_name . '<br/>';

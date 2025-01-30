@@ -113,9 +113,9 @@
       <br/>
     <?php if ( !empty( $verified_data ) ) : ?>                      
         <b>Verified By:</b><?php echo get_user ( $verified_data -> user_id ) -> name ?>
-    <?php endif; ?>
-    <br/>
+    <?php endif; ?>&nbsp;&nbsp;&nbsp;&nbsp;
     <b>Print Date/Time: </b><?php echo date ( 'd-m-Y' ) . ' ' . date ( 'g:i a' ) ?> <br/>
+    <?php require 'doctors-footer.php'; ?>
     <?php require 'pdf-footer.php'; ?>
 <?php endif; ?>
 </htmlpagefooter>
@@ -175,7 +175,7 @@ mpdf-->
             if ( $test_info -> parent_id < 1 and $key > 0 ) {
                 echo '<pagebreak/>'; ?>
                 <br /><br />
-                <table width="100%" style="margin-top: -20px; padding-top: -20px;">
+                <table width="100%" style="margin-top: -25px; padding-top: -25px;">
                     <tbody>
                     <tr>
                         <?php
@@ -184,7 +184,7 @@ mpdf-->
                                 <td width="50%" style="color:#000; font-size: 9pt">
                                     <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
                                     <b>MR Number: </b><?php echo $patient_id ?><br />
-                                    <b>Name: </b><?php echo get_patient_name (0, $patient) ?>
+                                    <b>Name: </b><?php echo get_patient_name (0, $patient) ?><br />
                                     <?php
                                         if ( !empty( trim ( $patient -> father_name ) ) )
                                             echo '<b>' . $patient -> relationship . ': </b>' . $patient -> father_name . '<br/>';
@@ -297,7 +297,7 @@ mpdf-->
             if ( $key < 1 ) {
                 ?>
                 <br /><br />
-                <table width="100%" style="margin-top: -20px; padding-top: -20px;">
+                <table width="100%" style="margin-top: -25px; padding-top: -25px;">
                     <tbody>
                     <tr>
                         <?php
@@ -306,7 +306,7 @@ mpdf-->
                                 <td width="50%" style="color:#000; font-size: 9pt" >
                                     <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
                                     <b>MR Number: </b><?php echo get_patient_mr_number ( 0, $patient ) ?><br />
-                                    <b>Name: </b><?php echo get_patient_name ( 0, $patient ) ?>
+                                    <b>Name: </b><?php echo get_patient_name ( 0, $patient ) ?><br />
                                     <?php
                                         if ( !empty( trim ( $patient -> father_name ) ) )
                                             echo '<b>' . $patient -> relationship . ': </b>' . $patient -> father_name . '<br/>';

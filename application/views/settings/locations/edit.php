@@ -29,7 +29,11 @@
                     <input type="hidden" name="action" value="do_edit_location">
                     <input type="hidden" name="location_id" value="<?php echo $location -> id ?>">
                     <div class="form-body" style="overflow:auto;">
-                        <div class="form-group col-lg-12">
+                        <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">Location Code</label>
+                            <input type="text" name="code" class="form-control" placeholder="Enter location code" autofocus="autofocus" value="<?php echo $location -> code ?>">
+                        </div>
+                        <div class="form-group col-lg-6">
                             <label for="exampleInputEmail1">Location</label>
                             <input type="text" name="name" class="form-control" placeholder="Add location" autofocus="autofocus" value="<?php echo $location -> name ?>">
                         </div>

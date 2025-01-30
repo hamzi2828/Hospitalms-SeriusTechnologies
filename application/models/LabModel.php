@@ -3217,6 +3217,41 @@
         }
         
         
+        public function get_next_location_sale_id($location_id) {
+            $this->db->select('MAX(location_sale_id) as max_id');
+            $this->db->where('location_id', $location_id);
+            $result = $this->db->get('hmis_lab_sales_location_wise')->row();
+            return $result->max_id ? $result->max_id + 1 : 1;
+        }
+        public function add_lab_location_sale($data) {
+            $this->db->insert('hmis_lab_sales_location_wise', $data);
+            return $this->db->insert_id();
+        }
+
+        public function get_next_location_sale_id_on_daily_basies($location_id) {
+            $this->db->select('MAX(daily_location_sale_id) as max_id');
+            $this->db->where('location_id', $location_id);
+            $this->db->where('DATE(sale_date)', date('Y-m-d')); 
+            $result = $this->db->get('hmis_lab_sales_location_wise')->row();
+        
+            return $result->max_id ? $result->max_id + 1 : 1; 
+        }
+
+        public function get_location_sale_id_by_hmis_lab_sales_id($hmis_lab_sales_id) {
+            $this->db->where('hmis_lab_sales_id', $hmis_lab_sales_id);
+            $result = $this->db->get('hmis_lab_sales_location_wise')->row_array();
+            return $result['location_sale_id'];
+        }
+
+        public function get_daily_location_sale_id_by_hmis_lab_sales_id($hmis_lab_sales_id) {
+            $this->db->where('hmis_lab_sales_id', $hmis_lab_sales_id);
+            $result = $this->db->get('hmis_lab_sales_location_wise')->row_array();
+            return $result['daily_location_sale_id'];
+        }
+            
+        
+
+        
         
         
     }

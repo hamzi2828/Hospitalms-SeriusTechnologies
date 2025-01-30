@@ -187,4 +187,9 @@
             return $this -> db -> affected_rows ();
         }
         
+        public function get_location_id_by_user_id($user_id) {
+            $location = $this->db->get_where('hmis_users', array('id' => $user_id))->row();
+            return $location -> locations_id;
+        }
+        
     }

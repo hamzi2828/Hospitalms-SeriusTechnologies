@@ -67,6 +67,16 @@
                                 <option value="ecg" <?php if(@$service_info -> service_type == 'ecg') echo 'selected="selected"' ?>>ECG</option>
                                 <option value="echo" <?php if(@$service_info -> service_type == 'echo') echo 'selected="selected"' ?>>Echo</option>
                                 <option value="dialysis" <?php if(@$service_info -> service_type == 'dialysis') echo 'selected="selected"' ?>>Dialysis</option>
+                                <option value="dentistry" <?php if ( @$service_info -> service_type == 'dentistry' ) echo 'selected="selected"' ?>>Dentistry
+                                </option>
+                                <option value="CT Scan" <?php if ( @$service_info -> service_type == 'CT Scan' ) echo 'selected="selected"' ?>>CT Scan
+                                </option>
+                                <option value="MRI" <?php if ( @$service_info -> service_type == 'MRI' ) echo 'selected="selected"' ?>>MRI
+                                </option>
+                                <option value="Doppler" <?php if ( @$service_info -> service_type == 'Doppler' ) echo 'selected="selected"' ?>>Doppler
+                                </option>
+                                <option value="Dexa Scan" <?php if ( @$service_info -> service_type == 'Dexa Scan' ) echo 'selected="selected"' ?>>Dexa Scan
+                                </option>
                             </select>
                         </div>
 					</div>

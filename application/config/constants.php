@@ -421,7 +421,7 @@
     define ( 'COS_Laboratory', 878 );
     
 
-    // define ( 'online_report_url', 'http://159.223.61.59/reports/' );
-    // define ( 'SMS_API_KEY', '923245318328-a1dd0a79-c98d-4727-a1cb-28f38b23ed69' );
+    define ( 'online_report_url', 'http://#');
+    define ( 'SMS_API_KEY', '923245318328-a1dd0a79-c98d-4727-a1cb-28f38b23ed69' );
     define ( 'BIRTH_CERT_REG', 'KMC-Bcert-' );
     define ( 'STORE_CODE', 'KMC-' . date ( 'y' ) . '-0010' );

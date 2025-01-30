@@ -27,12 +27,18 @@
                 <form role="form" method="post" autocomplete="off">
                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                     <input type="hidden" name="action" value="do_add_location">
+
                     <div class="form-body" style="overflow:auto;">
-                        <div class="form-group col-lg-12">
+                    <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">Location Code</label>
+                            <input type="text" name="code" class="form-control" placeholder="Enter location code" autofocus="autofocus" value="<?php echo set_value('code') ?>">
+                        </div>
+                        <div class="form-group col-lg-6">
                             <label for="exampleInputEmail1">Location</label>
                             <input type="text" name="name" class="form-control" placeholder="Add location" autofocus="autofocus" value="<?php echo set_value('name') ?>">
                         </div>
                     </div>
+
                     <div class="form-actions">
                         <button type="submit" class="btn blue">Submit</button>
                     </div>

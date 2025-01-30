@@ -1,21 +1,21 @@
-<table class="items" width="100%" style="font-size: 6pt; border-collapse: collapse; margin-top: 15px; border: 0 !important;"
+<table class="items" width="100%" style="font-size: 6pt; border-collapse: collapse; margin-top: 3px; border: 0 !important;"
        cellpadding="2" border="0">
     <tbody>
     <tr>
         <td align="left" width="33%">
-            <strong>Syed Mazhar</strong> <br />
-            Bsc. MLT(Pb) <br />
-            Med. Technologist
+            <strong>Dr. Armaghana Qamar Khan</strong> <br />
+            Consultant Pathologist <br />
+            MBBS, MD(Histo), DIPRCPATH(Histo)
         </td>
         <td align="left" width="33%">
-            <strong>Arif Hassan</strong> <br />
-            MSc Organic Chemistry <br />
-            Med. Technologist
+            <strong></strong> <br />
+            <br />
+
         </td>
         <td align="left" width="33%">
-            <strong>Dr. Fakhar Ul Islam</strong> <br />
-            MBBS(Pb), DCP(Pb) <br />
-            Pathologist
+            <strong></strong> <br />
+             <br />
+
         </td>
     </tr>
     </tbody>

@@ -1267,6 +1267,7 @@
                 $info    = array (
                     'user_id'    => get_logged_in_user_id (),
                     'name'       => $data[ 'name' ],
+                    'code'       => $data[ 'code' ],
                     'date_added' => current_date_time (),
                 );
                 $city_id = $this -> LocationModel -> add ( $info );
@@ -1318,6 +1319,7 @@
             if ( $this -> form_validation -> run () == true ) {
                 $info    = array (
                     'name' => $data[ 'name' ],
+                    'code' => $data[ 'code' ],
                 );
                 $updated = $this -> LocationModel -> edit ( $info, $location_id );
                 if ( $updated ) {
@@ -1525,6 +1527,7 @@
                 $info       = array (
                     'user_id'    => get_logged_in_user_id (),
                     'name'       => $data[ 'name' ],
+                    'code'       => $data[ 'code' ],
                     'date_added' => current_date_time (),
                 );
                 $section_id = $this -> SectionModel -> add ( $info );
@@ -1573,9 +1576,11 @@
             $data       = filter_var_array ( $POST, FILTER_SANITIZE_STRING );
             $section_id = $data[ 'section_id' ];
             $this -> form_validation -> set_rules ( 'name', 'name', 'required|trim|min_length[1]|xss_clean' );
+     
             if ( $this -> form_validation -> run () == true ) {
                 $info    = array (
                     'name' => $data[ 'name' ],
+                    'code' => $data[ 'code' ],
                 );
                 $updated = $this -> SectionModel -> edit ( $info, $section_id );
                 if ( $updated ) {

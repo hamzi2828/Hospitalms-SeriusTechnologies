@@ -28,6 +28,7 @@
                     <thead>
                     <tr>
                         <th> Sr. No </th>
+                        <th> Code </th>
                         <th> Name </th>
                         <th> Date Added </th>
                         <th> Actions</th>
@@ -41,6 +42,7 @@
                             ?>
                             <tr class="odd gradeX">
                                 <td> <?php echo $counter++ ?> </td>
+                                <td> <?php echo $section -> code??'' ?> </td>
                                 <td><?php echo $section -> name ?></td>
                                 <td><?php echo date_setter($section -> date_added) ?></td>
                                 <td class="btn-group-xs">

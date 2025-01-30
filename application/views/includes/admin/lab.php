@@ -47,6 +47,14 @@
                     </a>
                 </li>
             <?php endif; ?>
+            <?php if ( !empty( $access ) and in_array ( 'sale_invoices_cash', explode ( ',', $access -> access ) ) ) : ?>
+                <li class="<?php if ( $child_uri == 'sales' )
+                    echo 'active'; ?>">
+                    <a href="<?php echo base_url ( '/lab/sales2' ) ?>">
+                        Sale Invoices (Cash) 2
+                    </a>
+                </li>
+            <?php endif; ?>
             <?php if ( !empty( $access ) and in_array ( 'sale_invoices_panel', explode ( ',', $access -> access ) ) ) : ?>
                 <li class="<?php if ( $child_uri == 'sales-panel' )
                     echo 'active'; ?>">

@@ -17,6 +17,7 @@
             $this -> load -> model ( 'UserModel' );
             $this -> load -> model ( 'MemberModel' );
             $this -> load -> model ( 'PanelModel' );
+            $this -> load -> model ( 'LocationModel' );
         }
         
         /**
@@ -95,6 +96,7 @@
             $this -> sidebar ();
             $data[ 'access' ] = $this -> UserModel -> get_user_access ( 0 );
             $data[ 'departments' ] = $this -> MemberModel -> get_departments ();
+            $data[ 'locations' ] = $this -> LocationModel -> get_locations ();
             $this -> load -> view ( '/users/add', $data );
             $this -> footer ();
         }
@@ -116,6 +118,7 @@
             $data[ 'access' ] = $this -> UserModel -> get_user_access ( 0 );
             $data[ 'departments' ] = $this -> MemberModel -> get_departments ();
             $data[ 'panels' ] = $this -> PanelModel -> get_panels ();
+            $data[ 'locations' ] = $this -> LocationModel -> get_locations ();
             $this -> load -> view ( '/users/add-panel', $data );
             $this -> footer ();
         }
@@ -129,6 +132,7 @@
         
         public function do_register_member ( $post ) {
             $data = filter_var_array ( $post, FILTER_SANITIZE_STRING );
+            
             $this -> form_validation -> set_rules ( 'name', 'name', 'required|trim|min_length[1]|xss_clean' );
             $this -> form_validation -> set_rules ( 'gender', 'gender', 'required|trim|min_length[1]|xss_clean' );
             $this -> form_validation -> set_rules ( 'password', 'password', 'required|trim|min_length[1]|xss_clean' );
@@ -141,6 +145,7 @@
                     'address'       => $data[ 'address' ],
                     'phone'         => $data[ 'phone' ],
                     'cnic'          => $data[ 'cnic' ],
+                    'locations_id'  => $data[ 'location' ],
                     'department_id' => $data[ 'department_id' ],
                     'password'      => password_hash ( $data[ 'password' ], PASSWORD_BCRYPT ),
                 );
@@ -200,6 +205,7 @@
                     'cnic'          => $data[ 'cnic' ],
                     'department_id' => $data[ 'department_id' ],
                     'panel_id'      => $data[ 'panel_id' ],
+                    'locations_id'  => $data[ 'location' ],
                     'password'      => password_hash ( $data[ 'password' ], PASSWORD_BCRYPT ),
                 );
                 $user_id = $this -> UserModel -> add ( $array );
@@ -255,6 +261,7 @@
             $data[ 'user' ] = $this -> UserModel -> get_user_by_id ( $user_id );
             $data[ 'access' ] = $this -> UserModel -> get_user_access ( $user_id );
             $data[ 'departments' ] = $this -> MemberModel -> get_departments ();
+            $data[ 'locations' ] = $this -> LocationModel -> get_locations ();
             $this -> load -> view ( '/users/edit', $data );
             $this -> footer ();
         }
@@ -281,6 +288,7 @@
             $data[ 'access' ] = $this -> UserModel -> get_user_access ( $user_id );
             $data[ 'departments' ] = $this -> MemberModel -> get_departments ();
             $data[ 'panels' ] = $this -> PanelModel -> get_panels ();
+            $data[ 'locations' ] = $this -> LocationModel -> get_locations ();
             $this -> load -> view ( '/users/edit-panel', $data );
             $this -> footer ();
         }
@@ -369,6 +377,7 @@
                     'address'       => $data[ 'address' ],
                     'phone'         => $data[ 'phone' ],
                     'cnic'          => $data[ 'cnic' ],
+                    'locations_id'  => $data[ 'location' ],
                     'department_id' => $data[ 'department_id' ],
                 );
                 if ( isset( $data[ 'password' ] ) and !empty( trim ( $data[ 'password' ] ) ) )
@@ -422,6 +431,7 @@
                     'address'       => $data[ 'address' ],
                     'phone'         => $data[ 'phone' ],
                     'cnic'          => $data[ 'cnic' ],
+                    'locations_id'  => $data[ 'location' ],
                     'department_id' => $data[ 'department_id' ],
                     'panel_id'      => $data[ 'panel_id' ],
                 );

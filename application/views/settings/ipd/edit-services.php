@@ -45,7 +45,7 @@
                             <label for="exampleInputEmail1">Parent Service</label>
                             <select name="parent_id" class="form-control select2me">
                                 <option value="">Select</option>
-                                <?php echo $services ?>
+                                <?php echo $services; ?>
                             </select>
                         </div>
                         <div class="col-lg-4">
@@ -69,6 +69,14 @@
                                 </option>
                                 <option value="dentistry" <?php if ( @$service_info -> service_type == 'dentistry' )
                                     echo 'selected="selected"' ?>>Dentistry
+                                <option value="CT Scan" <?php if ( @$service_info -> service_type == 'CT Scan' ) echo 'selected="selected"' ?>>CT Scan
+                                </option>
+                                <option value="MRI" <?php if ( @$service_info -> service_type == 'MRI' ) echo 'selected="selected"' ?>>MRI
+                                </option>
+                                <option value="Doppler" <?php if ( @$service_info -> service_type == 'Doppler' ) echo 'selected="selected"' ?>>Doppler
+                                </option>
+                                <option value="Dexa Scan" <?php if ( @$service_info -> service_type == 'Dexa Scan' ) echo 'selected="selected"' ?>>Dexa Scan
+                                </option>
                                 </option>
                             </select>
                         </div>

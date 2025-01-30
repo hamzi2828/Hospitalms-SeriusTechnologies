@@ -886,7 +886,6 @@
             if (!empty($patient_id)) {
                 $data['patient_id'] = $patient_id; 
             }
-
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_sale_lab_test' )
                 $this -> do_sale_lab_test ();
             
@@ -917,9 +916,9 @@
                 $doctor_share     = $this -> input -> post ( 'doctor-share' );
                 $patient          = get_patient ( $patient_id );
                 $service_info     = array ();
-                
+                $location_id = get_logged_in_user_locations_id ();
                 if ( $panel_id > 0 ) {
-                    $accHeadID = get_account_head_id_by_panel_id ( $panel_id );
+                    $accHeadID = get_account_head_id_by_panel_id ( $panel_id ); 
                     if ( empty( $accHeadID ) ) {
                         $this -> session -> set_flashdata ( 'error', 'Alert! No account head is linked against patient panel id	.' );
                         return redirect ( base_url ( '/lab/sale' ) );
@@ -938,6 +937,7 @@
                         'reference_id'       => $reference_id,
                         'doctor_id'          => $doctor_id,
                         'account_head_id'    => $this -> input -> post ( 'bank-id' ),
+                        'locations_id'       => get_logged_in_user_locations_id (),
                         'net'                => $total_sale,
                         'discount'           => $discount,
                         'flat_discount'      => $flat_discount,
@@ -951,10 +951,27 @@
                         'transaction_no'     => $this -> input -> post ( 'transaction-no' ),
                         'doctor_share'       => $doctor_share,
                         'date_sale'          => current_date_time (),
-                    );
+                    ); 
                     $sale_id = $this -> LabModel -> add_lab_sale ( $sale );
                     
                     $description = 'Cash from lab . Sale# ' . $sale_id;
+
+                    $location_sale_id = get_next_location_sale_id($location_id);
+
+                    $location_sale_data = array(
+                        'hmis_lab_sales_id' => $sale_id, 
+                        'user_id' => get_logged_in_user_id (),
+                        'location_sale_id' => $location_sale_id ?? '',
+                        'daily_location_sale_id	' => get_next_location_sale_id_on_daily_basies($location_id),
+                        'sale_date' => date('Y-m-d H:i:s'),
+                        'location_id' => $location_id,
+                    );
+                    
+
+                    $location_sale_data = $this -> LabModel -> add_lab_location_sale ( $location_sale_data );
+
+
+                    print_r($location_sale_data);
                     if ( $panel_id > 0 ) {
                         $description .= ' / ' . get_panel_by_id ( $panel_id ) -> name;
                     }
@@ -1622,6 +1639,45 @@
             $str_links       = $this -> pagination -> create_links ();
             $data[ "links" ] = explode ( '&nbsp;', $str_links );
             $this -> load -> view ( '/lab/sales', $data );
+            $this -> footer ();
+        }
+
+        public function sales2 () {
+            $title = site_name . ' - Sales Lab Test (Cash)';
+            $this -> header ( $title );
+            $this -> sidebar ();
+            
+            /**********PAGINATION***********/
+            $limit                          = 10;
+            $config                         = array ();
+            $config[ "base_url" ]           = base_url ( 'lab/sales' );
+            $total_row                      = $this -> LabModel -> count_sales ();
+            $config[ "total_rows" ]         = $total_row;
+            $config[ "per_page" ]           = $limit;
+            $config[ 'use_page_numbers' ]   = false;
+            $config[ 'page_query_string' ]  = TRUE;
+            $config[ 'reuse_query_string' ] = TRUE;
+            $config[ 'num_links' ]          = 10;
+            $config[ 'cur_tag_open' ]       = '&nbsp;<a class="current">';
+            $config[ 'cur_tag_close' ]      = '</a>';
+            $config[ 'next_link' ]          = 'Next';
+            $config[ 'prev_link' ]          = 'Previous';
+            
+            $this -> pagination -> initialize ( $config );
+            
+            /**********END PAGINATION***********/
+            
+            if ( isset( $_REQUEST[ 'per_page' ] ) and $_REQUEST[ 'per_page' ] > 0 ) {
+                $offset = $_REQUEST[ 'per_page' ];
+            }
+            else {
+                $offset = 0;
+            }
+            
+            $data[ 'sales' ] = $this -> LabModel -> get_sales_by_sale_id ( false, $config[ "per_page" ], $offset );
+            $str_links       = $this -> pagination -> create_links ();
+            $data[ "links" ] = explode ( '&nbsp;', $str_links );
+            $this -> load -> view ( '/lab/sales2', $data );
             $this -> footer ();
         }
         

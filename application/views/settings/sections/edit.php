@@ -29,7 +29,11 @@
                     <input type="hidden" name="action" value="do_edit_section">
                     <input type="hidden" name="section_id" value="<?php echo $section -> id ?>">
                     <div class="form-body" style="overflow:auto;">
-                        <div class="form-group col-lg-12">
+                        <div class="form-group col-lg-6">
+                            <label for="exampleInputEmail1">Section Code</label>
+                            <input type="text" name="code" class="form-control" placeholder="Add section code" autofocus="autofocus" value="<?php echo $section -> code ?>">
+                        </div>
+                        <div class="form-group col-lg-6">
                             <label for="exampleInputEmail1">Section</label>
                             <input type="text" name="name" class="form-control" placeholder="Add section" autofocus="autofocus" value="<?php echo $section -> name ?>">
                         </div>
