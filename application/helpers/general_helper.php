@@ -3447,6 +3447,11 @@
         $ci -> load -> model ( 'LabModel' );
         return $ci -> LabModel -> get_next_location_sale_id_on_daily_basies($location_id);
     }
+    function create_sale_reffernec_code($test_id) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'LabModel' );
+        return $ci -> LabModel -> create_sale_reffernec_code($test_id);
+    }
 
     function get_location_sale_id_by_hmis_lab_sales_id($hmis_lab_sales_id) {
 

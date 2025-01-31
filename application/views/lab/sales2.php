@@ -209,6 +209,10 @@
                                                        class="btn purple" target="_blank">
                                                         Print
                                                     </a>
+                                                    <a href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> sale_id . '?print2=true' ) ?>"
+                                                       class="btn purple" target="_blank">
+                                                        Print-2
+                                                    </a>
                                                 <?php endif; ?>
                                             
                                             <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'view_lab_sale_invoices', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>

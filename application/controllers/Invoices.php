@@ -1056,7 +1056,11 @@
             $data[ 'sold_by' ]            = get_user ( $sale_info -> user_id ) -> name;
             $test_sale_info               = get_test_sale ( $sale_id );
 
-            $html_content = $this -> load -> view ( '/invoices/lab-sale-invoice', $data, true );
+            if ( @$_REQUEST[ 'print2' ] == 'true' ) {
+                $html_content = $this -> load -> view ( '/invoices/lab-sale-invoice2', $data, true );
+            }else{
+            $html_content = $this -> load -> view ( '/invoices/lab-sale-invoice', $data, true );       
+            }
 
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [

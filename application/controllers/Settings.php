@@ -1509,6 +1509,7 @@
             $title = site_name . ' - Add sections';
             $this -> header ( $title );
             $this -> sidebar ();
+            $data[ 'locations' ] = $this -> LocationModel -> get_locations ();
             $this -> load -> view ( '/settings/sections/add' );
             $this -> footer ();
         }
@@ -1548,21 +1549,34 @@
          * -------------------------
          */
         
-        public function edit_section () {
-            
-            $section_id = $this -> uri -> segment ( 3 );
-            if ( empty( trim ( $section_id ) ) or !is_numeric ( $section_id ) or $section_id < 1 )
-                return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
-            
-            if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_edit_section' )
-                $this -> do_edit_section ( $_POST );
-            
+         public function edit_section() {
+            $section_id = $this->uri->segment(3);
+            if (empty(trim($section_id)) || !is_numeric($section_id) || $section_id < 1) {
+                return redirect($_SERVER['HTTP_REFERER']);
+            }
+        
+            if (isset($_POST['action']) && $_POST['action'] == 'do_edit_section') {
+                $this->do_edit_section($_POST);
+            }
+        
             $title = site_name . ' - Edit sections';
-            $this -> header ( $title );
-            $this -> sidebar ();
-            $data[ 'section' ] = $this -> SectionModel -> get_section_by_id ( $section_id );
-            $this -> load -> view ( '/settings/sections/edit', $data );
-            $this -> footer ();
+            $this->header($title);
+            $this->sidebar();
+        
+            // Fetch all locations
+            $data['locations'] = $this->LocationModel->get_locations();
+            
+            // Fetch section details
+            $data['section'] = $this->SectionModel->get_section_by_id($section_id);
+            
+            // Fetch existing locations and max limits for this section
+            $data['section_locations'] = $this->db
+                ->where('section_id', $section_id)
+                ->get('hmis_section_locations')
+                ->result(); 
+        
+            $this->load->view('/settings/sections/edit', $data);
+            $this->footer();
         }
         
         /**
@@ -1572,27 +1586,59 @@
          * -------------------------
          */
         
-        public function do_edit_section ( $POST ) {
-            $data       = filter_var_array ( $POST, FILTER_SANITIZE_STRING );
-            $section_id = $data[ 'section_id' ];
-            $this -> form_validation -> set_rules ( 'name', 'name', 'required|trim|min_length[1]|xss_clean' );
-     
-            if ( $this -> form_validation -> run () == true ) {
-                $info    = array (
-                    'name' => $data[ 'name' ],
-                    'code' => $data[ 'code' ],
+         public function do_edit_section($POST) {
+            $data = filter_var_array($POST, FILTER_SANITIZE_STRING);
+            $section_id = $data['section_id'];
+        
+            $this->form_validation->set_rules('name', 'name', 'required|trim|min_length[1]|xss_clean');
+        
+            if ($this->form_validation->run() == true) {
+                $info = array(
+                    'name' => $data['name'],
+                    'code' => $data['code'],
                 );
-                $updated = $this -> SectionModel -> edit ( $info, $section_id );
-                if ( $updated ) {
-                    $this -> session -> set_flashdata ( 'response', 'Success! Section updated.' );
-                    return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
-                }
-                else {
-                    $this -> session -> set_flashdata ( 'error', 'Error! Already updated.' );
-                    return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+        
+                $updated = $this->SectionModel->edit($info, $section_id);
+        
+                if ($updated) {
+                    // Loop through provided locations and max limits
+                    if (!empty($data['location']) && !empty($data['max_limit'])) {
+                        foreach ($data['location'] as $index => $location_id) {
+                            $max_limit = $data['max_limit'][$index];
+        
+                            if (!empty($location_id) && !empty($max_limit)) {
+                                // Check if the record already exists
+                                $this->db->where('section_id', $section_id);
+                                $this->db->where('location_id', $location_id);
+                                $query = $this->db->get('hmis_section_locations');
+        
+                                if ($query->num_rows() > 0) {
+                                    // Update the existing record
+                                    $this->db->where('section_id', $section_id);
+                                    $this->db->where('location_id', $location_id);
+                                    $this->db->update('hmis_section_locations', ['max_limit' => $max_limit]);
+                                } else {
+                                    // Insert new record if not present
+                                    $insert_data = array(
+                                        'section_id'  => $section_id,
+                                        'location_id' => $location_id,
+                                        'max_limit'   => $max_limit
+                                    );
+                                    $this->db->insert('hmis_section_locations', $insert_data);
+                                }
+                            }
+                        }
+                    }
+        
+                    $this->session->set_flashdata('response', 'Success! Section updated.');
+                    return redirect($_SERVER['HTTP_REFERER']);
+                } else {
+                    $this->session->set_flashdata('error', 'Error! Already updated.');
+                    return redirect($_SERVER['HTTP_REFERER']);
                 }
             }
         }
+        
         
         /**
          * -------------------------

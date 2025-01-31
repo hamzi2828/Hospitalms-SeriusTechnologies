@@ -3252,6 +3252,150 @@
         
 
         
+        public function retive_section_code_by_test_id($test_id) {
+            $this->db->select('hmis_sections.code'); // Select only the code column
+            $this->db->from('hmis_test_sample_info');
+            $this->db->join('hmis_sections', 'hmis_test_sample_info.section_id = hmis_sections.id');
+            
+            // Check if test_id is an array or scalar
+            if (is_array($test_id)) {
+                $this->db->where_in('hmis_test_sample_info.test_id', $test_id);
+            } else {
+                $this->db->where('hmis_test_sample_info.test_id', $test_id);
+            }
         
+            $query = $this->db->get();
+        
+            if ($query->num_rows() > 0) {
+                // Fetch the first result's code and return it
+                return $query->row()->code;
+            } else {
+                return null; // Return null if no record is found
+            }
+        }
+        
+        
+        public function retive_locaiton_code_current_user() {
+            // Get the logged-in user ID
+            $user_id = get_logged_in_user_id();
+        
+            // Build the query
+            $this->db->select('hmis_locations.code');
+            $this->db->from('hmis_users');
+            $this->db->join('hmis_locations', 'hmis_users.locations_id = hmis_locations.id');
+            $this->db->where('hmis_users.id', $user_id);
+        
+            // Execute the query
+            $query = $this->db->get();
+        
+            // Check if a record is found
+            if ($query->num_rows() > 0) {
+                return $query->row()->code; // Return the location code
+            } else {
+                return null; // Return null if no location code is found
+            }
+        }
+        
+
+        public function get_sales_count_by_location_and_test($test_id, $location_id) {
+            // Debugging to inspect the input values
+
+        
+            $this->db->from('hmis_test_sales');
+            $this->db->join('hmis_users', 'hmis_test_sales.user_id = hmis_users.id');
+        
+            // Check if $test_id is an array or a single value
+            if (is_array($test_id)) {
+                $this->db->where_in('hmis_test_sales.test_id', $test_id); 
+            } else {
+                $this->db->where('hmis_test_sales.test_id', $test_id); 
+            }
+            $this->db->where('hmis_users.locations_id', $location_id);
+            $query = $this->db->count_all_results(); 
+        
+            return $query;
+        }
+        
+
+
+
+        public function create_sale_reffernec_code($test_id) {
+            // Retrieve the section code by test ID
+            $section_code = $this->retive_section_code_by_test_id($test_id);
+        
+            // Retrieve the location code for the current user
+            $location_code = $this->retive_locaiton_code_current_user();
+        
+            // Retrieve the sales count for the given test ID and location
+            $location_id = get_logged_in_user_locations_id(); 
+            $sales_count = $this->get_sales_count_by_location_and_test($test_id, $location_id);
+        
+            // Build the reference code in the format sectioncode/salecount/locationcode
+            if ($section_code && $location_code) {
+                $reference_code = $section_code . '/' . ($sales_count + 1) . '/' . $location_code;
+                return $reference_code;
+            } else {
+                return null; // Return null if section code or location code is not found
+            }
+        }
+        
+        public function save_reference_code($data) {
+        $this->db->insert('hmis_reference_codes', $data);
+        }
+        
+
+        public function get_serial_numbers_for_invoice($tests, $location_id) {
+            $serial_numbers = [];
+            $section_tracker = []; // Tracks section IDs for unique serial numbers
+        
+            foreach ($tests as $test_id) {
+                // Retrieve the section ID for the current test
+                $section_id = $this->get_section_id_by_test($test_id);
+        
+                if (!$section_id) {
+                    throw new Exception("Section ID not found for test ID: $test_id");
+                }
+        
+                // Check if this section already has a serial number
+                if (!isset($section_tracker[$section_id])) {
+                    // Generate a new serial number for this section and location
+                    $section_tracker[$section_id] = $this->get_next_section_test_id($section_id, $location_id);
+                }
+        
+                // Assign the serial number to the current test
+                $serial_numbers[$test_id] = $section_tracker[$section_id];
+            }
+        
+            return $serial_numbers; // Returns an array with test IDs as keys and serial numbers as values
+        }
+        
+        public function get_next_section_test_id($section_id, $location_id) {
+            // Retrieve the maximum `section_test_id` for the given section and location
+            $this->db->select_max('section_test_id');
+            $this->db->from('hmis_reference_codes');
+            $this->db->where('section_id', $section_id);
+            $this->db->where('location_id', $location_id);
+        
+            $query = $this->db->get();
+            $result = $query->row();
+        
+            // Start with 1 if no records exist
+            return $result->section_test_id ? ($result->section_test_id + 1) : 1;
+        }
+        
+        public function get_section_id_by_test($test_id) {
+            $this->db->select('hmis_sections.id'); // Select the section ID
+            $this->db->from('hmis_test_sample_info');
+            $this->db->join('hmis_sections', 'hmis_test_sample_info.section_id = hmis_sections.id');
+            $this->db->where('hmis_test_sample_info.test_id', $test_id);
+        
+            $query = $this->db->get();
+            $result = $query->row();
+        
+            return $result ? $result->id : null;
+        }
+        
+    
+    
         
     }
