@@ -115,7 +115,13 @@ mpdf-->
             <b>Payment Method:</b><?php echo str_replace ( '-', ' ', ucwords ( $sale_info -> payment_method ) ) ?>
         </td>
         <td width="40%" style="text-align: right">
-            <span style="font-weight: bold; font-size: 25pt;"><?php echo $sale_id ?></span>
+        <span style="font-weight: bold; font-size: 25pt;">
+            <?php 
+                $code = explode('/', $test_sale_info->reference_code);
+                echo $sale_id . ' / ' . implode('/', array_slice($code, 2));
+            ?>
+        </span>
+
             <br />
             <strong>Sampling
                     Date:</strong> <?php echo date ( 'd-m-Y g:i a', strtotime ( $sales[ 0 ] -> date_added ) ) ?>
