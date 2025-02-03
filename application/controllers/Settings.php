@@ -1510,7 +1510,7 @@
             $this -> header ( $title );
             $this -> sidebar ();
             $data[ 'locations' ] = $this -> LocationModel -> get_locations ();
-            $this -> load -> view ( '/settings/sections/add' );
+            $this -> load -> view ( '/settings/sections/add', $data);
             $this -> footer ();
         }
         
@@ -1521,27 +1521,53 @@
          * -------------------------
          */
         
-        public function do_add_section ( $POST ) {
-            $data = filter_var_array ( $POST, FILTER_SANITIZE_STRING );
-            $this -> form_validation -> set_rules ( 'name', 'name', 'required|trim|min_length[1]|xss_clean' );
-            if ( $this -> form_validation -> run () == true ) {
-                $info       = array (
-                    'user_id'    => get_logged_in_user_id (),
-                    'name'       => $data[ 'name' ],
-                    'code'       => $data[ 'code' ],
-                    'date_added' => current_date_time (),
+         public function do_add_section($POST) {
+            $data = filter_var_array($POST, FILTER_SANITIZE_STRING);
+        
+            $this->form_validation->set_rules('name', 'name', 'required|trim|min_length[1]|xss_clean');
+            $this->form_validation->set_rules('code', 'code', 'required|trim|xss_clean');
+        
+            if ($this->form_validation->run() == true) {
+                $info = array(
+                    'user_id'    => get_logged_in_user_id(),
+                    'name'       => $data['name'],
+                    'code'       => $data['code'],
+                    'date_added' => current_date_time(),
                 );
-                $section_id = $this -> SectionModel -> add ( $info );
-                if ( $section_id > 0 ) {
-                    $this -> session -> set_flashdata ( 'response', 'Success! Section added.' );
-                    return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+        
+                // Add the section
+                $section_id = $this->SectionModel->add($info);
+        
+                if ($section_id > 0) {
+                    // Check and handle location and max_limit data
+                    if (!empty($data['location']) && !empty($data['max_limit'])) {
+                        foreach ($data['location'] as $index => $location_id) {
+                            $max_limit = $data['max_limit'][$index];
+        
+                            if (!empty($location_id) && !empty($max_limit)) {
+                                // Insert new record into hmis_section_locations
+                                $insert_data = array(
+                                    'section_id'  => $section_id,
+                                    'location_id' => $location_id,
+                                    'max_limit'   => $max_limit
+                                );
+                                $this->db->insert('hmis_section_locations', $insert_data);
+                            }
+                        }
+                    }
+        
+                    $this->session->set_flashdata('response', 'Success! Section and locations added.');
+                    return redirect($_SERVER['HTTP_REFERER']);
+                } else {
+                    $this->session->set_flashdata('error', 'Error! Please try again.');
+                    return redirect($_SERVER['HTTP_REFERER']);
                 }
-                else {
-                    $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
-                    return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
-                }
+            } else {
+                $this->session->set_flashdata('error', 'Validation failed. Please check your input.');
+                return redirect($_SERVER['HTTP_REFERER']);
             }
         }
+        
         
         /**
          * -------------------------
@@ -1574,7 +1600,7 @@
                 ->where('section_id', $section_id)
                 ->get('hmis_section_locations')
                 ->result(); 
-        
+         
             $this->load->view('/settings/sections/edit', $data);
             $this->footer();
         }
@@ -1592,15 +1618,15 @@
         
             $this->form_validation->set_rules('name', 'name', 'required|trim|min_length[1]|xss_clean');
         
-            if ($this->form_validation->run() == true) {
+            // if ($this->form_validation->run() == true) {
                 $info = array(
                     'name' => $data['name'],
                     'code' => $data['code'],
                 );
         
-                $updated = $this->SectionModel->edit($info, $section_id);
+                // $updated = $this->SectionModel->edit($info, $section_id);
         
-                if ($updated) {
+                // if ($updated) {
                     // Loop through provided locations and max limits
                     if (!empty($data['location']) && !empty($data['max_limit'])) {
                         foreach ($data['location'] as $index => $location_id) {
@@ -1632,11 +1658,11 @@
         
                     $this->session->set_flashdata('response', 'Success! Section updated.');
                     return redirect($_SERVER['HTTP_REFERER']);
-                } else {
-                    $this->session->set_flashdata('error', 'Error! Already updated.');
-                    return redirect($_SERVER['HTTP_REFERER']);
-                }
-            }
+                // } else {
+                //     $this->session->set_flashdata('error', 'Error! Already updated.');
+                //     return redirect($_SERVER['HTTP_REFERER']);
+                // }
+            // }
         }
         
         

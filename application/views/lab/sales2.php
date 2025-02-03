@@ -56,13 +56,13 @@
                     <button type="submit" class="btn btn-primary" style="margin-top: 25px;">Search</button>
                 </div>
             </form>
-        </div>
+        </div> 
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
         <div class="col-sm-12" style="padding-left: 0">
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-globe"></i> Sale Tests cash 2
+                        <i class="fa fa-globe"></i> Sale Invoice Cash
                     </div>
                 </div>
                 <div class="portlet-body" style="overflow: auto">

@@ -37,6 +37,55 @@
                             <input type="text" name="name" class="form-control" placeholder="Add Section" autofocus="autofocus" value="<?php echo set_value('name') ?>">
                         </div>
                     </div>
+
+                       <!-- Dynamic Location and Max Limit Section -->
+                       <div id="locations-container">
+                            <?php if (!empty($section_locations)) : ?>
+                                <?php foreach ($section_locations as $section_location) : ?>
+                                    <div class="location-row">
+                                        <div class="form-group col-lg-6">
+                                            <label for="location">Location</label>
+                                            <select name="location[]" class="form-control location-dropdown">
+                                                <option value="">Select Location</option>
+                                                <?php foreach ($locations as $location) { ?>
+                                                    <option value="<?php echo $location->id; ?>" <?php echo ($section_location->location_id == $location->id) ? 'selected' : ''; ?>>
+                                                        <?php echo htmlspecialchars($location->name); ?>
+                                                    </option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-lg-4">
+                                            <label for="max_limit">Max Limit</label>
+                                            <input type="number" name="max_limit[]" class="form-control" value="<?php echo $section_location->max_limit; ?>" placeholder="Enter Max Limit">
+                                        </div>
+                                        <div class="form-group col-lg-2" style="margin-top: 20px;">
+                                            <button type="button" class="btn btn-success add-location">+</button>
+                                            <button type="button" class="btn btn-danger remove-location">-</button>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <div class="location-row">
+                                    <div class="form-group col-lg-6">
+                                        <label for="location">Location</label>
+                                        <select name="location[]" class="form-control location-dropdown">
+                                            <option value="">Select Location</option>
+                                            <?php foreach ($locations as $location) { ?>
+                                                <option value="<?php echo $location->id; ?>"><?php echo htmlspecialchars($location->name); ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-4">
+                                        <label for="max_limit">Max Limit</label>
+                                        <input type="number" name="max_limit[]" class="form-control" placeholder="Enter Max Limit">
+                                    </div>
+                                    <div class="form-group col-lg-2" style="margin-top: 20px;">
+                                        <button type="button" class="btn btn-success add-location">+</button>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
                     <div class="form-actions">
                         <button type="submit" class="btn blue">Submit</button>
                     </div>
@@ -46,3 +95,47 @@
         <!-- END SAMPLE FORM PORTLET-->
     </div>
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const locationsContainer = document.getElementById('locations-container');
+        const locationDropdownOptions = `<?php foreach ($locations as $location) { ?>
+            <option value="<?php echo $location->id; ?>"><?php echo htmlspecialchars($location->name); ?></option>
+        <?php } ?>`;
+
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('add-location')) {
+                const newRow = document.createElement('div');
+                newRow.classList.add('location-row');
+                newRow.innerHTML = `
+                    <div class="form-group col-lg-6">
+                        <label for="location">Location</label>
+                        <select name="location[]" class="form-control location-dropdown">
+                            <option value="">Select Location</option>
+                            ${locationDropdownOptions}
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="max_limit">Max Limit</label>
+                        <input type="number" name="max_limit[]" class="form-control" placeholder="Enter Max Limit">
+                    </div>
+                    <div class="form-group col-lg-2" style="margin-top: 20px;">
+                        <button type="button" class="btn btn-success add-location">+</button>
+                        <button type="button" class="btn btn-danger remove-location">-</button>
+                    </div>
+                `;
+                locationsContainer.appendChild(newRow);
+            }
+
+            if (event.target.classList.contains('remove-location')) {
+                if (locationsContainer.children.length > 1) {
+                    event.target.closest('.location-row').remove();
+                } else {
+                    alert("At least one location must be present.");
+                }
+            }
+        });
+    });
+</script>
+ 

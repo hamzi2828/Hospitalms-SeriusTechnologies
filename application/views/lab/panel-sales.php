@@ -62,7 +62,7 @@
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-globe"></i> Sale Tests
+                        <i class="fa fa-globe"></i> Sale Invoice Panel
                     </div>
                 </div>
                 <div class="portlet-body" style="overflow: auto">
@@ -71,7 +71,9 @@
                         <tr>
                             <th> Sr. No</th>
                             <th> <?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></th>
-                            <th>Location</th>
+                            <th> Location</th>
+                            <th> Location Sale Id</th>
+                            <th> Daily Sale Id</th>
                             <th> <?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?></th>
                             <th> <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></th>
                             <th> Panel</th>
@@ -95,6 +97,9 @@
                                 foreach ( $sales as $sale ) {
                                     $sale_info = get_lab_sale ( $sale -> sale_id );
                                     $location  = get_location_by_id ( $sale_info -> locations_id );
+                                    $location_sale_id = get_location_sale_id_by_hmis_lab_sales_id($sale -> sale_id);
+                                    $daily_location_sale_id = get_daily_location_sale_id_by_hmis_lab_sales_id($sale -> sale_id);
+                                
                                     $patient   = get_patient ( $sale -> patient_id );
                                     $saleTotal = get_lab_sales_total ( $sale -> sale_id );
                                     $panel_id  = $patient -> panel_id;
@@ -103,7 +108,9 @@
                                     <tr>
                                         <td><?php echo $counter++; ?></td>
                                         <td><?php echo $sale -> sale_id; ?></td>
-                                        <td><?php echo $location -> name ?? ''; ?></td>
+                                        <td><?php echo $location->name ?? ''; ?></td>
+                                        <td><?php echo $location_sale_id ?? ''; ?></td>
+                                        <td><?php echo $daily_location_sale_id ?? ''; ?></td>
                                         <td><?php echo $sale -> patient_id; ?></td>
                                         <td>
                                             <?php

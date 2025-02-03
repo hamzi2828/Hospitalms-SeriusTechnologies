@@ -204,11 +204,7 @@
             }
         }
         
-        /**
-         * @param $POST
-         * @throws Exception
-         * add new suppliers
-         */
+
         
         public function do_add_patient ( $POST ) {
             $data = filter_var_array ( $POST, FILTER_SANITIZE_STRING );
@@ -227,6 +223,21 @@
             $dob          = calculateBirthdate ( $age, $data[ 'age_year_month' ] );
             
             if ( $this -> form_validation -> run () != false ) {
+
+                   // Check if CNIC already exists
+                $cnic = $data['cnic'];
+                if (!empty(trim($cnic))) {
+                    $existing_patient = $this->PatientModel->check_customer_exists_by_cnic($cnic);
+                    if (!empty($existing_patient)) {
+                        $this->session->set_flashdata('error', 'Error! CNIC already exists for another patient.');
+                        return redirect($_SERVER['HTTP_REFERER']);
+                    }
+                    $existing_patient_by_phone = $this->PatientModel->check_customer_exists_by_phone($data['phone']);
+                    if (!empty($existing_patient_by_phone)) {
+                        $this->session->set_flashdata('error', 'Error! Phone number already exists for another patient.');
+                        return redirect($_SERVER['HTTP_REFERER']);
+                    }
+                }
                 $info = array (
                     'user_id'                   => get_logged_in_user_id (),
                     'doctor_id'                 => $data[ 'doctor_id' ],
@@ -255,6 +266,7 @@
                     'age_year_month'            => $data[ 'age_year_month' ],
                     'city'                      => $data[ 'city' ],
                     'address'                   => $data[ 'address' ],
+                    'location_id'               => get_logged_in_user_locations_id (),
                     'date_registered'           => current_date_time (),
                 );
                 
@@ -315,10 +327,10 @@
                     
                     
                     return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
-//                    if ( isset( $_POST[ 'redirect' ] ) and !empty( trim ( $_POST[ 'redirect' ] ) ) )
-//                        return redirect ( $_POST[ 'redirect' ] . '?patient=' . $patient_id . '&redirect=' . base_url ( '/lab/airline-details' ) );
-//                    else
-//                        return redirect ( base_url ( '/lab/sale/?patient=' . $patient_id ) );
+                        //                    if ( isset( $_POST[ 'redirect' ] ) and !empty( trim ( $_POST[ 'redirect' ] ) ) )
+                        //                        return redirect ( $_POST[ 'redirect' ] . '?patient=' . $patient_id . '&redirect=' . base_url ( '/lab/airline-details' ) );
+                        //                    else
+                        //                        return redirect ( base_url ( '/lab/sale/?patient=' . $patient_id ) );
                 }
                 else {
                     $this -> session -> set_flashdata ( 'error', 'Error! Patient not added. Please try again' );

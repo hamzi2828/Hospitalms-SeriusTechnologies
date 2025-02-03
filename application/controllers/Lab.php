@@ -1637,46 +1637,46 @@
          * -------------------------
          */
         
-        public function sales () {
-            $title = site_name . ' - Sales Lab Test (Cash)';
-            $this -> header ( $title );
-            $this -> sidebar ();
+        // public function sales () {
+        //     $title = site_name . ' - Sales Lab Test (Cash)';
+        //     $this -> header ( $title );
+        //     $this -> sidebar ();
             
-            /**********PAGINATION***********/
-            $limit                          = 10;
-            $config                         = array ();
-            $config[ "base_url" ]           = base_url ( 'lab/sales' );
-            $total_row                      = $this -> LabModel -> count_sales ();
-            $config[ "total_rows" ]         = $total_row;
-            $config[ "per_page" ]           = $limit;
-            $config[ 'use_page_numbers' ]   = false;
-            $config[ 'page_query_string' ]  = TRUE;
-            $config[ 'reuse_query_string' ] = TRUE;
-            $config[ 'num_links' ]          = 10;
-            $config[ 'cur_tag_open' ]       = '&nbsp;<a class="current">';
-            $config[ 'cur_tag_close' ]      = '</a>';
-            $config[ 'next_link' ]          = 'Next';
-            $config[ 'prev_link' ]          = 'Previous';
+        //     /**********PAGINATION***********/
+        //     $limit                          = 10;
+        //     $config                         = array ();
+        //     $config[ "base_url" ]           = base_url ( 'lab/sales' );
+        //     $total_row                      = $this -> LabModel -> count_sales ();
+        //     $config[ "total_rows" ]         = $total_row;
+        //     $config[ "per_page" ]           = $limit;
+        //     $config[ 'use_page_numbers' ]   = false;
+        //     $config[ 'page_query_string' ]  = TRUE;
+        //     $config[ 'reuse_query_string' ] = TRUE;
+        //     $config[ 'num_links' ]          = 10;
+        //     $config[ 'cur_tag_open' ]       = '&nbsp;<a class="current">';
+        //     $config[ 'cur_tag_close' ]      = '</a>';
+        //     $config[ 'next_link' ]          = 'Next';
+        //     $config[ 'prev_link' ]          = 'Previous';
             
-            $this -> pagination -> initialize ( $config );
+        //     $this -> pagination -> initialize ( $config );
             
-            /**********END PAGINATION***********/
+        //     /**********END PAGINATION***********/
             
-            if ( isset( $_REQUEST[ 'per_page' ] ) and $_REQUEST[ 'per_page' ] > 0 ) {
-                $offset = $_REQUEST[ 'per_page' ];
-            }
-            else {
-                $offset = 0;
-            }
+        //     if ( isset( $_REQUEST[ 'per_page' ] ) and $_REQUEST[ 'per_page' ] > 0 ) {
+        //         $offset = $_REQUEST[ 'per_page' ];
+        //     }
+        //     else {
+        //         $offset = 0;
+        //     }
             
-            $data[ 'sales' ] = $this -> LabModel -> get_sales_by_sale_id ( false, $config[ "per_page" ], $offset );
-            $str_links       = $this -> pagination -> create_links ();
-            $data[ "links" ] = explode ( '&nbsp;', $str_links );
-            $this -> load -> view ( '/lab/sales', $data );
-            $this -> footer ();
-        }
+        //     $data[ 'sales' ] = $this -> LabModel -> get_sales_by_sale_id ( false, $config[ "per_page" ], $offset );
+        //     $str_links       = $this -> pagination -> create_links ();
+        //     $data[ "links" ] = explode ( '&nbsp;', $str_links );
+        //     $this -> load -> view ( '/lab/sales', $data );
+        //     $this -> footer ();
+        // }
 
-        public function sales2 () {
+        public function sales () {
             $title = site_name . ' - Sales Lab Test (Cash)';
             $this -> header ( $title );
             $this -> sidebar ();
