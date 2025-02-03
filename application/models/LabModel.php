@@ -3251,6 +3251,9 @@
             
         
 
+
+
+
         
         public function retive_section_code_by_test_id($test_id) {
             $this->db->select('hmis_sections.code'); // Select only the code column
@@ -3369,19 +3372,19 @@
             return $serial_numbers; // Returns an array with test IDs as keys and serial numbers as values
         }
         
-        public function get_next_section_test_id($section_id, $location_id) {
-            // Retrieve the maximum `section_test_id` for the given section and location
-            $this->db->select_max('section_test_id');
-            $this->db->from('hmis_reference_codes');
-            $this->db->where('section_id', $section_id);
-            $this->db->where('location_id', $location_id);
+        // public function get_next_section_test_id($section_id, $location_id) {
+        //     // Retrieve the maximum `section_test_id` for the given section and location
+        //     $this->db->select_max('section_test_id');
+        //     $this->db->from('hmis_reference_codes');
+        //     $this->db->where('section_id', $section_id);
+        //     $this->db->where('location_id', $location_id);
         
-            $query = $this->db->get();
-            $result = $query->row();
+        //     $query = $this->db->get();
+        //     $result = $query->row();
         
-            // Start with 1 if no records exist
-            return $result->section_test_id ? ($result->section_test_id + 1) : 1;
-        }
+        //     // Start with 1 if no records exist
+        //     return $result->section_test_id ? ($result->section_test_id + 1) : 1;
+        // }
         
         public function get_section_id_by_test($test_id) {
             $this->db->select('hmis_sections.id'); // Select the section ID
@@ -3394,6 +3397,62 @@
         
             return $result ? $result->id : null;
         }
+        public function get_next_section_test_id($section_id, $location_id) {
+            // Step 1: Retrieve the max limit for this section and location
+            $this->db->select('max_limit');
+            $this->db->from('hmis_section_locations');
+            $this->db->where('section_id', $section_id);
+            $this->db->where('location_id', $location_id);
+            $query = $this->db->get();
+            $max_limit = $query->row()->max_limit ?? null;
+        
+            if ($max_limit) {
+                // Step 2: Retrieve the current maximum section_test_id
+                $this->db->select('section_test_id, is_reset');
+                $this->db->from('hmis_reference_codes');
+                $this->db->where('section_id', $section_id);
+                $this->db->where('location_id', $location_id);
+                $this->db->order_by('id', 'DESC'); // Get the latest entry
+                $this->db->limit(1);
+                $current_max_query = $this->db->get();
+                $current_max_data = $current_max_query->row();
+        
+                $current_max = $current_max_data->section_test_id ?? 0;
+                $was_reset = $current_max_data->is_reset ?? 0;
+        
+                // Step 3: Check if the max limit is reached
+                if ($current_max >= $max_limit) {
+                    // Reset section_test_id to 1 and log the reset if not already reset
+                    if (!$was_reset) {
+                        $reset_data = [
+                            'sale_id' => null, // Optional, can be linked to a specific sale
+                            'test_id' => null, // Optional, can be linked to a specific test
+                            'section_id' => $section_id,
+                            'location_id' => $location_id,
+                            'section_test_id' => 1, // Reset to 1
+                            'is_reset' => 1, // Mark as reset
+                            'reset_date' => date('Y-m-d H:i:s'),
+                            'date_added' => date('Y-m-d H:i:s'),
+                            'date_updated' => date('Y-m-d H:i:s'),
+                        ];
+        
+                        $this->db->insert('hmis_reference_codes', $reset_data);
+        
+                        return 1; // Return the reset value
+                    } else {
+                        // If already reset, continue from 1
+                        return 1;
+                    }
+                }
+        
+                // Step 4: Increment and return the next section_test_id
+                return $current_max + 1;
+            }
+        
+            // If no max limit is defined, start with 1
+            return 1;
+        }
+        
         
     
     

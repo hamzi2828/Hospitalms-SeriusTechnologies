@@ -1057,6 +1057,8 @@
             $test_sale_info               = get_test_sale ( $sale_id );
 
             if ( @$_REQUEST[ 'print2' ] == 'true' ) {
+                $data[ 'daily_location_sale_id' ] = $_REQUEST[ 'daily_location_sale_id' ];
+              
                 $html_content = $this -> load -> view ( '/invoices/lab-sale-invoice2', $data, true );
             }else{
             $html_content = $this -> load -> view ( '/invoices/lab-sale-invoice', $data, true );       

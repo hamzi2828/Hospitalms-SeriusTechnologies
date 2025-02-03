@@ -117,8 +117,13 @@ mpdf-->
         <td width="40%" style="text-align: right">
         <span style="font-weight: bold; font-size: 25pt;">
             <?php 
+            if( !empty($daily_location_sale_id) ){
+                $sale_id_display =$daily_location_sale_id;
+            }else{
+                $sale_id_display = $sale_id;
+            }
                 $code = explode('/', $test_sale_info->reference_code);
-                echo $sale_id . ' / ' . implode('/', array_slice($code, 2));
+                echo $sale_id_display . ' / ' . implode('/', array_slice($code, 2));
             ?>
         </span>
 

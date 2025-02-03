@@ -209,9 +209,9 @@
                                                        class="btn purple" target="_blank">
                                                         Print
                                                     </a>
-                                                    <a href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> sale_id . '?print2=true' ) ?>"
+                                                    <a href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> sale_id . '?print2=true&daily_location_sale_id=' . $daily_location_sale_id ) ?>"
                                                        class="btn purple" target="_blank">
-                                                        Print-2
+                                                        Print-C
                                                     </a>
                                                 <?php endif; ?>
                                             
