@@ -141,6 +141,8 @@
     $route[ 'invoices/closing-report' ]                               = 'Invoices/closing_report';
     $route[ 'invoices/general-ledger' ]                               = 'Invoices/general_ledger';
     $route[ 'invoices/xray-report' ]                                  = 'Invoices/xray_report';
+    $route[ 'invoices/vaccination-report' ]                           = 'Invoices/vaccination_report';
+
     $route[ 'invoices/lab-general-invoice' ]                          = 'Invoices/lab_general_invoice';
     $route[ 'invoices/regents-consumption-invoice' ]                  = 'Invoices/regents_consumption_invoice';
     $route[ 'invoices/regents-consumption-invoice-ipd' ]              = 'Invoices/regents_consumption_invoice_ipd';
@@ -618,6 +620,13 @@
     $route[ 'cafe-setting/Refund-sale/(:any)' ]                         = 'CafeSetting/refund_sale/$1';
     $route[ 'cafe-setting/general-sale-report' ]                       = 'CafeSetting/general_sale_report';
     $route[ 'cafe-setting/stock-valuation-report' ]                    = 'CafeSetting/stock_valuation_report';
+
+    $route[ 'vaccination-setting/all-vaccinations' ]                  = 'VaccinationSetting/all_vaccinations';
+    $route[ 'vaccination-setting/add-vaccination' ]                   = 'VaccinationSetting/add_vaccination';
+    $route[ 'vaccination-setting/delete-vaccination/(:any)' ]         = 'VaccinationSetting/delete_vaccination/$1';
+    $route[ 'vaccination-setting/edit-vaccination/(:any)' ]           = 'VaccinationSetting/edit_vaccination/$1';
+
+
 
     $route[ '404_override' ]                                          = '';
     $route[ 'translate_uri_dashes' ]                                  = FALSE;
