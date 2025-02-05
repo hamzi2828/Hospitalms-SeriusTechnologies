@@ -58,7 +58,7 @@
             </form>
         </div> 
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
-        <div class="col-sm-12" style="padding-left: 0">
+        <div class="col-sm-12" style="padding-left: 0"> 
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
