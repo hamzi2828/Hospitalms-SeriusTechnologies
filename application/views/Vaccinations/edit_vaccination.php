@@ -47,10 +47,15 @@
                                        value="<?php echo set_value('patient-id', $vaccination->patient_id); ?>"
                                        onchange="get_patient(this.value)">
                             </div>
+                            <?php
+
+                              $patient = get_patient_by_id (  $vaccination->patient_id );
+
+                            ?>
                             <div class="form-group col-lg-3">
                                 <label for="patient-name">Name</label>
                                 <input type="text" class="form-control name" id="patient-name" readonly="readonly"
-                                       value="<?php echo $vaccination->patient_name ?? ''; ?>">
+                                       value="<?php echo $vaccination->patient_name ?? $patient->name; ?>">
                             </div>
                             <div class="form-group col-lg-2">
                                 <label for="patient-cnic">CNIC</label>
@@ -59,7 +64,7 @@
                             </div>
                             <div class="form-group col-lg-3">
                                 <label for="doctor">Ordered By</label>
-                                <select name="order_by" id="doctor" class="form-control select2me" required="required">
+                                <select name="order_by" id="doctor" class="form-control select2me" >
                                     <option value="">Select</option>
                                     <?php
                                     if (count($doctors) > 0) {

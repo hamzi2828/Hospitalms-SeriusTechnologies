@@ -157,7 +157,7 @@ mpdf-->
 </table>
 <div class="report">
     <h2 style="text-align: center">
-        <strong> Vaccination Cirtificate </strong></strong>
+        <strong> VACCINATION CERTIFICATE  </strong></strong>
     </h2>
 </div>
 
