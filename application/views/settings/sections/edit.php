@@ -55,7 +55,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-lg-4">
-                                            <label for="max_limit">Max Limit</label>
+                                            <label for="max_limit">Max Reset Limit</label>
                                             <input type="number" name="max_limit[]" class="form-control" value="<?php echo $section_location->max_limit; ?>" placeholder="Enter Max Limit">
                                         </div>
                                         <div class="form-group col-lg-2" style="margin-top: 20px;">
@@ -68,7 +68,7 @@
                                 <div class="location-row">
                                     <div class="form-group col-lg-6">
                                         <label for="location">Location</label>
-                                        <select name="location[]" class="form-control location-dropdown">
+                                        <select name="location[]" class="form-control location-dropdown select2me">
                                             <option value="">Select Location</option>
                                             <?php foreach ($locations as $location) { ?>
                                                 <option value="<?php echo $location->id; ?>"><?php echo htmlspecialchars($location->name); ?></option>
