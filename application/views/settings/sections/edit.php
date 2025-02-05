@@ -34,7 +34,7 @@
                             <input type="text" name="code" class="form-control" placeholder="Add section code" autofocus="autofocus" value="<?php echo $section->code ?>">
                         </div>
                         <div class="form-group col-lg-6">
-                            <label for="exampleInputEmail1">Section</label>
+                            <label for="exampleInputEmail1">Section Name</label>
                             <input type="text" name="name" class="form-control" placeholder="Add section" autofocus="autofocus" value="<?php echo $section->name ?>">
                         </div>
 
@@ -45,7 +45,7 @@
                                     <div class="location-row">
                                         <div class="form-group col-lg-6">
                                             <label for="location">Location</label>
-                                            <select name="location[]" class="form-control location-dropdown">
+                                            <select name="location[]" class="form-control location-dropdown select2me">
                                                 <option value="">Select Location</option>
                                                 <?php foreach ($locations as $location) { ?>
                                                     <option value="<?php echo $location->id; ?>" <?php echo ($section_location->location_id == $location->id) ? 'selected' : ''; ?>>
@@ -76,7 +76,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-lg-4">
-                                        <label for="max_limit">Max Limit</label>
+                                        <label for="max_limit">Max Reset Limit</label>
                                         <input type="number" name="max_limit[]" class="form-control" placeholder="Enter Max Limit">
                                     </div>
                                     <div class="form-group col-lg-2" style="margin-top: 20px;">
@@ -110,14 +110,14 @@
                 newRow.innerHTML = `
                     <div class="form-group col-lg-6">
                         <label for="location">Location</label>
-                        <select name="location[]" class="form-control location-dropdown">
+                        <select name="location[]" class="form-control location-dropdown select2me">
                             <option value="">Select Location</option>
                             ${locationDropdownOptions}
                         </select>
                     </div>
                     <div class="form-group col-lg-4">
-                        <label for="max_limit">Max Limit</label>
-                        <input type="number" name="max_limit[]" class="form-control" placeholder="Enter Max Limit">
+                        <label for="max_limit">Max Reset Limit</label>
+                        <input type="number" name="max_limit[]" class="form-control" placeholder="Enter Max Reset Limit">
                     </div>
                     <div class="form-group col-lg-2" style="margin-top: 20px;">
                         <button type="button" class="btn btn-success add-location">+</button>

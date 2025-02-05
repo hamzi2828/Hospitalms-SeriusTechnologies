@@ -250,6 +250,7 @@
         }
 
         public function check_customer_exists_by_phone ( $phone ) {
+
             $patient = $this -> db -> get_where ( 'patients', array ( 'mobile' => $phone ) );
             return $patient -> row ();
         }

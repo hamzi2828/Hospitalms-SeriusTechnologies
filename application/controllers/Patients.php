@@ -124,7 +124,7 @@
                 $this -> do_add_patient ( $_POST );
              
             $title = site_name . ' - Add Patient';
-            $this -> header ( $title );
+            $this -> header ( $title ); 
             $this -> sidebar ();
             $data[ 'cities' ]     = $this -> PatientModel -> get_cities ();
             $data[ 'doctors' ]    = $this -> DoctorModel -> get_doctors ();
@@ -232,12 +232,16 @@
                         $this->session->set_flashdata('error', 'Error! CNIC already exists for another patient.');
                         return redirect($_SERVER['HTTP_REFERER']);
                     }
-                    $existing_patient_by_phone = $this->PatientModel->check_customer_exists_by_phone($data['phone']);
+                }
+                $phone = $data['phone'];
+                if (!empty(trim($phone))) {
+                    $existing_patient_by_phone = $this->PatientModel->check_customer_exists_by_phone( $phone );
                     if (!empty($existing_patient_by_phone)) {
                         $this->session->set_flashdata('error', 'Error! Phone number already exists for another patient.');
                         return redirect($_SERVER['HTTP_REFERER']);
                     }
                 }
+
                 $info = array (
                     'user_id'                   => get_logged_in_user_id (),
                     'doctor_id'                 => $data[ 'doctor_id' ],
