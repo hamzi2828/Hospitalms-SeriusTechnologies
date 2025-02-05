@@ -1023,6 +1023,10 @@
                 <input type="checkbox" class="checkbox" name="access[]"
                        value="print_lab_sale_invoices" <?php if ( !empty( $access ) and in_array ( 'print_lab_sale_invoices', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>> Print
+                      <input type="checkbox" class="checkbox" name="access[]"
+                       value="print_LW_lab_sale_invoices" <?php if ( !empty( $access ) and in_array ( 'print_LW_lab_sale_invoices', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Print LW
+
                 <input type="checkbox" class="checkbox" name="access[]"
                        value="refund_lab_sales" <?php if ( !empty( $access ) and in_array ( 'refund_lab_sales', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>> Refund
@@ -4777,6 +4781,80 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
+
+
+
+
+        <!-- vacsinations -->
+
+        <tr style="background: #dff0d8;">
+            <td>Vaccinations</td> 
+            <td></td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="vaccinations" <?php if ( !empty( $access ) and in_array ( 'vaccinations', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
+            </td>
+            <td></td>
+        </tr>
+        <tr style="background: #dff0d8;">
+            <td></td>
+            <td>All Vaccinations</td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="all-vaccinations" <?php if ( !empty( $access ) and in_array ( 'all-vaccinations', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr>
+        <tr style="background: #dff0d8;">
+            <td></td>
+            <td></td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="edit-vaccinations" <?php if ( !empty( $access ) and in_array ( 'edit-vaccinations', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Edit
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="delete-vaccinations" <?php if ( !empty( $access ) and in_array ( 'delete-vaccinations', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Delete
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="print-vaccinations" <?php if ( !empty( $access ) and in_array ( 'print-vaccinations', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Print
+            </td>
+        </tr>
+        <tr style="background: #dff0d8;">
+            <td></td>
+            <td>Add Vaccinations</td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="add-vaccinations" <?php if ( !empty( $access ) and in_array ( 'add-vaccinations', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -27,16 +27,17 @@
     </li>
 <?php endif; ?>
 
-
+<?php if (!empty($access) and in_array('vaccinations', explode(',', $access->access))) : ?>
+    
 <li class="<?php if ($parent_uri !== 'vaccination-module') echo 'start active'; ?>">
     <a href="javascript:void(0);">
-        <i class="fa fa-syringe"></i>
+        <i class="fa fa-medkit"></i>
         <span class="title"> Vaccination </span>
         <span class="arrow "></span>
     </a>
     <ul class="sub-menu">
 
-        <?php if (!empty($access) and !in_array('all-vaccinations', explode(',', $access->access))) : ?>
+        <?php if (!empty($access) and in_array('all-vaccinations', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'all-vaccinations') echo 'active'; ?>">
                 <a href="<?php echo base_url('/vaccination-setting/all-vaccinations') ?>">
                     All Vaccinations
@@ -44,16 +45,18 @@
             </li>
         <?php endif; ?>
 
-        <?php if (!empty($access) and !in_array('add-vaccination', explode(',', $access->access))) : ?>
-            <li class="<?php if ($child_uri == 'add-vaccination') echo 'active'; ?>">
+        <?php if (!empty($access) and in_array('add-vaccinations', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'add-vaccinations') echo 'active'; ?>">
                 <a href="<?php echo base_url('/vaccination-setting/add-vaccination') ?>">
                     Add Vaccination
                 </a>
             </li>
         <?php endif; ?>
 
-    </ul>
+        </ul>
 </li>
+
+<?php endif; ?>
 
 
 

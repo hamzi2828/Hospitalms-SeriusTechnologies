@@ -20,15 +20,31 @@
          * save tests into database
          * -------------------------
          */
-        
 
-        public function get_all_vaccinations ( ) {
+
+         public function get_all_vaccinations() {
+            // Start building the query with filters
             $this->db->order_by('id', 'DESC');
+            
+            if (isset($_REQUEST['id']) && $_REQUEST['id'] > 0) {
+                $this->db->where('id', $_REQUEST['id']);
+            }
+        
+            if (isset($_REQUEST['patient_id']) && $_REQUEST['patient_id'] > 0) {
+                $this->db->where('patient_id', $_REQUEST['patient_id']);
+            }
+        
+            if (isset($_REQUEST['name']) && !empty(trim($_REQUEST['name']))) {
+                $name = trim($_REQUEST['name']);
+                $this->db->where("patient_id IN (SELECT id FROM hmis_patients WHERE name LIKE '%$name%')");
+            }
+        
+            // Execute the query
             $query = $this->db->get('vaccinations_details');
-            
+        
             return $query->result();
-            
         }
+        
      
 
         public function delete_vaccination ( $id ) {

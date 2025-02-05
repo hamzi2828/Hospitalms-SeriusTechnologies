@@ -209,12 +209,18 @@
                                                        class="btn purple" target="_blank">
                                                         Print
                                                     </a>
-                                                    <a href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> sale_id . '?print2=true&daily_location_sale_id=' . $daily_location_sale_id ) ?>"
-                                                       class="btn purple" target="_blank">
-                                                        Print-C
-                                                    </a>
+                                               
                                                 <?php endif; ?>
                                             
+                                                   <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_LW_lab_sale_invoices', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) :
+                                                    ?>
+                                                   
+                                                    <a href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> sale_id . '?print2=true&daily_location_sale_id=' . $daily_location_sale_id ) ?>"
+                                                       class="btn purple" target="_blank">
+                                                        Print-LW
+                                                    </a>
+                                                <?php endif; ?>
+
                                             <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'view_lab_sale_invoices', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                                 <a href="<?php echo base_url ( '/lab/edit-sale/' . $sale -> sale_id ) ?>"
                                                    class="btn red">

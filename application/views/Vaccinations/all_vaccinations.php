@@ -18,7 +18,7 @@
         <?php endif; ?>
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
         
-        <!-- <div class="search-form">
+        <div class="search-form">
             <form method="get">
                 <div class="col-sm-2 form-group">
                     <label>Report No</label>
@@ -33,31 +33,13 @@
                     <label><?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></label>
                     <input type="text" class="form-control" value="<?php echo @$_GET[ 'name' ] ?>" name="name">
                 </div>
-                <div class="col-sm-3 form-group">
-                    <label>Doctor</label>
-                    <select name="doctor_id" class="form-control select2me">
-                        <option value="">Select</option>
-                        <?php
-                            // if ( count ( $doctors ) > 0 ) {
-                            //     foreach ( $doctors as $doctor ) {
-                            //         ?>
-                            //         <option
-                            //                 value="<?php echo $doctor -> id ?>" <?php echo ( isset( $_REQUEST[ 'doctor_id' ] ) and $_REQUEST[ 'doctor_id' ] > 0 and $_REQUEST[ 'doctor_id' ] == $doctor -> id ) ? 'selected="selected"' : ''; ?>><?php echo $doctor -> name ?></option>
-                            //         <?php
-                            //     }
-                            // }
-                        ?>
-                    </select>
-                </div>
-                <div class="col-sm-2 form-group">
-                    <label>Report Title </label>
-                    <input type="text" class="form-control" value="<?php echo @$_GET[ 'title' ] ?>" name="title">
-                </div>
+
+
                 <div class="col-sm-1">
                     <button type="submit" style="margin-top: 25px" class="btn btn-primary btn-block">Search</button>
                 </div>
             </form>
-        </div> -->
+        </div> 
         
         <div class="portlet box green">
             <div class="portlet-title">
@@ -111,7 +93,7 @@
                                     <td class="btn-group-xs">
                                 
                                         
-                                        <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_xray_report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                        <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print-vaccinations', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                       
                                             
                                         <a type="button" class="btn dark btn-block margin-bottom-5"
@@ -119,14 +101,14 @@
                                             target="_blank">Print</a>
                                         <?php endif; ?>
                                         
-                                        <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'edit_xray_report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                        <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'edit-vaccinations', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                             <a type="button" class="btn blue"
                                                href="<?php echo base_url ( '/vaccination-setting/edit-vaccination/' . $report -> id ) ?>">Edit</a>
                                         <?php endif; ?>
                                         
                 
                                         
-                                        <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'delete_xray_report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                        <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'delete-vaccinations', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                             <a type="button" class="btn red"
                                                href="<?php echo base_url ( '/vaccination-setting/delete-vaccination/' . $report -> id ) ?>"
                                                onclick="return confirm('Are you sure?')">Delete</a>

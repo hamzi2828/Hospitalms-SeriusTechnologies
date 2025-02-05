@@ -73,7 +73,7 @@
          */
         
         public function count_xray_reports () {
-            $sql = "Select COUNT(*) as totalRows from hmis_xray where 1";
+            $sql = "Select COUNT(*) as totalRows from hmis_xray where 1"; 
             if ( isset( $_REQUEST[ 'id' ] ) and $_REQUEST[ 'id' ] > 0 ) {
                 $id  = $_REQUEST[ 'id' ];
                 $sql .= " and id=$id";
