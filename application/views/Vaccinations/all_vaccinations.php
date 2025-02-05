@@ -75,9 +75,8 @@
                         <th> <?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?></th>
                         <th> <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></th>
                         <th> <?php echo $this -> lang -> line ( 'PATIENT_PHONE' ) ?></th>
-                        <th> Ordered By</th>
                         <th> Transcribed By</th>
-                        <th> Report Status</th>
+                        <th>Created At</th>
                         <th> Actions</th>
                     </tr>
                     </thead>
@@ -104,19 +103,9 @@
                                     <td><?php echo $patient -> id ?></td>
                                     <td><?php echo get_patient_name ( 0, $patient ) ?></td>
                                     <td><?php echo $patient -> mobile ?></td>
-                                    <td><?php echo $order_by -> name ?></td>
                                     <td><?php echo $user -> name ?></td>
-                                    <td>
-                                        <?php
-                                            if ( empty( $status ) )
-                                                echo '<span class="badge badge-warning">Not Verified</span>';
-                                            else {
-                                                echo '<span class="badge badge-success">Verified</span><br/><br/>';
-                                                echo '<strong>Verified By: </strong>' . get_user ( $status -> user_id ) -> name . '<br/>';
-                                                echo '<strong>Date/Time: </strong>' . date_setter ( $status -> created_at, 5 );
-                                            }
-                                        ?>
-                                    </td>
+                                    <td><?php echo $report -> created_at ?></td>
+
                                     
                                     <td class="btn-group-xs">
                                 

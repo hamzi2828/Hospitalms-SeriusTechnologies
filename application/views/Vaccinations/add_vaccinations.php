@@ -55,7 +55,7 @@
                             </div>
                             <div class="form-group col-lg-3">
                                 <label for="doctor">Ordered By</label>
-                                <select name="order_by" id="doctor" class="form-control select2me" required="required">
+                                <select name="order_by" id="doctor" class="form-control select2me" >
                                     <option value="">Select</option>
                                     <?php
                                         if ( count ( $doctors ) > 0 ) {

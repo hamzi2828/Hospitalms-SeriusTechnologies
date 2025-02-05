@@ -128,7 +128,7 @@ mpdf-->
             $specialization = get_specialization_by_id($orderBy->specialization_id);
         ?>
             <span style="font-size: 9pt;">
-                <strong>Referred By:</strong> <?php echo $orderBy->name; ?>
+                <!-- <strong>Referred By:</strong> <?php echo $orderBy->name; ?> -->
             </span><br>
         <?php endif; ?>
     </td>
@@ -142,7 +142,7 @@ mpdf-->
     <td width="33%" align="right" style="font-size: 8pt;">
         <?php $barcodeValue = online_report_url . 'qr-login/?parameters=' . encode($report->id); ?>
         <?php include_once 'bar-code.php'; ?><br />
-        <strong> Date/Time:</strong> <?php echo @date_setter($lab->date_sale); ?><br>
+        <strong> Date/Time:</strong> <?php echo @date_setter($report -> created_at); ?><br>
     </td>
 </tr>
 

@@ -1736,18 +1736,19 @@
             $mpdf -> SetAuthor ( site_name );
 
             $status = get_report_verify_status ( $report_id, 'hmis_xray' );
-            if ( empty( $status ) ) {
-                $mpdf -> SetWatermarkText ( 'Unverified' );
-                $mpdf -> showWatermarkText  = true;
-                $mpdf -> watermark_font     = 'DejaVuSansCondensed';
-                $mpdf -> watermarkTextAlpha = 0.1;
-            }
-            else {
-                $mpdf -> SetWatermarkText ( site_name );
-                $mpdf -> showWatermarkText  = false;
-                $mpdf -> watermark_font     = 'DejaVuSansCondensed';
-                $mpdf -> watermarkTextAlpha = 0.1;
-            }
+            
+            // if ( empty( $status ) ) {
+            //     $mpdf -> SetWatermarkText ( 'Unverified' );
+            //     $mpdf -> showWatermarkText  = true;
+            //     $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            //     $mpdf -> watermarkTextAlpha = 0.1;
+            // }
+            // else {
+            //     $mpdf -> SetWatermarkText ( site_name );
+            //     $mpdf -> showWatermarkText  = false;
+            //     $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            //     $mpdf -> watermarkTextAlpha = 0.1;
+            // }
 
             $mpdf -> SetDisplayMode ( 'real' );
             $mpdf -> WriteHTML ( $html_content );
