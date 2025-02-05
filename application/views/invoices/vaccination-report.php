@@ -123,6 +123,9 @@ mpdf-->
         <?php if (!empty(trim($patient->cnic))): ?>
             <span style="font-size: 9pt;"><strong>CNIC:</strong> <?php echo @$patient->cnic ?></span><br>
         <?php endif; ?>
+        <?php if (!empty(trim($patient->passport))): ?>
+            <span style="font-size: 9pt;"><strong>Passport No:</strong> <?php echo @$patient->passport ?></span><br>
+        <?php endif; ?>
         <?php if ($report->order_by > 0):
             $orderBy = get_doctor($report->order_by);
             $specialization = get_specialization_by_id($orderBy->specialization_id);
@@ -142,7 +145,7 @@ mpdf-->
     <td width="33%" align="right" style="font-size: 8pt;">
         <?php $barcodeValue = online_report_url . 'qr-login/?parameters=' . encode($report->id); ?>
         <?php include_once 'bar-code.php'; ?><br />
-        <strong> Date/Time:</strong> <?php echo @date_setter($report -> created_at); ?><br>
+        <strong>Perfrom Date/Time:</strong> <?php echo @date_setter($report -> created_at); ?><br>
     </td>
 </tr>
 
