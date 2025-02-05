@@ -23,6 +23,7 @@
         
 
         public function get_all_vaccinations ( ) {
+            $this->db->order_by('id', 'DESC');
             $query = $this->db->get('vaccinations_details');
             
             return $query->result();

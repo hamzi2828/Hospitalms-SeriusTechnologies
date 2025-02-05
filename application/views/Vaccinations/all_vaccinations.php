@@ -75,7 +75,7 @@
                         <th> <?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?></th>
                         <th> <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></th>
                         <th> <?php echo $this -> lang -> line ( 'PATIENT_PHONE' ) ?></th>
-                        <th> Transcribed By</th>
+                        <th> Passport No</th>
                         <th>Created At</th>
                         <th> Actions</th>
                     </tr>
@@ -87,6 +87,7 @@
                             foreach ( $reports as $report ) {
                                 
                                 $patient = get_patient ( $report -> patient_id );
+
                                 if ( !empty( trim ( $report -> order_by ) ) )
                                     $order_by = get_doctor ( $report -> order_by );
                                 else
@@ -103,7 +104,7 @@
                                     <td><?php echo $patient -> id ?></td>
                                     <td><?php echo get_patient_name ( 0, $patient ) ?></td>
                                     <td><?php echo $patient -> mobile ?></td>
-                                    <td><?php echo $user -> name ?></td>
+                                    <td><?php echo $patient->passport ?></td>
                                     <td><?php echo $report -> created_at ?></td>
 
                                     
