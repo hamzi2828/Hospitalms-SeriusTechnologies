@@ -115,17 +115,22 @@ mpdf-->
         <span style="font-size: 9pt;"><strong><?php echo $this->lang->line('INVOICE_ID'); ?>:</strong> <?php echo @$report->sale_id ?></span><br>
         <span style="font-size: 9pt;"><strong>MR No:</strong> <?php echo @$patient->id ?></span><br>
         <span style="font-size: 9pt;"><strong>Name:</strong> <?php echo @get_patient_name(0, $patient) ?></span><br>
+        <?php if (!empty(trim($patient->passport))): ?>
+            <span style="font-size: 9pt;"><strong>Passport No:</strong> <?php echo @$patient->passport ?></span><br>
+        <?php endif; ?>
         <span style="font-size: 9pt;"><strong>Gender:</strong> <?php echo (@$patient->gender == 1) ? 'Male' : 'Female' ?></span><br>
         <span style="font-size: 9pt;">
             <strong>Age:</strong> 
             <?php echo @$patient->age . ' ' . ucwords($patient->age_year_month); ?>
         </span><br>
         <?php if (!empty(trim($patient->cnic))): ?>
-            <span style="font-size: 9pt;"><strong>CNIC:</strong> <?php echo @$patient->cnic ?></span><br>
+            <!-- <span style="font-size: 9pt;"><strong>CNIC:</strong> <?php echo @$patient->cnic ?></span><br> -->
         <?php endif; ?>
-        <?php if (!empty(trim($patient->passport))): ?>
-            <span style="font-size: 9pt;"><strong>Passport No:</strong> <?php echo @$patient->passport ?></span><br>
+
+        <?php if (!empty(trim($patient->mobile))): ?>
+            <span style="font-size: 9pt;"><strong>Mobile No:</strong> <?php echo @$patient->mobile ?></span><br>
         <?php endif; ?>
+
         <?php if ($report->order_by > 0):
             $orderBy = get_doctor($report->order_by);
             $specialization = get_specialization_by_id($orderBy->specialization_id);
