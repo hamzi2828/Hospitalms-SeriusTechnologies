@@ -97,7 +97,7 @@
 		<strong> Reported By:
 		<?php
     $patient        = get_patient ( @$report -> patient_id );
-    $reportedBy     = get_doctor ( @$report -> doctor_id );
+    // $reportedBy     = get_doctor ( @$report -> doctor_id );
     // $specialization = get_specialization_by_id ( $reportedBy -> specialization_id );
     // echo get_doctor ( @$report -> doctor_id ) -> name . ' (' . $specialization -> title . ') - ' . $reportedBy -> qualification;
 ?>  </strong>
@@ -108,6 +108,19 @@
 <sethtmlpageheader name="myheader" value="on" show-this-page="1" />
 <sethtmlpagefooter name="myfooter" value="on" />
 mpdf-->
+<?php
+    
+    if ( isset( $_SERVER[ 'HTTPS' ] ) && $_SERVER[ 'HTTPS' ] === 'on' )
+        $link = "https";
+    else $link = "http";
+    
+    // Here append the common URL characters.
+    $link .= "://";
+    
+    // Append the host(domain name, ip) to the URL.
+    $link .= $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
+
+?>
 <table width="100%">
 <tr>
     <td width="33%" align="left" style="color:#000;">
@@ -148,10 +161,18 @@ mpdf-->
         <?php endif; ?>
     </td>
     <td width="33%" align="right" style="font-size: 8pt;">
-        <?php $barcodeValue = online_report_url . 'qr-login/?parameters=' . encode($report->id); ?>
-        <?php include_once 'bar-code.php'; ?><br />
-        <strong>Perfrom Date/Time:</strong> <?php echo @date_setter($report -> created_at); ?><br>
-    </td>
+    <?php 
+    // Replace 'vaccination-report' with 'vaccination-report-barcode' in the URL
+    $barcodeValue = str_replace('vaccination-report', 'vaccination-report-barcode', $link);
+
+    // Encode the URL for safe usage in QR code
+    $encodedBarcodeValue = urlencode($barcodeValue); 
+?>
+
+    <img src="https://quickchart.io/qr?text=<?php echo $encodedBarcodeValue; ?>&size=130" />
+    <strong>Perfrom Date/Time:</strong> <?php echo @date_setter($report -> created_at); ?><br>
+</td>
+
 </tr>
 
 </table>

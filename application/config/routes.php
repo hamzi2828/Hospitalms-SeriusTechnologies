@@ -2,6 +2,7 @@
     defined ( 'BASEPATH' ) or exit( 'No direct script access allowed' );
     
     $route[ 'default_controller' ]                                    = 'Login/index';
+    $route[ 'invoices/vaccination-report-barcode' ]                   = 'Test/vaccination_report';
     $route[ 'register' ]                                              = 'Login/register';
     $route[ 'forget-password' ]                                       = 'Login/forget_password';
     $route[ 'activate' ]                                              = 'Login/activate_account';
