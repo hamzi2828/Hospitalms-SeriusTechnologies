@@ -710,6 +710,11 @@
             $patient = $this -> db -> get_where ( 'test_sales', array ( 'sale_id' => $sale_id ) );
             return $patient -> row () -> patient_id;
         }
+
+        public function get_patient_id_by_sale_id_refference_code ( $sale_id ) {
+            $patient = $this -> db -> get_where ( 'test_sales', array ( 'sale_id' => $sale_id ) );
+            return $patient -> row () -> reference_code;
+        }
         
         /**
          * -------------------------

@@ -1756,6 +1756,46 @@
         }
 
 
+
+
+        public function ticket () {
+            
+            $sale_id = $this -> uri -> segment ( 3 );
+            if ( empty( trim ( $sale_id ) ) or !is_numeric ( $sale_id ) or $sale_id < 1 )
+                return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+            
+            $patient_id = get_patient_id_by_sale_id ( $sale_id );
+            
+            if ( empty( trim ( $patient_id ) ) or !is_numeric ( $patient_id ) or $patient_id < 1 )
+                return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+            
+            $data[ 'patient' ] = get_patient ( $patient_id );
+            $data[ 'sale_id' ] = $sale_id;
+            $data[ 'reference_code' ] = get_patient_id_by_sale_id_refference_code ( $sale_id );
+            $html_content      = $this -> load -> view ( '/invoices/ticket', $data, true );
+            require_once FCPATH . '/vendor/autoload.php';
+            $mpdf = new \Mpdf\Mpdf( [
+                                        'margin_left'   => 10,
+                                        'margin_right'  => 5,
+                                        'margin_top'    => 5,
+                                        'margin_bottom' => 5,
+                                        'margin_header' => 0,
+                                        'margin_footer' => 0
+                                    ] );
+            $name = 'Ticket ' . rand () . '.pdf';
+            
+            $mpdf -> SetTitle ( strip_tags ( site_name ) );
+            $mpdf -> SetAuthor ( site_name );
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+            $mpdf -> SetDisplayMode ( 'real' );
+            $mpdf -> WriteHTML ( $html_content );
+            $mpdf -> Output ( $name, 'I' );
+        }
+
+        
         /**
          * ---------------------
          * do print invoice
