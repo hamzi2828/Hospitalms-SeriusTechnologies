@@ -153,7 +153,7 @@ mpdf-->
                 <!-- <strong>Referred By:</strong> <?php echo $orderBy->name; ?> -->
             </span><br>
         <?php endif; ?>
-        <strong>Performed:</strong> <?php echo @date_setter($report -> created_at, 'd-m-Y g:i A'); ?><br>
+        <strong>Perfrom Date:</strong> <?php echo @date_setter($report -> created_at); ?><br>
 
     </td>
     <td width="33%" align="center" style="font-size: 9pt;">
@@ -170,7 +170,7 @@ mpdf-->
     $encodedBarcodeValue = urlencode($barcodeValue); 
     ?>
 
-    <img src="https://quickchart.io/qr?text=<?php echo $encodedBarcodeValue; ?>&size=120" alt="QR Code" />
+    <img src="https://quickchart.io/qr?text=<?php echo $encodedBarcodeValue; ?>&size=130" alt="QR Code" />
 
 </td>
 
