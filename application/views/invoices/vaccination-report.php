@@ -126,7 +126,7 @@ mpdf-->
 <tr>
     <td width="33%" align="left" style="color:#000;">
         <span style="font-size: 9pt;"><strong>Report ID:</strong> <?php echo @$report->id ?></span><br>
-        <span style="font-size: 9pt;"><strong><?php echo $this->lang->line('INVOICE_ID'); ?>:</strong> <?php echo @$report->sale_id ?></span><br>
+        <!-- <span style="font-size: 9pt;"><strong><?php echo $this->lang->line('INVOICE_ID'); ?>:</strong> <?php echo @$report->sale_id ?></span><br> -->
         <span style="font-size: 9pt;"><strong>MR No:</strong> <?php echo @$patient->id ?></span><br>
         <span style="font-size: 9pt;"><strong>Name:</strong> <?php echo @get_patient_name(0, $patient) ?></span><br>
         <?php if (!empty(trim($patient->passport))): ?>
