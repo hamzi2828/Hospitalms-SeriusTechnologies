@@ -188,7 +188,11 @@
                                                         Print-LW
                                                     </a>
                                                 <?php endif; ?>
-
+                                                
+                                                <a href="<?php echo base_url ( '/invoices/ticket/' . $sale -> sale_id ) ?>"
+                                                   class="btn green" target="_blank">
+                                                    Print Ticket
+                                                </a>
 
                                             
                                             <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'view_lab_sale_invoices', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
