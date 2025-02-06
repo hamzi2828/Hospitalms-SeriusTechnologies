@@ -94,7 +94,8 @@
 <div style="width: 100%; float: left; display:block; font-size: 7pt; text-align: left;">
         <span style="font-size: 8pt;">This is a computer generated report, therefore signatures are not required.</span>
         <br/>
-		<strong> Reported By:
+		<strong> 
+         
 		<?php
     $patient        = get_patient ( @$report -> patient_id );
     // $reportedBy     = get_doctor ( @$report -> doctor_id );
@@ -152,6 +153,8 @@ mpdf-->
                 <!-- <strong>Referred By:</strong> <?php echo $orderBy->name; ?> -->
             </span><br>
         <?php endif; ?>
+        <strong>Performed:</strong> <?php echo @date_setter($report -> created_at, 'd-m-Y g:i A'); ?><br>
+
     </td>
     <td width="33%" align="center" style="font-size: 9pt;">
         <?php if (!empty($patient->picture)): ?>
@@ -160,17 +163,15 @@ mpdf-->
             <span style="font-size: 8pt;"><strong>No Picture Available</strong></span>
         <?php endif; ?>
     </td>
-    <td width="33%" align="right" style="font-size: 8pt;">
+    <td width="33%" style="font-size: 8pt; text-align: right; padding-right: 10px;">
     <?php 
     // Replace 'vaccination-report' with 'vaccination-report-barcode' in the URL
     $barcodeValue = str_replace('vaccination-report', 'vaccination-report-barcode', $link);
-
-    // Encode the URL for safe usage in QR code
     $encodedBarcodeValue = urlencode($barcodeValue); 
-?>
+    ?>
 
-    <img src="https://quickchart.io/qr?text=<?php echo $encodedBarcodeValue; ?>&size=130" />
-    <strong>Perfrom Date/Time:</strong> <?php echo @date_setter($report -> created_at); ?><br>
+    <img src="https://quickchart.io/qr?text=<?php echo $encodedBarcodeValue; ?>&size=120" alt="QR Code" />
+
 </td>
 
 </tr>
