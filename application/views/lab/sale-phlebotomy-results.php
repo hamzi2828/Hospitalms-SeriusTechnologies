@@ -165,7 +165,9 @@
 
   
                                             <td><?php echo $test -> name ?></td>
-                                            <td><?php echo $sale -> due ? 'Yes' : 'No'; ?></td>
+                                            <td><?php echo $sale -> due ? '
+                                            <p style="padding-left:15px; padding-right:15px;" class="btn btn-danger btn-xs btn-block ">Yes</p>
+                                            ' : ' '; ?></td>
 
                                             <td>
                                                 <?php echo date_setter ( $saleInfo -> date_sale ); ?>
