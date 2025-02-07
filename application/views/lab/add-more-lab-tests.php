@@ -15,7 +15,7 @@
                         <?php echo '('.$test -> code.') '.$test -> name ?>
                     </option>
             <?php
-//                    echo @get_sub_lab_tests($test -> id);
+                // echo @get_sub_lab_tests($test -> id);
                 }
             }
             ?>

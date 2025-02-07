@@ -924,6 +924,7 @@
                         return redirect ( base_url ( '/lab/sale' ) );
                     }
                 }
+             
                 
                 $total_sale = calculate_total_lab_sale ( $panel_id );
                 $net_sale   = $total_sale - ( $total_sale * ( $discount / 100 ) );
@@ -1176,6 +1177,8 @@
                                         $info = array_merge($info, [
                                             'test_id' => $test_id,
                                             'parent_id' => null,
+                                            'due'                       => isset($_POST['due'][$key]) ? $_POST['due'][$key] : 0,
+                                            'urgent'                    => isset($_POST['urgent'][$key]) ? $_POST['urgent'][$key] : 0,
                                             'type' => 'profile',
                                             'reference_code' => $reference_code, // Ensure reference code is saved
                                             'price' => $price,
@@ -1206,6 +1209,8 @@
                                                 $info = array_merge($info, [
                                                     'test_id' => $sub_test->id,
                                                     'parent_id' => $test_id,
+                                                    'due'                       => isset($_POST['due'][$key]) ? $_POST['due'][$key] : 0,
+                                                    'urgent'                    => isset($_POST['urgent'][$key]) ? $_POST['urgent'][$key] : 0,
                                                     'type' => 'profile',
                                                     'reference_code' => $reference_code_sub, // Ensure reference code is saved
                                                     'price' => 0,
@@ -1238,6 +1243,8 @@
                                         $info = array_merge($info, [
                                             'test_id' => $test_id,
                                             'parent_id' => null,
+                                            'due'                       => isset($_POST['due'][$key]) ? $_POST['due'][$key] : 0,
+                                            'urgent'                    => isset($_POST['urgent'][$key]) ? $_POST['urgent'][$key] : 0,
                                             'type' => 'test',
                                             'reference_code' => $reference_code, // Ensure reference code is saved
                                             'price' => $price,

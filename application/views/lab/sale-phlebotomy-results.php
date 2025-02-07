@@ -110,6 +110,8 @@
                                 <th> <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></th>
                                 <th> Patient Panel</th>
                                 <th> Test Name</th>
+                                <th> Due</th>
+
                                 <th> Date Added</th>
                                 <th> Sample Taken</th>
                                 <th> Sample Received</th>
@@ -121,6 +123,7 @@
                                 $counter = 1 + ( isset( $_GET[ 'per_page' ] ) and @$_GET[ 'per_page' ] > 0 ) ? ( @$_GET[ 'per_page' ] + 1 ) : 0;
                                 if ( count ( $sales ) > 0 ) {
                                     foreach ( $sales as $sale ) {
+                                      
                                         $results     = @get_test_results ( $sale -> sale_id, $sale -> test_id );
                                         $test        = @get_test_by_id ( $sale -> test_id );
 
@@ -159,8 +162,11 @@
                                                         echo get_panel_by_id ( $patient -> panel_id ) -> name;
                                                 ?>
                                             </td>
+
   
                                             <td><?php echo $test -> name ?></td>
+                                            <td><?php echo $sale -> due ? 'Yes' : 'No'; ?></td>
+
                                             <td>
                                                 <?php echo date_setter ( $saleInfo -> date_sale ); ?>
                                             </td>

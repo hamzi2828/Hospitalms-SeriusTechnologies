@@ -159,6 +159,7 @@ mpdf-->
         <th style="width: 10%">Sr. No.</th>
         <th align="left">Code</th>
         <th align="left">Test Name</th>
+        <th align="left">Urgent</th>
         <th align="left">Type</th>
         <th align="left">Lab Ref No.</th>
         <th align="left">Reporting Date</th>
@@ -196,10 +197,25 @@ mpdf-->
                     <tr <?php if ( $sale -> parent_id != '' and $sale -> parent_id > 0 )
                         echo 'parent' ?>>
                         <td align="center" style="<?php echo $style ?>"><?php echo $counter++ ?></td>
-                        <td align="left" style="<?php echo $style ?>"><?php echo $test -> code ?></td>
-                        <td align="left" style="<?php echo $style ?>"><?php echo $test -> name ?></td>
-                        <td align="left"><?php echo ucfirst ( $test -> type ) ?></td>
-                        <td align="left" style="<?php echo $style ?>"><?php echo $sale -> reference_code?></td>
+                        <td align="left" style="<?php echo $style ?>">
+                            <?php
+                                if ( $sale -> urgent )
+                                    echo '<b>' . $test -> code . '</b>';
+                                else
+                                    echo $test -> code;
+                            ?>
+                        </td>
+                        <td align="left" style="<?php echo $style ?>">
+                            <?php
+                                if ( $sale -> urgent )
+                                    echo '<b>' . $test -> name . '</b>';
+                                else
+                                    echo $test -> name;
+                            ?>
+                        </td>
+                        <td align="left"><?php echo $sale->urgent ? '<b>Yes</b>' : 'No'; ?></td>
+                        <td align="left"><?php echo $sale->urgent ? '<b>' . ucfirst ( $test -> type ) . '</b>' : ucfirst ( $test -> type ) ?></td>
+                        <td align="left" style="<?php echo $style ?>"><?php echo $sale->urgent ? '<b>' . $sale -> reference_code . '</b>' : $sale -> reference_code?></td>
 
                         <td align="left" style="<?php echo $style ?>">
                             <?php
@@ -210,7 +226,7 @@ mpdf-->
                             ?>
                         </td>
                         <td align="center"
-                            style="<?php echo $style ?>"><?php echo number_format ( $sale -> price, 2 ) ?></td>
+                            style="<?php echo $style ?>"><?php echo $sale->urgent ? '<b>' . number_format ( $sale -> price, 2 ) . '</b>' : number_format ( $sale -> price, 2 ) ?></td>
                     </tr>
                     <?php
                 }
@@ -218,6 +234,7 @@ mpdf-->
             ?>
             <?php if ( $test_sale_info -> refunded != '1' ) { ?>
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
@@ -230,6 +247,7 @@ mpdf-->
                 <tr>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Discount(%)</strong>
                     </td>
@@ -238,6 +256,7 @@ mpdf-->
                     </td>
                 </tr>
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
@@ -250,6 +269,7 @@ mpdf-->
                 <tr>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Net Total</strong>
                     </td>
@@ -260,6 +280,7 @@ mpdf-->
                 <tr>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Paid Amount</strong>
                     </td>
@@ -268,6 +289,7 @@ mpdf-->
                     </td>
                 </tr>
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right; color: #ff0000">
@@ -283,6 +305,7 @@ mpdf-->
                 <tr>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Total</strong>
                     </td>
@@ -291,6 +314,7 @@ mpdf-->
                     </td>
                 </tr>
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
@@ -303,6 +327,7 @@ mpdf-->
                 <tr>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Refund Amount</strong>
                     </td>
@@ -311,6 +336,7 @@ mpdf-->
                     </td>
                 </tr>
                 <tr> 
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">

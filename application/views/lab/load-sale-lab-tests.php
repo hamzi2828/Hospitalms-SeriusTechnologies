@@ -13,9 +13,22 @@
         <input type="text" class="form-control price" readonly="readonly" name="price[]" value="<?php echo $price ?>">
     </div>
     
-    <div class="col-lg-4">
-        <label><strong>Report Collection Date & Time</strong></label>
-        <input type="datetime-local" name="report-collection-date-time[]" class="form-control"
-        value="<?php echo isset($default_datetime) ? $default_datetime : '' ?>">
+    <div class="col-lg-4" style="display: flex; align-items: center; gap: 10px; padding-left: 0;">
+        <div>
+            <label><strong>Report Date & Time</strong></label>
+            <input type="datetime-local" name="report-collection-date-time[]" class="form-control"
+            value="<?php echo isset($default_datetime) ? $default_datetime : '' ?>">
+        </div>
+
+        <div class="form-group" style="margin: 0;">
+            <div style="margin-top: 20px">
+        
+                <input type="checkbox" class="icheck" name="due[]" value="1"> Due
+            </div>
+            <div style="margin-top: 15px">
+                <input type="checkbox" class="icheck" name="urgent[]" value="1"> Urgent
+            </div>
+                    
+        </div>
     </div>
 </div>
