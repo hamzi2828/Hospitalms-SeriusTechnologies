@@ -1650,10 +1650,10 @@
         return $ci -> LabModel -> get_patient_id_by_sale_id ( $sale_id );
     }
 
-    function get_patient_id_by_sale_id_refference_code ( $sale_id ) {
+    function get_all_refference_code_by_sale_id ( $sale_id ) {
         $ci = &get_instance ();
         $ci -> load -> model ( 'LabModel' );
-        return $ci -> LabModel -> get_patient_id_by_sale_id_refference_code ( $sale_id );
+        return $ci -> LabModel -> get_all_refference_code_by_sale_id ( $sale_id );
     }
     
     /**

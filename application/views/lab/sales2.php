@@ -220,10 +220,14 @@
                                                         Print-LW
                                                     </a>
                                                 <?php endif; ?>
+                                                <?php
+                                                if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_ticket', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) :
+                                                    ?>
                                                 <a href="<?php echo base_url ( '/invoices/ticket/' . $sale -> sale_id ) ?>"
                                                    class="btn green" target="_blank">
                                                     Print Ticket
                                                 </a>
+                                                <?php endif; ?>
                                             <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'view_lab_sale_invoices', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                                 <a href="<?php echo base_url ( '/lab/edit-sale/' . $sale -> sale_id ) ?>"
                                                    class="btn red">

@@ -1730,7 +1730,7 @@
                                         'margin_header' => 5,
                                         'margin_footer' => 5
                                     ] );
-            $name = 'Xray Report ' . rand () . '.pdf';
+            $name = 'Vacc Report ' . rand () . '.pdf';
 
             $mpdf -> SetTitle ( strip_tags ( site_name ) );
             $mpdf -> SetAuthor ( site_name );
@@ -1771,7 +1771,7 @@
             
             $data[ 'patient' ] = get_patient ( $patient_id );
             $data[ 'sale_id' ] = $sale_id;
-            $data[ 'reference_code' ] = get_patient_id_by_sale_id_refference_code ( $sale_id );
+            $data[ 'reference_code' ] = get_all_refference_code_by_sale_id ( $sale_id );
             $html_content      = $this -> load -> view ( '/invoices/ticket', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [

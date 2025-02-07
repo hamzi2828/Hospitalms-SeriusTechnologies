@@ -56,7 +56,9 @@
 
     <tr>
         <td width="100%" style="height: 100%">
-        <strong><?php echo $reference_code  ?></strong>
+        <strong>
+            <?php echo implode('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $reference_code); ?>
+        </strong>
         </td>
     </tr>
 

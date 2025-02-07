@@ -27,9 +27,9 @@
     </li>
 <?php endif; ?>
 
-<?php if (!empty($access) and in_array('vaccinations', explode(',', $access->access))) : ?>
-    
-<li class="<?php if ($parent_uri !== 'vaccination-module') echo 'start active'; ?>">
+<?php if (!empty($access) and in_array('vaccinations-module-sidebar', explode(',', $access->access))) : ?>
+    <!--$parent_uri ==  main menue red highlight  depedn upon it   -->
+<li class="<?php if ($parent_uri == 'vaccination-setting') echo 'start active'; ?>">
     <a href="javascript:void(0);">
         <i class="fa fa-medkit"></i>
         <span class="title"> Vaccination </span>

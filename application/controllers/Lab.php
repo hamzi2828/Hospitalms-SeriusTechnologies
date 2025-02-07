@@ -1295,10 +1295,28 @@
                     
                     $this -> db -> trans_commit ();
                     
-                    $print = '<strong><a href="' . base_url ( '/invoices/lab-sale-invoice/' . $sale_id ) . '" target="_blank">Print</a></strong>';
+                    $daily_location_sale_id = get_daily_location_sale_id_by_hmis_lab_sales_id($sale_id);
+
+                    if (get_user_access(get_logged_in_user_id()) && in_array('print_LW_lab_sale_invoices', explode(',', get_user_access(get_logged_in_user_id())->access))) {
+                        $print = '<strong><a href="' . base_url('/invoices/lab-sale-invoice/' . $sale_id) . '" target="_blank">Print </a></strong> | ';
+                    } else {
+                        $print = '';
+                    }
                     
-                    if ( $sale_id > 0 ){
-                        $this -> session -> set_flashdata ( 'response', 'Success! Lab sale has been added. ' . $print );
+                    if (get_user_access(get_logged_in_user_id()) && in_array('print_ticket', explode(',', get_user_access(get_logged_in_user_id())->access))) {
+                        $printTicket = '<strong><a href="' . base_url('/invoices/ticket/' . $sale_id) . '" target="_blank">Print Ticket</a></strong> | ';
+                    } else {
+                        $printTicket = '';
+                    }
+                    
+                    if (get_user_access(get_logged_in_user_id()) && in_array('view_lab_sale_invoices', explode(',', get_user_access(get_logged_in_user_id())->access))) {
+                        $printLW = '<strong><a href="' . base_url('/invoices/lab-sale-invoice/' . $sale_id . '?print2=true&daily_location_sale_id=' . $daily_location_sale_id) . '" target="_blank">Print LW</a></strong> | ';
+                    } else {
+                        $printLW = '';
+                    }
+                    
+                    if ($sale_id > 0) {
+                        $this->session->set_flashdata('response', 'Success! Lab sale has been added. ' . $print . ' ' . $printTicket . ' ' . $printLW);
                         return redirect(base_url('/lab/sale'));
                     }
                     else{
@@ -1306,7 +1324,7 @@
 
                     }
                     
-                    return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+                    return redirect ( $_SERVER[ 'HTTP_REFERER' ] ); 
                 }
                 catch ( Exception $e ) {
                     $this -> db -> trans_rollback ();
@@ -3504,7 +3522,7 @@
                     // Check if sale-id and sample_status are passed
             $id = isset($_GET['id']) ? $_GET['id'] : null;
             $sample_status = isset($_GET['sample_status']) ? $_GET['sample_status'] : null;
-            /**********PAGINATION***********/
+            /**********PAGINATION***********/ 
             $limit                          = 100;
             $config                         = array ();
             $config[ "base_url" ]           = base_url ( 'lab/sale-Phlebotomy-results' );

@@ -104,6 +104,9 @@
                             <tr>
                                 <th> Sr. No</th>
                                 <th> <?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></th>
+                                <th> Location</th>
+                                <th> Location Sale Id</th>
+                                <th> Daily Sale Id</th>
                                 <th> <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></th>
                                 <th> Patient Panel</th>
                                 <th> Test Name</th>
@@ -120,6 +123,14 @@
                                     foreach ( $sales as $sale ) {
                                         $results     = @get_test_results ( $sale -> sale_id, $sale -> test_id );
                                         $test        = @get_test_by_id ( $sale -> test_id );
+
+
+                                        $sale_info = get_lab_sale ( $sale -> sale_id );
+                                        $location  = ( is_object ( $sale_info ) ) ? get_location_by_id ( $sale_info -> locations_id ) : new stdClass();
+                                        $location_sale_id = get_location_sale_id_by_hmis_lab_sales_id($sale -> sale_id);
+                                        $daily_location_sale_id = get_daily_location_sale_id_by_hmis_lab_sales_id($sale -> sale_id);
+
+
                                         $isParent    = check_if_test_has_sub_tests ( $sale -> test_id );
                                         $parent_id   = $test -> type == 'test' ? 0 : $sale -> test_id;
                                         $saleInfo    = get_lab_sale ( $sale -> sale_id );
@@ -136,7 +147,10 @@
                                             <a href="<?php echo base_url('/invoices/lab-sale-invoice/' . $sale->sale_id); ?>" target="_blank">
                                                 <?php echo $sale->sale_id; ?>
                                             </a>
-                                        </td>
+                                            </td>
+                                            <td><?php echo $location->name ?? ''; ?></td>
+                                    <td><?php echo $location_sale_id ?? ''; ?></td>
+                                    <td><?php echo $daily_location_sale_id ?? ''; ?></td>
 
                                             <td><?php echo @get_patient_name ( 0, $patient ) ?></td>
                                             <td>
@@ -198,8 +212,23 @@
                                             <?php echo !empty($sale->sample_taken_by_user) ? 'disabled' : ''; ?>>
                                                 Sample Taken
                                             </a>
+                                            
+                                         
 
                                         <?php endif; ?>
+
+                                        <?php 
+                                        // Check if the user has access to take the sample
+                                        if (get_user_access(get_logged_in_user_id()) && 
+                                            in_array('Phlebotomy_clear_sample', explode(',', get_user_access(get_logged_in_user_id())->access))) : ?>
+                                        
+                                        <?php   if (!empty($sale->sample_taken_by_user)  ) { ?>
+                                                <a href="<?php echo base_url('/lab/sale-Phlebotomy-results-sample-Taken/?id=' . $sale->id . '&sample_status=SampleTakenReverse'); ?>" 
+                                            class="btn blue btn-xs btn-block "  >
+                                                Clear
+                                            </a>
+                                                <?php } ?>
+                                    <?php endif; ?>
 
 
                                         <?php  
@@ -213,8 +242,21 @@
                                             <?php echo !empty($sale->sample_received_by_user) ? 'disabled' : ''; ?>>
                                                 Sample Received
                                             </a>
-
+                                      
                                         <?php endif; ?>
+
+                                        <?php 
+                                        // Check if the user has access to take the sample
+                                        if (get_user_access(get_logged_in_user_id()) && 
+                                            in_array('Phlebotomy_clear_sample', explode(',', get_user_access(get_logged_in_user_id())->access))) : ?>
+                                        
+                                        <?php   if (!empty($sale->sample_received_by_user)) { ?>
+                                                <a href="<?php echo base_url('/lab/sale-Phlebotomy-results-sample-Taken/?id=' . $sale->id . '&sample_status=SampleReceivedReverse'); ?>" 
+                                            class="btn dark btn-xs btn-block "  >
+                                                Clear
+                                            </a>
+                                                <?php } ?>
+                                    <?php endif; ?>
                                     </td>
 
 

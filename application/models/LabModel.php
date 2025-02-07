@@ -711,9 +711,14 @@
             return $patient -> row () -> patient_id;
         }
 
-        public function get_patient_id_by_sale_id_refference_code ( $sale_id ) {
+        public function get_all_refference_code_by_sale_id ( $sale_id ) {
             $patient = $this -> db -> get_where ( 'test_sales', array ( 'sale_id' => $sale_id ) );
-            return $patient -> row () -> reference_code;
+            $result = $patient -> result ();
+            $reference_codes = array ();
+            foreach ( $result as $row ) {
+                $reference_codes[ ] = $row -> reference_code;
+            }
+            return $reference_codes;
         }
         
         /**
@@ -3149,14 +3154,35 @@
             
             // Get the current sale data
             $sale = $this->db->get_where('hmis_test_sales', array('id' => $id))->row();
-            
+        
+        
             if ($sample_status == 'SampleTaken') {
                 // If the sample status is SampleTaken, update the sample taken details
                 $data = array(
                     'sample_taken_by_user' => $user_id,
                     'sample_taken_by_user_time' => $current_time
                 );
-            } elseif ($sample_status == 'SampleReceived') {
+            }
+            elseif ($sample_status == 'SampleTakenReverse') {
+                // If the sample status is SampleReverse, update the sample taken details
+                $data = array(
+                    'sample_taken_by_user' => '',
+                    'sample_taken_by_user_time' => ''
+                );
+            }
+            elseif ($sample_status == 'SampleReceivedReverse') {
+                // Check if the sample was taken before allowing SampleReceived
+                if (empty($sale->sample_taken_by_user) || empty($sale->sample_taken_by_user_time)) {
+                    // If sample was not taken, return an alert or handle error
+                    return array('status' => false, 'message' => 'Sample is not taken yet.');
+                }
+                
+                $data = array(
+                    'sample_received_by_user' => '',
+                    'sample_received_by_user_time' => ''
+                );
+            } 
+            elseif ($sample_status == 'SampleReceived') {
                 // Check if the sample was taken before allowing SampleReceived
                 if (empty($sale->sample_taken_by_user) || empty($sale->sample_taken_by_user_time)) {
                     // If sample was not taken, return an alert or handle error

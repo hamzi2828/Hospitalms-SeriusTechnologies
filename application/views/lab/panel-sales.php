@@ -189,11 +189,14 @@
                                                     </a>
                                                 <?php endif; ?>
                                                 
+                                                <?php
+                                                if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_ticket', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) :
+                                                    ?>
                                                 <a href="<?php echo base_url ( '/invoices/ticket/' . $sale -> sale_id ) ?>"
                                                    class="btn green" target="_blank">
                                                     Print Ticket
                                                 </a>
-
+                                                <?php endif; ?>
                                             
                                             <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'view_lab_sale_invoices', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                                 <a href="<?php echo base_url ( '/lab/edit-sale/' . $sale -> sale_id ) ?>"
@@ -213,13 +216,13 @@
                                             <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'refund_lab_sales', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) and $sale -> refunded == '0' ) : ?>
                                                 <?php if ( ( $sale_info -> total - $sale_info -> paid_amount ) < 1 ) : ?>
                                                     <a href="<?php echo base_url ( '/lab/refund/' . $sale -> sale_id ) ?>"
-                                                       class="btn btn-success">
+                                                       class="btn green">
                                                         Refund
                                                     </a>
                                                 <?php else : ?>
                                                     <a href="javascript:void(0)"
                                                        onclick="return alert('Partial payment sale cannot be refunded')"
-                                                       class="btn btn-success">
+                                                       class="btn green">
                                                         Refund
                                                     </a>
                                                 <?php endif; ?>

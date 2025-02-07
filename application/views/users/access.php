@@ -1026,6 +1026,9 @@
                       <input type="checkbox" class="checkbox" name="access[]"
                        value="print_LW_lab_sale_invoices" <?php if ( !empty( $access ) and in_array ( 'print_LW_lab_sale_invoices', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>> Print LW
+            <input type="checkbox" class="checkbox" name="access[]"
+                       value="print_ticket" <?php if ( !empty( $access ) and in_array ( 'print_ticket', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Print Ticket
 
                 <input type="checkbox" class="checkbox" name="access[]"
                        value="refund_lab_sales" <?php if ( !empty( $access ) and in_array ( 'refund_lab_sales', explode ( ',', $access -> access ) ) )
@@ -1166,7 +1169,9 @@
                 <input type="checkbox" class="checkbox" name="access[]"
                        value="Phlebotomy_receive_sample" <?php if ( !empty( $access ) and in_array ( 'Phlebotomy_receive_sample', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>> Received Sample
-
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="Phlebotomy_clear_sample" <?php if ( !empty( $access ) and in_array ( 'Phlebotomy_clear_sample', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Clear 
             </td>
         </tr>
 
@@ -4790,13 +4795,14 @@
         <tr style="background: #dff0d8;">
             <td>Vaccinations</td> 
             <td></td>
+
             <td>
                 <input type="checkbox" class="checkbox" name="access[]"
-                       value="vaccinations" <?php if ( !empty( $access ) and in_array ( 'vaccinations', explode ( ',', $access -> access ) ) )
+                    value="vaccinations-module-sidebar" <?php if (!empty($access) and in_array('vaccinations-module-sidebar', explode(',', $access->access)))
                     echo 'checked="checked"' ?>>
             </td>
             <td></td>
-        </tr>
+        </tr> 
         <tr style="background: #dff0d8;">
             <td></td>
             <td>All Vaccinations</td>
