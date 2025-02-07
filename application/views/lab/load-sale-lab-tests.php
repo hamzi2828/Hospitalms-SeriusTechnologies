@@ -1,5 +1,6 @@
 <div class="sale-<?php echo $row ?>" style="display: block; float: left; width: 100%; background: #f5f5f5; padding: 10px 0 0 15px; margin-bottom: 15px; position: relative">
-    <div class="form-group col-lg-6" style="padding-left: 0">
+    
+<div class="form-group col-lg-5" style="padding-left: 0">
         <a href="javascript:void(0)" onclick="remove_lab_row(<?php echo $row ?>)">
             <i class="fa fa-trash"></i>
         </a>
@@ -20,15 +21,16 @@
             value="<?php echo isset($default_datetime) ? $default_datetime : '' ?>">
         </div>
 
-        <div class="form-group" style="margin: 0;">
-            <div style="margin-top: 20px">
-        
-                <input type="checkbox" class="icheck" name="due[]" value="1"> Due
+   
+            <div style="margin-top: 15px; margin-right: 10px">
+                 Due
+                <input style="zoom: 1.5;" type="checkbox" class="icheck" name="due[]" value="1"> 
             </div>
             <div style="margin-top: 15px">
-                <input type="checkbox" class="icheck" name="urgent[]" value="1"> Urgent
+                     Urgent
+                <input style="zoom: 1.5; margin-left: 5px;" type="checkbox" class="icheck" name="urgent[]" value="1" >
             </div>
                     
-        </div>
+      
     </div>
 </div>

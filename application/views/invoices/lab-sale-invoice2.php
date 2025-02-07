@@ -159,7 +159,7 @@ mpdf-->
         <th style="width: 10%">Sr. No.</th>
         <th align="left">Code</th>
         <th align="left">Test Name</th>
-        <th align="left">Urgent</th>
+        <th align="left">Status</th>
         <th align="left">Type</th>
         <th align="left">Lab Ref No.</th>
         <th align="left">Reporting Date</th>
@@ -213,7 +213,7 @@ mpdf-->
                                     echo $test -> name;
                             ?>
                         </td>
-                        <td align="left"><?php echo $sale->urgent ? '<b>Yes</b>' : 'No'; ?></td>
+                        <td align="left"><?php echo $sale->urgent ? '<b>Urgent</b>' : ' '; ?></td>
                         <td align="left"><?php echo $sale->urgent ? '<b>' . ucfirst ( $test -> type ) . '</b>' : ucfirst ( $test -> type ) ?></td>
                         <td align="left" style="<?php echo $style ?>"><?php echo $sale->urgent ? '<b>' . $sale -> reference_code . '</b>' : $sale -> reference_code?></td>
 

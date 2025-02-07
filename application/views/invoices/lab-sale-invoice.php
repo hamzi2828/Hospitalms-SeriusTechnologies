@@ -148,6 +148,7 @@ mpdf-->
         <th style="width: 10%">Sr. No.</th>
         <th align="left">Code</th>
         <th align="left">Test Name</th>
+        <th align="left"> Status</th>
         <th align="left">Type</th>
         <th align="left">Reporting Date</th>
         <th>Price</th>
@@ -184,9 +185,10 @@ mpdf-->
                     <tr <?php if ( $sale -> parent_id != '' and $sale -> parent_id > 0 )
                         echo 'parent' ?>>
                         <td align="center" style="<?php echo $style ?>"><?php echo $counter++ ?></td>
-                        <td align="left" style="<?php echo $style ?>"><?php echo $test -> code ?></td>
-                        <td align="left" style="<?php echo $style ?>"><?php echo $test -> name ?></td>
-                        <td align="left"><?php echo ucfirst ( $test -> type ) ?></td>
+                        <td align="left" style="<?php echo $style ?>"><?php echo $sale->urgent ? '<b>' . $test -> code . '</b>' : $test -> code ?></td>
+                        <td align="left" style="<?php echo $style ?>"><?php echo $sale->urgent ? '<b>' . $test -> name . '</b>' : $test -> name ?></td>
+                        <td align="left"><?php echo $sale->urgent ? '<b>Urgent</b>' : ' '; ?></td>
+                        <td align="left"><?php echo $sale->urgent ? '<b>' . ucfirst ( $test -> type ) . '</b>' : ucfirst ( $test -> type ) ?></td>
                         <td align="left" style="<?php echo $style ?>">
                             <?php
                                 if ( $sale -> report_collection_date_time != '1970-01-01 05:00:00' )
