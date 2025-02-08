@@ -130,6 +130,7 @@
                     </div>
                 `;
                 locationsContainer.appendChild(newRow);
+                $(newRow).find('.select2me').select2();
             }
 
             if (event.target.classList.contains('remove-location')) {
@@ -140,6 +141,7 @@
                 }
             }
         });
+        $('.select2me').select2();
     });
 </script>
  

@@ -207,6 +207,7 @@ mpdf-->
             <?php if ( $test_sale_info -> refunded != '1' ) { ?>
                 <tr>
                     <td></td>
+                    <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Gross Total</strong>
                     </td>
@@ -215,6 +216,7 @@ mpdf-->
                     </td>
                 </tr>
                 <tr>
+                    <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Discount(%)</strong>
@@ -225,6 +227,7 @@ mpdf-->
                 </tr>
                 <tr>
                     <td></td>
+                    <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Discount(Flat)</strong>
                     </td>
@@ -234,6 +237,7 @@ mpdf-->
                 </tr>
                 <tr>
                     <td></td>
+                    <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Net Total</strong>
                     </td>
@@ -242,6 +246,7 @@ mpdf-->
                     </td>
                 </tr>
                 <tr>
+                <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Paid Amount</strong>
@@ -251,6 +256,7 @@ mpdf-->
                     </td>
                 </tr>
                 <tr>
+                <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right; color: #ff0000">
                         <strong>Balance</strong>
@@ -263,6 +269,7 @@ mpdf-->
             }
             else { ?>
                 <tr>
+                <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Total</strong>
@@ -272,6 +279,7 @@ mpdf-->
                     </td>
                 </tr>
                 <tr>
+                <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Discount(%)</strong>
@@ -281,6 +289,7 @@ mpdf-->
                     </td>
                 </tr>
                 <tr>
+                <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Refund Amount</strong>
@@ -290,6 +299,7 @@ mpdf-->
                     </td>
                 </tr>
                 <tr> 
+                <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Balance</strong>

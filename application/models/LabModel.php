@@ -3160,7 +3160,9 @@
                 // If the sample status is SampleTaken, update the sample taken details
                 $data = array(
                     'sample_taken_by_user' => $user_id,
-                    'sample_taken_by_user_time' => $current_time
+                    'sample_taken_by_user_time' => $current_time,
+                    'due' => ' '
+
                 );
             }
             elseif ($sample_status == 'SampleTakenReverse') {
