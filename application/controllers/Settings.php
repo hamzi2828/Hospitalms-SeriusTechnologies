@@ -1624,7 +1624,7 @@
                     'code' => $data['code'],
                 );
         
-                // $updated = $this->SectionModel->edit($info, $section_id);
+                $updated = $this->SectionModel->edit($info, $section_id);
         
                 // if ($updated) {
                     // Loop through provided locations and max limits
