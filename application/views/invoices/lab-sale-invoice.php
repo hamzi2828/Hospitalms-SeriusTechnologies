@@ -101,6 +101,8 @@
 <sethtmlpagefooter name="myfooter" value="on" />
 mpdf-->
 <br />
+<?php
+ $panel_request = $_REQUEST[ 'panel' ] ;?>
 <table width="100%">
     <tr>
         <td width="60%">
@@ -151,7 +153,9 @@ mpdf-->
         <th align="left"> Status</th>
         <th align="left">Type</th>
         <th align="left">Reporting Date</th>
+        <?php if ( $panel_request != 'true'  ) { ?>
         <th>Price</th>
+        <?php } ?>
     </tr>
     </thead>
     <tbody>
@@ -197,22 +201,28 @@ mpdf-->
                                     echo '-';
                             ?>
                         </td>
-                        <td align="center"
+                        <?php if ( $panel_request != 'true'  ) { ?>
+                            <td align="center"
                             style="<?php echo $style ?>"><?php echo number_format ( $sale -> price, 2 ) ?></td>
+                    <?php } ?>
+                    
                     </tr>
                     <?php
                 }
             }
             ?>
-            <?php if ( $test_sale_info -> refunded != '1' ) { ?>
+            <?php 
+             if ( $panel_request != 'true'  ) { 
+            if ( $test_sale_info -> refunded != '1'  ) { ?>
                 <tr>
                     <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Gross Total</strong>
+            
                     </td>
                     <td style="text-align: center">
-                        <h4><?php echo number_format ( $netSalePrice, 2 ); ?></h4>
+                        <h4><?php echo  number_format ( $netSalePrice, 2 ); ?></h4>
                     </td>
                 </tr>
                 <tr>
@@ -311,6 +321,7 @@ mpdf-->
                 </tr>
                 <?php
             }
+        }
         }
     ?>
     </tbody>

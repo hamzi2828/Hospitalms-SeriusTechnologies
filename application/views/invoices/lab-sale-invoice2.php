@@ -101,6 +101,8 @@
 <sethtmlpagefooter name="myfooter" value="on" />
 mpdf-->
 <br />
+<?php
+ $panel_request = $_REQUEST[ 'panel' ] ;?>
 <table width="100%">
     <tr>
         <td width="60%">
@@ -163,7 +165,9 @@ mpdf-->
         <th align="left">Type</th>
         <th align="left">Lab Ref No.</th>
         <th align="left">Reporting Date</th>
+        <?php if ( $panel_request != 'true'  ) { ?>
         <th>Price</th>
+        <?php } ?>
     </tr>
     </thead>
     <tbody>
@@ -225,14 +229,18 @@ mpdf-->
                                     echo '-';
                             ?>
                         </td>
+                        <?php if ( $panel_request != 'true'  ) { ?>
                         <td align="center"
                             style="<?php echo $style ?>"><?php echo $sale->urgent ? '<b>' . number_format ( $sale -> price, 2 ) . '</b>' : number_format ( $sale -> price, 2 ) ?></td>
-                    </tr>
+                            <?php } ?>
+                        </tr>
                     <?php
                 }
             }
             ?>
-            <?php if ( $test_sale_info -> refunded != '1' ) { ?>
+            <?php 
+              if ( $panel_request != 'true'  ) { 
+                if ( $test_sale_info -> refunded != '1' ) { ?>
                 <tr>
                     <td></td>
                     <td></td>
@@ -350,6 +358,7 @@ mpdf-->
                 <?php
             }
         }
+    }
     ?>
     </tbody>
 </table>

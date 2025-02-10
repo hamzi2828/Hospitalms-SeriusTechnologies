@@ -171,7 +171,7 @@
                                             <?php
                                                 if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_lab_sale_invoices', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) :
                                                     ?>
-                                                    <a href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> sale_id ) ?>"
+                                                    <a href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> sale_id . '?panel=true' ) ?>"
                                                        class="btn purple" target="_blank">
                                                         Print
                                                     </a>
@@ -183,7 +183,7 @@
                                                 if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_LW_lab_sale_invoices', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) :
                                                     ?>
                                                    
-                                                    <a href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> sale_id . '?print2=true&daily_location_sale_id=' . $daily_location_sale_id ) ?>"
+                                                    <a href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> sale_id . '?print2=true&daily_location_sale_id=' . $daily_location_sale_id.'&panel=true' ) ?>"
                                                        class="btn purple" target="_blank">
                                                         Print-LW
                                                     </a>
