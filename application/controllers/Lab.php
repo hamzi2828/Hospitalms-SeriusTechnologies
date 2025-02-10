@@ -3073,6 +3073,58 @@
             }
         }
         
+
+        public function edit_lab_sale_discount () {
+            $id = $this -> uri -> segment ( 3 );
+            if ( empty( trim ( $id ) ) )
+                return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+                if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_edit_lab_sale_discount' ){
+                    $this -> do_edit_lab_sale_discount ();
+                }
+            
+            $title = site_name . ' - Edit Lab Sale Balance';
+            $this -> header ( $title );
+            $this -> sidebar ();
+            $data[ 'sale' ]       = get_lab_sale ( $id );
+            $data [ 'patient' ]   = get_patient ( get_patient_id_by_sale_id ( $id ) );
+            $data [ 'receiving' ] = $this -> LabModel -> get_lab_sale_receiving ( $id );
+            $data[ 'banks' ]      = $this -> AccountModel -> get_banks ( banks );
+            $this -> load -> view ( '/lab/edit-lab-sale-discount', $data );
+            $this -> footer ();
+        }
+
+
+        public function do_edit_lab_sale_discount() {
+            $this->form_validation->set_rules('id', 'id', 'required|min_length[1]|numeric');
+            
+            if ($this->form_validation->run() == true) {
+                $sale_id     = $this->input->post('id', true);
+                $total_amount = $this->input->post('total_amount', true);
+                $paid_amount = $this->input->post('paid_amount', true);
+                $discount    = $this->input->post('discount', true);
+                $flat_discount = $this->input->post('flat_discount', true);
+                $balance      = $this->input->post('balance', true);
+                $net_price    = $this->input->post('net_price', true);
+                
+
+                
+                $sale = array(
+                    'discount' => $discount,
+                    'flat_discount' => $flat_discount,
+                    'total' => $net_price 
+                );
+        
+                $where = array('id' => $sale_id);
+                $this->LabModel->update_lab_sale($sale, $where);
+                
+                $this->session->set_flashdata('response', 'Success! Lab sale has been updated.');
+                return redirect($_SERVER['HTTP_REFERER']);
+            }
+        }
+        
+        
+
+
         /**
          * -------------------------
          * sale lab tests main page

@@ -158,6 +158,10 @@
                                                    class="btn green">
                                                     Edit
                                                 </a>
+                                                <a href="<?php echo base_url ( '/lab/edit-lab-sale-discount/' . $sale -> sale_id ) ?>"
+                                                   class="btn green">
+                                                    Edit Discount
+                                                </a>
                                             </td>
                                         </tr>
                                         <?php

@@ -375,6 +375,7 @@
     $route[ 'settings/edit-remarks/(:any)' ]                          = 'Settings/edit_remarks/$1';
     $route[ 'settings/delete-remarks/(:any)' ]                        = 'Settings/delete_remarks/$1';
     $route[ 'lab/edit-lab-sale-balance/(:any)' ]                      = 'Lab/edit_lab_sale_balance/$1';
+    $route[ 'lab/edit-lab-sale-discount/(:any)' ]                      = 'Lab/edit_lab_sale_discount/$1';
     $route[ 'invoices/lab-cash-balance-report' ]                      = 'Invoices/lab_cash_balance_report';
     $route[ 'lab/airline-details' ]                                   = 'Lab/airline_details';
     $route[ 'settings/add-destinations' ]                             = 'Settings/add_destinations';
