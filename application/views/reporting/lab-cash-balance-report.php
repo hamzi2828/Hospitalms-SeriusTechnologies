@@ -154,14 +154,22 @@
                                             <td><?php echo $sale_info -> internal_remarks ?></td>
                                             <td><?php echo date_setter ( $sale -> date_added ) ?></td>
                                             <td class="btn-group-xs">
+
+                                            <?php if(get_user_access(get_logged_in_user_id()) and in_array('pay_cash_balances', explode(',', get_user_access(get_logged_in_user_id()) -> access))) : ?>
                                                 <a href="<?php echo base_url ( '/lab/edit-lab-sale-balance/' . $sale -> sale_id ) ?>"
                                                    class="btn green">
-                                                    Edit
+                                                    Pay
                                                 </a>
+                                             <?php endif; ?>
+                                             <?php if(get_user_access(get_logged_in_user_id()) and in_array('discount_cash_balances', explode(',', get_user_access(get_logged_in_user_id()) -> access))) : ?>
                                                 <a href="<?php echo base_url ( '/lab/edit-lab-sale-discount/' . $sale -> sale_id ) ?>"
                                                    class="btn green">
-                                                    Edit Discount
+                                                    Discount
                                                 </a>
+                                             <?php endif; ?>
+
+                                              
+                                              
                                             </td>
                                         </tr>
                                         <?php

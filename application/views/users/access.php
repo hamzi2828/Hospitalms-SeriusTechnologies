@@ -1316,6 +1316,18 @@
         </tr>
         <tr>
             <td></td>
+            <td></td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="pay_cash_balances" <?php if ( !empty( $access ) and in_array ( 'pay_cash_balances', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Pay 
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="discount_cash_balances" <?php if ( !empty( $access ) and in_array ( 'discount_cash_balances', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Discount
+            </td>
+        </tr>
+        <tr>
+            <td></td>
             <td> Load Data Sheet</td>
             <td>
                 <input type="checkbox" class="checkbox" name="access[]"
