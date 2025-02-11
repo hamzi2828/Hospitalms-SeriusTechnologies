@@ -203,7 +203,7 @@
                         <a style="display: inline;margin-left: 5px;" target="_blank" type="button"
                         href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> id . '?print2=true' ) ?>"
                         class="btn green">
-                        Print
+                        Print LW
                         </a>
                      </div>
 

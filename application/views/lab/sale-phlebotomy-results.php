@@ -110,7 +110,7 @@
                                 <th> <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></th>
                                 <th> Patient Panel</th>
                                 <th> Test Name</th>
-                                <th> Due</th>
+                                <th>Sample Due</th>
 
                                 <th> Date Added</th>
                                 <th> Sample Taken</th>
@@ -153,7 +153,14 @@
                                             </td>
                                             <td><?php echo $location->name ?? ''; ?></td>
                                     <td><?php echo $location_sale_id ?? ''; ?></td>
-                                    <td><?php echo $daily_location_sale_id ?? ''; ?></td>
+                                    <td>
+                                    <a style="display: inline;margin-left: 5px;" target="_blank" type="button"
+                        href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> sale_id . '?print2=true' ) ?>"
+                        >
+                        <?php echo $daily_location_sale_id ?? ''; ?>
+                        </a>
+                       
+                    </td>
 
                                             <td><?php echo @get_patient_name ( 0, $patient ) ?></td>
                                             <td>
