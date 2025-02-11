@@ -175,193 +175,116 @@ $panel_request =  isset( $_REQUEST[ 'panel' ] ) ? true : false ;?>
     <tbody>
     <!-- ITEMS HERE -->
     <?php
-        $description  = '';
-        $array        = array ();
-        $net          = 0;
-        $netSalePrice = 0;
-        if ( count ( $sales ) > 0 ) {
-            $counter   = 1;
-            $sale_info = get_lab_sale ( $sale_id );
-            foreach ( $sales as $sale ) {
-                $test        = get_test_by_id ( $sale -> test_id );
-                $details     = get_test_procedure_info ( $sale -> test_id );
-                $description = $sale -> remarks;
-                
-                if ( !empty( $details ) && !empty( trim ( $details -> protocol ) ) )
-                    $style = 'color: #FF0000; font-weight: bold';
-                else
-                    $style = '';
-                
-                $netSalePrice = $netSalePrice + $sale -> price;
-                
-                if ( $sale -> parent_id != '' and $sale -> parent_id > 0 )
-                    array_push ( $array, $sale -> parent_id );
-                
-                if ( !in_array ( $sale -> parent_id, $array ) ) {
-                    $net = $net + $sale -> price;
-                    ?>
-                    <tr <?php if ( $sale -> parent_id != '' and $sale -> parent_id > 0 )
-                        echo 'parent' ?>>
-                        <td align="center" style="<?php echo $style ?>"><?php echo $counter++ ?></td>
-                        <td align="left" style="<?php echo $style ?>">
-                            <?php
-                                if ( $sale -> urgent )
-                                    echo '<b>' . $test -> code . '</b>';
-                                else
-                                    echo $test -> code;
-                            ?>
-                        </td>
-                        <td align="left" style="<?php echo $style ?>">
-                            <?php
-                                if ( $sale -> urgent )
-                                    echo '<b>' . $test -> name . '</b>';
-                                else
-                                    echo $test -> name;
-                            ?>
-                        </td>
-                        <td align="left"><?php echo $sale->urgent ? '<b>Urgent</b>' : ' '; ?></td>
-                        <td align="left"><?php echo $sale->urgent ? '<b>' . ucfirst ( $test -> type ) . '</b>' : ucfirst ( $test -> type ) ?></td>
-                        <td align="left" style="<?php echo $style ?>"><?php echo $sale->urgent ? '<b>' . $sale -> reference_code . '</b>' : $sale -> reference_code?></td>
+$description  = '';
+$array        = array ();
+$net          = 0;
+$netSalePrice = 0;
+$sales_grouped = [];
 
-                        <td align="left" style="<?php echo $style ?>">
-                            <?php
-                                if ( $sale -> report_collection_date_time != '1970-01-01 05:00:00' )
-                                    echo date ( 'd-m-Y h:i:s A', strtotime ( $sale -> report_collection_date_time ) );
-                                else
-                                    echo '-';
-                            ?>
-                        </td>
-                        <?php if ( $panel_request != 'true'  ) { ?>
-                        <td align="center"
-                            style="<?php echo $style ?>"><?php echo $sale->urgent ? '<b>' . number_format ( $sale -> price, 2 ) . '</b>' : number_format ( $sale -> price, 2 ) ?></td>
-                            <?php } ?>
-                        </tr>
-                    <?php
-                }
-            }
+// Step 1: Group sales by reference_code
+foreach ($sales as $sale) {
+    $sales_grouped[$sale->reference_code][] = $sale;
+}
+
+$counter = 1;
+$sale_info = get_lab_sale($sale_id);
+
+foreach ($sales_grouped as $reference_code => $grouped_sales) {
+    foreach ($grouped_sales as $sale) {
+        $test    = get_test_by_id($sale->test_id);
+        $details = get_test_procedure_info($sale->test_id);
+        $description = $sale->remarks;
+
+        $style = (!empty($details) && !empty(trim($details->protocol))) ? 'color: #FF0000; font-weight: bold' : '';
+
+        $netSalePrice += $sale->price;
+
+        if ($sale->parent_id != '' && $sale->parent_id > 0) {
+            array_push($array, $sale->parent_id);
+        }
+
+        if (!in_array($sale->parent_id, $array)) {
+            $net += $sale->price;
             ?>
-            <?php 
-              if ( $panel_request != 'true'  ) { 
-                if ( $test_sale_info -> refunded != '1' ) { ?>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="4" style="text-align: right">
-                        <strong>Gross Total</strong>
-                    </td>
-                    <td style="text-align: center">
-                        <h4><?php echo number_format ( $netSalePrice, 2 ); ?></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="4" style="text-align: right">
-                        <strong>Discount(%)</strong>
-                    </td>
-                    <td style="text-align: center">
-                        <h4><?php echo $sale_info -> discount; ?></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="4" style="text-align: right">
-                        <strong>Discount(Flat)</strong>
-                    </td>
-                    <td style="text-align: center">
-                        <h4><?php echo $sale_info -> flat_discount; ?></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="4" style="text-align: right">
-                        <strong>Net Total</strong>
-                    </td>
-                    <td style="text-align: center">
-                        <h4><?php echo number_format ( $sale_info -> total, 2 ); ?></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="4" style="text-align: right">
-                        <strong>Paid Amount</strong>
-                    </td>
-                    <td style="text-align: center">
-                        <h4><?php echo number_format ( $sale_info -> paid_amount, 2 ); ?></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="4" style="text-align: right; color: #ff0000">
-                        <strong>Balance</strong>
-                    </td>
-                    <td style="text-align: center; color: #ff0000">
-                        <h4><?php echo number_format ( $sale_info -> total - $sale_info -> paid_amount, 2 ); ?></h4>
-                    </td>
-                </tr>
-                <?php
-            }
-            else { ?>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="4" style="text-align: right">
-                        <strong>Total</strong>
-                    </td>
-                    <td style="text-align: center">
-                        <h4><?php echo abs ( $net ); ?></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="4" style="text-align: right">
-                        <strong>Discount(%)</strong>
-                    </td>
-                    <td style="text-align: center">
-                        <h4><?php echo $sale_info -> discount; ?></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="4" style="text-align: right">
-                        <strong>Refund Amount</strong>
-                    </td>
-                    <td style="text-align: center">
-                        <h4><?php echo abs ( $sale_info -> total ); ?></h4>
-                    </td>
-                </tr>
-                <tr> 
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="4" style="text-align: right">
-                        <strong>Balance</strong>
-                    </td>
-                    <td style="text-align: center">
-                    <h4><?php echo number_format($sale_info->paid_amount  - abs($sale_info->total), 2); ?></h4>
-
-                    </td>
-                </tr>
-                <?php
-            }
+            <tr>
+                <td align="center" style="<?php echo $style; ?>"><?php echo $counter++; ?></td>
+                <td align="left" style="<?php echo $style; ?>">
+                    <?php echo $sale->urgent ? '<b>' . $test->code . '</b>' : $test->code; ?>
+                </td>
+                <td align="left" style="<?php echo $style; ?>">
+                    <?php echo $sale->urgent ? '<b>' . $test->name . '</b>' : $test->name; ?>
+                </td>
+                <td align="left"><?php echo $sale->urgent ? '<b>Urgent</b>' : ' '; ?></td>
+                <td align="left"><?php echo $sale->urgent ? '<b>' . ucfirst($test->type) . '</b>' : ucfirst($test->type); ?></td>
+                <td align="left" style="<?php echo $style; ?>">
+                    <?php echo $sale->urgent ? '<b>' . $sale->reference_code . '</b>' : $sale->reference_code; ?>
+                </td>
+                <td align="left" style="<?php echo $style; ?>">
+                    <?php
+                    echo ($sale->report_collection_date_time != '1970-01-01 05:00:00') ? 
+                        date('d-m-Y h:i:s A', strtotime($sale->report_collection_date_time)) : '-';
+                    ?>
+                </td>
+                <?php if ($panel_request != 'true') { ?>
+                <td align="center" style="<?php echo $style; ?>">
+                    <?php echo $sale->urgent ? '<b>' . number_format($sale->price, 2) . '</b>' : number_format($sale->price, 2); ?>
+                </td>
+                <?php } ?>
+            </tr>
+            <?php
         }
     }
-    ?>
+}
+
+// Total, Discount, and Balance Calculation
+if ($panel_request != 'true') {
+    if ($test_sale_info->refunded != '1') { ?>
+        <tr>
+            <td colspan="7" style="text-align: right"><strong>Gross Total</strong></td>
+            <td style="text-align: center"><h4><?php echo number_format($netSalePrice, 2); ?></h4></td>
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align: right"><strong>Discount(%)</strong></td>
+            <td style="text-align: center"><h4><?php echo $sale_info->discount; ?></h4></td>
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align: right"><strong>Discount(Flat)</strong></td>
+            <td style="text-align: center"><h4><?php echo $sale_info->flat_discount; ?></h4></td>
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align: right"><strong>Net Total</strong></td>
+            <td style="text-align: center"><h4><?php echo number_format($sale_info->total, 2); ?></h4></td>
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align: right"><strong>Paid Amount</strong></td>
+            <td style="text-align: center"><h4><?php echo number_format($sale_info->paid_amount, 2); ?></h4></td>
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align: right; color: #ff0000"><strong>Balance</strong></td>
+            <td style="text-align: center; color: #ff0000">
+                <h4><?php echo number_format($sale_info->total - $sale_info->paid_amount, 2); ?></h4>
+            </td>
+        </tr>
+    <?php } else { ?>
+        <tr>
+            <td colspan="7" style="text-align: right"><strong>Total</strong></td>
+            <td style="text-align: center"><h4><?php echo abs($net); ?></h4></td>
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align: right"><strong>Discount(%)</strong></td>
+            <td style="text-align: center"><h4><?php echo $sale_info->discount; ?></h4></td>
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align: right"><strong>Refund Amount</strong></td>
+            <td style="text-align: center"><h4><?php echo abs($sale_info->total); ?></h4></td>
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align: right"><strong>Balance</strong></td>
+            <td style="text-align: center"><h4><?php echo number_format($sale_info->paid_amount - abs($sale_info->total), 2); ?></h4></td>
+        </tr>
+    <?php }
+} ?>
+
     </tbody>
 </table>
 <p style="width: 100%; float: left; margin-top: 15px">

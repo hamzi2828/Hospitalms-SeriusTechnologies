@@ -54,7 +54,16 @@
                     <td><?php echo $patient->mobile; ?></td>
                     <td><?php echo $patient->age; ?></td>
                     <td><?php echo ($patient->gender == '1') ? 'Male' : 'Female'; ?></td>
-                    <td><?php echo ucfirst($patient->type); ?></td>
+                    <td>
+                        <?php
+                            if ( $patient -> panel_id > 0 )
+                                echo 'Panel / ' . get_panel_by_id ( $patient -> panel_id ) -> name;
+                            else
+                                echo '<span style="color: red;">Cash</span>';
+                        ?>
+                    </td>
+
+                    <!-- <td><?php echo ucfirst($patient->type); ?></td> -->
                     <td><?php echo date_setter($patient->date_registered); ?></td>
                     <td>
                         <div style="display: flex; gap: 10px;">

@@ -1303,21 +1303,25 @@
                     $this -> db -> trans_commit ();
                     
                     $daily_location_sale_id = get_daily_location_sale_id_by_hmis_lab_sales_id($sale_id);
+                    $panel = 'false';
+                    if ($patient -> panel_id ){
+                        $panel = 'true';
+                    }
 
                     if (get_user_access(get_logged_in_user_id()) && in_array('print_LW_lab_sale_invoices', explode(',', get_user_access(get_logged_in_user_id())->access))) {
-                        $print = '<strong><a href="' . base_url('/invoices/lab-sale-invoice/' . $sale_id) . '" target="_blank">Print </a></strong> | ';
+                        $print = '<strong><a href="' . base_url('/invoices/lab-sale-invoice/' . $sale_id . '?panel=' . $panel) . '" target="_blank">Print </a></strong> | ';
                     } else {
                         $print = '';
                     }
                     
                     if (get_user_access(get_logged_in_user_id()) && in_array('print_ticket', explode(',', get_user_access(get_logged_in_user_id())->access))) {
-                        $printTicket = '<strong><a href="' . base_url('/invoices/ticket/' . $sale_id) . '" target="_blank">Print Ticket</a></strong> | ';
+                        $printTicket = '<strong><a href="' . base_url('/invoices/ticket/' . $sale_id . '?panel=' . $panel) . '" target="_blank">Print Ticket</a></strong> | ';
                     } else {
                         $printTicket = '';
                     }
                     
                     if (get_user_access(get_logged_in_user_id()) && in_array('view_lab_sale_invoices', explode(',', get_user_access(get_logged_in_user_id())->access))) {
-                        $printLW = '<strong><a href="' . base_url('/invoices/lab-sale-invoice/' . $sale_id . '?print2=true&daily_location_sale_id=' . $daily_location_sale_id) . '" target="_blank">Print LW</a></strong> | ';
+                        $printLW = '<strong><a href="' . base_url('/invoices/lab-sale-invoice/' . $sale_id . '?print2=true&daily_location_sale_id=' . $daily_location_sale_id . '&panel=' . $panel) . '"  target="_blank">Print LW</a></strong> | ';
                     } else {
                         $printLW = '';
                     }
