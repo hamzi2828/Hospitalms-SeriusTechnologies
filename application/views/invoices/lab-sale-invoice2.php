@@ -120,6 +120,7 @@ $panel_request =  isset( $_REQUEST[ 'panel' ] ) ? true : false ;?>
         <td width="40%" style="text-align: right">
         <span style="font-weight: bold; font-size: 25pt;">
             <?php 
+              $daily_location_sale_id = get_daily_location_sale_id_by_hmis_lab_sales_id( $sale_id);
             if( !empty($daily_location_sale_id) ){
                 $sale_id_display =$daily_location_sale_id;
             }else{

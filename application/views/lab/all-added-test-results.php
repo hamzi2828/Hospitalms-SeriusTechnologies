@@ -269,7 +269,7 @@
                                                            class="btn <?php echo ( $isParent or $test -> parent_id < 1 ) ? 'green btn-xs' : 'purple btn-xs' ?>"
                                                            target="_blank">Print</a>
                                                         <a href="<?php echo base_url ( '/invoices/cp-peripheral-film-report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
-                                                           class="btn purple btn-xs" target="_blank">L-Print</a>
+                                                           class="btn purple btn-xs" target="_blank">L-Print </a>
                                                         
                                                         <a href="<?php echo base_url ( '/invoices/cp-peripheral-film-report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=false' . '&machine=' . $results -> machine ) ?>"
                                                            class="btn purple btn-block btn-xs"

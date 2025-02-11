@@ -189,8 +189,24 @@
                     
                     <?php if ( ( $sale -> total - $sale -> paid_amount ) > 0 and ( $patient -> panel_id < 1 or empty( trim ( $patient -> panel_id ) ) ) ) : ?>
                         <div class="form-actions">
-                            <button type="submit" class="btn blue">Update</button>
+                            <!-- <button type="submit" class="btn blue">Update</button> -->
                         </div>
+
+                        <div class="form-actions">
+                      <button type="submit" class="btn blue">Update</button>
+                   
+                        <a style="display: inline;" target="_blank" type="button"
+                        href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> id ) ?>"
+                        class="btn purple">
+                        Print
+                        </a>
+                        <a style="display: inline;margin-left: 5px;" target="_blank" type="button"
+                        href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> id . '?print2=true' ) ?>"
+                        class="btn green">
+                        Print
+                        </a>
+                     </div>
+
                     <?php endif; ?>
                 </div>
             </div>
