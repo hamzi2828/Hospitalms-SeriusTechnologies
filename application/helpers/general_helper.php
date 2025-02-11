@@ -4658,6 +4658,12 @@
      * ---------------------
      */
     
+     function check_remaning_balance_by_invoice ( $invoice_number ) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'LabModel' );
+        return $ci -> LabModel -> check_remaning_balance_by_invoice ( $invoice_number );
+     }
+
     function get_report_delivery_status ( $sale_id, $test_id ) {
         $ci = &get_instance ();
         $ci -> load -> model ( 'LabModel' );

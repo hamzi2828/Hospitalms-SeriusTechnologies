@@ -1124,6 +1124,13 @@
             }
         }
         
+        public function check_remaning_balance_by_invoice ( $invoice_number ) {
+            $this -> db -> where ( 'id', $invoice_number );
+            $this -> db -> where ( 'paid_amount < total', null, false );
+            $query = $this -> db -> get ( 'lab_sales' );
+            return ( $query -> num_rows () > 0 );
+        }
+        
         /**
          * -------------------------
          * @param $data

@@ -172,6 +172,7 @@
                                     foreach ( $sales as $sale ) {
                                         $results   = @get_test_results ( $sale -> sale_id, $sale -> test_id );
                                         $test      = @get_test_by_id ( $sale -> test_id );
+                                        // $balance   = check_remaning_balance_by_invoice ( $sale -> invoice_number );
                                         $isParent  = check_if_test_has_sub_tests ( $sale -> test_id );
                                         $parent_id = ( !empty( $test ) and $test -> type == 'test' ) ? 0 : $sale -> test_id;
                                         $saleInfo  = get_lab_sale ( $sale -> sale_id );
