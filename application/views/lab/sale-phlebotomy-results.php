@@ -24,25 +24,53 @@
 
         <div class="search-form">
             <form method="get" autocomplete="off">
-                <div class="form-group col-lg-2" style="position: relative">
+                <div class="form-group col-lg-3" style="position: relative">
                     <label for="exampleInputEmail1"><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></label>
                     <input type="text" name="invoice_id" class="form-control" placeholder="Enter invoice number"
                            autofocus="autofocus" value="<?php echo @$_REQUEST[ 'invoice_id' ] ?>">
                 </div>
+                <div class="form-group col-lg-3">
+                    <label for="exampleInputEmail1">Daily Sale ID</label>
+                    <input type="text" name="daily_sale_id" class="form-control" placeholder="Enter Daily sale id"
+                           value="<?php echo @$_REQUEST[ 'daily_sale_id' ] ?>">
+                </div>
+
+                <div class="form-group col-lg-3">
+                    <label for="exampleInputEmail1">Location Sale ID</label>
+                    <input type="text" name="location_sale_id" class="form-control" placeholder="Enter Location sale id"
+                           value="<?php echo @$_REQUEST[ 'location_sale_id' ] ?>">
+                </div>
+                <div class="form-group col-lg-3">
+                    <label for="exampleInputEmail1">Location</label>
+                    <select class="form-control select2me" name="location-id">
+                        <option value="">Select</option>
+                        <?php
+                            if ( count ( $locations ) > 0 ) {
+                                foreach ( $locations as $location ) {
+                                    ?>
+                                    <option value="<?php echo $location -> id ?>" <?php if ( $location -> id == @$_REQUEST[ 'location-id' ] )
+                                        echo 'selected="selected"' ?>><?php echo $location -> name ?></option>
+                                    <?php
+                                }
+                            }
+                        ?>
+                    </select>
+                </div>
+
                 
-                <div class="form-group col-lg-2">
+                <div class="form-group col-lg-3">
                     <label for="exampleInputEmail1">Start Date</label>
                     <input type="text" name="start_date" class="date date-picker form-control" placeholder="Start date"
                            value="<?php echo ( @$_REQUEST[ 'start_date' ] ) ? @$_REQUEST[ 'start_date' ] : '' ?>">
                 </div>
                 
-                <div class="form-group col-lg-2">
+                <div class="form-group col-lg-3">
                     <label for="exampleInputEmail1">End Date</label>
                     <input type="text" name="end_date" class="date date-picker form-control" placeholder="End date"
                            value="<?php echo ( @$_REQUEST[ 'end_date' ] ) ? @$_REQUEST[ 'end_date' ] : '' ?>">
                 </div>
                 
-                <div class="form-group col-lg-2">
+                <div class="form-group col-lg-3">
                     <label for="exampleInputEmail1">Panel</label>
                     <select name="panel-id" class="form-control select2me">
                         <option value="">Select</option>
@@ -155,12 +183,12 @@
                                     <td><?php echo $location_sale_id ?? ''; ?></td>
                                     <td>
                                     <a style="display: inline;margin-left: 5px;" target="_blank" type="button"
-                        href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> sale_id . '?print2=true' ) ?>"
-                        >
-                        <?php echo $daily_location_sale_id ?? ''; ?>
-                        </a>
-                       
-                    </td>
+                                        href="<?php echo base_url ( '/invoices/lab-sale-invoice/' . $sale -> sale_id . '?print2=true' ) ?>"
+                                        >
+                                        <?php echo $daily_location_sale_id ?? ''; ?>
+                                        </a>
+                                    
+                                    </td>
 
                                             <td><?php echo @get_patient_name ( 0, $patient ) ?></td>
                                             <td>

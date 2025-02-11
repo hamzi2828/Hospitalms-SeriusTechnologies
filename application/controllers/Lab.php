@@ -3563,6 +3563,7 @@
             $data[ 'airlines' ] = $this -> AirlineModel -> get_airlines ();
             $data[ 'sales' ]    = $this -> LabModel -> get_sale_pending_results ( $config[ "per_page" ], $offset );
             $str_links          = $this -> pagination -> create_links ();
+            $data[ 'locations' ]    = $this -> LocationModel -> get_locations ();
             $data[ "links" ]    = explode ( '&nbsp;', $str_links );
             $this -> load -> view ( '/lab/sale-pending-results', $data );
             $this -> footer ();
@@ -3621,6 +3622,7 @@
             $data[ 'airlines' ] = $this -> AirlineModel -> get_airlines ();
             $data[ 'sales' ]    = $this -> LabModel -> get_sale_pending_results ( $config[ "per_page" ], $offset );
             $str_links          = $this -> pagination -> create_links ();
+            $data[ 'locations' ]    = $this -> LocationModel -> get_locations ();
             $data[ "links" ]    = explode ( '&nbsp;', $str_links );
             $this -> load -> view ( '/lab/sale-phlebotomy-results', $data );
             $this -> footer ();
@@ -3717,6 +3719,7 @@
             $data[ 'sections' ] = $this -> SectionModel -> get_sections ();
             $data[ 'sales' ]    = $this -> LabModel -> all_added_test_results ( $config[ "per_page" ], $offset );
             $str_links          = $this -> pagination -> create_links ();
+            $data[ 'locations' ]    = $this -> LocationModel -> get_locations ();
             $data[ "links" ]    = explode ( '&nbsp;', $str_links );
             $this -> load -> view ( '/lab/all-added-test-results', $data );
             $this -> footer ();

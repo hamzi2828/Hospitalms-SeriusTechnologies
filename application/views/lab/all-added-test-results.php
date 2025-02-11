@@ -23,15 +23,42 @@
                     <input type="text" name="invoice_id" class="form-control" placeholder="Enter invoice number"
                            autofocus="autofocus" value="<?php echo @$_REQUEST[ 'invoice_id' ] ?>">
                 </div>
-                
-                <div class="form-group col-lg-3" style="position: relative">
+                <div class="form-group col-lg-2">
+                    <label for="exampleInputEmail1">Daily Sale ID</label>
+                    <input type="text" name="daily_sale_id" class="form-control" placeholder="Enter Daily sale id"
+                           value="<?php echo @$_REQUEST[ 'daily_sale_id' ] ?>">
+                </div>
+
+                <div class="form-group col-lg-2">
+                    <label for="exampleInputEmail1">Location Sale ID</label>
+                    <input type="text" name="location_sale_id" class="form-control" placeholder="Enter Location sale id"
+                           value="<?php echo @$_REQUEST[ 'location_sale_id' ] ?>">
+                </div>
+                <div class="form-group col-lg-2">
+                    <label for="exampleInputEmail1">Location</label>
+                    <select class="form-control select2me" name="location-id">
+                        <option value="">Select</option>
+                        <?php
+                            if ( count ( $locations ) > 0 ) {
+                                foreach ( $locations as $location ) {
+                                    ?>
+                                    <option value="<?php echo $location -> id ?>" <?php if ( $location -> id == @$_REQUEST[ 'location-id' ] )
+                                        echo 'selected="selected"' ?>><?php echo $location -> name ?></option>
+                                    <?php
+                                }
+                            }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="form-group col-lg-2" style="position: relative">
                     <label for="exampleInputEmail1">Name</label>
                     <input type="text" name="patient-name" class="form-control"
                            placeholder="Enter <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?>"
                            autofocus="autofocus" value="<?php echo @$_REQUEST[ 'patient-name' ] ?>">
                 </div>
                 
-                <div class="form-group col-lg-3" style="position: relative">
+                <div class="form-group col-lg-2" style="position: relative">
                     <label for="exampleInputEmail1">Mobile No</label>
                     <input type="text" name="patient-mobile" class="form-control"
                            placeholder="Enter <?php echo $this -> lang -> line ( 'PATIENT_PHONE' ); ?> no"
@@ -50,7 +77,7 @@
                            value="<?php echo ( @$_REQUEST[ 'end_date' ] ) ? @$_REQUEST[ 'end_date' ] : '' ?>">
                 </div>
                 
-                <div class="form-group col-lg-3">
+                <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Test</label>
                     <select name="test-id" class="form-control select2me">
                         <option value="">Select</option>
@@ -69,7 +96,7 @@
                     </select>
                 </div>
                 
-                <div class="form-group col-lg-3">
+                <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Panel</label>
                     <select name="panel-id" class="form-control select2me">
                         <option value="">Select</option>
@@ -107,7 +134,7 @@
                     </select>
                 </div>
                 
-                <div class="form-group col-lg-3">
+                <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Section</label>
                     <select name="section-id" class="form-control select2me">
                         <option value="">Select</option>
@@ -152,6 +179,9 @@
                             <tr>
                                 <th> Sr. No</th>
                                 <th> <?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></th>
+                                <th> Location</th>
+                                <th> Location Sale Id</th>
+                                <th> Daily Sale Id</th>
                                 <th> <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></th>
                                 <th> Patient Panel</th>
                                 <th> Airline</th>
@@ -172,6 +202,13 @@
                                     foreach ( $sales as $sale ) {
                                         $results   = @get_test_results ( $sale -> sale_id, $sale -> test_id );
                                         $test      = @get_test_by_id ( $sale -> test_id );
+                                        
+                                        $sale_info = get_lab_sale ( $sale -> sale_id );
+                                        $location  = ( is_object ( $sale_info ) ) ? get_location_by_id ( $sale_info -> locations_id ) : new stdClass();
+                                        $location_sale_id = get_location_sale_id_by_hmis_lab_sales_id($sale -> sale_id);
+                                        $daily_location_sale_id = get_daily_location_sale_id_by_hmis_lab_sales_id($sale -> sale_id);
+
+
                                         // $balance   = check_remaning_balance_by_invoice ( $sale -> invoice_number );
                                         $isParent  = check_if_test_has_sub_tests ( $sale -> test_id );
                                         $parent_id = ( !empty( $test ) and $test -> type == 'test' ) ? 0 : $sale -> test_id;
@@ -192,6 +229,14 @@
                                                 <?php endif; ?>
                                             </td>
                                             <td><?php echo $sale -> sale_id ?></td>
+                                            <td><?php echo $location->name ?? ''; ?></td>
+                                                <td><?php echo $location_sale_id ?? ''; ?></td>
+                                                <td>
+                                            
+                                                    <?php echo $daily_location_sale_id ?? ''; ?>
+                                                    
+                                                
+                                                </td>
                                             <td><?php echo get_patient_name ( 0, $patient ) ?></td>
                                             <td>
                                                 <?php
