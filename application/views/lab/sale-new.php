@@ -140,9 +140,9 @@
                     
                     <div class="row">
                         <div class="col-lg-12" style="padding: 0; margin-bottom: 25px">
-                            <div class="col-lg-4 col-lg-offset-8" style="margin-bottom: 10px;">
+                            <div class="col-lg-4 col-lg-offset-8" style="margin-bottom: 10px; display:none">
                                 <label>Doc. Share (%)</label>
-                                <input type="number" step="0.01" required="required" class="form-control"
+                                <input type="number" step="0.01"  class="form-control"
                                        name="doctor-share" min="0" max="100">
                             </div>
                             <div class="col-lg-4 col-lg-offset-8" style="margin-bottom: 10px;">

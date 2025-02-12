@@ -86,18 +86,20 @@
                                        value="<?php echo set_value ( 'qualification' ) ?>">
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Hospital Charges <sup
+                                <label for="exampleInputEmail1">Hospital Consultancy Charges <sup
                                             style="color: #FF0000">*</sup></label>
                                 <input type="text" name="hospital_charges" class="form-control"
                                        placeholder="Add hospital charges"
                                        value="<?php echo set_value ( 'hospital_charges' ) ?>" required="required">
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Doctor Share <sup style="color: #FF0000">*</sup></label>
+                                <label for="exampleInputEmail1">Consultancy Share <sup style="color: #FF0000">*</sup></label>
                                 <input type="text" name="doctor_share" class="form-control"
                                        placeholder="Add doctor share"
                                        value="<?php echo set_value ( 'doctor_share' ) ?>" required="required">
                             </div>
+                      
+
                             <div class="form-group col-lg-3">
                                 <label for="exampleInputEmail1">Charges Type</label>
                                 <select class="form-control select2me" name="charges_type">
@@ -105,6 +107,20 @@
                                     <option value="fix">Fix rate</option>
                                 </select>
                             </div>
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">Pathology Lab Share (%) </label>
+                                <input type="text" name="pathology_lab_share" class="form-control"
+                                       placeholder="Add Pathology Lab Share (%) "
+                                       value="<?php echo set_value ( 'pathology_lab_share' ) ?>">
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">Radiology Lab Share (%) </label>
+                                <input type="text" name="radiology_lab_share" class="form-control"
+                                       placeholder="Add Radiology Lab Share (%)"
+                                       value="<?php echo set_value ( 'radiology_lab_share' ) ?>">
+                            </div>
+                            
+
                             <div class="form-group col-lg-12">
                                 <label for="exampleInputEmail1">Description</label>
                                 <textarea rows="5" name="description" class="form-control"

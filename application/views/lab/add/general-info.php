@@ -45,6 +45,8 @@
                         <select name="category" class="form-control select2me" required="required">
                             <option value="general">General</option>
                             <option value="covid">Covid</option>
+                            <option value="pathology">Pathology</option>
+                            <option value="radiology">Radiology</option>
                         </select>
                     </div>
                     <div class="form-group col-lg-2">

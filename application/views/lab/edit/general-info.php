@@ -50,6 +50,9 @@
                     <select name="category" class="form-control select2me" required="required">
                         <option value="general" <?php echo $general_info -> category == 'general' ? 'selected="selected"' : ''; ?>>General</option>
                         <option value="covid" <?php echo $general_info -> category == 'covid' ? 'selected="selected"' : ''; ?>>Covid</option>
+                        <option value="pathology" <?php echo $general_info -> category == 'pathology' ? 'selected="selected"' : ''; ?>>Pathology</option>
+                        <option value="radiology" <?php echo $general_info -> category == 'radiology' ? 'selected="selected"' : ''; ?>>Radiology</option>
+
                     </select>
                 </div>
                 <div class="form-group col-lg-2">

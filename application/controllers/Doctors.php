@@ -150,6 +150,9 @@
                     'description'       => $data[ 'description' ],
                     'stamp'             => $data[ 'stamp' ],
                     'date_added'        => current_date_time (),
+                    'pathology_lab_share' => $data[ 'pathology_lab_share' ],
+                    'radiology_lab_share' => $data[ 'radiology_lab_share' ],
+
                 );
                 $doctor_id = $this -> DoctorModel -> add ( $info );
                 $this -> add_doctor_services ( $doctor_id );
@@ -282,6 +285,7 @@
             
             $this -> DoctorModel -> delete_doctor_services ( $doctor_id );
             if ( $this -> form_validation -> run () == true ) {
+               
                 $info = array (
                     'specialization_id' => $data[ 'specialization_id' ],
                     'name'              => $data[ 'name' ],
@@ -294,6 +298,8 @@
                     'doctor_share'      => $data[ 'doctor_share' ],
                     'description'       => $data[ 'description' ],
                     'stamp'             => $data[ 'stamp' ],
+                    'pathology_lab_share' => $data[ 'pathology_lab_share' ],
+                    'radiology_lab_share' => $data[ 'radiology_lab_share' ],
                 );
                 
                 if ( isset( $data[ 'available_from' ] ) and !empty( trim ( $data[ 'available_from' ] ) ) and isset( $data[ 'available_till' ] ) and !empty( trim ( $data[ 'available_till' ] ) ) ) {

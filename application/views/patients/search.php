@@ -59,7 +59,7 @@
                             if ( $patient -> panel_id > 0 )
                                 echo 'Panel / ' . get_panel_by_id ( $patient -> panel_id ) -> name;
                             else
-                                echo '<span style="color: red;">Cash</span>';
+                                echo '<span style="font-weight: bold; color: red;">Cash</span>';
                         ?>
                     </td>
 

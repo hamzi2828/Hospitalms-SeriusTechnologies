@@ -452,5 +452,20 @@
             $services = $this -> db -> get ();
             return $services -> result ();
         }
+        public function get_doctor_shares_for_radiology($doctor_id) {
+            $this->db->select('radiology_lab_share');
+            $this->db->from('doctors');
+            $this->db->where('id', $doctor_id);
+            $query = $this->db->get();
+            return $query->row(); 
+        }
+        
+        public function get_doctor_shares_for_pathology($doctor_id) {
+            $this->db->select('pathology_lab_share');
+            $this->db->from('doctors');
+            $this->db->where('id', $doctor_id);
+            $query = $this->db->get();
+            return $query->row(); 
+        }
         
     }

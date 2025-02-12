@@ -1500,6 +1500,8 @@
      * get test price by patient type
      * ---------------------
      */
+
+
     
     function get_test_price_by_patient_type ( $test_id, $patient_id ) {
         $ci = &get_instance ();
@@ -1507,6 +1509,18 @@
         return $ci -> LabModel -> get_test_price_by_patient_type ( $test_id, $patient_id );
     }
     
+
+
+    function get_doctor_shares_for_radiology($doctor_id) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'DoctorModel' );
+        return $ci -> DoctorModel -> get_doctor_shares_for_radiology($doctor_id);
+    }
+    function get_doctor_shares_for_pathology($doctor_id) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'DoctorModel' );
+        return $ci -> DoctorModel -> get_doctor_shares_for_pathology($doctor_id);
+    }
     /**
      * ---------------------
      * @param $test_id

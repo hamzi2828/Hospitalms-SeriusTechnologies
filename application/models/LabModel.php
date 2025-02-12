@@ -397,9 +397,9 @@
 //            return $tests -> result ();
 //        }
         
-        public function get_active_parent_tests ( $panel_id = 0, $category = 'general' ) {
+        public function get_active_parent_tests ( $panel_id = 0, $category = 'pathology' ) {
             $this -> db -> order_by ( 'name', 'ASC' );
-            $this -> db -> select ( '*' ) -> from ( 'tests' ) -> where ( array ( 'parent_id' => '0', 'status' => '1', 'category' => $category ) );
+            $this -> db -> select ( '*' ) -> from ( 'tests' ) -> where ( "(parent_id='0' and status='1' and category='pathology') or (parent_id='0' and status='1' and category='radiology') or (parent_id='0' and status='1' and category='general')" );
             
             if ( $panel_id > 0 ) {
                 $this -> db -> where ( " id IN (Select test_id from hmis_panel_lab_tests where panel_id=$panel_id)" );
@@ -3570,7 +3570,49 @@
             return 1;
         }
         
+        public function get_test_category($test_id) {
+            $this->db->select('category');
+            $this->db->from('hmis_tests');
+            $this->db->where('id', $test_id);
+            $query = $this->db->get();
+            return $query->row()->category;
+        }
         
+        
+        public function add_doctor_test_share($sale_id, $doctor_id, $test_id, $category, $test_amount) {
+
+            $doctor_share_percentage = 0;
+         
+            if($category == 'radiology') {
+                $doctor_share_percentage = get_doctor_shares_for_radiology($doctor_id)
+                ->radiology_lab_share;
+            } elseif ($category == 'pathology') {
+                $doctor_share_percentage = get_doctor_shares_for_pathology($doctor_id)->pathology_lab_share;
+            }
+            $data = array(
+                'sale_id' => $sale_id,
+                'doctor_id' => $doctor_id,
+                'test_id' => $test_id,
+                'category' => $category,
+                'doctor_share_percentage' => $doctor_share_percentage,
+                'test_amount' => $test_amount,
+                'share_amount' => ($test_amount * ($doctor_share_percentage / 100)) 
+            );
+     
+            $this->db->insert('hmis_doctor_lab_test_shares', $data);
+    
+        }
+        
+        public function get_total_doctor_share_by_sale_id($sale_id, $doctor_id){
+            $this->db->select_sum('share_amount');
+            $this->db->where('sale_id', $sale_id);
+            $this->db->where('doctor_id', $doctor_id);
+            $query = $this->db->get('hmis_doctor_lab_test_shares');
+            return $query->row()->share_amount;
+        }
+        
+
+
     
     
         

@@ -87,14 +87,14 @@
                                        value="<?php echo $doctor -> qualification ?>">
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Hospital Charges</label>
+                                <label for="exampleInputEmail1">Hospital Consultancy Charges <sup style="color: #FF0000">*</sup> </label>
                                 <input type="text" name="hospital_charges" class="form-control"
                                        placeholder="Add hospital charges"
                                        value="<?php echo $doctor -> hospital_charges ?>"
                                        required="required">
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Doctor Share</label>
+                                <label for="exampleInputEmail1">Consultancy Share <sup style="color: #FF0000">*</sup> </label>
                                 <input type="text" name="doctor_share" class="form-control"
                                        placeholder="Add doctor share"
                                        value="<?php echo $doctor -> doctor_share ?>" required="required">
@@ -110,6 +110,19 @@
                                     </option>
                                 </select>
                             </div>
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">Pathology Lab Share (%) </label>
+                                <input type="text" name="pathology_lab_share" class="form-control"
+                                       placeholder="Add laboratory share"
+                                       value="<?php echo $doctor -> pathology_lab_share ?>" required="required">
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">Radiology Lab Share (%) </label>
+                                <input type="text" name="radiology_lab_share" class="form-control"
+                                       placeholder="Add laboratory share"
+                                       value="<?php echo $doctor -> radiology_lab_share ?>" required="required">
+                            </div>
+                            
                             <div class="form-group col-lg-12">
                                 <label for="exampleInputEmail1">Description</label>
                                 <textarea rows="5" name="description" class="form-control"

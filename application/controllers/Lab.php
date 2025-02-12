@@ -902,6 +902,7 @@
         public function do_sale_lab_test () {
             $this -> form_validation -> set_rules ( 'patient_id', 'patient_id', 'required|min_length[1]|numeric' );
             if ( $this -> form_validation -> run () == true ) {
+               
                 $discount         = $this -> input -> post ( 'discount', true );
                 $flat_discount    = $this -> input -> post ( 'flat-discount', true );
                 $tests            = $this -> input -> post ( 'test_id' );
@@ -913,7 +914,8 @@
                 $patient_remarks  = $this -> input -> post ( 'patient-remarks' );
                 $reference_id     = $this -> input -> post ( 'reference-id' );
                 $doctor_id        = $this -> input -> post ( 'doctor-id' );
-                $doctor_share     = $this -> input -> post ( 'doctor-share' );
+                $doctor_share     = 0;
+
                 $patient          = get_patient ( $patient_id );
                 $service_info     = array ();
                 $location_id = get_logged_in_user_locations_id ();
@@ -924,7 +926,8 @@
                         return redirect ( base_url ( '/lab/sale' ) );
                     }
                 }
-             
+  
+
                 
                 $total_sale = calculate_total_lab_sale ( $panel_id );
                 $net_sale   = $total_sale - ( $total_sale * ( $discount / 100 ) );
@@ -950,11 +953,35 @@
                         'internal_remarks'   => $internal_remarks,
                         'patient_remarks'    => $patient_remarks,
                         'transaction_no'     => $this -> input -> post ( 'transaction-no' ),
-                        'doctor_share'       => $doctor_share,
                         'date_sale'          => current_date_time (),
                     ); 
                     $sale_id = $this -> LabModel -> add_lab_sale ( $sale );
-                    
+
+                    foreach ($tests as $test_id) {
+                        // Fetch test price from the model
+                        $test_price = $this->LabModel->get_test_price($test_id, $panel_id);
+                        if ($test_price) {
+                            $test_amount = $test_price->price;
+            
+                            $category = $this->LabModel->get_test_category($test_id);
+
+
+            
+                            // Save doctor test share
+                            $this->LabModel->add_doctor_test_share($sale_id, $doctor_id, $test_id, $category, $test_amount);
+                        }
+                    }
+
+                    $doctor_share =  $this->LabModel->get_total_doctor_share_by_sale_id($sale_id, $doctor_id);
+                
+                    $info  = array (
+                        'doctor_share'       => $doctor_share,
+                    );
+                    $where = array (
+                        'id' => $sale_id
+                    );
+                    $this -> LabModel -> update_lab_sale ( $info, $where );
+
                     $description = 'Cash from lab . Sale# ' . $sale_id;
 
                     $location_sale_id = get_next_location_sale_id($location_id);
@@ -1292,7 +1319,9 @@
                     }
                     
                     if ( isset( $doctor_id ) and $doctor_id > 0 ) {
-                        $doc_share   = ( $total_sale * $doctor_share ) / 100;
+                        // $doc_share   = ( $total_sale * $doctor_share ) / 100;
+                        $doc_share   =  $doctor_share ;
+
                         $doc_head_id = get_doctor_linked_account_head_id ( $doctor_id );
                         if ( $doc_head_id > 0 ) {
                             lab_sales_DOCTOR_ledger ( $sale, $sale_id, $service_info, $doc_head_id, $doc_share );
