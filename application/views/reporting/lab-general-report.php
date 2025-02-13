@@ -169,6 +169,9 @@
                     <tr>
                         <th> Sr. No</th>
                         <th> <?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></th>
+                        <th> Location</th>
+                        <th> Location Sale ID</th>
+                        <th> Daily Location Sale ID</th>
                         <th> Test</th>
                         <th> <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></th>
                         <th> Patient Type</th>
@@ -178,7 +181,7 @@
                         <th> Discount(Flat)</th>
                         <th> Paid Amount</th>
                         <th> Net Amount</th>
-                        <th> Doctor's Share (%)</th>
+                        <!-- <th> Doctor's Share (%)</th> -->
                         <th> Doctor's Share Value</th>
                         <th> Remarks</th>
                         <th> Date</th>
@@ -199,6 +202,12 @@
                                 $tests     = explode ( ',', $report -> tests );
                                 $receiving = get_lab_sale_receiving ( $report -> sale_id );
                                 $saleInfo  = get_lab_sale ( $report -> sale_id );
+
+                                $sale_info = get_lab_sale ( $report -> sale_id );
+                                $location  = ( is_object ( $sale_info ) ) ? get_location_by_id ( $sale_info -> locations_id ) : new stdClass();
+                                $location_sale_id = get_location_sale_id_by_hmis_lab_sales_id($report -> sale_id);
+                                $daily_location_sale_id = get_daily_location_sale_id_by_hmis_lab_sales_id($report -> sale_id);
+
                                 
                                 if ( $report -> refunded !== '1' )
                                     $p_total = $p_total + $report -> price;
@@ -226,7 +235,8 @@
                                 if ( $report -> refunded !== '1' ) {
                                     $totalPaidAmount = $totalPaidAmount + $sale -> paid_amount;
                                     $total           = $total + $saleInfo -> total;
-                                    $doctorShareNet  += ( $saleInfo -> net * ( $saleInfo -> doctor_share / 100 ) );
+                                    // $doctorShareNet  += ( $saleInfo -> net * ( $saleInfo -> doctor_share / 100 ) );
+                                    $doctorShareNet  += ( $saleInfo -> total_doctor_share_path_radio );
                                 }
                                 
                                 $totalPaidAmount = $totalPaidAmount - $netReceiving;
@@ -234,6 +244,10 @@
                                 <tr>
                                     <td> <?php echo $counter++ ?> </td>
                                     <td> <?php echo $report -> sale_id ?> </td>
+                                    <td><?php echo $location->name ?? ''; ?></td>
+                                    <td><?php echo $location_sale_id ?? ''; ?></td>
+                                    <td>   <?php echo $daily_location_sale_id ?? ''; ?>  </td>
+
                                     <td>
                                         <?php
                                             if ( count ( $tests ) > 0 ) {
@@ -288,20 +302,22 @@
                                         ?>
                                     </td>
                                     <td><?php echo number_format ( $saleInfo -> total, 2 ) ?></td>
-                                    <td>
+                                    <!-- <td>
                                         <?php
                                             if ( $doctor_share > 0 ) {
                                                 echo $saleInfo -> doctor_share . '%';
                                             }
                                         ?>
-                                    </td>
+                                    </td> -->
                                     <td>
-                                        <?php
-                                            if ( $doctor_share > 0 ) {
-                                                echo ( $saleInfo -> net * ( $saleInfo -> doctor_share / 100 ) );
-                                            }
-                                        ?>
-                                    </td>
+                                            <?php
+                                                $doctor_share = $saleInfo -> total_doctor_share_path_radio;
+                                                if ( $doctor_share > 0 ) {
+                                                    echo number_format (  $saleInfo -> total_doctor_share_path_radio, 2 );
+                                                }
+                                            ?>
+                                        </td>
+                                  
                                     <td> <?php echo $report -> remarks ?> </td>
                                     <td> <?php echo date_setter ( $report -> date_added ) ?> </td>
                                 </tr>
@@ -323,7 +339,7 @@
                                 <td>
                                     <b><?php echo number_format ( $total, 2 ) ?></b>
                                 </td>
-                                <td></td>
+                             
                                 <td>
                                     <b><?php echo number_format ( $doctorShareNet, 2 ) ?></b>
                                 </td>

@@ -20,18 +20,18 @@
             <form method="get" autocomplete="off">
                 <div class="form-group col-lg-2" style="position: relative">
                     <label for="exampleInputEmail1"><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></label>
-                    <input type="text" name="invoice_id" class="form-control" placeholder="Enter invoice number"
+                    <input type="text" name="invoice_id" class="form-control" placeholder="Invoice ID"
                            autofocus="autofocus" value="<?php echo @$_REQUEST[ 'invoice_id' ] ?>">
                 </div>
                 <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Daily Sale ID</label>
-                    <input type="text" name="daily_sale_id" class="form-control" placeholder="Enter Daily sale id"
+                    <input type="text" name="daily_sale_id" class="form-control" placeholder="Daily Sale ID"
                            value="<?php echo @$_REQUEST[ 'daily_sale_id' ] ?>">
                 </div>
 
                 <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Location Sale ID</label>
-                    <input type="text" name="location_sale_id" class="form-control" placeholder="Enter Location sale id"
+                    <input type="text" name="location_sale_id" class="form-control" placeholder="Location Sale ID"
                            value="<?php echo @$_REQUEST[ 'location_sale_id' ] ?>">
                 </div>
                 <div class="form-group col-lg-2">
@@ -180,8 +180,8 @@
                                 <th> Sr. No</th>
                                 <th> <?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></th>
                                 <th> Location</th>
-                                <th> Location Sale Id</th>
-                                <th> Daily Sale Id</th>
+                                <th> Location Sale ID</th>
+                                <th> Daily Sale ID</th>
                                 <th> <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></th>
                                 <th> Patient Panel</th>
                                 <th> Airline</th>
@@ -231,12 +231,7 @@
                                             <td><?php echo $sale -> sale_id ?></td>
                                             <td><?php echo $location->name ?? ''; ?></td>
                                                 <td><?php echo $location_sale_id ?? ''; ?></td>
-                                                <td>
-                                            
-                                                    <?php echo $daily_location_sale_id ?? ''; ?>
-                                                    
-                                                
-                                                </td>
+                                                <td>   <?php echo $daily_location_sale_id ?? ''; ?>  </td>
                                             <td><?php echo get_patient_name ( 0, $patient ) ?></td>
                                             <td>
                                                 <?php

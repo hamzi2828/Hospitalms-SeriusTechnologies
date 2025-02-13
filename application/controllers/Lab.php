@@ -916,7 +916,6 @@
                 $doctor_id        = $this -> input -> post ( 'doctor-id' );
                 $doctor_share     = 0;
                 $total_doctor_share_path_radio = 0;
-
                 $patient          = get_patient ( $patient_id );
                 $service_info     = array ();
                 $location_id = get_logged_in_user_locations_id ();
