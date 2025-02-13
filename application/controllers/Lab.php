@@ -985,12 +985,13 @@
                     $description = 'Cash from lab . Sale# ' . $sale_id;
 
                     $location_sale_id = get_next_location_sale_id($location_id);
+                    $daily_location_sale_id = get_next_location_sale_id_on_daily_basies($location_id);
 
                     $location_sale_data = array(
                         'hmis_lab_sales_id' => $sale_id, 
                         'user_id' => get_logged_in_user_id (),
                         'location_sale_id' => $location_sale_id ?? '',
-                        'daily_location_sale_id	' => get_next_location_sale_id_on_daily_basies($location_id),
+                        'daily_location_sale_id	' =>  $daily_location_sale_id ?? '',
                         'sale_date' => date('Y-m-d H:i:s'),
                         'location_id' => $location_id,
                     );
@@ -999,6 +1000,16 @@
                     $location_sale_data = $this -> LabModel -> add_lab_location_sale ( $location_sale_data );
 
 
+                    $info  = array (
+                        'user_id' => get_logged_in_user_id (),
+                        'location_sale_id' => $location_sale_id ?? '',
+                        'daily_location_sale_id	' =>   $daily_location_sale_id ?? '',
+                        'location_id' => $location_id,
+                    );
+                    $where = array (
+                        'sale_id' => $sale_id
+                    );
+                    $this -> LabModel -> update_doctor_test_share ( $info, $where );
     
                     if ( $panel_id > 0 ) {
                         $description .= ' / ' . get_panel_by_id ( $panel_id ) -> name;
@@ -3589,7 +3600,7 @@
                 $offset = $_REQUEST[ 'per_page' ];
             }
             else {
-                $offset = 0; 
+                $offset = 0;
             }
             
             $data[ 'panels' ]   = $this -> PanelModel -> get_panels ();
