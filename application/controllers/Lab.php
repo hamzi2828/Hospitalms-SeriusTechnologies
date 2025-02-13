@@ -3589,7 +3589,7 @@
                 $offset = $_REQUEST[ 'per_page' ];
             }
             else {
-                $offset = 0;
+                $offset = 0; 
             }
             
             $data[ 'panels' ]   = $this -> PanelModel -> get_panels ();

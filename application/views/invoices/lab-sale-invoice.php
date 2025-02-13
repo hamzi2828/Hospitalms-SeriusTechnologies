@@ -103,7 +103,7 @@ mpdf-->
 <br />
 <?php
 
-$panel_request =  isset( $_REQUEST[ 'panel' ] ) ? true : false ;?>
+$panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'true' ) ? true : false ;?>
 <table width="100%">
     <tr>
         <td width="60%">
