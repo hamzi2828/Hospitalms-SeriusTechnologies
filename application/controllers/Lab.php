@@ -957,7 +957,7 @@
                     ); 
                     $sale_id = $this -> LabModel -> add_lab_sale ( $sale );
 
-                    if(  $panel_id  > 0){
+                    if(  $panel_id  == 0){
                     foreach ($tests as $test_id) {
                         // Fetch test price from the model
                         $test_price = $this->LabModel->get_test_price($test_id, $panel_id);
@@ -1327,7 +1327,7 @@
                         $service_info[] = $title;
                     }
                     
-                    if ( isset( $doctor_id ) and $doctor_id > 0 and $panel_id > 0 ) {
+                    if ( isset( $doctor_id ) and $doctor_id > 0 and $panel_id == 0 ) {
                         // $doc_share   = ( $total_sale * $doctor_share ) / 100;
                         $doc_share   =  $doctor_share ;
 
