@@ -3611,7 +3611,9 @@
             return $query->row()->share_amount;
         }
         
-
+        public function update_doctor_test_share ( $info, $where ) {
+            $this -> db -> update ( 'hmis_doctor_lab_test_shares', $info, $where );
+        }
 
     
     
