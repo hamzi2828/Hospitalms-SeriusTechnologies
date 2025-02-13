@@ -86,7 +86,7 @@
                             <th> Net Price</th>
                             <th> Paid Amount</th>
                             <th> Balance</th>
-                            <th> Doctor's Share (%)</th>
+                            <!-- <th> Doctor's Share (%)</th> -->
                             <th> Doctor's Share Value</th>
                             <!-- added -->
                             <th>Payment Method</th>
@@ -174,19 +174,19 @@
                                         <td><?php echo number_format ( $sale_info -> total, 2 ) ?></td>
                                         <td><?php echo number_format ( $sale_info -> paid_amount, 2 ) ?></td>
                                         <td><?php echo number_format ( $balance, 2 ) ?></td>
-                                        <td>
+                                        <!-- <td>
                                             <?php
                                                 $doctor_share = $sale_info -> doctor_share;
                                                 if ( $doctor_share > 0 ) {
                                                     echo $sale_info -> doctor_share . '%';
                                                 }
                                             ?>
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <?php
-                                                $doctor_share = $sale_info -> doctor_share;
+                                                $doctor_share = $sale_info -> total_doctor_share_path_radio;
                                                 if ( $doctor_share > 0 ) {
-                                                    echo number_format ( $sale_info -> net * ( $sale_info -> doctor_share / 100 ), 2 );
+                                                    echo number_format (  $sale_info -> total_doctor_share_path_radio, 2 );
                                                 }
                                             ?>
                                         </td>

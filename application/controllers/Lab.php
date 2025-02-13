@@ -915,6 +915,7 @@
                 $reference_id     = $this -> input -> post ( 'reference-id' );
                 $doctor_id        = $this -> input -> post ( 'doctor-id' );
                 $doctor_share     = 0;
+                $total_doctor_share_path_radio = 0;
 
                 $patient          = get_patient ( $patient_id );
                 $service_info     = array ();
@@ -968,12 +969,12 @@
                             $this->LabModel->add_doctor_test_share($sale_id, $doctor_id, $test_id, $category, $test_amount);
                         }
                     }
-                    $doctor_share =  $this->LabModel->get_total_doctor_share_by_sale_id($sale_id, $doctor_id);
+                    $total_doctor_share_path_radio =  $this->LabModel->get_total_doctor_share_by_sale_id($sale_id, $doctor_id);
 
                 }
                 
                     $info  = array (
-                        'doctor_share'       => $doctor_share,
+                        'total_doctor_share_path_radio'       => $total_doctor_share_path_radio,
                     );
                     $where = array (
                         'id' => $sale_id
