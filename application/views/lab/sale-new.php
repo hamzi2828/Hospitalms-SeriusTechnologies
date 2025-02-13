@@ -91,7 +91,7 @@
                     
                     <div class="row">
                         <div class="form-group col-lg-4">
-                            <label for="payment-method">Payment Method</label>
+                            <label for="payment-method">Payment Method <span style="color: red">*</span></label>
                             <select class="form-control select2me" name="payment-method" id="payment-method"
                                     required="required" data-placeholder="Select"
                                     onchange="getPaymentMethodFields(this.value)">
@@ -104,8 +104,8 @@
                         <div id="payment-methods"></div>
                         
                         <div class="col-md-4">
-                            <label for="doctor-id">Doctor</label>
-                            <select data-placeholder="Select" class="form-control select2me"
+                            <label for="doctor-id">Doctor <span style="color: red">*</span></label>
+                            <select data-placeholder="Please select doctor" class="form-control select2me"
                                     name="doctor-id" id="doctor-id" required="required">
                                 <option></option>
                                 <?php

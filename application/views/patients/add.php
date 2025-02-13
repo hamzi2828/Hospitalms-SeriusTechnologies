@@ -123,9 +123,9 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-1">
-                                <label for="exampleInputEmail1">Age</label>
+                                <label for="exampleInputEmail1">Age <sup style="color: #FF0000; font-weight: 700">*</sup></label>
                                 <input type="number" name="age" class="form-control" placeholder="Age" id="age"
-                                       maxlength="3" value="<?php echo set_value ( 'age' ) ?>">
+                                       maxlength="3" value="<?php echo set_value ( 'age' ) ?>" required="required">
                             </div>
                             <div class="form-group col-lg-2">
                                 <label for="exampleInputEmail1">Year/Month</label>
