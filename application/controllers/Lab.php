@@ -3659,7 +3659,7 @@
                 if (!$result['status']) {
                     $data['error_message'] = $result['message'];
                 }
-            }
+            } 
             
             $data[ 'panels' ]   = $this -> PanelModel -> get_panels ();
             $data[ 'airlines' ] = $this -> AirlineModel -> get_airlines ();

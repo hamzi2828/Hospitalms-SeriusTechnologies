@@ -2439,68 +2439,83 @@
             $user     = get_user($user_id);
             $panel_id = $user->panel_id;
         
-            // Base query to fetch pending results
-            $sql = "SELECT ts.*, rc.*, ls.*
+            // Base Query to Fetch Pending Results with Optimized Joins
+            $sql = "SELECT ts.*, 
+                           rc.reference_code, 
+                           ls.location_sale_id, 
+                           ls.daily_location_sale_id
                     FROM hmis_test_sales ts
                     INNER JOIN hmis_reference_codes rc ON ts.sale_id = rc.sale_id
                     INNER JOIN hmis_lab_sales_location_wise ls ON ts.sale_id = ls.hmis_lab_sales_id
                     WHERE (ts.parent_id IS NULL OR ts.parent_id = '' OR ts.parent_id = 0) 
-                    AND (ts.sale_id, ts.test_id) NOT IN (
-                        SELECT sale_id, test_id FROM hmis_test_results 
-                        WHERE id IN (SELECT result_id FROM hmis_lab_results_verified)
+                    AND NOT EXISTS (
+                        SELECT 1 FROM hmis_test_results tr 
+                        JOIN hmis_lab_results_verified vr ON tr.id = vr.result_id 
+                        WHERE tr.sale_id = ts.sale_id AND tr.test_id = ts.test_id
                     )
                     AND ts.refunded = '0'";
         
-            // Filtering conditions
-            if (isset($_REQUEST['invoice_id']) && !empty(trim($_REQUEST['invoice_id'])) && is_numeric($_REQUEST['invoice_id'])) {
-                $sale_id = $_REQUEST['invoice_id'];
-                $sql .= " AND ts.sale_id = $sale_id";
+            $params = [];
+        
+            // Apply Filtering Conditions
+            if (!empty($_REQUEST['invoice_id']) && is_numeric($_REQUEST['invoice_id'])) {
+                $sql .= " AND ts.sale_id = ?";
+                $params[] = $_REQUEST['invoice_id'];
             }
         
-            if (isset($_REQUEST['location-id']) && $_REQUEST['location-id'] !== 0 && is_numeric($_REQUEST['location-id'])) {
-                $location_id = $_REQUEST['location-id'];
-                $sql .= " AND rc.location_id = $location_id";
+            if (!empty($_REQUEST['location-id']) && is_numeric($_REQUEST['location-id'])) {
+                $sql .= " AND rc.location_id = ?";
+                $params[] = $_REQUEST['location-id'];
             }
         
-            if (isset($_REQUEST['user-id']) && !empty(trim($_REQUEST['user-id'])) && is_numeric($_REQUEST['user-id'])) {
-                $user_id = $_REQUEST['user-id'];
-                $sql .= " AND ts.user_id = $user_id";
+            if (!empty($_REQUEST['user-id']) && is_numeric($_REQUEST['user-id'])) {
+                $sql .= " AND ts.user_id = ?";
+                $params[] = $_REQUEST['user-id'];
             }
         
-            if (isset($_REQUEST['start_date']) && !empty(trim($_REQUEST['start_date'])) && 
-                isset($_REQUEST['end_date']) && !empty(trim($_REQUEST['end_date']))) {
+            if (!empty($_REQUEST['start_date']) && !empty($_REQUEST['end_date'])) {
                 $start_date = date('Y-m-d', strtotime($_REQUEST['start_date']));
                 $end_date   = date('Y-m-d', strtotime($_REQUEST['end_date']));
-                $sql .= " AND DATE(ts.date_added) BETWEEN '$start_date' AND '$end_date'";
+                $sql .= " AND DATE(ts.date_added) BETWEEN ? AND ?";
+                $params[] = $start_date;
+                $params[] = $end_date;
             }
         
-            if (isset($_GET['panel-id']) && !empty(trim($_GET['panel-id'])) && $_GET['panel-id'] > 0) {
-                $panel_id = $_GET['panel-id'];
-                $sql .= " AND ts.patient_id IN (SELECT id FROM hmis_patients WHERE panel_id = $panel_id)";
+            if (!empty($_GET['panel-id']) && $_GET['panel-id'] > 0) {
+                $sql .= " AND ts.patient_id IN (SELECT id FROM hmis_patients WHERE panel_id = ?)";
+                $params[] = $_GET['panel-id'];
             }
         
-            if (isset($_GET['airline-id']) && !empty(trim($_GET['airline-id'])) && $_GET['airline-id'] > 0) {
-                $airline_id = $_GET['airline-id'];
-                $sql .= " AND ts.airline_id = $airline_id";
+            if (!empty($_GET['airline-id']) && $_GET['airline-id'] > 0) {
+                $sql .= " AND ts.airline_id = ?";
+                $params[] = $_GET['airline-id'];
             }
         
-            if (!empty(trim($panel_id)) && $panel_id > 0) {
-                $sql .= " AND ts.patient_id IN (SELECT id FROM hmis_patients WHERE panel_id = $panel_id)";
+            if (!empty($panel_id) && $panel_id > 0) {
+                $sql .= " AND ts.patient_id IN (SELECT id FROM hmis_patients WHERE panel_id = ?)";
+                $params[] = $panel_id;
             }
         
-            if (isset($_REQUEST['daily_sale_id']) && !empty(trim($_REQUEST['daily_sale_id'])) && is_numeric($_REQUEST['daily_sale_id'])) {
-                $daily_sale_id = $_REQUEST['daily_sale_id'];
-                $sql .= " AND ls.daily_location_sale_id = $daily_sale_id";
+            if (!empty($_REQUEST['daily_sale_id']) && is_numeric($_REQUEST['daily_sale_id'])) {
+                $sql .= " AND ls.daily_location_sale_id = ?";
+                $params[] = $_REQUEST['daily_sale_id'];
             }
         
-            if (isset($_REQUEST['location_sale_id']) && !empty(trim($_REQUEST['location_sale_id'])) && is_numeric($_REQUEST['location_sale_id'])) {
-                $location_sale_id = $_REQUEST['location_sale_id'];
-                $sql .= " AND ls.location_sale_id = $location_sale_id";
+            if (!empty($_REQUEST['location_sale_id']) && is_numeric($_REQUEST['location_sale_id'])) {
+                $sql .= " AND ls.location_sale_id = ?";
+                $params[] = $_REQUEST['location_sale_id'];
             }
         
-            $sql .= " ORDER BY ts.sale_id DESC LIMIT $limit OFFSET $offset";
+            // Grouping and Pagination to Remove Duplicates
+            $sql .= " GROUP BY ts.sale_id, ts.test_id
+                      ORDER BY ts.sale_id DESC 
+                      LIMIT ? OFFSET ?";
             
-            $sales = $this->db->query($sql);
+            $params[] = $limit;
+            $params[] = $offset;
+        
+            // Execute Query with Bindings
+            $sales = $this->db->query($sql, $params);
             return $sales->result();
         }
         
