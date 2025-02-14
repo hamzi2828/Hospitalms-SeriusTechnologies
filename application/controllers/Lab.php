@@ -958,16 +958,15 @@
                     $sale_id = $this -> LabModel -> add_lab_sale ( $sale );
 
                     if(  $panel_id  == 0){
-                    foreach ($tests as $test_id) {
-                        // Fetch test price from the model
-                        $test_price = $this->LabModel->get_test_price($test_id, $panel_id);
-                        if ($test_price) {
-                            $test_amount = $test_price->price;
-                            $category = $this->LabModel->get_test_category($test_id);
-                            // Save doctor test share
-                            $this->LabModel->add_doctor_test_share($sale_id, $doctor_id, $test_id, $category, $test_amount);
+                        foreach ($tests as $test_id) {
+                            $test_price = $this->LabModel->get_test_price($test_id, $panel_id);
+                            if ($test_price) {
+                                $test_amount = $test_price->price;
+                                $category = $this->LabModel->get_test_category($test_id);
+                                $this->LabModel->add_doctor_test_share($sale_id, $doctor_id, $test_id, $category, $test_amount, $flat_discount, $total_sale, $tests);
+                            }
                         }
-                    }
+                        
                     $total_doctor_share_path_radio =  $this->LabModel->get_total_doctor_share_by_sale_id($sale_id, $doctor_id);
 
                 }

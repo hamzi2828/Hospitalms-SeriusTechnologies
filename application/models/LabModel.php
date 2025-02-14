@@ -3579,29 +3579,66 @@
         }
         
         
-        public function add_doctor_test_share($sale_id, $doctor_id, $test_id, $category, $test_amount) {
-
+        public function add_doctor_test_share($sale_id, $doctor_id, $test_id, $category, $test_amount, $flat_discount, $total_sale, $tests) {
             $doctor_share_percentage = 0;
-         
-            if($category == 'radiology') {
-                $doctor_share_percentage = get_doctor_shares_for_radiology($doctor_id)
-                ->radiology_lab_share;
+            
+            if ($category == 'radiology') {
+                $doctor_share_percentage = get_doctor_shares_for_radiology($doctor_id)->radiology_lab_share;
             } elseif ($category == 'pathology') {
                 $doctor_share_percentage = get_doctor_shares_for_pathology($doctor_id)->pathology_lab_share;
             }
+        
+            // Count the number of radiology and pathology tests
+            $radiology_count = 0;
+            $pathology_count = 0;
+            foreach ($tests as $test) {
+                $test_category = $this->LabModel->get_test_category($test);
+                if ($test_category == 'radiology') {
+                    $radiology_count++;
+                } elseif ($test_category == 'pathology') {
+                    $pathology_count++;
+                }
+            }
+        
+            // Calculate discount distribution
+            $radiology_discount = ($radiology_count > 0) ? ($flat_discount / 2) / $radiology_count : 0;
+            $pathology_discount = ($pathology_count > 0) ? ($flat_discount / 2) / $pathology_count : 0;
+        
+            // Apply discount based on category
+            $discount_applied = 0;
+            if ($category == 'radiology') {
+                $discount_applied = $radiology_discount;
+            } elseif ($category == 'pathology') {
+                $discount_applied = $pathology_discount;
+            }
+        
+            // Adjust test amount after discount
+            $discounted_test_amount = $test_amount - $discount_applied;
+        
+            // Ensure amount does not go negative
+            if ($discounted_test_amount < 0) {
+                $discounted_test_amount = 0;
+            }
+        
+            // Calculate doctor share based on discounted amount
+            $share_amount = ($discounted_test_amount * ($doctor_share_percentage / 100));
+        
+            // Save the data
             $data = array(
                 'sale_id' => $sale_id,
                 'doctor_id' => $doctor_id,
                 'test_id' => $test_id,
                 'category' => $category,
                 'doctor_share_percentage' => $doctor_share_percentage,
-                'test_amount' => $test_amount,
-                'share_amount' => ($test_amount * ($doctor_share_percentage / 100)) 
+                'test_amount' => $test_amount, // Store original test amount
+                'discount_applied' => $discount_applied, // Store the discount applied to this test
+                'discounted_test_amount' => $discounted_test_amount, // Store final amount after discount
+                'share_amount' => $share_amount // Store final doctor share after discount
             );
-     
+        
             $this->db->insert('hmis_doctor_lab_test_shares', $data);
-    
         }
+        
         
         public function get_total_doctor_share_by_sale_id($sale_id, $doctor_id){
             $this->db->select_sum('share_amount');
