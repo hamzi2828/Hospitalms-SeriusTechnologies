@@ -4088,7 +4088,7 @@
         /**
          * -------------------------
          * add references main page
-         * -------------------------
+         * ------------------------- 
          */
         
         public function add_references () {
@@ -4110,24 +4110,39 @@
          * -------------------------
          */
         
-        public function do_add_references ( $POST ) {
-            $data  = filter_var_array ( $POST, FILTER_SANITIZE_STRING );
-            $title = $data[ 'title' ];
-            if ( isset( $title ) and count ( array_filter ( $title ) ) > 0 ) {
-                foreach ( $title as $name ) {
-                    if ( !empty( trim ( $name ) ) ) {
-                        $info = array (
-                            'user_id'    => get_logged_in_user_id (),
-                            'title'      => $name,
-                            'created_at' => current_date_time (),
-                        );
-                        $this -> ReferenceModel -> add ( $info );
+         public function do_add_references($POST) {
+            $data = filter_var_array($POST, FILTER_SANITIZE_STRING);
+            $titles = $data['title'] ?? [];
+            $discounts = $data['discount'] ?? []; // Fix: Correctly accessing 'discount' instead of 'discount_percent'
+        
+     
+        
+            if (!empty($titles) && count(array_filter($titles)) > 0) {
+                foreach ($titles as $key => $title) {
+                    $title = trim($title);
+        
+                    // Fix: Remove '%' and convert to float
+                    $discount = isset($discounts[$key]) ? floatval(str_replace('%', '', $discounts[$key])) : 0;
+        
+                    if (!empty($title)) {
+                        $info = [
+                            'user_id'         => get_logged_in_user_id(),
+                            'title'           => $title,
+                            'discount_percent'=> $discount, // Now correctly stored as a number
+                            'created_at'      => current_date_time(),
+                            'updated_at'      => current_date_time()
+                        ];
+        
+                        $this->ReferenceModel->add($info);
                     }
                 }
             }
-            $this -> session -> set_flashdata ( 'response', 'Success! References added.' );
-            return redirect ( base_url ( '/settings/add-references?settings=general' ) );
+        
+            $this->session->set_flashdata('response', 'Success! References added.');
+            return redirect(base_url('/settings/add-references?settings=general'));
         }
+        
+        
         
         /**
          * -------------------------
@@ -4174,23 +4189,32 @@
          * -------------------------
          */
         
-        public function do_edit_reference ( $POST ) {
-            $data         = filter_var_array ( $POST, FILTER_SANITIZE_STRING );
-            $title        = $data[ 'title' ];
-            $reference_id = $data[ 'reference-id' ];
-            if ( !empty( trim ( $title ) ) ) {
-                $where = array (
-                    'id' => $reference_id,
-                );
-                $info  = array (
-                    'title'      => $title,
-                    'created_at' => current_date_time (),
-                );
-                $this -> ReferenceModel -> edit ( $info, $where );
-                $this -> session -> set_flashdata ( 'response', 'Success! Reference updated.' );
-                return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+         public function do_edit_reference($POST) {
+            $data = filter_var_array($POST, FILTER_SANITIZE_STRING);
+            
+            $title = trim($data['title']);
+            $discount = isset($data['discount_percent']) ? floatval(str_replace('%', '', $data['discount_percent'])) : 0;
+            $reference_id = $data['reference-id'];
+        
+            if (!empty($title) && !empty($reference_id)) {
+                $where = ['id' => $reference_id];
+        
+                $info = [
+                    'title'            => $title,
+                    'discount_percent' => $discount,
+                    'updated_at'       => current_date_time(),
+                ];
+        
+                $this->ReferenceModel->edit($info, $where);
+        
+                $this->session->set_flashdata('response', 'Success! Reference updated.');
+            } else {
+                $this->session->set_flashdata('error', 'Error! Title or Reference ID is missing.');
             }
+        
+            return redirect($_SERVER['HTTP_REFERER']);
         }
+        
         
         /**
          * -------------------------

@@ -70,22 +70,23 @@
                                 <input type="text" class="form-control" readonly="readonly" id="patient-cnic">
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="exampleInputEmail1">Reference</label>
-                                <select name="reference-id" class="form-control select2me">
-                                    <option value="">Select</option>
-                                    <?php
-                                        if ( count ( $references ) > 0 ) {
-                                            foreach ( $references as $reference ) {
-                                                ?>
-                                                <option value="<?php echo $reference -> id ?>">
-                                                    <?php echo $reference -> title ?>
-                                                </option>
-                                                <?php
-                                            }
-                                        }
-                                    ?>
-                                </select>
-                            </div>
+    <label for="exampleInputEmail1">Reference</label>
+    <select name="reference-id" class="form-control select2me" id="reference-id" onchange="showDiscountAlert()">
+        <option value="" data-discount="0">Select</option>
+        <?php
+        if (count($references) > 0) {
+            foreach ($references as $reference) {
+                ?>
+                <option value="<?php echo $reference->id ?>" data-discount="<?php echo $reference->discount_percent ?? 0; ?>">
+                    <?php echo $reference->title ?>
+                </option>
+                <?php
+            }
+        }
+        ?>
+    </select>
+</div>
+
                         </div>
                     </div>
                     
@@ -215,6 +216,26 @@
         width : 100%;
     }
 </style>
+
+<script>
+function showDiscountAlert() {
+    let referenceDropdown = document.getElementById("reference-id");
+    let selectedOption = referenceDropdown.options[referenceDropdown.selectedIndex];
+    let discount = selectedOption.getAttribute("data-discount");
+
+    let discountAlertDiv = document.querySelector(".panel-discount-info");
+
+    if (discount !== null && discount !== "0") {
+        discountAlertDiv.innerHTML = "The discount for this reference is:<b> " + discount + "%</b>";
+        discountAlertDiv.classList.remove("hidden");
+        discountAlertDiv.classList.add("alert", "alert-success");
+    } else {
+        discountAlertDiv.classList.add("hidden");
+    }
+}
+</script>
+
+
 <script type="text/javascript">
     <?php if (isset( $_GET[ 'patient' ] ) and !empty( trim ( $_GET[ 'patient' ] ) )) : ?>
     jQuery ( window ).on ( 'load', function () {
