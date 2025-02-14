@@ -928,7 +928,7 @@
                 }
   
 
-                
+           
                 $total_sale = calculate_total_lab_sale ( $panel_id );
                 $net_sale   = $total_sale - ( $total_sale * ( $discount / 100 ) );
                 $net_sale   = $net_sale - $flat_discount;
@@ -958,6 +958,8 @@
                     $sale_id = $this -> LabModel -> add_lab_sale ( $sale );
 
                     if(  $panel_id  == 0){
+                        $flat_discount = ( $discount > 0 ) ? $total_sale * ( $discount / 100 ) : $flat_discount;
+                    
                         foreach ($tests as $test_id) {
                             $test_price = $this->LabModel->get_test_price($test_id, $panel_id);
                             if ($test_price) {
@@ -1328,7 +1330,7 @@
                     
                     if ( isset( $doctor_id ) and $doctor_id > 0 and $panel_id == 0 ) {
                         // $doc_share   = ( $total_sale * $doctor_share ) / 100;
-                        $doc_share   =  $doctor_share ;
+                        $doc_share   =  $total_doctor_share_path_radio ;
 
                         $doc_head_id = get_doctor_linked_account_head_id ( $doctor_id );
                         if ( $doc_head_id > 0 ) {
