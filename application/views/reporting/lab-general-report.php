@@ -344,7 +344,7 @@
                                             ?>
                                         </td>
                                   
-                                        <th><?php echo $report -> payment_method ?></th>
+                                        <td><?php echo $report -> payment_method ?></td>
                                     <td> <?php echo $report -> remarks ?> </td>
                                     <td> <?php echo date_setter ( $report -> date_added ) ?> </td>
                                 </tr>

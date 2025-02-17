@@ -1981,7 +1981,11 @@
                 $sql        .= " and DATE(created_at) BETWEEN '$start_date' and '$end_date'";
                 $search     = true;
             }
-            
+            if (isset($_REQUEST['payment-method']) && !empty(trim($_REQUEST['payment-method']))) {
+                $payment_method = $_REQUEST['payment-method'];
+                $sql          .= " AND payment_method = '$payment_method'";
+                $search       = true;
+            }
             if ( isset( $_GET[ 'user-id' ] ) and !empty( trim ( $_GET[ 'user-id' ] ) ) and $_GET[ 'user-id' ] > 0 ) {
                 $user_id = $_GET[ 'user-id' ];
                 $sql     .= " and user_id=$user_id";
