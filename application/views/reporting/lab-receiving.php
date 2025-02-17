@@ -16,6 +16,7 @@
                         <th> <?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></th>
                         <th> Received By</th>
                         <th> Received Amount</th>
+                        <th> Payment Method</th>
                         <th> Date</th>
                     </tr>
                     </thead>
@@ -24,6 +25,7 @@
                         $counter = 1;
                         $totalReceivedAmount = 0;
                         if ( count ( $receivings ) > 0 ) {
+                        
                             foreach ( $receivings as $receive ) {
                                 $totalReceivedAmount = $totalReceivedAmount + $receive -> amount;
                                 $received_by = get_user ( $receive -> user_id );
@@ -35,6 +37,7 @@
                                     <td>
                                         <?php echo number_format ( $receive -> amount, 2 ) ?>
                                     </td>
+                                    <td> <?php echo $receive -> payment_method ?> </td>
                                     <td> <?php echo date_setter ( $receive -> created_at ) ?> </td>
                                 </tr>
                                 <?php

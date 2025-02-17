@@ -1811,69 +1811,158 @@
          * -------------------------
          */
         
+        // public function get_general_report () {
+        //     $search = false;
+        //     $sql    = "Select sale_id, patient_id, GROUP_CONCAT(test_id) as tests, parent_id, type, SUM(price) as price, status, remarks, refunded, date_added from hmis_test_sales where 1";
+        //     if ( isset( $_REQUEST[ 'start_date' ] ) and !empty( trim ( $_REQUEST[ 'start_date' ] ) ) and isset( $_REQUEST[ 'end_date' ] ) and !empty( trim ( $_REQUEST[ 'end_date' ] ) ) ) {
+        //         $start_date = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'start_date' ] ) );
+        //         $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
+        //         $sql        .= " and DATE(date_added) BETWEEN '$start_date' and '$end_date'";
+        //         $search     = true;
+        //     }
+        //     if ( isset( $_REQUEST[ 'panel-id' ] ) and !empty( trim ( $_REQUEST[ 'panel-id' ] ) ) and is_numeric ( $_REQUEST[ 'panel-id' ] ) > 0 ) {
+        //         $panel_id = $_REQUEST[ 'panel-id' ];
+        //         $sql      .= " and patient_id IN (Select id from hmis_patients where panel_id=$panel_id)";
+        //         $search   = true;
+        //     }
+        //     else if ( isset( $_REQUEST[ 'panel-id' ] ) and !empty( trim ( $_REQUEST[ 'panel-id' ] ) ) and $_REQUEST[ 'panel-id' ] == 'cash' ) {
+        //         $sql    .= " and patient_id IN (Select id from hmis_patients where (panel_id IS NULL OR panel_id='0' OR panel_id=''))";
+        //         $search = true;
+        //     }
+        //     else if ( isset( $_REQUEST[ 'exclude-cash' ] ) and !empty( trim ( $_REQUEST[ 'exclude-cash' ] ) ) and $_REQUEST[ 'exclude-cash' ] == 'yes' ) {
+        //         $sql    .= " and patient_id IN (Select id from hmis_patients where (panel_id IS NOT NULL AND panel_id > 0 OR panel_id!=''))";
+        //         $search = true;
+        //     }
+        //     if ( isset( $_REQUEST[ 'panel-id' ] ) and $_REQUEST[ 'panel-id' ] == 'cash' ) {
+        //         $sql    .= " and patient_id NOT IN (Select id from hmis_patients where panel_id > 0)";
+        //         $search = true;
+        //     }
+        //     if ( isset( $_REQUEST[ 'test_id' ] ) and !empty( trim ( $_REQUEST[ 'test_id' ] ) ) and is_numeric ( $_REQUEST[ 'test_id' ] ) > 0 ) {
+        //         $test_id = $_REQUEST[ 'test_id' ];
+        //         $sql     .= " and test_id=$test_id";
+        //         $search  = true;
+        //     }
+        //     if ( isset( $_REQUEST[ 'sale_id' ] ) and !empty( trim ( $_REQUEST[ 'sale_id' ] ) ) and is_numeric ( $_REQUEST[ 'sale_id' ] ) > 0 ) {
+        //         $sale_id = $_REQUEST[ 'sale_id' ];
+        //         $sql     .= " and sale_id=$sale_id";
+        //         $search  = true;
+        //     }
+        //     if ( isset( $_REQUEST[ 'start_time' ] ) and isset( $_REQUEST[ 'end_time' ] ) and !empty( $_REQUEST[ 'start_time' ] ) and !empty( $_REQUEST[ 'end_time' ] ) ) {
+        //         $start_time = date ( 'H:i:s', strtotime ( $_REQUEST[ 'start_time' ] ) );
+        //         $end_time   = date ( 'H:i:s', strtotime ( $_REQUEST[ 'end_time' ] ) );
+        //         $sql        .= " and TIME(date_added) BETWEEN '$start_time' and '$end_time'";
+        //         $search     = true;
+        //     }
+        //     if ( isset( $_GET[ 'user-id' ] ) and !empty( trim ( $_GET[ 'user-id' ] ) ) and $_GET[ 'user-id' ] > 0 ) {
+        //         $user_id = $_GET[ 'user-id' ];
+        //         $sql     .= " and user_id=$user_id";
+        //         $search  = true;
+        //     }
+        //     if ( isset( $_REQUEST[ 'reference-id' ] ) and $_REQUEST[ 'reference-id' ] > 0 ) {
+        //         $reference_id = $_GET[ 'reference-id' ];
+        //         $sql          .= " and sale_id IN (Select id from hmis_lab_sales where reference_id=$reference_id)";
+        //         $search       = true;
+        //     }
+
+        //     if ( isset( $_REQUEST[ 'payment-method' ] ) and !empty( $_REQUEST[ 'payment-method' ] ) ) {
+        //         $payment_method = $_GET[ 'payment-method' ];
+                
+        //         $sql          .= " and sale_id IN (Select id from hmis_lab_sales where payment_method='$payment_method')";
+        //         $search       = true;
+        //     }
+        //     if ( isset( $_REQUEST[ 'doctor-id' ] ) and $_REQUEST[ 'doctor-id' ] > 0 ) {
+        //         $doctor_id = $_GET[ 'doctor-id' ];
+        //         $sql       .= " and sale_id IN (Select id from hmis_lab_sales where doctor_id=$doctor_id)";
+        //         $search    = true;
+        //     }
+        //     $sql   .= " group by sale_id order by DATE(date_added) ASC";
+        //     $sales = $this -> db -> query ( $sql );
+        //     print_r($sales);
+        //     exit;
+        //     if ( $search )
+        //         return $sales -> result ();
+        //     else
+        //         return array ();
+        // }
         public function get_general_report () {
             $search = false;
-            $sql    = "Select sale_id, patient_id, GROUP_CONCAT(test_id) as tests, parent_id, type, SUM(price) as price, status, remarks, refunded, date_added from hmis_test_sales where 1";
-            if ( isset( $_REQUEST[ 'start_date' ] ) and !empty( trim ( $_REQUEST[ 'start_date' ] ) ) and isset( $_REQUEST[ 'end_date' ] ) and !empty( trim ( $_REQUEST[ 'end_date' ] ) ) ) {
-                $start_date = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'start_date' ] ) );
-                $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
-                $sql        .= " and DATE(date_added) BETWEEN '$start_date' and '$end_date'";
+            $sql    = "SELECT ts.sale_id, ts.patient_id, GROUP_CONCAT(ts.test_id) as tests, ts.parent_id, ts.type, 
+                              SUM(ts.price) as price, ts.status, ts.remarks, ts.refunded, ts.date_added, 
+                              ls.payment_method 
+                       FROM hmis_test_sales ts 
+                       LEFT JOIN hmis_lab_sales ls ON ts.sale_id = ls.id 
+                       WHERE 1";
+            
+            if (isset($_REQUEST['start_date']) && !empty(trim($_REQUEST['start_date'])) && isset($_REQUEST['end_date']) && !empty(trim($_REQUEST['end_date']))) {
+                $start_date = date('Y-m-d', strtotime($_REQUEST['start_date']));
+                $end_date   = date('Y-m-d', strtotime($_REQUEST['end_date']));
+                $sql       .= " AND DATE(ts.date_added) BETWEEN '$start_date' AND '$end_date'";
                 $search     = true;
             }
-            if ( isset( $_REQUEST[ 'panel-id' ] ) and !empty( trim ( $_REQUEST[ 'panel-id' ] ) ) and is_numeric ( $_REQUEST[ 'panel-id' ] ) > 0 ) {
-                $panel_id = $_REQUEST[ 'panel-id' ];
-                $sql      .= " and patient_id IN (Select id from hmis_patients where panel_id=$panel_id)";
+        
+            if (isset($_REQUEST['panel-id']) && !empty(trim($_REQUEST['panel-id']))) {
+                if (is_numeric($_REQUEST['panel-id']) && $_REQUEST['panel-id'] > 0) {
+                    $panel_id = $_REQUEST['panel-id'];
+                    $sql     .= " AND ts.patient_id IN (SELECT id FROM hmis_patients WHERE panel_id=$panel_id)";
+                } elseif ($_REQUEST['panel-id'] == 'cash') {
+                    $sql    .= " AND ts.patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id IS NULL OR panel_id='0' OR panel_id=''))";
+                }
+                $search = true;
+            } elseif (isset($_REQUEST['exclude-cash']) && !empty(trim($_REQUEST['exclude-cash'])) && $_REQUEST['exclude-cash'] == 'yes') {
+                $sql    .= " AND ts.patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id IS NOT NULL AND panel_id > 0 OR panel_id!=''))";
+                $search = true;
+            }
+        
+            if (isset($_REQUEST['test_id']) && !empty(trim($_REQUEST['test_id'])) && is_numeric($_REQUEST['test_id']) && $_REQUEST['test_id'] > 0) {
+                $test_id = $_REQUEST['test_id'];
+                $sql    .= " AND ts.test_id=$test_id";
+                $search  = true;
+            }
+        
+            if (isset($_REQUEST['sale_id']) && !empty(trim($_REQUEST['sale_id'])) && is_numeric($_REQUEST['sale_id']) && $_REQUEST['sale_id'] > 0) {
+                $sale_id = $_REQUEST['sale_id'];
+                $sql    .= " AND ts.sale_id=$sale_id";
+                $search  = true;
+            }
+        
+            if (isset($_REQUEST['start_time']) && isset($_REQUEST['end_time']) && !empty($_REQUEST['start_time']) && !empty($_REQUEST['end_time'])) {
+                $start_time = date('H:i:s', strtotime($_REQUEST['start_time']));
+                $end_time   = date('H:i:s', strtotime($_REQUEST['end_time']));
+                $sql       .= " AND TIME(ts.date_added) BETWEEN '$start_time' AND '$end_time'";
+                $search     = true;
+            }
+        
+            if (isset($_GET['user-id']) && !empty(trim($_GET['user-id'])) && $_GET['user-id'] > 0) {
+                $user_id = $_GET['user-id'];
+                $sql    .= " AND ts.user_id=$user_id";
+                $search  = true;
+            }
+        
+            if (isset($_REQUEST['reference-id']) && $_REQUEST['reference-id'] > 0) {
+                $reference_id = $_REQUEST['reference-id'];
+                $sql         .= " AND ts.sale_id IN (SELECT id FROM hmis_lab_sales WHERE reference_id=$reference_id)";
+                $search      = true;
+            }
+        
+            if (isset($_REQUEST['doctor-id']) && $_REQUEST['doctor-id'] > 0) {
+                $doctor_id = $_REQUEST['doctor-id'];
+                $sql      .= " AND ts.sale_id IN (SELECT id FROM hmis_lab_sales WHERE doctor_id=$doctor_id)";
                 $search   = true;
             }
-            else if ( isset( $_REQUEST[ 'panel-id' ] ) and !empty( trim ( $_REQUEST[ 'panel-id' ] ) ) and $_REQUEST[ 'panel-id' ] == 'cash' ) {
-                $sql    .= " and patient_id IN (Select id from hmis_patients where (panel_id IS NULL OR panel_id='0' OR panel_id=''))";
-                $search = true;
-            }
-            else if ( isset( $_REQUEST[ 'exclude-cash' ] ) and !empty( trim ( $_REQUEST[ 'exclude-cash' ] ) ) and $_REQUEST[ 'exclude-cash' ] == 'yes' ) {
-                $sql    .= " and patient_id IN (Select id from hmis_patients where (panel_id IS NOT NULL AND panel_id > 0 OR panel_id!=''))";
-                $search = true;
-            }
-            if ( isset( $_REQUEST[ 'panel-id' ] ) and $_REQUEST[ 'panel-id' ] == 'cash' ) {
-                $sql    .= " and patient_id NOT IN (Select id from hmis_patients where panel_id > 0)";
-                $search = true;
-            }
-            if ( isset( $_REQUEST[ 'test_id' ] ) and !empty( trim ( $_REQUEST[ 'test_id' ] ) ) and is_numeric ( $_REQUEST[ 'test_id' ] ) > 0 ) {
-                $test_id = $_REQUEST[ 'test_id' ];
-                $sql     .= " and test_id=$test_id";
-                $search  = true;
-            }
-            if ( isset( $_REQUEST[ 'sale_id' ] ) and !empty( trim ( $_REQUEST[ 'sale_id' ] ) ) and is_numeric ( $_REQUEST[ 'sale_id' ] ) > 0 ) {
-                $sale_id = $_REQUEST[ 'sale_id' ];
-                $sql     .= " and sale_id=$sale_id";
-                $search  = true;
-            }
-            if ( isset( $_REQUEST[ 'start_time' ] ) and isset( $_REQUEST[ 'end_time' ] ) and !empty( $_REQUEST[ 'start_time' ] ) and !empty( $_REQUEST[ 'end_time' ] ) ) {
-                $start_time = date ( 'H:i:s', strtotime ( $_REQUEST[ 'start_time' ] ) );
-                $end_time   = date ( 'H:i:s', strtotime ( $_REQUEST[ 'end_time' ] ) );
-                $sql        .= " and TIME(date_added) BETWEEN '$start_time' and '$end_time'";
-                $search     = true;
-            }
-            if ( isset( $_GET[ 'user-id' ] ) and !empty( trim ( $_GET[ 'user-id' ] ) ) and $_GET[ 'user-id' ] > 0 ) {
-                $user_id = $_GET[ 'user-id' ];
-                $sql     .= " and user_id=$user_id";
-                $search  = true;
-            }
-            if ( isset( $_REQUEST[ 'reference-id' ] ) and $_REQUEST[ 'reference-id' ] > 0 ) {
-                $reference_id = $_GET[ 'reference-id' ];
-                $sql          .= " and sale_id IN (Select id from hmis_lab_sales where reference_id=$reference_id)";
+        
+            // **Include Payment Method Filter**
+            if (isset($_REQUEST['payment-method']) && !empty(trim($_REQUEST['payment-method']))) {
+                $payment_method = $_REQUEST['payment-method'];
+                $sql          .= " AND ls.payment_method = '$payment_method'";
                 $search       = true;
             }
-            if ( isset( $_REQUEST[ 'doctor-id' ] ) and $_REQUEST[ 'doctor-id' ] > 0 ) {
-                $doctor_id = $_GET[ 'doctor-id' ];
-                $sql       .= " and sale_id IN (Select id from hmis_lab_sales where doctor_id=$doctor_id)";
-                $search    = true;
-            }
-            $sql   .= " group by sale_id order by DATE(date_added) ASC";
-            $sales = $this -> db -> query ( $sql );
-            if ( $search )
-                return $sales -> result ();
-            else
-                return array ();
+        
+            $sql   .= " GROUP BY ts.sale_id ORDER BY DATE(ts.date_added) ASC";
+            $sales = $this->db->query($sql);
+        
+         
+        
+            return $search ? $sales->result() : array();
         }
         
         /**

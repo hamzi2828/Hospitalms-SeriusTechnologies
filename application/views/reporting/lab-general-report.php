@@ -62,7 +62,24 @@
                             <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg-3">
+                    <label for="payment-method">Payment Method</label>
+                    <select class="form-control select2me" name="payment-method"
+                            id="payment-method"
+                            data-placeholder="Select">
+                        <option></option>
+                        <option value="cash" <?php echo $this -> input -> get ( 'payment-method' ) == 'cash' ? 'selected="selected"' : '' ?>>
+                            Cash
+                        </option>
+                        <option value="bank" <?php echo $this -> input -> get ( 'payment-method' ) == 'bank' ? 'selected="selected"' : '' ?>>
+                            Bank
+                        </option>
+                        <option value="card" <?php echo $this -> input -> get ( 'payment-method' ) == 'card' ? 'selected="selected"' : '' ?>>
+                            Credit Card
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Panel</label>
                     <select class="form-control select2me" name="panel-id">
                         <option value="">Select</option>
@@ -81,7 +98,7 @@
                         ?>
                     </select>
                 </div>
-                <div class="form-group col-lg-3">
+                <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Reference</label>
                     <select name="reference-id" class="form-control select2me">
                         <option value="">Select</option>
@@ -98,7 +115,7 @@
                         ?>
                     </select>
                 </div>
-                <div class="form-group col-lg-3">
+                <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">User</label>
                     <select name="user-id" class="form-control select2me">
                         <?php
@@ -122,7 +139,7 @@
                         ?>
                     </select>
                 </div>
-                <div class="form-group col-lg-3">
+                <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Doctor</label>
                     <select class="form-control select2me" name="doctor-id">
                         <option value="">Select</option>
@@ -144,6 +161,7 @@
                         echo 'checked="checked"' ?>>
                     <label for="exampleInputEmail1">Exclude Cash</label>
                 </div>
+                
                 <div class="form-group col-lg-1">
                     <button type="submit" class="btn btn-primary" style="margin-top: 25px;">Search</button>
                 </div>
@@ -179,10 +197,12 @@
                         <th> Price</th>
                         <th> Discount(%)</th>
                         <th> Discount(Flat)</th>
-                        <th> Paid Amount</th>
                         <th> Net Amount</th>
+                        <th> Paid Amount</th>
+                        <th> Balance</th>
                         <!-- <th> Doctor's Share (%)</th> -->
                         <th> Doctor's Share Value</th>
+                        <th> Payment Method</th>
                         <th> Remarks</th>
                         <th> Date</th>
                     </tr>
@@ -284,24 +304,30 @@
                                                 echo $sale -> flat_discount;
                                         ?>
                                     </td>
-                                    <td>
-                                        <?php
-                                            if ( $report -> refunded == '1' and !empty( trim ( $report -> remarks ) ) )
-                                                echo '-' . ( $sale -> paid_amount - $netReceiving );
-                                            else
-                                                echo ( $sale -> paid_amount - $netReceiving );
-                                            
-                                            if ( count ( $receiving ) > 0 ) {
-                                                echo '<br/>';
-                                                foreach ( $receiving as $received ) {
-                                                    $receivedBy = get_user ( $received -> user_id );
-                                                    echo '<small>' . number_format ( $received -> amount, 2 ) . ' received by ' . $receivedBy -> name . '</small> <br/>';
-                                                }
-                                            }
-                                        
-                                        ?>
-                                    </td>
-                                    <td><?php echo number_format ( $saleInfo -> total, 2 ) ?></td>
+                                    <td><?php echo number_format($saleInfo->total, 2); ?></td>
+<td>
+    <?php
+        if ($report->refunded == '1' and !empty(trim($report->remarks))) {
+            $amountDifference = -($sale->paid_amount - $netReceiving);
+            echo $amountDifference;
+        } else {
+            $amountDifference = $sale->paid_amount - $netReceiving;
+            echo $amountDifference;
+        }
+
+        if (count($receiving) > 0) {
+            echo '<br/>';
+            foreach ($receiving as $received) {
+                $receivedBy = get_user($received->user_id);
+                echo '<small>' . number_format($received->amount, 2) . ' received by ' . $receivedBy->name . '</small> <br/>';
+            }
+        }
+    ?>
+</td>
+<td>
+    <?php echo number_format(abs($saleInfo->total - $amountDifference), 2); ?>
+</td>
+
                                     <!-- <td>
                                         <?php
                                             if ( $doctor_share > 0 ) {
@@ -318,6 +344,7 @@
                                             ?>
                                         </td>
                                   
+                                        <th><?php echo $report -> payment_method ?></th>
                                     <td> <?php echo $report -> remarks ?> </td>
                                     <td> <?php echo date_setter ( $report -> date_added ) ?> </td>
                                 </tr>
@@ -325,7 +352,7 @@
                             }
                             ?>
                             <tr>
-                                <td colspan="6" class="text-right"></td>
+                                <td colspan="9" class="text-right"></td>
                                 <td>
                                     <b><?php echo number_format ( $p_total, 2 ) ?></b>
                                 </td>
@@ -334,10 +361,15 @@
                                     <b><?php echo number_format ( $total_flat_discount, 2 ) ?></b>
                                 </td>
                                 <td>
+                                    <b><?php echo number_format ( $total, 2 ) ?></b>
+                                </td>
+
+                                <td>
                                     <b><?php echo number_format ( $totalPaidAmount, 2 ) ?></b>
                                 </td>
+                                
                                 <td>
-                                    <b><?php echo number_format ( $total, 2 ) ?></b>
+                                    <b><?php echo number_format ( $total - $totalPaidAmount, 2 ) ?></b>
                                 </td>
                              
                                 <td>
