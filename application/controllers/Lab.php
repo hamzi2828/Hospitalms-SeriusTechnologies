@@ -2629,7 +2629,7 @@
                 }
                 
                 if ( $lab_sale -> doctor_id > 0 ) {
-                    $doc_share   = ( abs ( $lab_sale -> net ) * abs ( $lab_sale -> doctor_share ) ) / 100;
+                    $doc_share   = $lab_sale -> total_doctor_share_path_radio ;
                     $doc_head_id = get_doctor_linked_account_head_id ( $lab_sale -> doctor_id );
                     if ( $doc_head_id > 0 ) {
                         refund_lab_sales_DOCTOR_ledger ( $sale, $sale_id, $service_info, $doc_head_id, $doc_share );
