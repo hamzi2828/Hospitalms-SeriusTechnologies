@@ -305,28 +305,28 @@
                                         ?>
                                     </td>
                                     <td><?php echo number_format($saleInfo->total, 2); ?></td>
-<td>
-    <?php
-        if ($report->refunded == '1' and !empty(trim($report->remarks))) {
-            $amountDifference = -($sale->paid_amount - $netReceiving);
-            echo $amountDifference;
-        } else {
-            $amountDifference = $sale->paid_amount - $netReceiving;
-            echo $amountDifference;
-        }
+                                    <td>
+                                        <?php
+                                            if ($report->refunded == '1' and !empty(trim($report->remarks))) {
+                                                $amountDifference = -($sale->paid_amount - $netReceiving);
+                                                echo $amountDifference;
+                                            } else {
+                                                $amountDifference = $sale->paid_amount - $netReceiving;
+                                                echo $amountDifference;
+                                            }
 
-        if (count($receiving) > 0) {
-            echo '<br/>';
-            foreach ($receiving as $received) {
-                $receivedBy = get_user($received->user_id);
-                echo '<small>' . number_format($received->amount, 2) . ' received by ' . $receivedBy->name . '</small> <br/>';
-            }
-        }
-    ?>
-</td>
-<td>
-    <?php echo number_format(abs($saleInfo->total - $amountDifference), 2); ?>
-</td>
+                                            if (count($receiving) > 0) {
+                                                echo '<br/>';
+                                                foreach ($receiving as $received) {
+                                                    $receivedBy = get_user($received->user_id);
+                                                    echo '<small>' . number_format($received->amount, 2) . ' received by ' . $receivedBy->name . '</small> <br/>';
+                                                }
+                                            }
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php echo number_format(abs($saleInfo->total - $amountDifference), 2); ?>
+                                    </td>
 
                                     <!-- <td>
                                         <?php

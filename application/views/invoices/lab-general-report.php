@@ -119,6 +119,7 @@ mpdf-->
         <th> Balance</th>
         <!-- <th> Doctor's Share (%)</th> -->
         <th> Doctor's Share Value</th>
+        <th> Payment Method</th>
         <th> Remarks</th>
         <th> Date</th>
     </tr>
@@ -254,6 +255,7 @@ mpdf-->
                         }
                     ?>
                 </td>
+                <td><?php echo $report -> payment_method ?></td>
                     <td> <?php echo $report -> remarks ?> </td>
                     <td> <?php echo date_setter ( $report -> date_added ) ?> </td>
                 </tr>
