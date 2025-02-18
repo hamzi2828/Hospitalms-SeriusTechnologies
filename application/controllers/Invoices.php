@@ -6148,6 +6148,97 @@
             $mpdf -> Output ( $name, 'I' );
         }
 
+
+          public function lab_closing_report () {
+
+            $data[ 'cash_consultancies' ]     = $this -> ConsultancyModel -> get_consultancies_total_by_payment_method ( 'cash' );
+            $data[ 'card_consultancies' ]     = $this -> ConsultancyModel -> get_consultancies_total_by_payment_method ( 'card' );
+            $data[ 'bank_consultancies' ]     = $this -> ConsultancyModel -> get_consultancies_total_by_payment_method ( 'bank' );
+            $data[ 'consultancies_refunded' ] = $this -> ConsultancyModel -> get_consultancies_refunded_total ();
+
+            $data[ 'cash_consultancies_refunded' ] = $this -> ConsultancyModel -> get_consultancies_refunded_total_by_payment_method ('cash');
+            $data[ 'card_consultancies_refunded' ] = $this -> ConsultancyModel -> get_consultancies_refunded_total_by_payment_method ('card');
+            $data[ 'bank_consultancies_refunded' ] = $this -> ConsultancyModel -> get_consultancies_refunded_total_by_payment_method ('bank');
+
+
+
+            $data[ 'cash_opd' ]     = $this -> OPDModel -> get_opd_total_by_payment_method ( 'cash' );
+            $data[ 'card_opd' ]     = $this -> OPDModel -> get_opd_total_by_payment_method ( 'card' );
+            $data[ 'bank_opd' ]     = $this -> OPDModel -> get_opd_total_by_payment_method ( 'bank' );
+            $data[ 'opd_refunded' ] = $this -> OPDModel -> get_opd_refunded_total ();
+            $data[ 'cash_opd_refunded' ] = $this -> OPDModel -> get_opd_refunded_total_by_payment_method ('cash');
+            $data[ 'card_opd_refunded' ] = $this -> OPDModel -> get_opd_refunded_total_by_payment_method ('card');
+            $data[ 'bank_opd_refunded' ] = $this -> OPDModel -> get_opd_refunded_total_by_payment_method ('bank');
+
+            $data[ 'cash_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'cash' );
+            $data[ 'card_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'card' );
+            $data[ 'bank_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'bank' );
+            $data[ 'lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total();
+            $data[ 'cash_lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total_by_payment_method ('cash');
+            $data[ 'card_lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total_by_payment_method ('card');
+            $data[ 'bank_lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total_by_payment_method ('bank');
+
+
+            // $data[ 'cash_consultancies' ]     = $this -> ConsultancyModel -> get_consultancies_total_by_payment_method ( 'cash' );
+            // $data[ 'card_consultancies' ]     = $this -> ConsultancyModel -> get_consultancies_total_by_payment_method ( 'card' );
+            // $data[ 'bank_consultancies' ]     = $this -> ConsultancyModel -> get_consultancies_total_by_payment_method ( 'bank' );
+            // $data[ 'consultancies_refunded' ] = $this -> ConsultancyModel -> get_consultancies_refunded_total ();
+
+            // $data[ 'cash_opd' ]     = $this -> OPDModel -> get_opd_total_by_payment_method ( 'cash' );
+            // $data[ 'card_opd' ]     = $this -> OPDModel -> get_opd_total_by_payment_method ( 'card' );
+            // $data[ 'bank_opd' ]     = $this -> OPDModel -> get_opd_total_by_payment_method ( 'bank' );
+            // $data[ 'opd_refunded' ] = $this -> OPDModel -> get_opd_refunded_total ();
+
+            $data[ 'cash_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'cash' );
+            $data[ 'card_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'card' );
+            $data[ 'bank_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'bank' );
+            // $data[ 'lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total ();
+
+            // $data[ 'ipd_total' ]   = $this -> IPDModel -> get_ipd_total_report ();
+            $data[ 'ipd_total_cash' ]   = $this -> IPDModel -> get_ipd_total_report ('cash');
+            $data[ 'ipd_total_card' ]   = $this -> IPDModel -> get_ipd_total_report ('card');
+            $data[ 'ipd_total_bank' ]   = $this -> IPDModel -> get_ipd_total_report ('bank');
+
+            $data[ 'users' ]       = $this -> UserModel -> get_users ();
+            $data[ 'panels' ]      = $this -> PanelModel -> get_panels ();
+            $data[ 'consultants' ] = $this -> AccountModel -> get_consultants ( CONSULTANCY_SHARES_DOCTOR );
+            $accounts1             = $this -> AccountModel -> get_account_heads_by_id ( GENERAL_ADMINISTRATIVE_EXPENSES );
+            $accounts2             = get_general_and_administrative_expenses_data ( GENERAL_ADMINISTRATIVE_EXPENSES );
+            $data[ 'accounts' ]    = array_merge ( $accounts1, $accounts2 );
+
+            $data[ 'filter_doctors' ] = $this -> DoctorModel -> get_doctors_consultancy_summary_report ();
+            $data[ 'sales' ]          = $this -> ReportingModel -> get_doctors_sales_by_sale_grouped ();
+            $data[ 'reports' ]        = $this -> LabModel -> get_doctor_share_general_report ();
+            $data[ 'ipd_sales' ]      = $this -> IPDModel -> get_consultant_commission ( true );
+            $print_type = $this->input->get('print');
+
+       
+                $html_content= $this -> load -> view ( '/invoices/lab_closing_report', $data, true );
+
+            
+
+
+            require_once FCPATH . '/vendor/autoload.php';
+            $mpdf = new \Mpdf\Mpdf( [
+                                        'margin_left'   => 5,
+                                        'margin_right'  => 5,
+                                        'margin_top'    => 35,
+                                        'margin_bottom' => 5,
+                                        'margin_header' => 5,
+                                        'margin_footer' => 5,
+                                    ] );
+            $name = 'General summary report cash ii-' . rand () . '.pdf';
+
+            $mpdf -> SetTitle ( strip_tags ( site_name ) );
+            $mpdf -> SetAuthor ( site_name );
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+            $mpdf -> SetDisplayMode ( 'real' );
+            $mpdf -> WriteHTML ( $html_content );
+            $mpdf -> Output ( $name, 'I' );
+        }
         /**
          * -------------------------
          * general report ultrasound

@@ -666,5 +666,20 @@
             $this -> load -> view ( '/reporting/referred-by-report', $data );
             $this -> footer ();
         }
+
+        public function lab_closing_report () {
+            $title = site_name . ' - Lab Closing Report';
+            $this -> header ( $title );
+            $this -> sidebar ();
+            $data[ 'cash_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'cash' );
+            $data[ 'card_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'card' );
+            $data[ 'bank_lab' ]     = $this -> LabModel -> get_lab_total_by_payment_method ( 'bank' );
+            $data[ 'lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total();
+            $data[ 'cash_lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total_by_payment_method ('cash');
+            $data[ 'card_lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total_by_payment_method ('card');  
+            $data[ 'bank_lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total_by_payment_method ('bank');
+            $this -> load -> view ( '/reporting/lab_closing_report', $data );
+            $this -> footer ();
+        }
         
     }

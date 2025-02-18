@@ -1380,6 +1380,15 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
+        <tr>
+            <td></td>
+            <td>Lab Closing Report</td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="lab_closing_report" <?php if ( !empty( $access ) and in_array ( 'lab_closing_report', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr>
         <tr style="background: #dff0d8;">
             <td> lab settings</td>
             <td></td>
