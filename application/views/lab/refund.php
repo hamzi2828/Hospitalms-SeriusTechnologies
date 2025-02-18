@@ -63,7 +63,7 @@
                                        value="<?php echo date ( 'm/d/Y' ) ?>"  readonly="readonly" >
                             </div>
                             <div class="form-group col-lg-12">
-                                <label for="exampleInputEmail1">Discharge Reason</label>
+                                <label for="exampleInputEmail1">Refund Reason</label>
                                 <textarea type="text" class="form-control" rows="5" name="description" required="required">Lab Test Return. Sale# <?php echo $lab -> id . $panel; ?></textarea>
                             </div>
                         </div>
