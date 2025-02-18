@@ -678,6 +678,7 @@
             $data[ 'cash_lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total_by_payment_method ('cash');
             $data[ 'card_lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total_by_payment_method ('card');  
             $data[ 'bank_lab_refunded' ] = $this -> LabModel -> get_lab_refunded_total_by_payment_method ('bank');
+            $data[ 'users' ]       = $this -> UserModel -> get_users ();
             $this -> load -> view ( '/reporting/lab_closing_report', $data );
             $this -> footer ();
         }
