@@ -152,6 +152,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
         <th align="left">Code</th>
         <th align="left">Test Name</th>
         <th align="left"> Status</th>
+        <th align="left">Due</th>
         <th align="left">Type</th>
         <th align="left">Reporting Date</th>
         <?php if ( $panel_request != 'true'  ) { ?>
@@ -193,6 +194,10 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                         <td align="left" style="<?php echo $style ?>"><?php echo $sale->urgent ? '<b>' . $test -> code . '</b>' : $test -> code ?></td>
                         <td align="left" style="<?php echo $style ?>"><?php echo $sale->urgent ? '<b>' . $test -> name . '</b>' : $test -> name ?></td>
                         <td align="left"><?php echo $sale->urgent ? '<b>Urgent</b>' : ' '; ?></td>
+                        <td><?php echo $sale -> due ? '
+                <p style="padding-left:15px; padding-right:15px;" class="btn btn-danger btn-xs btn-block ">Yes</p>
+                ' : ' '; ?></td>
+
                         <td align="left"><?php echo $sale->urgent ? '<b>' . ucfirst ( $test -> type ) . '</b>' : ucfirst ( $test -> type ) ?></td>
                         <td align="left" style="<?php echo $style ?>">
                             <?php

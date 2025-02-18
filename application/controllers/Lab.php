@@ -3584,7 +3584,7 @@
             $config[ "per_page" ]           = $limit;
             $config[ 'use_page_numbers' ]   = false;
             $config[ 'page_query_string' ]  = TRUE;
-            $config[ 'reuse_query_string' ] = TRUE;
+            $config[ 'reuse_query_string' ] = TRUE; 
             $config[ 'num_links' ]          = 10;
             $config[ 'cur_tag_open' ]       = '&nbsp;<a class="current">';
             $config[ 'cur_tag_close' ]      = '</a>';
@@ -3625,6 +3625,7 @@
                     // Check if sale-id and sample_status are passed
             $id = isset($_GET['id']) ? $_GET['id'] : null;
             $sample_status = isset($_GET['sample_status']) ? $_GET['sample_status'] : null;
+            $sample_time = isset($_GET['sample_time']) ? $_GET['sample_time'] : null;
             /**********PAGINATION***********/ 
             $limit                          = 100;
             $config                         = array ();
@@ -3660,7 +3661,7 @@
                     $data['error_message'] = $result['message'];
                 }
             } 
-            
+             
             $data[ 'panels' ]   = $this -> PanelModel -> get_panels ();
             $data[ 'airlines' ] = $this -> AirlineModel -> get_airlines ();
             $data[ 'sales' ]    = $this -> LabModel -> get_sale_pending_results ( $config[ "per_page" ], $offset );

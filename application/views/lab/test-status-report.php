@@ -112,12 +112,19 @@
                             <thead>
                             <tr>
                                 <th> Sr. No</th>
+                                <th>Date </th>
                                 <th> <?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></th>
+                                <th> Location</th>
+                                <th> Location Sale ID</th>
+                                <th> Daily Sale ID</th>
                                 <th> <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></th>
                                 <th> Patient Panel</th>
                                 <th> Airline</th>
+                                <th> Lab. Ref</th>
                                 <th> Test Name</th>
+                                <th> Reporting Time </th>
                                 <th> Phlebotomy</th>
+                                <th> Sample Due</th>
                                 <th> In Process</th>
                                 <th> Results Added</th>
                                 <th> Results Verified</th>
@@ -130,6 +137,14 @@
                                     foreach ( $sales as $sale ) {
                                         $results   = @get_test_results ( $sale -> sale_id, $sale -> test_id );
                                         $test      = @get_test_by_id ( $sale -> test_id );
+                                        
+                                        $sale_info = get_lab_sale ( $sale -> sale_id );
+                                        $location  = ( is_object ( $sale_info ) ) ? get_location_by_id ( $sale_info -> locations_id ) : new stdClass();
+                                        $location_sale_id = get_location_sale_id_by_hmis_lab_sales_id($sale -> sale_id);
+                                        $daily_location_sale_id = get_daily_location_sale_id_by_hmis_lab_sales_id($sale -> sale_id);
+
+
+
                                         $isParent  = check_if_test_has_sub_tests ( $sale -> test_id );
                                         $parent_id = $test -> type == 'test' ? 0 : $sale -> test_id;
                                         $saleInfo  = get_lab_sale ( $sale -> sale_id );
@@ -140,7 +155,12 @@
                                             <td>
                                                 <?php echo $counter++ ?>
                                             </td>
+                                            <td><?php echo $sale -> date_added ?></td>
                                             <td><?php echo $sale -> sale_id ?></td>
+                                            <td><?php echo $location->name ?? ''; ?></td>
+                                            <td><?php echo $location_sale_id ?? ''; ?></td>
+                                            <td><?php echo $daily_location_sale_id ?? ''; ?> </td>
+
                                             <td><?php echo get_patient_name ( 0, $patient ) ?></td>
                                             <td>
                                                 <?php
@@ -154,8 +174,11 @@
                                                         echo get_airlines_by_id ( $sale -> airline_id ) -> title;
                                                 ?>
                                             </td>
+                                            <td><?php echo $sale ->	reference_code ?></td>
                                             <td><?php echo $test -> name ?></td>
+                                            <td><?php echo $sale ->report_collection_date_time ?></td>
                                             <td><span class="label label-success">Done</span></td>
+                                            <td><?php echo ( $sale -> due == '1' ) ? '' : 'Yes' ?></td>
                                             <td>
                                                 <?php
                                                     if ( $results and !empty ( $results ) > 0 )

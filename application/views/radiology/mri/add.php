@@ -38,6 +38,13 @@
                                        required="required" onchange="get_patient_by_lab_sale_id(this.value)">
                             </div>
                             <div class="form-group col-lg-2">
+                                <label for="patient-id"><?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?></label>
+                                <input type="text" id="patient-id" name="patient-id" class="form-control"
+                                       placeholder="<?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?>"
+                                       value="<?php echo set_value ( 'patient-id' ) ?>"
+                                       onchange="get_patient(this.value)">
+                            </div>
+                            <div class="form-group col-lg-2">
                                 <label for="exampleInputEmail1">Name</label>
                                 <input type="text" class="form-control name" id="patient-name" readonly="readonly">
                             </div>

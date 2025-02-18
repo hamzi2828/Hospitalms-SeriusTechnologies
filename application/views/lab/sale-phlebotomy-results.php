@@ -248,14 +248,13 @@
                                         // Check if the user has access to take the sample
                                         if (get_user_access(get_logged_in_user_id()) && 
                                             in_array('Phlebotomy_take_sample', explode(',', get_user_access(get_logged_in_user_id())->access))) : ?>
+<a href="javascript:void(0);" 
+   onclick="openSampleTakenModal(<?php echo $sale->id; ?>)" 
+   class="btn blue btn-xs btn-block <?php echo !empty($sale->sample_taken_by_user) ? 'disabled' : ''; ?>" 
+   <?php echo !empty($sale->sample_taken_by_user) ? 'disabled' : ''; ?>>
+    Sample Taken
+</a>
 
-                                            <!-- Sample Taken Button -->
-                                            <a href="<?php echo base_url('/lab/sale-Phlebotomy-results-sample-Taken/?id=' . $sale->id . '&sample_status=SampleTaken'); ?>" 
-                                            class="btn blue btn-xs btn-block <?php echo !empty($sale->sample_taken_by_user) ? 'disabled' : ''; ?>" 
-                                            <?php echo !empty($sale->sample_taken_by_user) ? 'disabled' : ''; ?>>
-                                                Sample Taken
-                                            </a>
-                                            
                                          
 
                                         <?php endif; ?>
@@ -324,3 +323,102 @@
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>
 </div>
+<!-- Sample Taken Modal -->
+<div id="sampleTakenModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Enter Sample Taken Time</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="saleId">
+                <label for="sampleTime">Select Date & Time:</label>
+                <input type="text" id="sampleTime" class="form-control datetimepicker" placeholder="YYYY-MM-DD HH:MM">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="submitSampleTaken()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function openSampleTakenModal(saleId) {
+    // Set saleId in hidden input
+    document.getElementById("saleId").value = saleId;
+
+    // Get current date and time in 'YYYY-MM-DD HH:MM' format
+    let now = new Date();
+    let formattedDateTime = now.getFullYear() + "-" +
+        ("0" + (now.getMonth() + 1)).slice(-2) + "-" +
+        ("0" + now.getDate()).slice(-2) + " " +
+        ("0" + now.getHours()).slice(-2) + ":" +
+        ("0" + now.getMinutes()).slice(-2);
+
+    // Set default value in the input field
+    $("#sampleTime").val(formattedDateTime);
+
+    // Open the modal
+    $("#sampleTakenModal").modal("show");
+}
+
+function submitSampleTaken() {
+    let saleId = document.getElementById("saleId").value;
+    let sampleTime = document.getElementById("sampleTime").value;
+
+    if (!saleId || !sampleTime) {
+        alert("Please select a valid date and time.");
+        return;
+    }
+
+    // Extract date parts manually from input field to prevent incorrect parsing
+    let dateParts = sampleTime.split(" ");
+    let datePart = dateParts[0].split("-");
+    let timePart = dateParts[1].split(":");
+
+    let formattedTime = datePart[0] + "-" + // Year
+        ("0" + datePart[1]).slice(-2) + "-" + // Month
+        ("0" + datePart[2]).slice(-2) + " " + // Day
+        ("0" + timePart[0]).slice(-2) + ":" + // Hours
+        ("0" + timePart[1]).slice(-2); // Minutes
+
+    console.log("Formatted Time: ", formattedTime);
+
+    // Redirect to the controller with selected time
+    let baseUrl = "<?php echo base_url('/lab/sale-Phlebotomy-results-sample-Taken/'); ?>";
+    window.location.href = baseUrl + "?id=" + saleId + "&sample_status=SampleTaken&sample_time=" + encodeURIComponent(formattedTime);
+}
+
+$(document).ready(function () {
+    // ✅ Initialize the datetime picker with correct format
+    $(".datetimepicker").datetimepicker({
+        format: 'Y-m-d H:i',  // Correct format YYYY-MM-DD HH:MM
+        step: 10,
+        timepicker: true,
+        datepicker: true,
+        defaultDate: new Date(),
+        defaultTime: function() {
+            let now = new Date();
+            return ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2);
+        },
+        onShow: function(ct) {
+            this.setOptions({
+                minDate: false, // Allow all dates
+            });
+        },
+        onChangeDateTime: function(dp, $input) {
+            // Format date correctly on change
+            let formatted = dp.getFullYear() + "-" +
+                ("0" + (dp.getMonth() + 1)).slice(-2) + "-" +
+                ("0" + dp.getDate()).slice(-2) + " " +
+                ("0" + dp.getHours()).slice(-2) + ":" +
+                ("0" + dp.getMinutes()).slice(-2);
+            $input.val(formatted);
+        }
+    });
+});
+</script>

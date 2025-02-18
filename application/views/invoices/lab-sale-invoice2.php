@@ -164,6 +164,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
         <th align="left">Code</th>
         <th align="left">Test Name</th>
         <th align="left">Status</th>
+        <th align="left">Due</th>
         <th align="left">Type</th>
         <th align="left">Lab Ref No.</th>
         <th align="left">Reporting Date</th>
@@ -215,6 +216,11 @@ foreach ($sales_grouped as $reference_code => $grouped_sales) {
                     <?php echo $sale->urgent ? '<b>' . $test->name . '</b>' : $test->name; ?>
                 </td>
                 <td align="left"><?php echo $sale->urgent ? '<b>Urgent</b>' : ' '; ?></td>
+                <td><?php echo $sale -> due ? '
+                <p style="padding-left:15px; padding-right:15px;" class="btn btn-danger btn-xs btn-block ">Yes</p>
+                ' : ' '; ?></td>
+
+                
                 <td align="left"><?php echo $sale->urgent ? '<b>' . ucfirst($test->type) . '</b>' : ucfirst($test->type); ?></td>
                 <td align="left" style="<?php echo $style; ?>">
                     <?php echo $sale->urgent ? '<b>' . $sale->reference_code . '</b>' : $sale->reference_code; ?>

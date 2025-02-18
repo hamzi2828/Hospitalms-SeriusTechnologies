@@ -226,7 +226,7 @@ function showDiscountAlert() {
     let discountAlertDiv = document.querySelector(".panel-discount-info");
 
     if (discount !== null && discount !== "0") {
-        discountAlertDiv.innerHTML = "<h4>The discount for this reference is:<b> " + discount + "%</b></h4>";
+        discountAlertDiv.innerHTML = "<h4>The Approved Discount For This Reference<b> " + discount + "%</b></h4>";
         discountAlertDiv.classList.remove("hidden");
         discountAlertDiv.classList.add("alert", "alert-success");
     } else {
