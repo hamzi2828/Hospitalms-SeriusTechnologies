@@ -72,13 +72,13 @@
             <?php endif; ?>
 
             <?php if ( !empty( $access ) and in_array ( 'lab_closing_report', explode ( ',', $access -> access ) ) ) : ?>
-                <li class="<?php if ( $child_uri == 'lab_closing_report' )
-                    echo 'active'; ?>">
-                    <a href="<?php echo base_url ( '/reporting/lab_closing_report' ) ?>">
-                        Lab Closing Report
-                    </a>
-                </li>
-            <?php endif; ?>
+    <li class="<?php if ( $child_uri == 'lab_closing_report' )
+        echo 'active'; ?>">
+        <a href="<?php echo base_url ( '/reporting/lab_closing_report/?menu=lab' ) ?>">
+            Lab Closing Report
+        </a>
+    </li>
+<?php endif; ?>
 
         </ul>
     </li>
