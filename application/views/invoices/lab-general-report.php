@@ -112,10 +112,11 @@ mpdf-->
         <th> Patient Type</th>
         <th> Doctor(s)</th>
         <th> Price</th>
-        <th> Discount(%)</th>
-        <th> Discount(Flat)</th>
-        <th> Paid Amount</th>
-        <th> Net Amount</th>
+        <th> Disc(%)</th>
+        <th> Disc(Flat)</th>
+        <th> Net </th>
+        <th> Paid </th>
+        <th> Balance</th>
         <!-- <th> Doctor's Share (%)</th> -->
         <th> Doctor's Share Value</th>
         <th> Remarks</th>
@@ -215,23 +216,29 @@ mpdf-->
                                 echo $sale -> flat_discount;
                         ?>
                     </td>
+                    <td><?php echo number_format($saleInfo->total, 2); ?></td>
                     <td>
                         <?php
-                            if ( $report -> refunded == '1' and !empty( trim ( $report -> remarks ) ) )
-                                echo '-' . ( $sale -> paid_amount - $netReceiving );
-                            else
-                                echo ( $sale -> paid_amount - $netReceiving );
-                            
-                            if ( count ( $receiving ) > 0 ) {
+                            if ($report->refunded == '1' and !empty(trim($report->remarks))) {
+                                $amountDifference = -($sale->paid_amount - $netReceiving);
+                                echo $amountDifference;
+                            } else {
+                                $amountDifference = $sale->paid_amount - $netReceiving;
+                                echo $amountDifference;
+                            }
+
+                            if (count($receiving) > 0) {
                                 echo '<br/>';
-                                foreach ( $receiving as $received ) {
-                                    $receivedBy = get_user ( $received -> user_id );
-                                    echo '<small>' . number_format ( $received -> amount, 2 ) . ' received by ' . $receivedBy -> name . '</small> <br/>';
+                                foreach ($receiving as $received) {
+                                    $receivedBy = get_user($received->user_id);
+                                    echo '<small>' . number_format($received->amount, 2) . ' received by ' . $receivedBy->name . '</small> <br/>';
                                 }
                             }
                         ?>
                     </td>
-                    <td><?php echo number_format ( $saleInfo -> total, 2 ) ?></td>
+                    <td>
+                        <?php echo number_format(abs($saleInfo->total - $amountDifference), 2); ?>
+                    </td>
                     <!-- <td>
                         <?php
                             if ( $doctor_share > 0 ) {
@@ -263,11 +270,17 @@ mpdf-->
                     <b><?php echo number_format ( $total_flat_discount, 2 ) ?></b>
                 </td>
                 <td>
-                    <b><?php echo number_format ( $totalPaidAmount, 2 ) ?></b>
-                </td>
-                <td>
-                    <b><?php echo number_format ( $total, 2 ) ?></b>
-                </td>
+                <b><?php echo number_format ( $total, 2 ) ?></b>
+            </td>
+
+            <td>
+                <b><?php echo number_format ( $totalPaidAmount, 2 ) ?></b>
+            </td>
+            
+            <td>
+                <b><?php echo number_format ( $total - $totalPaidAmount, 2 ) ?></b>
+            </td>
+            
              
                 <td>
                     <b><?php echo number_format ( $doctorShareNet, 2 ) ?></b>
@@ -299,6 +312,7 @@ mpdf-->
                 <th> <?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></th>
                 <th> Received By</th>
                 <th> Received Amount</th>
+                <th> Payment Method</th>
                 <th> Date</th>
             </tr>
             </thead>
@@ -317,6 +331,7 @@ mpdf-->
                             <td>
                                 <?php echo number_format ( $receive -> amount, 2 ) ?>
                             </td>
+                            <td><?php echo $report -> payment_method ?></td>
                             <td> <?php echo date_setter ( $receive -> created_at ) ?> </td>
                         </tr>
                         <?php

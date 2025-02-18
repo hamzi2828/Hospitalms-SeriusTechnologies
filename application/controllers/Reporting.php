@@ -288,13 +288,13 @@
             
             $data[ 'user' ] = get_logged_in_user (); 
             $this -> load -> view ( '/reporting/lab-general-report', $data );
-            $this -> footer ();
+            $this -> footer (); 
         }
         
         /**
          * -------------------------
          * lab general report
-         * -------------------------
+         * ------------------------- 
          */
         
         public function lab_covid_report () {
