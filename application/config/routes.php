@@ -557,7 +557,7 @@
     $route[ 'accounts/delete-transaction/(:any)' ]                    = 'Accounts/delete_transaction/$1';
     $route[ 'accounts/search-transactions-advance' ]                  = 'Accounts/search_transactions_advance';
     $route[ 'invoices/general-summary-report-cash-ii' ]               = 'Invoices/general_summary_report_cash_ii';
-    $route[ 'invoices/lab_closing_report' ]                          = 'Invoices/general-summary-report-cash-ii';
+    $route[ 'invoices/lab_closing_report' ]                          = 'Invoices/lab_closing_report';
     $route[ 'consultancy/pay-consultant' ]                            = 'Consultancy/pay_consultant';
     $route[ 'radiology/echo/add-echo-report' ]                        = 'Radiology/add_echo_report';
     $route[ 'radiology/echo/search-echo-report' ]                     = 'Radiology/search_echo_report';
