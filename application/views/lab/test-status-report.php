@@ -174,11 +174,13 @@
                                                         echo get_airlines_by_id ( $sale -> airline_id ) -> title;
                                                 ?>
                                             </td>
-                                            <td><?php echo $sale ->	reference_code ?></td>
+                                            <td><?php   echo $sale ->	reference_code ?></td>
                                             <td><?php echo $test -> name ?></td>
                                             <td><?php echo $sale ->report_collection_date_time ?></td>
                                             <td><span class="label label-success">Done</span></td>
-                                            <td><?php echo ( $sale -> due == '1' ) ? '' : 'Yes' ?></td>
+                                            <td><?php echo $sale -> due ? '
+                                            <p style="padding-left:15px; padding-right:15px;" class="btn btn-danger btn-xs btn-block ">Yes</p>
+                                            ' : ' '; ?></td>
                                             <td>
                                                 <?php
                                                     if ( $results and !empty ( $results ) > 0 )

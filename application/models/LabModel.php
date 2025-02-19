@@ -2532,19 +2532,24 @@
             $user     = get_user($user_id);
             $panel_id = $user->panel_id;
         
-            // Base Query to Fetch Pending Results with Optimized Joins
+            // Base Query to Fetch Pending Results with Correct Joins
             $sql = "SELECT ts.*, 
-                           rc.reference_code, 
+                           COALESCE(rc.reference_code, 'N/A') AS reference_code, 
                            ls.location_sale_id, 
                            ls.daily_location_sale_id
                     FROM hmis_test_sales ts
-                    INNER JOIN hmis_reference_codes rc ON ts.sale_id = rc.sale_id
-                    INNER JOIN hmis_lab_sales_location_wise ls ON ts.sale_id = ls.hmis_lab_sales_id
+                    LEFT JOIN hmis_reference_codes rc 
+                        ON ts.sale_id = rc.sale_id 
+                        AND ts.test_id = rc.test_id  -- ✅ Correct mapping with test_id
+                    LEFT JOIN hmis_lab_sales_location_wise ls 
+                        ON ts.sale_id = ls.hmis_lab_sales_id
                     WHERE (ts.parent_id IS NULL OR ts.parent_id = '' OR ts.parent_id = 0) 
                     AND NOT EXISTS (
                         SELECT 1 FROM hmis_test_results tr 
-                        JOIN hmis_lab_results_verified vr ON tr.id = vr.result_id 
-                        WHERE tr.sale_id = ts.sale_id AND tr.test_id = ts.test_id
+                        JOIN hmis_lab_results_verified vr 
+                        ON tr.id = vr.result_id 
+                        WHERE tr.sale_id = ts.sale_id 
+                        AND tr.test_id = ts.test_id
                     )
                     AND ts.refunded = '0'";
         
@@ -2603,14 +2608,19 @@
             $sql .= " GROUP BY ts.sale_id, ts.test_id
                       ORDER BY ts.sale_id DESC 
                       LIMIT ? OFFSET ?";
-            
+        
             $params[] = $limit;
             $params[] = $offset;
         
             // Execute Query with Bindings
             $sales = $this->db->query($sql, $params);
+        
+         
+            
             return $sales->result();
         }
+        
+        
         
         
         
