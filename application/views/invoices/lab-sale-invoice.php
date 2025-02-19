@@ -223,6 +223,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                 <tr>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Gross Total</strong>
             
@@ -232,6 +233,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                     </td>
                 </tr>
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
@@ -244,6 +246,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                 <tr>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Discount(Flat)</strong>
                     </td>
@@ -252,6 +255,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                     </td>
                 </tr>
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
@@ -264,6 +268,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                 <tr>
                 <td></td>
                     <td></td>
+                    <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Paid Amount</strong>
                     </td>
@@ -273,6 +278,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                 </tr>
                 <tr>
                 <td></td>
+                    <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right; color: #ff0000">
                         <strong>Balance</strong>
@@ -287,6 +293,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                 <tr>
                 <td></td>
                     <td></td>
+                    <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Total</strong>
                     </td>
@@ -297,6 +304,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                 <tr>
                 <td></td>
                     <td></td>
+                    <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Discount(%)</strong>
                     </td>
@@ -305,6 +313,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                     </td>
                 </tr>
                 <tr>
+                <td></td>
                 <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
@@ -316,6 +325,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                 </tr>
                 <tr> 
                 <td></td>
+                    <td></td>
                     <td></td>
                     <td colspan="4" style="text-align: right">
                         <strong>Balance</strong>

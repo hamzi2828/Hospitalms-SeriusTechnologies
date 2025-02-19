@@ -3398,6 +3398,21 @@
             return $services -> result ();
         }
 
+        public function update_sales_by_sample_date($sample_date, $id) {
+            
+            // Get the current sale data
+            $sale = $this->db->get_where('hmis_test_sales', array('id' => $id))->row();
+        
+        
+            if ($sample_date) {
+                // If the sample status is SampleTaken, update the sample taken details
+                $data = array(
+                    'report_collection_date_time' => $sample_date
+                );
+            }
+            $this->db->where('id', $id);
+            $this->db->update('hmis_test_sales', $data);
+        }
 
         public function update_sales_by_sample_status($sample_status, $id) {
             $user_id = get_logged_in_user_id(); 

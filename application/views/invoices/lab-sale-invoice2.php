@@ -136,6 +136,8 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                     Date:</strong> <?php echo date ( 'd-m-Y g:i a', strtotime ( $sales[ 0 ] -> date_added ) ) ?>
             <br />
             <strong>Date & Time:</strong> <?php echo date ( 'd-m-Y' ) . ' ' . date ( 'g:i a' ) ?> <br />
+            <strong>Invoice ID:</strong>
+            <span style="font-weight: bold; font-size: 12pt;"><?php echo $sale_id ?></span>
         </td>
     </tr>
 </table>
@@ -246,46 +248,46 @@ foreach ($sales_grouped as $reference_code => $grouped_sales) {
 if ($panel_request != 'true') {
     if ($test_sale_info->refunded != '1') { ?>
         <tr>
-            <td colspan="7" style="text-align: right"><strong>Gross Total</strong></td>
+            <td colspan="8" style="text-align: right"><strong>Gross Total</strong></td>
             <td style="text-align: center"><h4><?php echo number_format($netSalePrice, 2); ?></h4></td>
         </tr>
         <tr>
-            <td colspan="7" style="text-align: right"><strong>Discount(%)</strong></td>
+            <td colspan="8" style="text-align: right"><strong>Discount(%)</strong></td>
             <td style="text-align: center"><h4><?php echo $sale_info->discount; ?></h4></td>
         </tr>
         <tr>
-            <td colspan="7" style="text-align: right"><strong>Discount(Flat)</strong></td>
+            <td colspan="8" style="text-align: right"><strong>Discount(Flat)</strong></td>
             <td style="text-align: center"><h4><?php echo $sale_info->flat_discount; ?></h4></td>
         </tr>
         <tr>
-            <td colspan="7" style="text-align: right"><strong>Net Total</strong></td>
+            <td colspan="8" style="text-align: right"><strong>Net Total</strong></td>
             <td style="text-align: center"><h4><?php echo number_format($sale_info->total, 2); ?></h4></td>
         </tr>
         <tr>
-            <td colspan="7" style="text-align: right"><strong>Paid Amount</strong></td>
+            <td colspan="8" style="text-align: right"><strong>Paid Amount</strong></td>
             <td style="text-align: center"><h4><?php echo number_format($sale_info->paid_amount, 2); ?></h4></td>
         </tr>
         <tr>
-            <td colspan="7" style="text-align: right; color: #ff0000"><strong>Balance</strong></td>
+            <td colspan="8" style="text-align: right; color: #ff0000"><strong>Balance</strong></td>
             <td style="text-align: center; color: #ff0000">
                 <h4><?php echo number_format($sale_info->total - $sale_info->paid_amount, 2); ?></h4>
             </td>
         </tr>
     <?php } else { ?>
         <tr>
-            <td colspan="7" style="text-align: right"><strong>Total</strong></td>
+            <td colspan="8" style="text-align: right"><strong>Total</strong></td>
             <td style="text-align: center"><h4><?php echo abs($net); ?></h4></td>
         </tr>
         <tr>
-            <td colspan="7" style="text-align: right"><strong>Discount(%)</strong></td>
+            <td colspan="8" style="text-align: right"><strong>Discount(%)</strong></td>
             <td style="text-align: center"><h4><?php echo $sale_info->discount; ?></h4></td>
         </tr>
         <tr>
-            <td colspan="7" style="text-align: right"><strong>Refund Amount</strong></td>
+            <td colspan="8" style="text-align: right"><strong>Refund Amount</strong></td>
             <td style="text-align: center"><h4><?php echo abs($sale_info->total); ?></h4></td>
         </tr>
         <tr>
-            <td colspan="7" style="text-align: right"><strong>Balance</strong></td>
+            <td colspan="8" style="text-align: right"><strong>Balance</strong></td>
             <td style="text-align: center"><h4><?php echo number_format($sale_info->paid_amount - abs($sale_info->total), 2); ?></h4></td>
         </tr>
     <?php }

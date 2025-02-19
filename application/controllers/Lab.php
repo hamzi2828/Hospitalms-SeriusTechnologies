@@ -1210,7 +1210,8 @@
                                 
                                         // Generate reference code
                                         $reference_code = $this->LabModel->retive_section_code_by_test_id($test_id) . '/' . $serial_numbers[$test_id] . '/' . $this->LabModel->retive_locaiton_code_current_user();
-                                
+
+
                                         $info = array_merge($info, [
                                             'test_id' => $test_id,
                                             'parent_id' => null,
@@ -3625,7 +3626,7 @@
                     // Check if sale-id and sample_status are passed
             $id = isset($_GET['id']) ? $_GET['id'] : null;
             $sample_status = isset($_GET['sample_status']) ? $_GET['sample_status'] : null;
-            $sample_time = isset($_GET['sample_time']) ? $_GET['sample_time'] : null;
+            $sample_date = isset($_GET['sample_date']) ? $_GET['sample_date'] : null;
             /**********PAGINATION***********/ 
             $limit                          = 100;
             $config                         = array ();
@@ -3652,6 +3653,18 @@
             else {
                 $offset = 0;
             }
+
+               // Check if sample status exists
+            if (!empty($sample_date)) {
+            $result = $this->LabModel->update_sales_by_sample_date($sample_date, $id);
+            
+            // If there's an error (e.g. sample is not taken), pass the message to the view
+            if (!$result['status']) {
+                $data['error_message'] = $result['message'];
+            }
+        } 
+
+
            // Check if sample status exists
             if (!empty($sample_status)) {
                 $result = $this->LabModel->update_sales_by_sample_status($sample_status, $id);
