@@ -62,7 +62,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i> Reports
+                    <i class="fa fa-globe"></i> Culture Reports
                 </div>
             </div>
            <div class="portlet-body" style="overflow: auto">
@@ -89,8 +89,9 @@
                         $counter = 1;
                         if ( count ( $reports ) > 0 ) {
                             foreach ( $reports as $report ) {
-                                $patient_id = get_patient_id_by_sale_id ( $report -> sale_id );
-                                $patient    = get_patient ( $patient_id );
+                                $patient_id = ( isset( $report -> sale_id ) and $report -> sale_id > 0 ) ? get_patient_id_by_sale_id ( $report -> sale_id ) : $report -> patient_id;
+                                $patient    = get_patient ( $report -> sale_id );
+                                $patient = get_patient ( $report -> patient_id );
                                 
                                 if ( !empty( trim ( $report -> order_by ) ) )
                                     $order_by = get_doctor ( $report -> order_by );
@@ -104,10 +105,10 @@
                                 <tr class="odd gradeX">
                                     <td> <?php echo $counter ++ ?> </td>
                                     <td> <?php echo $report -> id ?> </td>
-                                    <td> <?php echo $report -> sale_id ?> </td>
-                                    <td><?php echo $patient -> id ?></td>
+                                    <td> <?php echo $report -> sale_id ?? '' ?> </td>
+                                    <td><?php echo $patient -> id ?? ''?></td>
                                     <td><?php echo get_patient_name (0, $patient) ?></td>
-                                    <td><?php echo $patient -> mobile ?></td>
+                                    <td><?php echo $patient -> mobile ??''?></td>
                                     <td><?php echo $order_by -> name ?></td>
                                     <td><?php echo $doctor -> name ?></td>
                                     <td><?php echo $user -> name ?></td>

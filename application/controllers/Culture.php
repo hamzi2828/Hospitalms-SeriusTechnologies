@@ -142,6 +142,13 @@
         public function process_add_report ( $POST ) {
             $template = $this -> TemplateModel -> get_culture_template_by_id ( $POST[ 'template-id' ] );
             $data     = $POST;
+            $patient_id = $this -> input -> post ( 'patient-id', true );
+            $sale_id    = $this -> input -> post ( 'sale-id', true );
+            
+            if ( !empty( trim ( $sale_id ) ) && $sale_id > 0 )
+                $patient_id = get_patient_id_by_sale_id ( $sale_id );
+        
+
             $info     = array (
                 'user_id'      => get_logged_in_user_id (),
                 'doctor_id'    => $data[ 'doctor_id' ],
@@ -149,6 +156,7 @@
                 'order_by'     => $data[ 'order_by' ],
                 'sample_id'    => $data[ 'sample-id' ],
                 'study'        => $data[ 'study' ],
+                'patient_id'   => $patient_id,
                 'report_title' => $template -> title,
                 'conclusion'   => $data[ 'conclusion' ],
                 'organism_1'   => $data[ 'organism-1' ],

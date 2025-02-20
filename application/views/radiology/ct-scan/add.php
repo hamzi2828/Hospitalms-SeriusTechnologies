@@ -35,7 +35,7 @@
                                 <label for="exampleInputEmail1"><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></label>
                                 <input type="text" name="sale-id" class="form-control" placeholder="<?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>"
                                        autofocus="autofocus" value="<?php echo set_value ( 'sale-id' ) ?>"
-                                       required="required" onchange="get_patient_by_lab_sale_id(this.value)">
+                                       onchange="get_patient_by_lab_sale_id(this.value)">
                             </div>
                             <div class="form-group col-lg-2">
                                 <label for="patient-id"><?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?></label>

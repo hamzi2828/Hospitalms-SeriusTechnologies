@@ -143,8 +143,8 @@
                     <label for="exampleInputEmail1">Status </label>
                     <select name="status" class="form-control select2me">
                         <option value="">Select</option>
-                        <option value="added" <?php echo @$_REQUEST['status_Results'] == 'added' ? 'selected="selected"' : '';?>>Results Added</option>
-                        <option value="verified" <?php echo @$_REQUEST['status_Results'] == 'verified' ? 'selected="selected"' : '';?>>Results Verified</option>
+                        <option value="not_added" <?php echo @$_REQUEST['status'] == 'not_added' ? 'selected="selected"' : '';?>>Results Not Added</option>
+                        <option value="not_verified" <?php echo @$_REQUEST['status'] == 'not_verified' ? 'selected="selected"' : '';?>>Results Not Verified</option>
                     </select>
                 </div>
 
@@ -158,14 +158,16 @@
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-globe"></i> Pending Test Results
+                        <i class="fa fa-globe"></i> Test Status Report
                     </div>
+                    <a href="javascript:void(0)" onclick="downloadExcel()" style="margin-right: 10px"
+                    class="pull-right print-btn">Download Excel</a>
                 </div>
                <div class="portlet-body" style="overflow: auto">
                     <form method="post">
                         <input type="hidden" name="<?php echo $this -> security -> get_csrf_token_name (); ?>"
                                value="<?php echo $this -> security -> get_csrf_hash (); ?>">
-                        <table class="table table-striped table-bordered table-hover">
+                        <table class="table table-striped table-bordered table-hover"  id="excel-table">
                             <thead>
                             <tr>
                                 <th> Sr. No</th>
@@ -194,29 +196,34 @@
                                     foreach ( $sales as $sale ) {
                                         $results   = @get_test_results ( $sale -> sale_id, $sale -> test_id );
                                         $test      = @get_test_by_id ( $sale -> test_id );
-                                        
+
                                         $sale_info = get_lab_sale ( $sale -> sale_id );
                                         $location  = ( is_object ( $sale_info ) ) ? get_location_by_id ( $sale_info -> locations_id ) : new stdClass();
                                         $location_sale_id = get_location_sale_id_by_hmis_lab_sales_id($sale -> sale_id);
                                         $daily_location_sale_id = get_daily_location_sale_id_by_hmis_lab_sales_id($sale -> sale_id);
 
-
-
-                                        $isParent  = check_if_test_has_sub_tests ( $sale -> test_id );
-                                        $parent_id = $test -> type == 'test' ? 0 : $sale -> test_id;
-                                        $saleInfo  = get_lab_sale ( $sale -> sale_id );
                                         $verified  = get_result_verification_data ( $sale -> sale_id, ( !empty( $results ) ) ? $results -> id : 0 );
                                         $patient   = get_patient ( $sale -> patient_id );
-                                        ?>
+
+                                        // ✅ If status=verified is in request, only show verified results
+                                        if (!empty($_REQUEST['status']) && $_REQUEST['status'] === "not_verified" &&  !empty( $verified )) {
+                                            continue; // Skip unverified rows
+                                        }
+
+                                        if (!empty($_REQUEST['status']) && $_REQUEST['status'] === "not_added" ) {
+                                            if ( $results and !empty ( $results ) > 0 )
+                                            continue; // Skip unverified rows
+                                        }
+
+     
+                            ?>
                                         <tr class="odd gradeX">
-                                            <td>
-                                                <?php echo $counter++ ?>
-                                            </td>
+                                            <td><?php echo $counter++ ?></td>
                                             <td><?php echo $sale -> date_added ?></td>
                                             <td><?php echo $sale -> sale_id ?></td>
                                             <td><?php echo $location->name ?? ''; ?></td>
                                             <td><?php echo $location_sale_id ?? ''; ?></td>
-                                            <td><?php echo $daily_location_sale_id ?? ''; ?> </td>
+                                            <td><?php echo $daily_location_sale_id ?? ''; ?></td>
 
                                             <td><?php echo get_patient_name ( 0, $patient ) ?></td>
                                             <td>
@@ -231,13 +238,11 @@
                                                         echo get_airlines_by_id ( $sale -> airline_id ) -> title;
                                                 ?>
                                             </td>
-                                            <td><?php   echo $sale ->	reference_code ?></td>
+                                            <td><?php echo $sale -> reference_code ?></td>
                                             <td><?php echo $test -> name ?></td>
-                                            <td><?php echo $sale ->report_collection_date_time ?></td>
+                                            <td><?php echo $sale -> report_collection_date_time ?></td>
                                             <td><span class="label label-success">Done</span></td>
-                                            <td><?php echo $sale -> due ? '
-                                            <p style="padding-left:15px; padding-right:15px;" class="btn btn-danger btn-xs btn-block ">Yes</p>
-                                            ' : ' '; ?></td>
+                                            <td><?php echo $sale -> due ? '<p style="padding-left:15px; padding-right:15px;" class="btn btn-danger btn-xs btn-block ">Yes</p>' : ' '; ?></td>
                                             <td>
                                                 <?php
                                                     if ( $results and !empty ( $results ) > 0 )
@@ -263,11 +268,12 @@
                                                 ?>
                                             </td>
                                         </tr>
-                                        <?php
+                            <?php
                                     }
                                 }
                             ?>
-                            </tbody>
+                        </tbody>
+
                         </table>
                     </form>
                 </div>
@@ -283,3 +289,45 @@
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>
 </div>
+
+
+
+
+<script src="<?php echo base_url ( '/assets/js/xlxs.js' ) ?>"></script>
+<script type="text/javascript">
+    function downloadExcel () {
+        // Get the HTML table
+        let table = document.getElementById ( "excel-table" );
+        
+        // Convert the table to a sheet object
+        let sheet = XLSX.utils.table_to_sheet ( table );
+        
+        // Create a workbook object
+        let workbook = XLSX.utils.book_new ();
+        
+        // Add the sheet to the workbook
+        XLSX.utils.book_append_sheet ( workbook, sheet, "Sheet1" );
+        
+        // Convert the workbook to a binary string
+        let wbout = XLSX.write ( workbook, { bookType: "xlsx", type: "binary" } );
+        
+        // Create a Blob object from the binary string
+        let blob = new Blob ( [ s2ab ( wbout ) ], { type: "application/octet-stream" } );
+        
+        // Create a download link and click it
+        let url    = window.URL.createObjectURL ( blob );
+        let a      = document.createElement ( "a" );
+        a.href     = url;
+        a.download = "Test Status Report.xlsx";
+        a.click ();
+        window.URL.revokeObjectURL ( url );
+    }
+    
+    function s2ab ( s ) {
+        let buf  = new ArrayBuffer ( s.length );
+        let view = new Uint8Array ( buf );
+        for ( let i = 0; i < s.length; i++ ) view[ i ] = s.charCodeAt ( i ) & 0xff;
+        return buf;
+    }
+
+</script>

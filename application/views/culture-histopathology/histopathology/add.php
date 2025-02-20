@@ -32,7 +32,7 @@
                         <div class="form-group col-lg-2">
                             <label for="exampleInputEmail1">Invoice ID</label>
                             <input type="text" name="sale-id" class="form-control" placeholder="Invoice ID"
-                                   required="required" autofocus="autofocus"
+                                  autofocus="autofocus"
                                    onchange="get_patient_by_lab_sale_id(this.value)">
                         </div>
                         <div class="form-group col-lg-2">

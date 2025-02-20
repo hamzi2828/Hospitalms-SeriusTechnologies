@@ -108,8 +108,8 @@
 mpdf-->
 
 <?php
-    $patient_id = get_patient_id_by_sale_id ( $report -> sale_id );
-    $patient    = get_patient ( $patient_id );
+    // $patient_id = get_patient_id_by_sale_id ( $report -> sale_id );
+    $patient    = get_patient ( $report -> patient_id );
 ?>
 <table width="100%">
     <tr>
@@ -134,7 +134,7 @@ mpdf-->
         <td width="50%" align="right" style="font-size: 8pt">
             <?php $barcodeValue = online_report_url . 'qr-login/?parameters=' . encode ( $report -> id ); ?>
             <?php include_once 'bar-code.php'; ?> <br />
-            <strong> Sample Date/Time: </strong> <?php echo date_setter ( $lab -> date_sale ) ?><br>
+            <!-- <strong> Sample Date/Time: </strong> <?php echo date_setter ( $lab -> date_sale ) ?><br> -->
             <strong> Report Date/Time: </strong> <?php echo date_setter ( $report -> date_added ) ?>
         </td>
     </tr>

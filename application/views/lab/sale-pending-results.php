@@ -134,6 +134,8 @@
                                 <th> Airline</th>
                                 <th> Flight Date/Time</th>
                                 <th> Test Name</th>
+                                <th> Reporting Time </th>
+                                <th> Sample Due</th>
                                 <th> Date Added</th>
                                 <th> Results Added</th>
                                 <th> Results Verified</th>
@@ -195,9 +197,13 @@
                                                 ?>
                                             </td>
                                             <td><?php echo $test -> name ?></td>
+                                            <td><?php echo $sale -> report_collection_date_time ?></td>
+                                            <td><?php echo $sale -> due ? '<p style="padding-left:15px; padding-right:15px;" class="btn btn-danger btn-xs btn-block ">Yes</p>' : ' '; ?></td>
+                                           
                                             <td>
                                                 <?php echo date_setter ( $saleInfo -> date_sale ); ?>
                                             </td>
+                                            
                                             <td>
                                                 <?php
                                                     if ( $results and !empty ( $results ) > 0 )

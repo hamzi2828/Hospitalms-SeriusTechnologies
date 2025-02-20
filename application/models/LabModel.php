@@ -2527,7 +2527,7 @@
         //     $sales = $this -> db -> query ( $sql );
         //     return $sales -> result ();
         // }
-        public function get_sale_pending_results($limit, $offset) {
+        public function get_sale_pending_results($limit, $offset) { 
             $user_id  = get_logged_in_user_id();
             $user     = get_user($user_id);
             $panel_id = $user->panel_id;
@@ -2543,47 +2543,44 @@
                         AND ts.test_id = rc.test_id  
                     LEFT JOIN hmis_lab_sales_location_wise ls 
                         ON ts.sale_id = ls.hmis_lab_sales_id
-                    LEFT JOIN hmis_test_sample_info tsi  -- ✅ Join sample info table
+                    LEFT JOIN hmis_test_sample_info tsi  
                         ON ts.test_id = tsi.test_id
                     WHERE (ts.parent_id IS NULL OR ts.parent_id = '' OR ts.parent_id = 0) 
-                    AND NOT EXISTS (
-                        SELECT 1 FROM hmis_test_results tr 
-                        JOIN hmis_lab_results_verified vr 
-                        ON tr.id = vr.result_id 
-                        WHERE tr.sale_id = ts.sale_id 
-                        AND tr.test_id = ts.test_id
-                    )
                     AND ts.refunded = '0'";
         
             $params = [];
         
-            // ✅ Filter by Section ID (from hmis_test_sample_info)
-            if (!empty($_REQUEST['section-id']) && is_array($_REQUEST['section-id'])) {
+            // ✅ Filter by Section ID
+            if (isset($_REQUEST['section-id']) && is_array($_REQUEST['section-id'])) {
                 $section_ids = array_map('intval', $_REQUEST['section-id']); // Ensure integer values
-                $placeholders = implode(',', array_fill(0, count($section_ids), '?'));
-                $sql .= " AND tsi.section_id IN ($placeholders)";  // ✅ Use tsi.section_id
-                $params = array_merge($params, $section_ids);
+                if (!empty($section_ids)) {
+                    $placeholders = implode(',', array_fill(0, count($section_ids), '?'));
+                    $sql .= " AND tsi.section_id IN ($placeholders)";
+                    $params = array_merge($params, $section_ids);
+                }
             }
         
             // ✅ Filter by Invoice ID
             if (!empty($_REQUEST['invoice_id']) && is_numeric($_REQUEST['invoice_id'])) {
                 $sql .= " AND ts.sale_id = ?";
-                $params[] = $_REQUEST['invoice_id'];
+                $params[] = (int)$_REQUEST['invoice_id']; // Ensure integer type
             }
         
             // ✅ Filter by Due Status
-            if (isset($_REQUEST['sample_due']) && ($_REQUEST['sample_due'] === "0" || $_REQUEST['sample_due'] === "1")) {
+            if (isset($_REQUEST['sample_due']) && in_array($_REQUEST['sample_due'], ["0", "1"], true)) {
                 $sql .= " AND ts.due = ?";
-                $params[] = $_REQUEST['sample_due'];
+                $params[] = (int)$_REQUEST['sample_due']; // Cast to integer
             }
         
             // ✅ Filter by Date Range
             if (!empty($_REQUEST['start_date']) && !empty($_REQUEST['end_date'])) {
                 $start_date = date('Y-m-d', strtotime($_REQUEST['start_date']));
                 $end_date   = date('Y-m-d', strtotime($_REQUEST['end_date']));
-                $sql .= " AND DATE(ts.date_added) BETWEEN ? AND ?";
-                $params[] = $start_date;
-                $params[] = $end_date;
+                if ($start_date && $end_date) {
+                    $sql .= " AND DATE(ts.date_added) BETWEEN ? AND ?";
+                    $params[] = $start_date;
+                    $params[] = $end_date;
+                }
             }
         
             // ✅ Grouping & Pagination
@@ -2591,8 +2588,8 @@
                       ORDER BY ts.sale_id DESC 
                       LIMIT ? OFFSET ?";
         
-            $params[] = $limit;
-            $params[] = $offset;
+            $params[] = (int)$limit;
+            $params[] = (int)$offset;
         
             // Execute Query
             $sales = $this->db->query($sql, $params);

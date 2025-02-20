@@ -62,7 +62,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i> Reports
+                    <i class="fa fa-globe"></i> Histopathology Reports
                 </div>
             </div>
            <div class="portlet-body" style="overflow: auto">
@@ -89,8 +89,8 @@
                         $counter = 1;
                         if ( count ( $reports ) > 0 ) {
                             foreach ( $reports as $report ) {
-                                $patient_id = get_patient_id_by_sale_id ( $report -> sale_id );
-                                $patient    = get_patient ( $patient_id );
+                                $patient_id = ( !empty( trim ( $report -> sale_id ) ) ) ? get_patient_id_by_sale_id ( $report -> sale_id ) : $report -> patient_id;
+                                $patient    = get_patient ( $report -> patient_id );
                                 
                                 if ( !empty( trim ( $report -> order_by ) ) )
                                     $order_by = get_doctor ( $report -> order_by );

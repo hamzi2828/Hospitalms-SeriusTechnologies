@@ -141,12 +141,20 @@
         public function process_add_report ( $POST ) {
             $template = $this -> TemplateModel -> get_histopathology_template_by_id ( $POST[ 'template-id' ] );
             $data     = $POST;
+            $patient_id = $this -> input -> post ( 'patient-id', true );
+            $sale_id    = $this -> input -> post ( 'sale-id', true );
+            
+            if ( !empty( trim ( $sale_id ) ) && $sale_id > 0 )
+                $patient_id = get_patient_id_by_sale_id ( $sale_id );
+    
+
             $info     = array (
                 'user_id'      => get_logged_in_user_id (),
                 'doctor_id'    => $data[ 'doctor_id' ],
                 'sale_id'      => $data[ 'sale-id' ],
                 'order_by'     => $data[ 'order_by' ],
                 'sample_id'    => $data[ 'sample-id' ],
+                'patient_id'   => $patient_id,
                 'study'        => $data[ 'study' ],
                 'report_title' => $template -> title,
                 'conclusion'   => $data[ 'conclusion' ],
