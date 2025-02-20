@@ -3719,7 +3719,7 @@
                 $offset = $_REQUEST[ 'per_page' ];
             }
             else {
-                $offset = 0;
+                $offset = 0; 
             }
             
             $data[ 'panels' ]   = $this -> PanelModel -> get_panels ();
@@ -3727,6 +3727,7 @@
             $data[ 'users' ]    = $this -> UserModel -> get_active_users ();
             $data[ 'sales' ]    = $this -> LabModel -> get_sale_pending_results ( $config[ "per_page" ], $offset );
             $str_links          = $this -> pagination -> create_links ();
+            $data[ 'sections' ]     = $this -> SectionModel -> get_sections_codess ();
             $data[ "links" ]    = explode ( '&nbsp;', $str_links );
             $this -> load -> view ( '/lab/test-status-report', $data );
             $this -> footer ();

@@ -38,6 +38,12 @@ class SectionModel extends CI_Model {
         return $suppliers -> result();
     }
 
+    public function get_sections_codess() {
+        $this -> db -> where('code IS NOT NULL');
+        $suppliers = $this -> db -> get_where('sections');
+        return $suppliers -> result();
+    }
+
     /**
      * -------------------------
      * @return mixed

@@ -10,7 +10,7 @@
             <div class="alert alert-danger">
                 <?php echo $this -> session -> flashdata ( 'error' ) ?>
             </div>
-        <?php endif; ?>
+        <?php endif; ?> 
         <?php if ( $this -> session -> flashdata ( 'response' ) ) : ?>
             <div class="alert alert-success">
                 <?php echo $this -> session -> flashdata ( 'response' ) ?>
@@ -35,8 +35,31 @@
                     <input type="text" name="end_date" class="date date-picker form-control" placeholder="End date"
                            value="<?php echo ( @$_REQUEST[ 'end_date' ] ) ? @$_REQUEST[ 'end_date' ] : '' ?>">
                 </div>
-                
-                <div class="form-group col-lg-3">
+                <div class="form-group col-lg-2">
+                    <label for="exampleInputEmail1">Start Time</label>
+                    <select class="form-control select2me" name="start_time">
+                        <option value="">Select</option>
+                        <?php
+                            $times = create_time_range ( '01:00', '23:00', '60 mins', '24' );
+                            foreach ( $times as $time ) :
+                                ?>
+                                <option value="<?php echo $time ?>" <?php if ( $time == @$_REQUEST[ 'start_time' ] ) echo 'selected="selected"' ?>><?php echo $time ?></option>
+                            <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group col-lg-2">
+                    <label for="exampleInputEmail1">End Time</label>
+                    <select class="form-control select2me" name="end_time">
+                        <option value="">Select</option>
+                        <?php
+                            $times = create_time_range ( '01:00', '23:00', '60 mins', '24' );
+                            foreach ( $times as $time ) :
+                                ?>
+                                <option value="<?php echo $time ?>" <?php if ( $time == @$_REQUEST[ 'end_time' ] ) echo 'selected="selected"' ?>><?php echo $time ?></option>
+                            <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Panel</label>
                     <select name="panel-id" class="form-control select2me">
                         <option value="">Select</option>
@@ -55,7 +78,7 @@
                     </select>
                 </div>
                 
-                <div class="form-group col-lg-3">
+                <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Airline</label>
                     <select name="airline-id" class="form-control select2me">
                         <option value="">Select</option>
@@ -91,6 +114,40 @@
                     </select>
                 </div>
                 
+                <div class="form-group col-lg-2">
+                <label for="exampleInputEmail1">Sections</label>
+                <select name="section-id[]" class="form-control select2me" multiple="multiple">
+                    <?php
+                        if (count($sections) > 0) {
+                            foreach ($sections as $section) {
+                                $selected = (!empty($_REQUEST['section-id']) && in_array($section->id, (array)$_REQUEST['section-id'])) ? 'selected="selected"' : '';
+                                echo '<option value="' . $section->id . '" ' . $selected . '>' . $section->code . '</option>';
+                            }
+                        }
+                    ?>
+                </select>
+            </div>
+
+
+                <div class="form-group col-lg-2">
+                    <label for="exampleInputEmail1">Sample Due</label>
+                    <select name="sample_due" class="form-control select2me">
+                        <option value="">Select</option>
+                        <option value="1" <?php echo @$_REQUEST['sample_due'] == 1 ? 'selected="selected"' : '';?>>Yes</option>
+                        <option value="0" <?php echo @$_REQUEST['sample_due'] == 0 ? 'selected="selected"' : '';?>>No</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group col-lg-2">
+                    <label for="exampleInputEmail1">Status </label>
+                    <select name="status" class="form-control select2me">
+                        <option value="">Select</option>
+                        <option value="added" <?php echo @$_REQUEST['status_Results'] == 'added' ? 'selected="selected"' : '';?>>Results Added</option>
+                        <option value="verified" <?php echo @$_REQUEST['status_Results'] == 'verified' ? 'selected="selected"' : '';?>>Results Verified</option>
+                    </select>
+                </div>
+
                 <div class="form-group col-lg-1">
                     <button type="submit" class="btn btn-primary" style="margin-top: 25px;">Search</button>
                 </div>

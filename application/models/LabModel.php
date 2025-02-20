@@ -2540,9 +2540,11 @@
                     FROM hmis_test_sales ts
                     LEFT JOIN hmis_reference_codes rc 
                         ON ts.sale_id = rc.sale_id 
-                        AND ts.test_id = rc.test_id  -- ✅ Correct mapping with test_id
+                        AND ts.test_id = rc.test_id  
                     LEFT JOIN hmis_lab_sales_location_wise ls 
                         ON ts.sale_id = ls.hmis_lab_sales_id
+                    LEFT JOIN hmis_test_sample_info tsi  -- ✅ Join sample info table
+                        ON ts.test_id = tsi.test_id
                     WHERE (ts.parent_id IS NULL OR ts.parent_id = '' OR ts.parent_id = 0) 
                     AND NOT EXISTS (
                         SELECT 1 FROM hmis_test_results tr 
@@ -2555,22 +2557,27 @@
         
             $params = [];
         
-            // Apply Filtering Conditions
+            // ✅ Filter by Section ID (from hmis_test_sample_info)
+            if (!empty($_REQUEST['section-id']) && is_array($_REQUEST['section-id'])) {
+                $section_ids = array_map('intval', $_REQUEST['section-id']); // Ensure integer values
+                $placeholders = implode(',', array_fill(0, count($section_ids), '?'));
+                $sql .= " AND tsi.section_id IN ($placeholders)";  // ✅ Use tsi.section_id
+                $params = array_merge($params, $section_ids);
+            }
+        
+            // ✅ Filter by Invoice ID
             if (!empty($_REQUEST['invoice_id']) && is_numeric($_REQUEST['invoice_id'])) {
                 $sql .= " AND ts.sale_id = ?";
                 $params[] = $_REQUEST['invoice_id'];
             }
         
-            if (!empty($_REQUEST['location-id']) && is_numeric($_REQUEST['location-id'])) {
-                $sql .= " AND rc.location_id = ?";
-                $params[] = $_REQUEST['location-id'];
+            // ✅ Filter by Due Status
+            if (isset($_REQUEST['sample_due']) && ($_REQUEST['sample_due'] === "0" || $_REQUEST['sample_due'] === "1")) {
+                $sql .= " AND ts.due = ?";
+                $params[] = $_REQUEST['sample_due'];
             }
         
-            if (!empty($_REQUEST['user-id']) && is_numeric($_REQUEST['user-id'])) {
-                $sql .= " AND ts.user_id = ?";
-                $params[] = $_REQUEST['user-id'];
-            }
-        
+            // ✅ Filter by Date Range
             if (!empty($_REQUEST['start_date']) && !empty($_REQUEST['end_date'])) {
                 $start_date = date('Y-m-d', strtotime($_REQUEST['start_date']));
                 $end_date   = date('Y-m-d', strtotime($_REQUEST['end_date']));
@@ -2579,32 +2586,7 @@
                 $params[] = $end_date;
             }
         
-            if (!empty($_GET['panel-id']) && $_GET['panel-id'] > 0) {
-                $sql .= " AND ts.patient_id IN (SELECT id FROM hmis_patients WHERE panel_id = ?)";
-                $params[] = $_GET['panel-id'];
-            }
-        
-            if (!empty($_GET['airline-id']) && $_GET['airline-id'] > 0) {
-                $sql .= " AND ts.airline_id = ?";
-                $params[] = $_GET['airline-id'];
-            }
-        
-            if (!empty($panel_id) && $panel_id > 0) {
-                $sql .= " AND ts.patient_id IN (SELECT id FROM hmis_patients WHERE panel_id = ?)";
-                $params[] = $panel_id;
-            }
-        
-            if (!empty($_REQUEST['daily_sale_id']) && is_numeric($_REQUEST['daily_sale_id'])) {
-                $sql .= " AND ls.daily_location_sale_id = ?";
-                $params[] = $_REQUEST['daily_sale_id'];
-            }
-        
-            if (!empty($_REQUEST['location_sale_id']) && is_numeric($_REQUEST['location_sale_id'])) {
-                $sql .= " AND ls.location_sale_id = ?";
-                $params[] = $_REQUEST['location_sale_id'];
-            }
-        
-            // Grouping and Pagination to Remove Duplicates
+            // ✅ Grouping & Pagination
             $sql .= " GROUP BY ts.sale_id, ts.test_id
                       ORDER BY ts.sale_id DESC 
                       LIMIT ? OFFSET ?";
@@ -2612,13 +2594,13 @@
             $params[] = $limit;
             $params[] = $offset;
         
-            // Execute Query with Bindings
+            // Execute Query
             $sales = $this->db->query($sql, $params);
         
-         
-            
             return $sales->result();
         }
+        
+        
         
         
         
