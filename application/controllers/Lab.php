@@ -1021,7 +1021,8 @@
                         $cashAccountHead = $this -> input -> post ( 'bank-id' );
                     
                     if ( $discount < 1 and $flat_discount < 1 ) {
-                        
+                            $location_user_id = get_logged_in_user_locations_id ();
+                            print_r($location_user_id);
                         $ledger = array (
                             'user_id'          => get_logged_in_user_id (),
                             'acc_head_id'      => $cashAccountHead,
@@ -1034,12 +1035,15 @@
                             'debit'            => 0,
                             'transaction_type' => 'credit',
                             'description'      => $description,
+                            'locations_id'   => get_logged_in_user_locations_id(),
+
                             'transaction_no'   => $this -> input -> post ( 'transaction-no' ),
                         );
                         if ( $panel_id > 0 ) {
                             $accHeadID = get_account_head_id_by_panel_id ( $panel_id ) -> id;
                             if ( $accHeadID > 0 )
                                 $ledger[ 'acc_head_id' ] = $accHeadID;
+
                         }
                         $this -> AccountModel -> add_ledger ( $ledger );
                         
@@ -1095,6 +1099,7 @@
                             'debit'            => 0,
                             'transaction_type' => 'credit',
                             'description'      => $description,
+                            'locations_id'   => get_logged_in_user_locations_id(),
                             'transaction_no'   => $this -> input -> post ( 'transaction-no' ),
                         );
                         if ( $panel_id > 0 ) {
@@ -1179,6 +1184,8 @@
                             'debit'            => 0,
                             'transaction_type' => 'credit',
                             'description'      => $description,
+                            'locations_id'   => get_logged_in_user_locations_id(),
+
                             'transaction_no'   => $this -> input -> post ( 'transaction-no' ),
                         );
                         $this -> AccountModel -> add_ledger ( $ledger );
@@ -1677,6 +1684,7 @@
                         'credit'           => $total_price,
                         'debit'            => 0,
                         'transaction_type' => 'credit',
+                        'locations_id'   => get_logged_in_user_locations_id(),
                         'description'      => 'Cash from lab. Sale# ' . $sale_id,
                     );
                     $this -> AccountModel -> add_ledger ( $ledger );
@@ -2560,6 +2568,7 @@
                     'debit'            => abs ( $amount_paid_to_customer ),
                     'transaction_type' => 'debit',
                     'description'      => $description,
+                    'locations_id'   => get_logged_in_user_locations_id(),
                 );
                 if ( $discount > 0 || $flat_discount > 0 ) {
                     $ledger[ 'debit' ] = abs ( $net_bill );
@@ -3058,6 +3067,7 @@
                     'debit'            => $receiving,
                     'transaction_type' => 'debit',
                     'description'      => $description,
+                    'locations_id'   => get_logged_in_user_locations_id(),
                 );
                 $this -> AccountModel -> add_ledger ( $ledger );
                 
@@ -3705,10 +3715,10 @@
             $config[ 'use_page_numbers' ]   = false;
             $config[ 'page_query_string' ]  = TRUE;
             $config[ 'reuse_query_string' ] = TRUE;
-            $config[ 'num_links' ]          = 10;
+            $config[ 'num_links' ]          = 10; 
             $config[ 'cur_tag_open' ]       = '&nbsp;<a class="current">';
             $config[ 'cur_tag_close' ]      = '</a>';
-            $config[ 'next_link' ]          = 'Next';
+            $config[ 'next_link' ]          = 'Next'; 
             $config[ 'prev_link' ]          = 'Previous';
             
             $this -> pagination -> initialize ( $config );
