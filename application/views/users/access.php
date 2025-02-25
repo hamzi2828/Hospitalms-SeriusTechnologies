@@ -12,6 +12,16 @@
         </thead>
         <tbody>
         <tr style="background: #dff0d8;">
+            <td> All User Invoices</td>
+            <td></td>
+            <td>
+                <input type="checkbox" class="checkbox" class="checkbox" class="checkbox"
+                       name="access[]"
+                       value="all_user_invoices" <?php if ( !empty( $access ) and in_array ( 'all_user_invoices', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr>
+        <tr style="background: #dff0d8;">
             <td> Dashboard</td>
             <td></td>
             <td>

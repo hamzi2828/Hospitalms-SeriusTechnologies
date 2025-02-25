@@ -1399,12 +1399,20 @@
             $user_id  = get_logged_in_user_id ();
             $user     = get_user ( $user_id );
             $panel_id = $user -> panel_id;
-            
+            $all_user_invoices = (get_user_access($user_id) && in_array('all_user_invoices', explode(',', get_user_access($user_id)->access))) ? true : false;
+
             $sql = "Select sale_id, patient_id, GROUP_CONCAT(test_id) as tests, SUM(price) as price, date_added, remarks, refunded from hmis_test_sales where (parent_id='0' OR parent_id < 1 or parent_id IS NULL)";
             if ( isset( $_REQUEST[ 'sale_id' ] ) and is_numeric ( $_REQUEST[ 'sale_id' ] ) > 0 and !empty( trim ( $_REQUEST[ 'sale_id' ] ) ) ) {
                 $sale_id = $_REQUEST[ 'sale_id' ];
                 $sql     .= " and sale_id=$sale_id";
             }
+            
+
+            if (!$all_user_invoices) {
+                $sql .= " AND user_id = $user_id";
+
+            }
+        
             
             if ( isset( $_REQUEST[ 'patient_id' ] ) and is_numeric ( $_REQUEST[ 'patient_id' ] ) > 0 and !empty( trim ( $_REQUEST[ 'patient_id' ] ) ) ) {
                 $patient_id = $_REQUEST[ 'patient_id' ];
@@ -1439,6 +1447,8 @@
                 $sql .= " and patient_id IN (Select id from hmis_patients where panel_id=$panel_id)";
             }
             
+
+         
             $sql   .= " group by sale_id order by id DESC limit $limit offset $offset";
             $sales = $this -> db -> query ( $sql );
             return $sales -> result ();
@@ -2041,10 +2051,20 @@
          */
         
         public function get_lab_cash_balance_report () {
+
+            $user_id  = get_logged_in_user_id ();
+            $user     = get_user ( $user_id );
+            $all_user_invoices = (get_user_access($user_id) && in_array('all_user_invoices', explode(',', get_user_access($user_id)->access))) ? true : false;
+            
             $sql = "Select sale_id, patient_id, GROUP_CONCAT(test_id) as tests, SUM(price) as price, date_added, remarks, refunded from hmis_test_sales where (parent_id='0' OR parent_id < 1 or parent_id IS NULL) AND patient_id IN (Select id from hmis_patients where panel_id IS NULL OR panel_id < 1)";
             if ( isset( $_REQUEST[ 'sale_id' ] ) and is_numeric ( $_REQUEST[ 'sale_id' ] ) > 0 and !empty( trim ( $_REQUEST[ 'sale_id' ] ) ) ) {
                 $sale_id = $_REQUEST[ 'sale_id' ];
                 $sql     .= " and sale_id=$sale_id";
+            }
+
+            if (!$all_user_invoices) {
+                $sql .= " AND user_id = $user_id";
+
             }
             if ( isset( $_REQUEST[ 'patient_id' ] ) and is_numeric ( $_REQUEST[ 'patient_id' ] ) > 0 and !empty( trim ( $_REQUEST[ 'patient_id' ] ) ) ) {
                 $patient_id = $_REQUEST[ 'patient_id' ];
