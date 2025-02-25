@@ -1070,7 +1070,7 @@
             $mpdf = new \Mpdf\Mpdf( [
                                         'margin_left'   => 5,
                                         'margin_right'  => 5,
-                                        'margin_top'    => 35,
+                                        'margin_top'    => 31,
                                         'margin_bottom' => 45,
                                         'margin_header' => 5,
                                         'margin_footer' => 5

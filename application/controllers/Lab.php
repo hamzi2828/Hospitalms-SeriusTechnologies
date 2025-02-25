@@ -1355,7 +1355,7 @@
                         $panel = 'true';
                     }
 
-                    if (get_user_access(get_logged_in_user_id()) && in_array('print_LW_lab_sale_invoices', explode(',', get_user_access(get_logged_in_user_id())->access))) {
+                    if (get_user_access(get_logged_in_user_id()) && in_array('print_lab_sale_invoices', explode(',', get_user_access(get_logged_in_user_id())->access))) {
                         $print = '<strong><a href="' . base_url('/invoices/lab-sale-invoice/' . $sale_id . '?panel=' . $panel) . '" target="_blank">Print </a></strong> | ';
                     } else {
                         $print = '';
@@ -1367,7 +1367,7 @@
                         $printTicket = '';
                     }
                     
-                    if (get_user_access(get_logged_in_user_id()) && in_array('view_lab_sale_invoices', explode(',', get_user_access(get_logged_in_user_id())->access))) {
+                    if (get_user_access(get_logged_in_user_id()) && in_array('print_LW_lab_sale_invoices', explode(',', get_user_access(get_logged_in_user_id())->access))) {
                         $printLW = '<strong><a href="' . base_url('/invoices/lab-sale-invoice/' . $sale_id . '?print2=true&daily_location_sale_id=' . $daily_location_sale_id . '&panel=' . $panel) . '"  target="_blank">Print LW</a></strong> | ';
                     } else {
                         $printLW = '';

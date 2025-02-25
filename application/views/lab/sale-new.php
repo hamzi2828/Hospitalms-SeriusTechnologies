@@ -70,22 +70,22 @@
                                 <input type="text" class="form-control" readonly="readonly" id="patient-cnic">
                             </div>
                             <div class="form-group col-lg-3">
-    <label for="exampleInputEmail1">Reference</label>
-    <select name="reference-id" class="form-control select2me" id="reference-id" onchange="showDiscountAlert()">
-        <option value="" data-discount="0">Select</option>
-        <?php
-        if (count($references) > 0) {
-            foreach ($references as $reference) {
-                ?>
-                <option value="<?php echo $reference->id ?>" data-discount="<?php echo $reference->discount_percent ?? 0; ?>">
-                    <?php echo $reference->title ?>
-                </option>
-                <?php
-            }
-        }
-        ?>
-    </select>
-</div>
+                        <label for="exampleInputEmail1">Reference</label>
+                        <select name="reference-id" class="form-control select2me" id="reference-id" onchange="showDiscountAlert()">
+                            <option value="" data-discount="0">Select</option>
+                            <?php
+                            if (count($references) > 0) {
+                                foreach ($references as $reference) {
+                                    ?>
+                                    <option value="<?php echo $reference->id ?>" data-discount="<?php echo $reference->discount_percent ?? 0; ?>">
+                                        <?php echo $reference->title ?>
+                                    </option>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
 
                         </div>
                     </div>
