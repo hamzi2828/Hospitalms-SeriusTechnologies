@@ -3060,7 +3060,7 @@
                     'acc_head_id'      => Lab_Patient_Balances,
                     'invoice_id'       => $sale_id,
                     'lab_sale_id'      => $sale_id,
-                    'trans_date'       => date ( 'Y-m-d' ),
+                    'trans_date'       => current_date_time (),
                     'payment_mode'     => 'cash',
                     'paid_via'         => 'cash',
                     'credit'           => 0,

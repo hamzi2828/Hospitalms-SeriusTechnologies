@@ -32,7 +32,7 @@
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-globe"></i> Edit Lab Sale Balance
+                        <i class="fa fa-globe"></i> Edit Lab Sale Balance  
                     </div>
                 </div>
                 <div class="portlet-body" style="overflow: hidden">
