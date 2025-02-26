@@ -92,13 +92,16 @@
 
                                 <td><?php echo $group['created_at']; ?></td>
                                 <td class="btn-group-xs">
+                                <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_sales_print', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                     <a type="button" class="btn purple"
                                     href="<?php echo base_url('invoices/cafesale-invoice/' . $invoice_id); ?>">Print</a>
+                                    <?php endif; ?>
 
-
+                                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_sales_refund', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                     <?php if ($group['refunded'] == null): ?>
                                         <a type="button" class="btn green" onclick="return confirm('Are you sure you want to refund?')"
                                         href="<?php echo base_url('cafe-setting/Refund-sale/' . $invoice_id); ?>">Refund</a>
+                                    <?php endif; ?>
                                     <?php endif; ?>
                                 </td>
                             </tr>

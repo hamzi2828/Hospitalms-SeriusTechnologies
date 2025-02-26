@@ -39,13 +39,25 @@
                                 <td><?php echo $i; ?></td>
                                 <td><?php echo $category -> name; ?></td>
                                 <td>
+
+                                
+                                <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_cafe_category_edit', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+
                                     <a href="<?php echo base_url ( 'cafe-setting/edit-category/' . $category -> id ); ?>" type="button"   class="btn btn-primary btn-xs">
                                         Edit
                                     </a>
+
+                                <?php endif; ?>
+
+                                
+                                <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_cafe_category_delete', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+
                                     <a href="<?php echo base_url ( 'cafe-setting/delete-category/' . $category -> id ); ?>"type="button"   class="btn btn-danger btn-xs" 
                                         onclick="return confirm ('Are you sure want to delete this category?')">
                                         Delete
                                     </a>
+
+                                <?php endif; ?>
                                 </td>
 
                             </tr>

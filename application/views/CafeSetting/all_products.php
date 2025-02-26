@@ -69,15 +69,25 @@
                                     <td><?php echo (int)(get_product_total_quantity_by_id($product->id) - get_total_sold_quantity_by_product_id($product->id) ) + get_total_refonded_quantity_by_product_id($product->id); ?></td>
                                     <td class="btn-group-xs">
 
+                                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_product_stock', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                     <a type="button" class="btn purple"
                                     href="<?php echo base_url ( 'cafe-setting/stock-details/' . $product -> id ) ?>">Stock</a>
 
+                                    <?php endif; ?>
+
+
+                                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_product_edit', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                     <a type="button" class="btn blue"
                                     href="<?php echo base_url ( 'cafe-setting/edit-product/' . $product -> id ) ?>">Edit</a>
+                                    <?php endif; ?>
 
+
+
+                                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_product_delete', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                     <a type="button" class="btn red"
                                                 href="<?php echo base_url (  'cafe-setting/delete-product/' . $product -> id ) ?>"
                                                 onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                                    <?php endif; ?>
                                         </td>
 
                                    

@@ -120,6 +120,13 @@ class CafeSettingModel extends CI_Model
         return $query->result();
     }
 
+
+    public function get_all_products_with_stock()
+    {
+        $this->db->order_by('name');
+        $query = $this->db->get('cafe_products');
+        return $query->result();
+    }
     // Delete products from the database
     public function delete_product($id) 
     {

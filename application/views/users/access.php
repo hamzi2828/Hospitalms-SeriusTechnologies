@@ -4910,8 +4910,23 @@
             <input type="checkbox" class="checkbox" name="access[]"
                 value="all-sale" <?php if (!empty($access) and in_array('all-sale', explode(',', $access->access)))
                 echo 'checked="checked"' ?>>
-        </td>
+        </td> 
     </tr>
+
+    <tr style="background: #dff0d8;">
+            <td></td>
+            <td></td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="cafe_all_sales_print" <?php if ( !empty( $access ) and in_array ( 'cafe_all_sales_print', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Print
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="cafe_all_sales_refund" <?php if ( !empty( $access ) and in_array ( 'cafe_all_sales_refund', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Refund
+               
+            </td>
+    </tr>
+
     <tr style="background: #dff0d8;">
         <td></td>
         <td>Add Sale</td>
@@ -4932,6 +4947,24 @@
         </td>
     </tr>
     <tr style="background: #dff0d8;">
+            <td></td>
+            <td></td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="cafe_stock_print" <?php if ( !empty( $access ) and in_array ( 'cafe_stock_print', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Print
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="cafe_stock_edit" <?php if ( !empty( $access ) and in_array ( 'cafe_stock_edit', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Edit
+
+                      <input type="checkbox" class="checkbox" name="access[]"
+                       value="cafe_stock_edit_quantity" <?php if ( !empty( $access ) and in_array ( 'cafe_stock_edit_quantity', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Edit Quantity
+               
+            </td>
+    </tr>
+
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>Add Stock</td>
         <td>
@@ -4950,6 +4983,23 @@
                 echo 'checked="checked"' ?>>
         </td>
     </tr>
+    <tr style="background: #dff0d8;">
+            <td></td>
+            <td></td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="cafe_all_product_stock" <?php if ( !empty( $access ) and in_array ( 'cafe_all_product_stock', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Stock
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="cafe_all_product_edit" <?php if ( !empty( $access ) and in_array ( 'cafe_all_product_edit', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Edit
+                        <input type="checkbox" class="checkbox" name="access[]"
+                       value="cafe_all_product_delete" <?php if ( !empty( $access ) and in_array ( 'cafe_all_product_delete', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Delete
+               
+            </td>
+    </tr>
+
     <tr style="background: #dff0d8;">
         <td></td>
         <td>Add Product</td>
@@ -4970,6 +5020,21 @@
         </td>
     </tr>
     <tr style="background: #dff0d8;">
+            <td></td>
+            <td></td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="cafe_all_cafe_category_edit" <?php if ( !empty( $access ) and in_array ( 'cafe_all_cafe_category_edit', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Edit
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="cafe_all_cafe_category_delete" <?php if ( !empty( $access ) and in_array ( 'cafe_all_cafe_category_delete', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Delete
+                     
+               
+            </td>
+    </tr>
+
+    <tr style="background: #dff0d8;">
         <td></td>
         <td>Add Category</td>
         <td>
@@ -4988,6 +5053,21 @@
                 echo 'checked="checked"' ?>>
         </td>
     </tr>
+    <tr style="background: #dff0d8;">
+            <td></td>
+            <td></td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="cafe_all_cafe_ingredients_edit" <?php if ( !empty( $access ) and in_array ( 'cafe_all_cafe_ingredients_edit', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Edit
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="cafe_all_cafe_ingredients_delete" <?php if ( !empty( $access ) and in_array ( 'cafe_all_cafe_ingredients_delete', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Delete
+                     
+                
+            </td>
+    </tr>
+
     <tr style="background: #dff0d8;">
         <td></td>
         <td>Add Ingredients</td>

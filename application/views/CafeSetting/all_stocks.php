@@ -79,12 +79,20 @@
                     <td> <?php echo $total - $stockDiscount; ?> </td>
                     <td> <?php echo $stock->date_added; ?> </td>
                     <td>
+                        
+                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_stock_print', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                         <a class="btn btn-xs purple" target="_blank" href="<?php echo base_url('/invoices/cafe-stock-invoice?invoice=' . $stock->invoice); ?>">
                             Print
                         </a>
+                    <?php endif; ?>
+
+
+                    
+                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_stock_edit', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                         <a class="btn btn-xs blue" target="_blank" href="<?php echo base_url('/cafe-setting/edit-stock/'. $stock->invoice); ?>">
                             Edit
                         </a>
+                    <?php endif; ?>
                     </td>
                 </tr>
                 <?php

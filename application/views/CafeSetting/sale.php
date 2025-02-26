@@ -27,7 +27,7 @@
                 <div class="caption">
                     <i class="fa fa-reorder"></i> Add Cafe Sale 
                 </div>
-            </div>
+            </div> 
             <div class="portlet-body form">
             <form role="form" method="post" autocomplete="off">
                     <input type="hidden" name="<?php echo $this -> security -> get_csrf_token_name (); ?>"
@@ -45,12 +45,14 @@
                                     <?php
                                         if ( count ( $products ) > 0 ) {
                                             foreach ( $products as $store ) {
-                                                ?>
-                                                <option value="<?php echo $store -> id ?>"
-                                                        class="option-<?php echo $store -> id ?>">
-                                                    <?php echo $store -> name ?>
-                                                </option>
-                                                <?php
+                                                if ( (int) get_product_available_quantity_by_id($store -> id) > 0 ) {
+                                                    ?>
+                                                    <option value="<?php echo $store -> id ?>"
+                                                            class="option-<?php echo $store -> id ?>">
+                                                        <?php echo $store -> name ?> (<?php echo (int) get_product_available_quantity_by_id($store -> id) ?>)
+                                                    </option>
+                                                    <?php
+                                                }
                                             }
                                         }
                                     ?>

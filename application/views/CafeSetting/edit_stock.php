@@ -119,11 +119,14 @@
                                                     <input type="text" name="expiry[]" class="date date-picker form-control"
                                                         value="<?php echo $product->expiry ?>">
                                                 </div>
+                                                <?php $can_edit_quantity = ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_stock_edit_quantity', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) ? true : false; ?>
+
 
                                                 <div class="form-group col-lg-3">
                                                     <label for="exampleInputEmail1">Quantity (Units)</label>
                                                     <input type="number" name="quantity[]" class="form-control quantity-<?php echo $row ?>"
-                                                        onchange="calculate_store_cafe_stock_net_price(<?php echo $row ?>)"
+                                                        <?php if ( $can_edit_quantity ) { ?> onchange="calculate_store_cafe_stock_net_price(<?php echo $row ?>)" <?php } ?>
+                                                        <?php echo ( $can_edit_quantity ) ? '' : 'readonly="readonly"' ?>
                                                         value="<?php echo (int) $product->quantity ?>">
                                                 </div>
 

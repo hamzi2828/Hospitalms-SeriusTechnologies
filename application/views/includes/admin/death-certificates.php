@@ -62,7 +62,10 @@
 
 <?php if (!empty($access) and in_array('cafe-module-sidebar', explode(',', $access->access))) : ?>
 
-<li class="<?php if ($parent_uri == 'cafe-module') echo 'start active'; ?>">
+    <li class="<?php if ($parent_uri == 'cafe-module' || strpos($child_uri, 'cafe') !== false || 
+    strpos($child_uri, 'sale') !== false || strpos($child_uri, 'stock') !== false || 
+    strpos($child_uri, 'product') !== false || strpos($child_uri, 'category') !== false || 
+    strpos($child_uri, 'ingredients') !== false) echo 'start active'; ?>">
     <a href="javascript:void(0);">
         <i class="fa fa-coffee"></i>
         <span class="title"> Cafe Module </span>
