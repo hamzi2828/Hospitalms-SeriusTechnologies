@@ -2500,53 +2500,52 @@
          * -------------------------
          */
         
-        // public function get_sale_pending_results ( $limit, $offset ) {
-        //     $user_id  = get_logged_in_user_id ();
-        //     $user     = get_user ( $user_id );
-        //     $panel_id = $user -> panel_id;
+        public function get_sale_pending_results_test_old ( $limit, $offset ) {
+            $user_id  = get_logged_in_user_id ();
+            $user     = get_user ( $user_id );
+            $panel_id = $user -> panel_id;
             
-        //     $sql = "Select * from hmis_test_sales where (parent_id IS NULL OR parent_id='' OR parent_id=0) and (sale_id, test_id) NOT IN (Select sale_id, test_id from hmis_test_results where id IN (Select result_id from hmis_lab_results_verified)) AND refunded='0'";
+            $sql = "Select * from hmis_test_sales where (parent_id IS NULL OR parent_id='' OR parent_id=0) and (sale_id, test_id) NOT IN (Select sale_id, test_id from hmis_test_results where id IN (Select result_id from hmis_lab_results_verified)) AND refunded='0'";
             
-        //     if ( isset( $_REQUEST[ 'invoice_id' ] ) and !empty( trim ( $_REQUEST[ 'invoice_id' ] ) ) and is_numeric ( $_REQUEST[ 'invoice_id' ] ) > 0 ) {
-        //         $sale_id = $_REQUEST[ 'invoice_id' ];
-        //         $sql     .= " and sale_id=$sale_id";
-        //     }
+            if ( isset( $_REQUEST[ 'invoice_id' ] ) and !empty( trim ( $_REQUEST[ 'invoice_id' ] ) ) and is_numeric ( $_REQUEST[ 'invoice_id' ] ) > 0 ) {
+                $sale_id = $_REQUEST[ 'invoice_id' ];
+                $sql     .= " and sale_id=$sale_id";
+            }
+
             
-        //     if ( isset( $_REQUEST[ 'location-id' ] ) and !empty( trim ( $_REQUEST[ 'location-id' ] ) ) and is_numeric ( $_REQUEST[ 'location-id' ] ) > 0 ) {
-        //         $location_id = $_REQUEST[ 'location-id' ];
+            if ( isset( $_REQUEST[ 'user-id' ] ) and !empty( trim ( $_REQUEST[ 'user-id' ] ) ) and is_numeric ( $_REQUEST[ 'user-id' ] ) > 0 ) {
+                $user_id = $_REQUEST[ 'user-id' ];
+                $sql     .= " and user_id=$user_id";
+            }
             
-        //         $sql    .= " and locations_id=$location_id";
-        //     }
+            if ( isset( $_REQUEST[ 'start_date' ] ) and !empty( trim ( $_REQUEST[ 'start_date' ] ) ) and isset( $_REQUEST[ 'end_date' ] ) and !empty( trim ( $_REQUEST[ 'end_date' ] ) ) ) {
+                $start_date = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'start_date' ] ) );
+                $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
+                $sql        .= " and DATE(date_added) BETWEEN '$start_date' and '$end_date'";
+            }
             
-        //     if ( isset( $_REQUEST[ 'user-id' ] ) and !empty( trim ( $_REQUEST[ 'user-id' ] ) ) and is_numeric ( $_REQUEST[ 'user-id' ] ) > 0 ) {
-        //         $user_id = $_REQUEST[ 'user-id' ];
-        //         $sql     .= " and user_id=$user_id";
-        //     }
+            if ( isset( $_GET[ 'panel-id' ] ) and !empty( trim ( $_GET[ 'panel-id' ] ) ) and $_GET[ 'panel-id' ] > 0 ) {
+                $panel_id = $_GET[ 'panel-id' ];
+                $sql      .= " and patient_id IN (Select id from hmis_patients where panel_id=$panel_id)";
+            }
             
-        //     if ( isset( $_REQUEST[ 'start_date' ] ) and !empty( trim ( $_REQUEST[ 'start_date' ] ) ) and isset( $_REQUEST[ 'end_date' ] ) and !empty( trim ( $_REQUEST[ 'end_date' ] ) ) ) {
-        //         $start_date = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'start_date' ] ) );
-        //         $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
-        //         $sql        .= " and DATE(date_added) BETWEEN '$start_date' and '$end_date'";
-        //     }
+            if ( isset( $_GET[ 'airline-id' ] ) and !empty( trim ( $_GET[ 'airline-id' ] ) ) and $_GET[ 'airline-id' ] > 0 ) {
+                $airline_id = $_GET[ 'airline-id' ];
+                $sql        .= " and airline_id=$airline_id";
+            }
             
-        //     if ( isset( $_GET[ 'panel-id' ] ) and !empty( trim ( $_GET[ 'panel-id' ] ) ) and $_GET[ 'panel-id' ] > 0 ) {
-        //         $panel_id = $_GET[ 'panel-id' ];
-        //         $sql      .= " and patient_id IN (Select id from hmis_patients where panel_id=$panel_id)";
-        //     }
+            if ( !empty( trim ( $panel_id ) ) and $panel_id > 0 ) {
+                $sql .= " and patient_id IN (Select id from hmis_patients where panel_id=$panel_id)";
+            }
             
-        //     if ( isset( $_GET[ 'airline-id' ] ) and !empty( trim ( $_GET[ 'airline-id' ] ) ) and $_GET[ 'airline-id' ] > 0 ) {
-        //         $airline_id = $_GET[ 'airline-id' ];
-        //         $sql        .= " and airline_id=$airline_id";
-        //     }
-            
-        //     if ( !empty( trim ( $panel_id ) ) and $panel_id > 0 ) {
-        //         $sql .= " and patient_id IN (Select id from hmis_patients where panel_id=$panel_id)";
-        //     }
-            
-        //     $sql   .= " order by sale_id DESC limit $limit offset $offset";
-        //     $sales = $this -> db -> query ( $sql );
-        //     return $sales -> result ();
-        // }
+            $sql   .= " order by sale_id DESC limit $limit offset $offset";
+            $sales = $this -> db -> query ( $sql );
+            return $sales -> result ();
+        }
+
+
+
+
         public function get_sale_pending_results($limit, $offset) { 
             $user_id  = get_logged_in_user_id();
             $user     = get_user($user_id);

@@ -294,3 +294,22 @@
         <!-- END SAMPLE FORM PORTLET-->
     </div>
 </div>
+
+
+<script>
+$(document).ready(function() {
+    // Listen for changes on the prefix dropdown
+    $('select[name="prefix"]').on('change', function() {
+        var selectedPrefix = $(this).val();
+        
+        // If prefix is Mrs. or Ms., select Female gender
+        if (selectedPrefix === 'Mrs.' || selectedPrefix === 'Ms.') {
+            $('select[name="gender"]').val('0').trigger('change');
+        }
+        // If prefix is Mr. or Master., select Male gender
+        else if (selectedPrefix === 'Mr.' || selectedPrefix === 'Master.') {
+            $('select[name="gender"]').val('1').trigger('change');
+        }
+    });
+});
+</script>

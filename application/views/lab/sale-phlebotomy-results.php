@@ -157,7 +157,11 @@
                                       
                                         $results     = @get_test_results ( $sale -> sale_id, $sale -> test_id );
                                         $test        = @get_test_by_id ( $sale -> test_id );
-
+                                        
+                                        // Skip radiology tests
+                                        if ($test->category === 'radiology') {
+                                            continue;
+                                        }
 
                                         $sale_info = get_lab_sale ( $sale -> sale_id );
                                         $location  = ( is_object ( $sale_info ) ) ? get_location_by_id ( $sale_info -> locations_id ) : new stdClass();
@@ -246,11 +250,11 @@
                                         <td>
 
                                      <!-- Button to Open Modal -->
-<button class="btn green btn-xs btn-block" type="button"
-        onclick="openDateModal(<?php echo $sale->id; ?>, '<?php echo $sale->report_collection_date_time; ?>')"
-        <?php echo !empty($sale->sample_taken_by_user) ? 'disabled' : ''; ?>>
-    R-Time
-</button>
+                                        <button class="btn green btn-xs btn-block" type="button"
+                                                onclick="openDateModal(<?php echo $sale->id; ?>, '<?php echo $sale->report_collection_date_time; ?>')"
+                                                <?php echo !empty($sale->sample_taken_by_user) ? 'disabled' : ''; ?>>
+                                            R-Time
+                                        </button>
 
 
 

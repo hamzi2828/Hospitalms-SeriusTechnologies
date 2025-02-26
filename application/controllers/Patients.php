@@ -234,13 +234,14 @@
                     }
                 }
                 $phone = $data['phone'];
-                if (!empty(trim($phone))) {
-                    $existing_patient_by_phone = $this->PatientModel->check_customer_exists_by_phone( $phone );
-                    if (!empty($existing_patient_by_phone)) {
-                        $this->session->set_flashdata('error', 'Error! Phone number already exists for another patient.');
-                        return redirect($_SERVER['HTTP_REFERER']);
-                    }
-                }
+                
+                // if (!empty(trim($phone))) {
+                //     $existing_patient_by_phone = $this->PatientModel->check_customer_exists_by_phone( $phone );
+                //     if (!empty($existing_patient_by_phone)) {
+                //         $this->session->set_flashdata('error', 'Error! Phone number already exists for another patient.');
+                //         return redirect($_SERVER['HTTP_REFERER']);
+                //     }
+                // }
 
                 $info = array (
                     'user_id'                   => get_logged_in_user_id (),

@@ -4,7 +4,7 @@
         <?php if ( validation_errors () != false ) { ?>
             <div class="alert alert-danger validation-errors">
                 <?php echo validation_errors (); ?>
-            </div>
+            </div> 
         <?php } ?>
         <?php if ( $this -> session -> flashdata ( 'error' ) ) : ?>
             <div class="alert alert-danger">
@@ -23,7 +23,7 @@
                     <input type="text" name="invoice_id" class="form-control" placeholder="Invoice ID"
                            autofocus="autofocus" value="<?php echo @$_REQUEST[ 'invoice_id' ] ?>">
                 </div>
-                <div class="form-group col-lg-2">
+                <!-- <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Daily Sale ID</label>
                     <input type="text" name="daily_sale_id" class="form-control" placeholder="Daily Sale ID"
                            value="<?php echo @$_REQUEST[ 'daily_sale_id' ] ?>">
@@ -49,7 +49,7 @@
                             }
                         ?>
                     </select>
-                </div>
+                </div> -->
 
                 <div class="form-group col-lg-2" style="position: relative">
                     <label for="exampleInputEmail1">Name</label>
@@ -61,7 +61,7 @@
                 <div class="form-group col-lg-2" style="position: relative">
                     <label for="exampleInputEmail1">Mobile No</label>
                     <input type="text" name="patient-mobile" class="form-control"
-                           placeholder="Enter <?php echo $this -> lang -> line ( 'PATIENT_PHONE' ); ?> no"
+                           placeholder="Enter <?php echo $this -> lang -> line ( 'PATIENT_PHONE' ); ?> "
                            autofocus="autofocus" value="<?php echo @$_REQUEST[ 'patient-mobile' ] ?>">
                 </div>
                 
@@ -300,6 +300,15 @@
                                                         Add Airline Details
                                                     </a>
                                                 <?php endif; ?>
+
+                                                <div style="text-align: center; margin-top: 10px;">
+                                                    <a href="https://api.whatsapp.com/send/?phone=<?php echo $patient->mobile ?>" target="_blank">
+                                                        <img class="img-responsive" src="<?php echo base_url ('/assets/img/waap.png') ?>" style="max-height: 30px; max-width: 30px; display: inline-block;">
+                                                    </a>
+                                                    <br>
+                                                    <!-- <img class="img-responsive" src="<?php echo base_url ('/assets/img/alert.gif') ?>" style="max-height: 30px; max-width: 30px; display: inline-block; margin-top: 10px;"> -->
+                                                    
+                                                </div>
                                             </td>
                                             <td>
                                                 <?php
@@ -425,6 +434,10 @@
                                                     <a href="javascript:void(0)"
                                                        class="btn yellow btn-block btn-xs">Delivered</a>
                                                 <?php endif; ?>
+
+
+                                                
+
                                             
                                             </td>
                                         </tr>

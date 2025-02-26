@@ -3069,6 +3069,7 @@
                     'description'      => $description,
                     'locations_id'   => get_logged_in_user_locations_id(),
                 );
+
                 $this -> AccountModel -> add_ledger ( $ledger );
                 
                 $cashAccountHead = cash_from_lab_services;
@@ -3104,6 +3105,7 @@
                     'amount'          => $receiving,
                     'payment_method'  => $this -> input -> post ( 'payment-method' ),
                     'transaction_no'  => $this -> input -> post ( 'transaction-no' ),
+                    'created_at'          => current_date_time (),
                 );
                 $this -> LabModel -> add_lab_receiving ( $info );
                 
@@ -3615,10 +3617,10 @@
             
             $data[ 'panels' ]   = $this -> PanelModel -> get_panels ();
             $data[ 'airlines' ] = $this -> AirlineModel -> get_airlines ();
-            $data[ 'sales' ]    = $this -> LabModel -> get_sale_pending_results ( $config[ "per_page" ], $offset );
+            $data[ 'sales' ]    = $this -> LabModel -> get_sale_pending_results_test_old ( $config[ "per_page" ], $offset );
             $str_links          = $this -> pagination -> create_links ();
             $data[ 'locations' ]    = $this -> LocationModel -> get_locations ();
-            $data[ "links" ]    = explode ( '&nbsp;', $str_links );
+            $data[ "links" ]    = explode ( '&nbsp;', $str_links ); 
             $this -> load -> view ( '/lab/sale-pending-results', $data );
             $this -> footer ();
         }
@@ -3704,7 +3706,7 @@
             $title = site_name . ' - Test Status';
             $this -> header ( $title );
             $this -> sidebar ();
-            
+             
             /**********PAGINATION***********/
             $limit                          = 100;
             $config                         = array ();

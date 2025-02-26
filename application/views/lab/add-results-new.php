@@ -72,6 +72,9 @@
                                     foreach ( $sales as $sale ) {
                                         $results   = @get_test_results ( $_REQUEST[ 'invoice_id' ], $sale -> test_id );
                                         $test      = @get_test_by_id ( $sale -> test_id );
+                                        if ($test->category === 'radiology') {
+                                            continue;
+                                        }
                                         $isParent  = check_if_test_has_sub_tests ( $sale -> test_id );
                                         $parent_id = $test -> type == 'test' ? 0 : $sale -> test_id;
                                         $saleInfo  = get_lab_sale ( $_REQUEST[ 'invoice_id' ] );
