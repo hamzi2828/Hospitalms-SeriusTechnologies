@@ -138,7 +138,7 @@ mpdf-->
         </td>
         <td width="50%" align="right" style="font-size: 8pt">
             <?php $barcodeValue = online_report_url . 'qr-login/?parameters=' . encode ( $report -> id ); ?>
-            <?php include_once 'bar-code.php'; ?> <br/>
+            <img src="https://quickchart.io/qr?text=<?php echo $barcodeValue ?>&size=40" style="height: 70px;" /> <br />
             <strong> Sample Date/Time: </strong> <?php echo @date_setter ( $lab -> date_sale ) ?><br>
             <strong> Report Date/Time: </strong> <?php echo date_setter ( $report -> date_added ) ?>
         </td>
