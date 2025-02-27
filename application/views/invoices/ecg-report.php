@@ -59,11 +59,11 @@
 			width: 100%;
 			display: block;
 			float: left;
-			margin-top: 30px;
+			margin-top: 6px;
 		}
 		.report h1 {
 			font-weight: 800 !important;
-			margin-top: 10px;
+			margin-top: 5px;
 			padding-bottom: 10px;
 			border-bottom: 1px solid #000000;
 		}

@@ -1396,9 +1396,11 @@
          */
         
         public function get_sales_by_sale_id ( $panelSales = false, $limit, $offset ) {
+            $location_id= 0;
             $user_id  = get_logged_in_user_id ();
             $user     = get_user ( $user_id );
             $panel_id = $user -> panel_id;
+            $location_id = $user->locations_id;
             $all_user_invoices = (get_user_access($user_id) && in_array('all_user_invoices', explode(',', get_user_access($user_id)->access))) ? true : false;
 
             $sql = "Select sale_id, patient_id, GROUP_CONCAT(test_id) as tests, SUM(price) as price, date_added, remarks, refunded from hmis_test_sales where (parent_id='0' OR parent_id < 1 or parent_id IS NULL)";
@@ -1409,8 +1411,7 @@
             
 
             if (!$all_user_invoices) {
-                $sql .= " AND user_id = $user_id";
-
+                $sql .= " AND user_id IN (SELECT id FROM hmis_users WHERE locations_id = $location_id)";
             }
         
             
@@ -2054,6 +2055,7 @@
 
             $user_id  = get_logged_in_user_id ();
             $user     = get_user ( $user_id );
+            $location_id = $user->locations_id;
             $all_user_invoices = (get_user_access($user_id) && in_array('all_user_invoices', explode(',', get_user_access($user_id)->access))) ? true : false;
             
             $sql = "Select sale_id, patient_id, GROUP_CONCAT(test_id) as tests, SUM(price) as price, date_added, remarks, refunded from hmis_test_sales where (parent_id='0' OR parent_id < 1 or parent_id IS NULL) AND patient_id IN (Select id from hmis_patients where panel_id IS NULL OR panel_id < 1)";
@@ -2063,9 +2065,9 @@
             }
 
             if (!$all_user_invoices) {
-                $sql .= " AND user_id = $user_id";
-
+                $sql .= " AND user_id IN (SELECT id FROM hmis_users WHERE locations_id = $location_id)";
             }
+        
             if ( isset( $_REQUEST[ 'patient_id' ] ) and is_numeric ( $_REQUEST[ 'patient_id' ] ) > 0 and !empty( trim ( $_REQUEST[ 'patient_id' ] ) ) ) {
                 $patient_id = $_REQUEST[ 'patient_id' ];
                 $sql        .= " and patient_id=$patient_id";
@@ -2504,6 +2506,8 @@
             $user_id  = get_logged_in_user_id ();
             $user     = get_user ( $user_id );
             $panel_id = $user -> panel_id;
+            $location_id = $user->locations_id;
+            $all_user_invoices = (get_user_access($user_id) && in_array('all_user_invoices', explode(',', get_user_access($user_id)->access))) ? true : false;
             
             $sql = "Select * from hmis_test_sales where (parent_id IS NULL OR parent_id='' OR parent_id=0) and (sale_id, test_id) NOT IN (Select sale_id, test_id from hmis_test_results where id IN (Select result_id from hmis_lab_results_verified)) AND refunded='0'";
             
@@ -2512,6 +2516,9 @@
                 $sql     .= " and sale_id=$sale_id";
             }
 
+            if (!$all_user_invoices) {
+                $sql .= " AND user_id IN (SELECT id FROM hmis_users WHERE locations_id = $location_id)";
+            }
             
             if ( isset( $_REQUEST[ 'user-id' ] ) and !empty( trim ( $_REQUEST[ 'user-id' ] ) ) and is_numeric ( $_REQUEST[ 'user-id' ] ) > 0 ) {
                 $user_id = $_REQUEST[ 'user-id' ];
@@ -2635,12 +2642,18 @@
             $user_id  = get_logged_in_user_id ();
             $user     = get_user ( $user_id );
             $panel_id = $user -> panel_id;
+            $location_id = $user->locations_id;
+            $all_user_invoices = (get_user_access($user_id) && in_array('all_user_invoices', explode(',', get_user_access($user_id)->access))) ? true : false;
             
             $sql = "Select * from hmis_test_sales where (parent_id IS NULL OR parent_id='' OR parent_id=0) and (sale_id, test_id) IN (Select sale_id, test_id from hmis_test_results where id IN (Select result_id from hmis_lab_results_verified))";
             
             if ( isset( $_REQUEST[ 'invoice_id' ] ) and !empty( trim ( $_REQUEST[ 'invoice_id' ] ) ) and is_numeric ( $_REQUEST[ 'invoice_id' ] ) > 0 ) {
                 $sale_id = $_REQUEST[ 'invoice_id' ];
                 $sql     .= " and sale_id=$sale_id";
+            }
+            
+            if (!$all_user_invoices) {
+                $sql .= " AND user_id IN (SELECT id FROM hmis_users WHERE locations_id = $location_id)";
             }
             
             if ( isset( $_REQUEST[ 'start_date' ] ) and !empty( trim ( $_REQUEST[ 'start_date' ] ) ) and isset( $_REQUEST[ 'end_date' ] ) and !empty( trim ( $_REQUEST[ 'end_date' ] ) ) ) {

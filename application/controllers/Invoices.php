@@ -6291,7 +6291,7 @@
             $mpdf = new \Mpdf\Mpdf( [
                                         'margin_left'   => 5,
                                         'margin_right'  => 5,
-                                        'margin_top'    => 32,
+                                        'margin_top'    => 35,
                                         'margin_bottom' => 25,
                                         'margin_header' => 10,
                                         'margin_footer' => 10

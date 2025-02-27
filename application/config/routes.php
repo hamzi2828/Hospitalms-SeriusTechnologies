@@ -564,7 +564,7 @@
     $route[ 'radiology/echo/edit-echo-report' ]                       = 'Radiology/edit_echo_report';
     $route[ 'radiology/echo/echo-reports' ]                           = 'Radiology/echo_reports';
     $route[ 'radiology/echo/delete-echo-report/(:any)' ]              = 'Radiology/delete_echo_report/$1';
-    $route[ 'invoices/echo-report' ]                                  = 'Invoices/echo_report';
+    $route[ 'invoices/echo-report' ]                                  = 'Invoices/echo_report'; 
     $route[ 'radiology/ecg/add-ecg-report' ]                          = 'Radiology/add_ecg_report';
     $route[ 'radiology/ecg/search-ecg-report' ]                       = 'Radiology/search_ecg_report';
     $route[ 'radiology/ecg/edit-ecg-report' ]                         = 'Radiology/edit_ecg_report';

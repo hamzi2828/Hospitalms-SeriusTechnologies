@@ -3762,7 +3762,7 @@
             $config[ "base_url" ]           = base_url ( 'lab/all-added-test-results' );
             $total_row                      = $this -> LabModel -> count_all_added_test_results ();
             $config[ "total_rows" ]         = $total_row;
-            $config[ "per_page" ]           = $limit;
+            $config[ "per_page" ]           = $limit; 
             $config[ 'use_page_numbers' ]   = false;
             $config[ 'page_query_string' ]  = TRUE;
             $config[ 'reuse_query_string' ] = TRUE;
@@ -3791,7 +3791,7 @@
             $str_links          = $this -> pagination -> create_links ();
             $data[ 'locations' ]    = $this -> LocationModel -> get_locations ();
             $data[ "links" ]    = explode ( '&nbsp;', $str_links );
-            $this -> load -> view ( '/lab/all-added-test-results', $data );
+        $this -> load -> view ( '/lab/all-added-test-results', $data );
             $this -> footer ();
         }
         

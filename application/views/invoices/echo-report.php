@@ -59,7 +59,7 @@
 			width: 100%;
 			display: block;
 			float: left;
-			margin-top: 30px;
+			margin-top: 6;
 		}
 		.report h1 {
 			font-weight: 800 !important;
