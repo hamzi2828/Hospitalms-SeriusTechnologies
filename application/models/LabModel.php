@@ -64,6 +64,11 @@
             $this -> db -> insert ( 'test_results', $data );
             return $this -> db -> insert_id ();
         }
+
+        public function do_add_test_results_logs ( $data ) {
+            $this -> db -> insert ( 'test_results_logs', $data );
+            return $this -> db -> insert_id ();
+        }
         
         /**
          * -------------------------
@@ -88,6 +93,10 @@
         
         public function do_lab_result_verify ( $data ) {
             $this -> db -> insert ( 'lab_results_verified', $data );
+        }
+
+        public function do_lab_result_verify_logs ( $data ) {
+            $this -> db -> insert ( 'lab_results_verified_logs', $data );
         }
         
         /**

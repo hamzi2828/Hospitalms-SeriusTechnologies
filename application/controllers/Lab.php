@@ -2080,10 +2080,12 @@
                         'detected'       => $covid_detected[ $key ],
                         'batch_no'       => $batch_no[ $key ],
                         'date_added'     => current_date_time (),
-                    );
+                    ); 
                     if ( $isTestChild and $last_insert_id > 0 )
                         $info[ 'result_id' ] = $last_insert_id;
                     $last_id = $this -> LabModel -> do_add_test_results ( $info );
+                    $this -> LabModel -> do_add_test_results_logs ( $info );
+
                     if ( $isTestParent )
                         $last_insert_id = $last_id;
                     
@@ -2163,6 +2165,7 @@
                     'created_at' => date ( 'Y-m-d H:i:s' )
                 );
                 $this -> LabModel -> do_lab_result_verify ( $info );
+                $this -> LabModel -> do_lab_result_verify_logs ( $info );
                 
                 $saleInfo = $this -> LabModel -> get_lab_sale ( $sale_id );
                 if ( $saleInfo -> added_from == 'sheet' ) {
