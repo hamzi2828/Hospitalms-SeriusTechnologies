@@ -2516,7 +2516,7 @@
             $user     = get_user ( $user_id );
             $panel_id = $user -> panel_id;
             $location_id = $user->locations_id;
-            $all_user_invoices = (get_user_access($user_id) && in_array('all_user_invoices', explode(',', get_user_access($user_id)->access))) ? true : false;
+            $all_user_invoices = (get_user_access($user_id) && in_array('all_user_invoices_pending_test_results', explode(',', get_user_access($user_id)->access))) ? true : false;
             
             $sql = "Select * from hmis_test_sales where (parent_id IS NULL OR parent_id='' OR parent_id=0) and (sale_id, test_id) NOT IN (Select sale_id, test_id from hmis_test_results where id IN (Select result_id from hmis_lab_results_verified)) AND refunded='0'";
             
@@ -2566,6 +2566,8 @@
             $user_id  = get_logged_in_user_id();
             $user     = get_user($user_id);
             $panel_id = $user->panel_id;
+            $location_id = $user->locations_id;
+            $all_user_invoices = (get_user_access($user_id) && in_array('all_user_invoices_phlebotomy', explode(',', get_user_access($user_id)->access))) ? true : false;
         
             // Base Query to Fetch Pending Results with Correct Joins
             $sql = "SELECT ts.*, 
@@ -2595,6 +2597,13 @@
                 }
             }
         
+            // ✅ Filter by Panel ID
+            if (!$all_user_invoices) {
+                $sql .= " AND ts.user_id IN (SELECT id FROM hmis_users WHERE locations_id = ?)";
+                $params[] = $location_id; // Ensure integer type
+            }
+        
+         
             // ✅ Filter by Invoice ID
             if (!empty($_REQUEST['invoice_id']) && is_numeric($_REQUEST['invoice_id'])) {
                 $sql .= " AND ts.sale_id = ?";
@@ -2652,7 +2661,7 @@
             $user     = get_user ( $user_id );
             $panel_id = $user -> panel_id;
             $location_id = $user->locations_id;
-            $all_user_invoices = (get_user_access($user_id) && in_array('all_user_invoices', explode(',', get_user_access($user_id)->access))) ? true : false;
+            $all_user_invoices = (get_user_access($user_id) && in_array('all_user_invoices_all_added_test_results', explode(',', get_user_access($user_id)->access))) ? true : false;
             
             $sql = "Select * from hmis_test_sales where (parent_id IS NULL OR parent_id='' OR parent_id=0) and (sale_id, test_id) IN (Select sale_id, test_id from hmis_test_results where id IN (Select result_id from hmis_lab_results_verified))";
             

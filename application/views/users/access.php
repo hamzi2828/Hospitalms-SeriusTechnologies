@@ -1066,6 +1066,10 @@
                 <input type="checkbox" class="checkbox" name="access[]"
                        value="lab_add_pending_results_button" <?php if ( !empty( $access ) and in_array ( 'lab_add_pending_results_button', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>> Add Pending Results Button
+
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="all_user_invoices_pending_test_results" <?php if ( !empty( $access ) and in_array ( 'all_user_invoices_pending_test_results', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Show All (Locations Data)
             </td>
         </tr>
         <tr>
@@ -1088,6 +1092,10 @@
                 <input type="checkbox" class="checkbox" name="access[]"
                        value="lab-add-added-results-add-airline-details-btn" <?php if ( !empty( $access ) and in_array ( 'lab-add-added-results-add-airline-details-btn', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>> Add Airline Details Button
+
+            <input type="checkbox" class="checkbox" name="access[]"
+                       value="all_user_invoices_all_added_test_results" <?php if ( !empty( $access ) and in_array ( 'all_user_invoices_all_added_test_results', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Show All (Locations Data)
             </td>
         </tr>
         <tr>
@@ -1178,6 +1186,9 @@
                 <input type="checkbox" class="checkbox" name="access[]"
                        value="Phlebotomy_clear_sample" <?php if ( !empty( $access ) and in_array ( 'Phlebotomy_clear_sample', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>> Clear 
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="all_user_invoices_phlebotomy" <?php if ( !empty( $access ) and in_array ( 'all_user_invoices_phlebotomy', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Show All (Locations Data) 
             </td>
         </tr>
 
