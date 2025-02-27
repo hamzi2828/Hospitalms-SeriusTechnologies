@@ -92,7 +92,7 @@
                                 <label for="template-id">Report Title</label>
                                 <select name="template-id" id="template-id" class="form-control select2me"
                                         required="required"
-                                        onchange="get_xray_template(this.value)">
+                                        onchange="get_echo_template(this.value)">
                                     <option value="">Select</option>
                                     <?php
                                         if ( count ( $templates ) > 0 ) {

@@ -114,6 +114,11 @@
                                             <a type="button" class="btn purple"
                                                href="<?php echo base_url ( '/invoices/ecg-report?report-id=' . $report -> id ) ?>"
                                                target="_blank">Print</a>
+
+                                               <a type="button" class="btn purple"
+                                               href="<?php echo base_url ( '/invoices/ecg-report?logo=true&report-id=' . $report -> id ) ?>"
+                                               target="_blank">L-Print</a>
+
                                         <?php endif; ?>
                                         
                                         <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'edit_ecg_report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>

@@ -149,7 +149,6 @@ mpdf-->
         <strong><?php echo ucwords ( @$report -> report_title ) ?></strong>
     </h2>
 </div>
-<br>
 <table width="100%" border="0">
     <tbody>
     <tr>

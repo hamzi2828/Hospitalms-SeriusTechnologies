@@ -884,7 +884,7 @@
             
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_add_echo_report' )
                 $this -> do_add_echo_report ( $_POST );
-            
+             
             $title = site_name . ' - Add ECHO Reports';
             $this -> header ( $title );
             $this -> sidebar ();
@@ -914,13 +914,16 @@
                 'date_added'   => current_date_time ()
             );
             $id = $this -> RadiologyModel -> add_echo_report ( $info );
+            
+            $print = '<a href="' . base_url ( '/invoices/echo-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
-                $this -> session -> set_flashdata ( 'response', 'Success! ECHO report added.' );
+                $this -> session -> set_flashdata ( 'response', 'Success! ECHO report added.' . $print );
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
             }
-            return redirect ( '/invoices/echo-report?report-id=' . $id );
+
+
         }
         
         /**
@@ -1093,13 +1096,16 @@
                 'date_added'   => current_date_time ()
             );
             $id = $this -> RadiologyModel -> add_ecg_report ( $info );
+            
+            $print = '<a href="' . base_url ( '/invoices/ecg-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
-                $this -> session -> set_flashdata ( 'response', 'Success! ECG report added.' );
+                $this -> session -> set_flashdata ( 'response', 'Success! ECG report added.' . $print );
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
             }
-            return redirect ( '/invoices/ecg-report?report-id=' . $id );
+
+
         }
         
         /**

@@ -5409,6 +5409,55 @@ function get_xray_template ( id ) {
     }
 }
 
+
+
+    function get_echo_template ( id ) {
+        if ( id > 0 ) {
+            var csrf_token = jQuery ( '#csrf_token' ).val ();
+            request        = jQuery.ajax ( {
+                                            url       : path + 'templates/get_echo_template_by_id',
+                                            type      : 'POST',
+                                            data      : {
+                                                id        : id,
+                                                hmis_token: csrf_token,
+                                            },
+                                            beforeSend: function () {
+                                                jQuery ( '.loader' ).show ();
+                                            },
+                                            success   : function ( response ) {
+                                                let obj = JSON.parse ( response );
+                                                CKEDITOR.instances[ 'study' ].setData ( obj.study );
+                                                CKEDITOR.instances[ 'conclusion' ].setData ( obj.conclusion );
+                                                jQuery ( '.loader' ).hide ();
+                                            }
+                                        } )
+        }
+    }
+
+
+    function get_ecg_template ( id ) {
+        if ( id > 0 ) {
+            var csrf_token = jQuery ( '#csrf_token' ).val ();
+            request        = jQuery.ajax ( {
+                                            url       : path + 'templates/get_ecg_template_by_id',
+                                            type      : 'POST',
+                                            data      : {
+                                                id        : id,
+                                                hmis_token: csrf_token,
+                                            },
+                                            beforeSend: function () {
+                                                jQuery ( '.loader' ).show ();
+                                            },
+                                            success   : function ( response ) {
+                                                let obj = JSON.parse ( response );
+                                                CKEDITOR.instances[ 'study' ].setData ( obj.study );
+                                                CKEDITOR.instances[ 'conclusion' ].setData ( obj.conclusion );
+                                                jQuery ( '.loader' ).hide ();
+                                            }
+                                        } )
+        }
+    }
+
 /**
  * -------------
  * get more regents

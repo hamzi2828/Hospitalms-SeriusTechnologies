@@ -82,56 +82,65 @@
 </head>
 <body>
 <!--mpdf
-<htmlpageheader name="firstpage">
-<?php $patient = get_patient(@$report -> patient_id) ?>
-<table width="100%">
-	<tr>
-		<td width="50%" style="color:#000; ">
-			<img src="<?php echo base_url('/assets/img/logo-new.jpeg') ?>" width="250"> <br><br><br>
-			<?php echo hospital_address ?><br />
-			<span style="font-family:dejavusanscondensed;">&#9742;</span>
-			<?php echo hospital_phone ?> <br />
-		</td>
-		<td width="50%" style="text-align: right;">
-			<span style="font-weight: bold; font-size: 14pt;"><?php echo site_name ?></span><br /><br /><br />
-			<strong> EMR No. </strong> <?php echo @$patient -> id ?><br>
-			<strong> Name: </strong> <?php echo @$patient -> name ?><br>
-			<strong> Age: </strong> <?php echo @$patient -> age ?><br>
-			<strong> Gender: </strong> <?php echo (@$patient -> gender == 1) ? 'Male' : 'Female' ?><br>
-			<?php if(!empty(trim(@$report -> order_by))) : $doctor = get_doctor(@$report -> order_by) ?>
-			<strong> Ordered By: </strong> <?php echo @$doctor -> name ?><br>
-			<?php endif; ?>
-			<strong> Transcribed By: </strong> <?php echo get_user(@$report -> user_id) -> name ?><br>
-			<strong> Date: </strong> <?php echo @$report -> date_added ?><br><br>
-			<h1><strong><?php echo @$report -> id ?></strong></h1><br><br>
-		</td>
-	</tr>
-</table>
+
+<htmlpageheader name="myheader">
+<?php if ( $this -> input -> get ( 'logo' ) === 'true' ) require 'pdf-header.php'; ?>
 </htmlpageheader>
-<htmlpageheader name="otherpages" style="display:none"></htmlpageheader>
 
 <htmlpagefooter name="myfooter">
-	<div style="width: 100%; float: left; display:block; text-align: left;">
+<div style="width: 100%; float: left; display:block; font-size: 7pt; text-align: left;">
+        <span style="font-size: 8pt;">This is a computer generated report, therefore signatures are not required.</span>
+        <br/>
 		<strong> Reported By:
 		<?php
-            $reportedBy = get_doctor ( @$report -> doctor_id );
-            $specialization = get_specialization_by_id ( $reportedBy -> specialization_id );
-            echo get_doctor(@$report -> doctor_id) -> name . ' (' . $specialization -> title . ') - ' . $reportedBy -> qualification;
-        ?>  </strong>
+    $patient        = get_patient ( @$report -> patient_id );
+    $reportedBy     = get_doctor ( @$report -> doctor_id );
+    $specialization = get_specialization_by_id ( $reportedBy -> specialization_id );
+    echo get_doctor ( @$report -> doctor_id ) -> name . ' (' . $specialization -> title . ') - ' . $reportedBy -> qualification;
+?>  </strong>
 	</div>
-	<div style="width: 100%; float: left; display:block; text-align: center;">
-		This is a Computer Generated Report. No need of signature or stamp.
-	</div>
-	<div style="border-top: 1px solid #000000; font-size: 9pt; text-align: center; padding-top: 3mm; ">
-		Page {PAGENO} of {nb}
-	</div>
+    <?php if ( $this -> input -> get ( 'logo' ) === 'true' ) require 'pdf-footer.php'; ?>
 </htmlpagefooter>
 
-<sethtmlpageheader name="firstpage" value="on" show-this-page="1" />
-<sethtmlpageheader name="otherpages" value="on" />
+<sethtmlpageheader name="myheader" value="on" show-this-page="1" />
 <sethtmlpagefooter name="myfooter" value="on" />
 mpdf-->
-<br/>
+<table width="100%">
+    <tr>
+        <td width="50%" align="left" style="color:#000; ">
+            <span style="font-size: 8pt;"><strong>Report ID:</strong> <?php echo @$report -> id ?></span><br>
+            <span style="font-size: 8pt;"><strong><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>:</strong> <?php echo @$report -> sale_id ?></span><br>
+            <span style="font-size: 8pt;"><strong> MR No: </strong> <?php echo @$patient -> id ?></span><br>
+            <span style="font-size: 8pt;"><strong> Name: </strong> <?php echo @get_patient_name ( 0, $patient ) ?></span><br>
+            <span style="font-size: 8pt;"><strong> Gender: </strong> <?php echo ( @$patient -> gender == 1 ) ? 'Male' : 'Female' ?></span><br>
+            <span style="font-size: 8pt;">
+                <strong> Age: </strong>
+                <?php
+                    echo @$patient -> age . ' ' . ucwords ( $patient -> age_year_month );
+                ?>
+            </span><br>
+            <?php if ( !empty( trim ( $patient -> cnic ) ) ) : ?>
+                <span style="font-size: 8pt;"><strong> CNIC: </strong> <?php echo @$patient -> cnic ?></span><br>
+            <?php endif; ?>
+            <?php
+                if ( $report -> order_by > 0 ) :
+                    $orderBy = get_doctor ( $report -> order_by );
+                    $specialization = get_specialization_by_id ( $orderBy -> specialization_id );;
+                    ?>
+                    <span style="font-size: 8pt;">
+                        <strong> Referred By: </strong>
+                        <?php echo $orderBy -> name; ?>
+                    </span><br> 
+                <?php endif; ?>
+        </td>
+        <td width="50%" align="right" style="font-size: 8pt">
+            <?php $barcodeValue = online_report_url . 'qr-login/?parameters=' . encode ( $report -> id ); ?>
+            <img src="https://quickchart.io/qr?text=<?php echo $barcodeValue ?>&size=40" style="height: 70px;" /> <br />
+            <strong> Sample Date/Time: </strong> <?php echo @date_setter ( $lab -> date_sale ) ?><br>
+            <strong> Report Date/Time: </strong> <?php echo date_setter ( $report -> date_added ) ?>
+        </td>
+    </tr>
+</table>
 <div class="report">
     <h1 style="text-align: center">
         <strong><?php echo ucwords(@$report -> report_title) ?></strong>

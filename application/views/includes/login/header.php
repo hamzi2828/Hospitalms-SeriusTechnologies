@@ -54,6 +54,6 @@
 <body class="login" style="background: url(<?php echo $backgroundImage ?>); background-size: cover">
 <!-- BEGIN LOGO -->
 <div class="logo" style="margin-top: 25px;">
-    <img src="<?php echo $logoImage ?>" alt="" style="width: 10%;"/>
+    <img src="<?php echo $logoImage ?>" alt="" style="width: 15%;"/>
 </div>
 <!-- END LOGO -->

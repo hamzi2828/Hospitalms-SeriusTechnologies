@@ -78,32 +78,38 @@
                                 ?>
                             </select>
                         </div>
-                        <div class="form-group col-lg-12">
-                            <label for="exampleInputEmail1">Report Title</label>
-                            <select name="template-id" class="form-control select2me" required="required"
-                                    onchange="get_echo_template(this.value)">
-                                <option value="">Select</option>
-                                <?php
-                                    if ( count ( $templates ) > 0 ) {
-                                        foreach ( $templates as $template ) {
-                                            ?>
-                                            <option value="<?php echo $template -> id ?>">
-                                                <?php echo $template -> title ?>
-                                            </option>
-                                            <?php
+                        <div class="form-group col-lg-3">
+                                <label for="template-id">Report Title</label>
+                                <select name="template-id" id="template-id" class="form-control select2me"
+                                        required="required"
+                                        onchange="get_echo_template(this.value)">
+                                    <option value="">Select</option>
+                                    <?php
+                                        if ( count ( $templates ) > 0 ) {
+                                            foreach ( $templates as $template ) {
+                                                ?>
+                                                <option value="<?php echo $template -> id ?>">
+                                                    <?php echo $template -> title ?>
+                                                </option>
+                                                <?php
+                                            }
                                         }
-                                    }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="form-group col-lg-12">
-                            <label for="exampleInputEmail1">Study</label>
-                            <textarea rows="5" class="form-control wysihtml5" id="study" name="study"></textarea>
-                        </div>
-                        <div class="form-group col-lg-12">
-                            <label for="exampleInputEmail1">Conclusion</label>
-                            <textarea rows="5" class="form-control wysihtml5" id="conclusion"
-                                      name="conclusion"></textarea>
+                                    ?>
+                                </select>
+                            </div>
+                        
+                          
+                            <div class="form-group col-lg-12">
+                                <label for="study">Study</label>
+                                <textarea rows="5" class="form-control ckeditor" id="study" name="study"></textarea>
+                            </div>
+
+                            
+                            <div class="form-group col-lg-12">
+                                <label for="conclusion">Conclusion</label>
+                                <textarea rows="5" class="form-control ckeditor" id="conclusion"
+                                          name="conclusion"></textarea>
+                            </div>
                         </div>
                     </div>
                     <div class="form-actions">
@@ -120,3 +126,5 @@
         height: 400px !important;
     }
 </style>
+
+
