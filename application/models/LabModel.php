@@ -2268,6 +2268,13 @@
             $data = $this -> db -> get_where ( 'online_test_invoice', array ( 'sale_id' => $sale_id ) );
             return $data -> row ();
         }
+
+        public function online_test_invoice_check_password (  ) {
+            $sale_id = $_POST['sale_id'];
+            $password = $_POST['password'];
+            $data = $this -> db -> get_where ( 'online_test_invoice', array ( 'sale_id' => $sale_id, 'password' => $password ) );
+            return $data -> row ();
+        }
         
         /**
          * -------------------------
@@ -2719,6 +2726,16 @@
             return $sales -> result ();
         }
         
+
+
+        public function all_added_test_results_for_online (  $sale_id ) {            
+            $sql = "Select * from hmis_test_sales where (parent_id IS NULL OR parent_id='' OR parent_id=0) and (sale_id, test_id) IN (Select sale_id, test_id from hmis_test_results where id IN (Select result_id from hmis_lab_results_verified))";
+            $sql     .= " and sale_id=$sale_id";
+            $sql .= " order by sale_id DESC";
+            $sales = $this -> db -> query ( $sql );
+            return $sales -> result ();
+        }
+
         /**
          * -------------------------
          * @return mixed

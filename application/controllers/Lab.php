@@ -3794,7 +3794,7 @@
             $str_links          = $this -> pagination -> create_links ();
             $data[ 'locations' ]    = $this -> LocationModel -> get_locations ();
             $data[ "links" ]    = explode ( '&nbsp;', $str_links );
-        $this -> load -> view ( '/lab/all-added-test-results', $data );
+              $this -> load -> view ( '/lab/all-added-test-results', $data );
             $this -> footer ();
         }
         

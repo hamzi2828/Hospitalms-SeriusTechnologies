@@ -3,6 +3,8 @@
     
     $route[ 'default_controller' ]                                    = 'Login/index';
     $route[ 'invoices/vaccination-report-barcode' ]                   = 'Test/vaccination_report';
+    $route[ 'onlinereports' ]                                         = 'OnlineInvoices/index';
+    $route[ 'invoices/get/online/Reports' ]                           = 'OnlineInvoices/all_added_test_results';
     $route[ 'register' ]                                              = 'Login/register';
     $route[ 'forget-password' ]                                       = 'Login/forget_password';
     $route[ 'activate' ]                                              = 'Login/activate_account';

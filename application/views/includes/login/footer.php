@@ -30,7 +30,13 @@
     jQuery(document).ready(function() {
         App.init();
     });
+    jQuery ( '#accepted-terms' ).on ( 'click', function ( e ) {
+        jQuery ( '.popup' ).hide ();
+    } )
 </script>
+
+
+
 <!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->
