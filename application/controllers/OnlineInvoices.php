@@ -92,4 +92,89 @@ class OnlineInvoices extends CI_Controller {
     }
 
 
+
+    public function print_lab_single_invoice_lab () {
+
+        if ( isset( $_SERVER[ 'HTTPS' ] ) && $_SERVER[ 'HTTPS' ] === 'on' )
+            $link = "https";
+        else $link = "http";
+
+        // Here append the common URL characters.
+        $link .= "://";
+
+        // Append the host(domain name, ip) to the URL.
+        $link .= $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
+
+        if ( strpos ( $link, ',qrcode=true' ) !== false ) {
+            return redirect ( str_replace ( ',', '&', str_replace ( ',qrcode=true', '', $link ) ) );
+        }
+
+        $id      = $this -> input -> get ( 'id', true );
+        $sale_id = $this -> input -> get ( 'sale-id', true );
+        if ( empty( trim ( $sale_id ) ) or !is_numeric ( $sale_id ) or $sale_id < 1 or empty( trim ( $id ) ) or !is_numeric ( $id ) or $id < 1 )
+            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+
+        $data[ 'sale_id' ]               = $sale_id;
+        $data[ 'patient_id' ]            = get_patient_id_by_sale_id ( $sale_id );
+        $data[ 'patient' ]               = get_patient ( $data[ 'patient_id' ] );
+        $data[ 'user' ]                  = get_user ( get_logged_in_user_id () );
+        $data[ 'sale' ]                  = $this -> LabModel -> get_lab_sale ( $sale_id );
+        $data[ 'tests' ]                 = $this -> LabModel -> get_lab_results_by_sale_id_result_id ( $sale_id, $id );
+        $data[ 'previous_test_results' ] = get_previous_test_results ( $sale_id, @$_REQUEST[ 'parent-id' ] );
+        $data[ 'remarks' ]               = $this -> LabModel -> get_test_remarks ( $sale_id, @$_REQUEST[ 'parent-id' ] );
+        $data[ 'airline' ]               = $this -> LabModel -> get_airline_details ( $sale_id );
+        $data[ 'online_report_info' ]    = $this -> LabModel -> online_test_invoice ( $sale_id );
+        $data[ 'test_result_image' ]     = $this -> LabModel -> get_test_result_image ( $sale_id, $_REQUEST[ 'parent-id' ] );
+        $html_content                    = $this -> load -> view ( '/invoices/lab-result-invoice-lab', $data, true );
+        require_once FCPATH . '/vendor/autoload.php';
+        $mpdf = new \Mpdf\Mpdf( [
+                                    'margin_left'   => 10,
+                                    'margin_right'  => 10,
+                                    'margin_top'    => 41,
+                                    'margin_bottom' => 5,
+                                    'margin_header' => 5,
+                                    'margin_footer' => 5
+                                ] );
+
+        $mpdf -> SetTitle ( strip_tags ( site_name ) );
+        $mpdf -> SetAuthor ( site_name );
+        $mpdf -> SetAuthor ( site_name );
+        $mpdf -> SetDisplayMode ( 'real' );
+        $mpdf -> WriteHTML ( $html_content );
+        $mpdf -> Output ( 'IPD-Lab-test-result.pdf', 'I' );
+    }
+
+
+    public function complete_tests_results_report () {
+
+        $sale_id = $this -> input -> get ( 'sale-id', true );
+        if ( empty( trim ( $sale_id ) ) or !is_numeric ( $sale_id ) or $sale_id < 1 )
+            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+
+        $data[ 'sale_id' ]            = $sale_id;
+        $data[ 'patient_id' ]         = get_patient_id_by_sale_id ( $sale_id );
+        $data[ 'patient' ]            = get_patient ( $data[ 'patient_id' ] ); 
+        $data[ 'user' ]               = get_user ( get_logged_in_user_id () );
+        $data[ 'sale' ]               = $this -> LabModel -> get_lab_sale ( $sale_id );
+        $data[ 'tests' ]              = $this -> LabModel -> get_lab_sale_parent_tests_by_sale_id ( $sale_id );
+        $data[ 'airline' ]            = $this -> LabModel -> get_airline_details ( $sale_id );
+        $data[ 'online_report_info' ] = $this -> LabModel -> online_test_invoice ( $sale_id );
+        $html_content                 = $this -> load -> view ( '/invoices/complete-tests-results-report', $data, true );
+        require_once FCPATH . '/vendor/autoload.php';
+        $mpdf = new \Mpdf\Mpdf( [
+                                    'margin_left'   => 10,
+                                    'margin_right'  => 10,
+                                    'margin_top'    => 41,
+                                    'margin_bottom' => 5,
+                                    'margin_header' => 5,
+                                    'margin_footer' => 5
+                                ] );
+
+        $mpdf -> SetTitle ( strip_tags ( site_name ) );
+        $mpdf -> SetAuthor ( site_name );
+        $mpdf -> SetAuthor ( site_name );
+        $mpdf -> SetDisplayMode ( 'real' );
+        $mpdf -> WriteHTML ( $html_content );
+        $mpdf -> Output ( 'Test-results-report' . rand () . '.pdf', 'I' );
+    }
 }
