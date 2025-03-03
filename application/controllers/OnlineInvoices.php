@@ -76,15 +76,25 @@ class OnlineInvoices extends CI_Controller {
             exit;
         }
 
+        $this -> session -> set_userdata('online_login_sale_id', $sale_id);
         redirect( base_url( "invoices/get/online/Reports?sale_id=$sale_id" ) );
     }
 
     
     public function all_added_test_results () {
 
+ 
+        $online_login_sale_id = $this->session->userdata('online_login_sale_id');
+        
         $title = site_name . ' - All Added Test Results';
         $this -> header ( $title );
         $sale_id = (isset($_GET['sale_id']) and $_GET['sale_id'] > 0) ? $_GET['sale_id'] : 0;
+        if($online_login_sale_id != $sale_id)
+        {
+            $this -> session -> set_flashdata('error', 'You are not allowed to access this invoice');
+            redirect(base_url().'onlinereports');
+            exit;
+        }
         $data[ 'sales' ]    = $this -> LabModel -> all_added_test_results_for_online (  $sale_id );
         // $data[ 'locations' ]    = $this -> LocationModel -> get_locations ();
         $this -> load -> view ( '/online_Invoices/added-test-results', $data );
