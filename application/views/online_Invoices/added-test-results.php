@@ -39,8 +39,8 @@
                                 <th> Sr. No</th>
                                 <th>Patient </th>
                                 <th> Test Name</th>
-                                <th> Print Single Report</th>
-                                <th > Print Report (All In One)</th>
+                                <th> Download Single Report</th>
+                                <th > Download Report (All In One)</th>
 
                             </tr>
                             </thead>
@@ -83,15 +83,14 @@
                                           
                                             <td><?php echo $test -> name ?></td>
                                            
-                                            
                                            
                                             <td>
                                                 <?php
                                                     if ( $test -> id == CP_Peripheral_Film ) {
                                                         ?>
                                                        
-                                                        <a href="<?php echo base_url ( '/OnlineInvoices/cp-peripheral-film-report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
-                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">L-Print </a>
+                                                        <a href="<?php echo base_url ( '/OnlineInvoices/cp_peripheral_film_report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
+                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download </a>
                                                         
                                                         <?php
                                                     }
@@ -100,8 +99,8 @@
                                                         ?>
                                                
                                                         
-                                                        <a href="<?php echo base_url ( '/OnlineInvoices/stool-examination-report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
-                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success " target="_blank">L-Print</a>
+                                                        <a href="<?php echo base_url ( '/OnlineInvoices/stool_examination_report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
+                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success " target="_blank">Download</a>
                                                         <?php
                                                     }
                                                     
@@ -109,8 +108,8 @@
                                                         ?>
                                                       
                                                         
-                                                        <a href="<?php echo base_url ( '/OnlineInvoices/semen-analysis-report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
-                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">L-Print</a>
+                                                        <a href="<?php echo base_url ( '/OnlineInvoices/semen_analysis_report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
+                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download</a>
                                                         <?php
                                                     }
                                                     
@@ -118,8 +117,8 @@
                                                         ?>
                                                       
                                                         
-                                                        <a href="<?php echo base_url ( '/OnlineInvoices/urine-re-analysis-report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
-                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">L-Print</a>
+                                                        <a href="<?php echo base_url ( '/OnlineInvoices/urine_re_analysis_report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
+                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download</a>
                                                         <?php
                                                     }
                                                     
@@ -127,8 +126,8 @@
                                                         ?>
                                                     
                                                         
-                                                        <a href="<?php echo base_url ( '/OnlineInvoices/csf-analysis-report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
-                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">L-Print</a>
+                                                        <a href="<?php echo base_url ( '/OnlineInvoices/csf_analysis_report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
+                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download</a>
                                                         <?php
                                                     }
                                                     
@@ -136,16 +135,16 @@
                                                         ?>
                                                      
                                                         
-                                                        <a href="<?php echo base_url ( '/OnlineInvoices/ascitic-fluid-analysis/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
-                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">L-Print</a>
+                                                        <a href="<?php echo base_url ( '/OnlineInvoices/ascitic_fluid_analysis/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
+                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download</a>
                                                         <?php
                                                     }
                                                     
                                                     else if ( $test -> id == Pericardial_Fluid ) {
                                                         ?>
                                                         
-                                                        <a href="<?php echo base_url ( '/OnlineInvoices/pericardial-fluid-report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
-                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">L-Print</a>
+                                                        <a href="<?php echo base_url ( '/OnlineInvoices/pericardial_fluid_report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
+                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download</a>
                                                         <?php
                                                     }
                                                     
@@ -154,7 +153,7 @@
                                                         
                                                         
                                                         <a href="<?php echo base_url ( '/OnlineInvoices/print_lab_single_invoice_lab/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
-                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success " target="_blank">L-Print</a>
+                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success " target="_blank">Download</a>
                                                         
                                                   
                                                         
@@ -165,7 +164,7 @@
                                                     else if ( $balance <= 0  ) { ?>
                                                     
                                                         <a href="<?php echo base_url ( '/OnlineInvoices/print_lab_single_invoice_lab/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
-                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">L-Print</a>
+                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download</a>
                                           
                                                         
                                            
@@ -240,7 +239,7 @@
                                                         
                                                         <a href="<?php echo base_url ( '/OnlineInvoices/complete_tests_results_report/?sale-id=' . $sale -> sale_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
                                                         style="padding: 5px 30px; font-weight: bold;" class="btn btn-success " 
-                                                           target="_blank">L-Print All</a>
+                                                           target="_blank">Download All</a>
                                                         
                                                 
                                                         <?php
@@ -252,7 +251,7 @@
                                                         
                                                         <a href="<?php echo base_url ( '/OnlineInvoices/complete_tests_results_report/?sale-id=' . $sale -> sale_id . '&logo=true' . '&machine=' . $results -> machine ) ?>"
                                                         style="padding: 5px 30px; font-weight: bold;" class="btn btn-success " 
-                                                           target="_blank">L-Print All </a>
+                                                           target="_blank">Download All </a>
                                                         
                                            
                                                     <?php } ?>
