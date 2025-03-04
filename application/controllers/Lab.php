@@ -544,6 +544,7 @@
         
         function do_edit_general_test_info ( $POST ) {
             $data = $POST;
+
             $this -> form_validation -> set_rules ( 'code', 'code', 'required|trim|min_length[1]|xss_clean' );
             $this -> form_validation -> set_rules ( 'name', 'name', 'required|trim|min_length[1]|xss_clean' );
             $this -> form_validation -> set_rules ( 'type', 'type', 'required|trim|min_length[1]|xss_clean' );
@@ -572,6 +573,7 @@
                     'show_graph'    => $data[ 'show-graph' ],
                     'require_image' => $data[ 'require-image' ],
                     'invoice_logo'  => $data[ 'invoice-logo' ],
+                    'category_type' => $data[ 'category_type' ],
                 );
                 
                 $this -> LabModel -> edit ( $info, $test_id );
@@ -909,6 +911,7 @@
                 $patient_id       = $this -> input -> post ( 'patient_id' );
                 $panel_id         = $this -> input -> post ( 'panel_id' );
                 $payment_method   = $this -> input -> post ( 'payment-method' );
+                $total_net_price  = $this -> input -> post ( 'net_price' );
                 $paid_amount      = $this -> input -> post ( 'paid_amount' );
                 $internal_remarks = $this -> input -> post ( 'internal-remarks' );
                 $patient_remarks  = $this -> input -> post ( 'patient-remarks' );
@@ -919,6 +922,9 @@
                 $patient          = get_patient ( $patient_id );
                 $service_info     = array ();
                 $location_id = get_logged_in_user_locations_id ();
+                if ( $panel_id > 0 ) {
+                    $paid_amount  = $total_net_price; 
+                }
                 if ( $panel_id > 0 ) {
                     $accHeadID = get_account_head_id_by_panel_id ( $panel_id ); 
                     if ( empty( $accHeadID ) ) {
@@ -1172,14 +1178,14 @@
                     }
                     
                     if ( $paid_amount < $net_sale ) {
-                        $ledger = array (
+                        $ledger = array ( 
                             'user_id'          => get_logged_in_user_id (),
                             'acc_head_id'      => Lab_Patient_Balances,
                             'invoice_id'       => $sale_id,
                             'lab_sale_id'      => $sale_id,
                             'trans_date'       => date ( 'Y-m-d' ),
                             'payment_mode'     => 'cash',
-                            'paid_via'         => 'cash',
+                            'paid_via'         => 'cash', 
                             'credit'           => ( $net_sale - $paid_amount ),
                             'debit'            => 0,
                             'transaction_type' => 'credit',
@@ -1193,9 +1199,9 @@
                     
 
                     if (isset($tests) && count(array_filter($tests)) > 0) {
-                        // Generate serial numbers for the tests in the invoice
+                        // Generate serial numbers for the tests in the invoice  
                         $serial_numbers = $this->LabModel->get_serial_numbers_for_invoice($tests, $location_id);
-                    
+                     
                         foreach ($tests as $key => $test_id) {
                             if (!empty($test_id) && $test_id > 0) {
                                 $test = $this->LabModel->get_test_by_id($test_id);
@@ -1933,7 +1939,7 @@
                 $data[ 'sales' ] = array ();
             $this -> load -> view ( '/lab/add-results-new', $data );
             $this -> footer ();
-        }
+        } 
         
         /**
          * -------------------------

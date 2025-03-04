@@ -903,10 +903,13 @@
         
         public function do_add_echo_report ( $POST ) {
             $template = $this -> TemplateModel -> get_echo_template_by_id ( $POST[ 'template-id' ] );
+            $sale_id    = $this -> input -> post ( 'sale-id', true );
+            if ( !empty( trim ( $sale_id ) ) && $sale_id > 0 )
+                $patient_id = get_patient_id_by_sale_id ( $sale_id );
             $info = array (
                 'user_id'      => get_logged_in_user_id (),
                 'doctor_id'    => $POST[ 'doctor_id' ],
-                'patient_id'   => $POST[ 'patient_id' ],
+                'patient_id'   =>   $patient_id,
                 'order_by'     => $POST[ 'order_by' ],
                 'study'        => $POST[ 'study' ],
                 'report_title' => $template -> title,
@@ -1085,10 +1088,15 @@
         
         public function do_add_ecg_report ( $POST ) {
             $template = $this -> TemplateModel -> get_ecg_template_by_id ( $POST[ 'template-id' ] );
+            
+            $sale_id    = $this -> input -> post ( 'sale-id', true );
+            if ( !empty( trim ( $sale_id ) ) && $sale_id > 0 )
+                $patient_id = get_patient_id_by_sale_id ( $sale_id );
+
             $info = array (
                 'user_id'      => get_logged_in_user_id (),
                 'doctor_id'    => $POST[ 'doctor_id' ],
-                'patient_id'   => $POST[ 'patient_id' ],
+                'patient_id'   => $patient_id,
                 'order_by'     => $POST[ 'order_by' ],
                 'study'        => $POST[ 'study' ],
                 'report_title' => $template -> title,

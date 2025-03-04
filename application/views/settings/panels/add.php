@@ -37,8 +37,8 @@
                                        autofocus="autofocus">
                             </div>
                             <div class="col-lg-4 form-group">
-                                <label for="exampleInputEmail1">Name</label>
-                                <input type="text" name="name" class="form-control" placeholder="Add Name">
+                                <label for="exampleInputEmail1">Name <span style="color: red">*</span></label>    
+                                <input type="text" name="name" class="form-control" placeholder="Add Name" required>
                             </div>
                             <div class="col-lg-4 form-group">
                                 <label for="exampleInputEmail1">Contact No.</label>

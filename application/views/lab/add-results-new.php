@@ -72,9 +72,9 @@
                                     foreach ( $sales as $sale ) {
                                         $results   = @get_test_results ( $_REQUEST[ 'invoice_id' ], $sale -> test_id );
                                         $test      = @get_test_by_id ( $sale -> test_id );
-                                        if ($test->category === 'radiology') {
-                                            continue;
-                                        }
+                                        // if ($test->category === 'radiology') {
+                                        //     continue;
+                                        // }
                                         $isParent  = check_if_test_has_sub_tests ( $sale -> test_id );
                                         $parent_id = $test -> type == 'test' ? 0 : $sale -> test_id;
                                         $saleInfo  = get_lab_sale ( $_REQUEST[ 'invoice_id' ] );
@@ -110,12 +110,78 @@
                                                         <?php
                                                     }
                                                     else {
-                                                        ?>
-                                                        <a href="<?php echo base_url ( '/lab/add-results/?sale-id=' . $_REQUEST[ 'invoice_id' ] . '&parent-id=' . $parent_id . '&test-id=' . $sale -> test_id . '&machine=default' ) ?>"
-                                                           class="btn btn-primary btn-xs" target="_blank">Add Results
+                                                        if ($test->category_type == 'Ecg') {
+                                                            ?>
+                                                            <a href="<?php echo base_url ( 'radiology/ecg/add-ecg-report/?sale-id=' . $sale -> sale_id  ) ?>"
+                                                            class="btn btn-primary btn-xs btn-block"
+                                                            target="_blank">Add Results
                                                         </a>
                                                         <?php
+                                                        }elseif ($test->category_type == 'X-Ray') {
+                                                            ?>
+                                                        <a href="<?php echo base_url ( 'radiology/x-ray/add-xray-report?sale-id=' . $sale -> sale_id  ) ?>"
+                                                            class="btn btn-primary btn-xs btn-block"
+                                                            target="_blank">Add Results
+                                                        </a>
+                                                            <?php
+                                                        }elseif ($test->category_type == 'Ultrasound') {
+                                                            ?>
+                                                        <a href="<?php echo base_url ( 'radiology/ultrasound/add-ultrasound-report?sale-id=' . $sale -> sale_id  ) ?>"
+                                                            class="btn btn-primary btn-xs btn-block"
+                                                            target="_blank">Add Results
+                                                        </a>
+                                                            <?php
+                                                        }
+                                                        elseif ($test->category_type == 'Echo') {
+                                                            ?>
+                                                        <a href="<?php echo base_url ( 'radiology/echo/add-echo-report?sale-id=' . $sale -> sale_id  ) ?>"
+                                                            class="btn btn-primary btn-xs btn-block"
+                                                            target="_blank">Add Results
+                                                        </a>
+                                                            <?php
+                                                        }
+                                                        elseif ($test->category_type == 'MRI') {
+                                                            ?>
+                                                        <a href="<?php echo base_url ( 'radiology/mri/add-mri-report?sale-id=' . $sale -> sale_id  ) ?>"
+                                                            class="btn btn-primary btn-xs btn-block"
+                                                            target="_blank">Add Results
+                                                        </a>
+                                                            <?php
+                                                        }
+                                                        elseif ($test->category_type == 'Culture') {
+                                                            ?>
+                                                        <a href="<?php echo base_url ( 'culture/culture/add?sale-id=' . $sale -> sale_id  ) ?>"
+                                                            class="btn btn-primary btn-xs btn-block"
+                                                            target="_blank">Add Results
+                                                        </a>
+                                                            <?php
+                                                        }
+                                                        elseif ($test->category_type == 'Histo') {
+                                                            ?>
+                                                        <a href="<?php echo base_url ( 'histopathology/histopathology/add?sale-id=' . $sale -> sale_id  ) ?>"
+                                                            class="btn btn-primary btn-xs btn-block"
+                                                            target="_blank">Add Results
+                                                        </a>
+                                                            <?php
+                                                        }
+                                                        elseif ($test->category_type == 'CTScan') {
+                                                            ?>
+                                                        <a href="<?php echo base_url ( 'radiology/ct-scan/add-ct-scan-report?sale-id=' . $sale -> sale_id  ) ?>"
+                                                            class="btn btn-primary btn-xs btn-block"
+                                                            target="_blank">Add Results
+                                                        </a>
+                                                            <?php
+                                                        }
+                                                    
+                                                    else{
+                                                    ?>
+                                                    <a href="<?php echo base_url ( '/lab/add-results/?sale-id=' . $sale -> sale_id . '&parent-id=' . $parent_id . '&test-id=' . $sale -> test_id . '&machine=default' ) ?>"
+                                                       class="btn btn-primary btn-xs btn-block"
+                                                       target="_blank">Add Results
+                                                    </a>
+                                                    <?php
                                                     }
+                                                }
                                                 ?>
                                             </td>
                                             <td>

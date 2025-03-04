@@ -129,6 +129,23 @@
                             <?php endforeach; endif; ?>
                         </select>
                     </div>
+
+
+                <div class="form-group col-lg-12">
+                    <label for="categoryType">Category Type</label>
+                    <select name="category_type" class="form-control select2me">
+                        <option value="" disabled <?php if ( empty( $general_info -> category_type ) ) echo 'selected'; ?>>Select Category Type</option>
+                        <option value="X-Ray" <?php if ( $general_info -> category_type == 'X-Ray' ) echo 'selected'; ?>>X-Ray</option>
+                        <option value="CTScan" <?php if ( $general_info -> category_type == 'CTScan' ) echo 'selected'; ?>>CTScan</option>
+                        <option value="MRI" <?php if ( $general_info -> category_type == 'MRI' ) echo 'selected'; ?>>MRI</option>
+                        <option value="Ultrasound" <?php if ( $general_info -> category_type == 'Ultrasound' ) echo 'selected'; ?>>Ultrasound</option>
+                        <option value="Echo" <?php if ( $general_info -> category_type == 'Echo' ) echo 'selected'; ?>>Echo</option>
+                        <option value="Ecg" <?php if ( $general_info -> category_type == 'Ecg' ) echo 'selected'; ?>>Ecg</option>
+                        <option value="Culture" <?php if ( $general_info -> category_type == 'Culture' ) echo 'selected'; ?>>Culture</option>
+                        <option value="Histo" <?php if ( $general_info -> category_type == 'Histo' ) echo 'selected'; ?>>Histo</option>
+                    </select>
+                </div>
+
                 </div>
             </div>
         </div>

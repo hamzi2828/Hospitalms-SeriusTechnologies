@@ -406,16 +406,36 @@
 //            return $tests -> result ();
 //        }
         
-        public function get_active_parent_tests ( $panel_id = 0, $category = 'pathology' ) {
-            $this -> db -> order_by ( 'name', 'ASC' );
-            $this -> db -> select ( '*' ) -> from ( 'tests' ) -> where ( "(parent_id='0' and status='1' and category='pathology') or (parent_id='0' and status='1' and category='radiology') or (parent_id='0' and status='1' and category='general')" );
+        // public function get_active_parent_tests ( $panel_id = 0, $category = 'pathology' ) {
+        //     $this -> db -> order_by ( 'name', 'ASC' );
+        //     $this -> db -> select ( '*' ) -> from ( 'tests' ) -> where ( "(parent_id='0' and status='1' and category='pathology') or (parent_id='0' and status='1' and category='radiology') or (parent_id='0' and status='1' and category='general')" );
             
-            if ( $panel_id > 0 ) {
-                $this -> db -> where ( " id IN (Select test_id from hmis_panel_lab_tests where panel_id=$panel_id)" );
+        //     if ( $panel_id > 0 ) {
+        //         $this -> db -> where ( " id IN (Select test_id from hmis_panel_lab_tests where panel_id=$panel_id)" );
+        //     }
+            
+        //     $tests = $this -> db -> get ();
+        //     print_r(  $tests -> result ());
+        //     exit;
+        //     return $tests -> result ();
+        // }
+        
+        public function get_active_parent_tests($panel_id = 0, $category = 'pathology') { 
+            $this->db->order_by('name', 'ASC');
+            $this->db->select('*')->from('tests');
+        
+            // Ensure only valid categories are retrieved
+            $this->db->where_in('category', ['pathology', 'radiology', 'general']);
+            $this->db->where('parent_id', '0');
+            $this->db->where('status', '1');
+        
+            if ($panel_id > 0) {
+                $this->db->where("id IN (SELECT test_id FROM hmis_panel_lab_tests WHERE panel_id=$panel_id)");
             }
-            
-            $tests = $this -> db -> get ();
-            return $tests -> result ();
+        
+            $tests = $this->db->get();
+
+            return $tests->result();
         }
         
         /**
@@ -3208,16 +3228,36 @@
             return '0';
         }
         
-        public function get_tests_not_in_panel ( $panel_id ) {
-            $this -> db -> order_by ( 'name', 'ASC' );
-            $this
-                -> db -> select ( '*' )
-                -> from ( 'tests' )
-                -> where ( array ( 'parent_id' => '0', 'status' => '1', 'category' => 'general' ) )
-                -> where ( "id NOT IN (Select test_id From hmis_panel_lab_tests WHERE panel_id=$panel_id)" );
-            $services = $this -> db -> get ();
-            return $services -> result ();
+
+        public function get_tests_not_in_panel($panel_id) {
+            $this->db->order_by('name', 'ASC');
+            $this->db->select('*')->from('tests');
+            
+            // Select only active parent tests
+            $this->db->where('parent_id', '0');
+            $this->db->where('status', '1');
+        
+            // Filter categories dynamically
+            $this->db->where_in('category', ['pathology', 'radiology', 'general']);
+        
+            // Exclude tests that are already in the panel
+            $this->db->where("id NOT IN (SELECT test_id FROM hmis_panel_lab_tests WHERE panel_id=$panel_id)", NULL, FALSE);
+        
+            $services = $this->db->get();
+            return $services->result();
         }
+
+        
+        // public function get_tests_not_in_panel ( $panel_id ) {
+        //     $this -> db -> order_by ( 'name', 'ASC' );
+        //     $this
+        //         -> db -> select ( '*' )
+        //         -> from ( 'tests' )
+        //         -> where ( array ( 'parent_id' => '0', 'status' => '1', 'category' => 'general' ) )
+        //         -> where ( "id NOT IN (Select test_id From hmis_panel_lab_tests WHERE panel_id=$panel_id)" );
+        //     $services = $this -> db -> get ();
+        //     return $services -> result ();
+        // }
         
         // public function get_lab_total_by_payment_method($method = 'cash') {
         //     $start_date = $this->input->get('start_date');
