@@ -104,9 +104,11 @@
                                                 <?php
                                                     if ( $results and !empty ( $results ) > 0 ) {
                                                         ?>
+                                                        <?php if ( $test -> category !== 'radiology' ) { ?>
                                                         <a href="<?php echo base_url ( '/lab/add-results/?sale-id=' . $_REQUEST[ 'invoice_id' ] . '&parent-id=' . $parent_id . '&test-id=' . $sale -> test_id . '&machine=' . $results -> machine ) ?>"
                                                            class="btn btn-warning btn-xs" target="_blank">Edit Results
                                                         </a>
+                                                        <?php } ?>
                                                         <?php
                                                     }
                                                     else {

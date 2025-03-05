@@ -312,6 +312,7 @@
                                             </td>
                                             <td>
                                                 <?php
+                                                if ( $test -> category !== 'radiology' ) {
                                                     if ( $test -> id == CP_Peripheral_Film ) {
                                                         ?>
                                                         <a href="<?php echo base_url ( '/invoices/cp-peripheral-film-report/?id=' . @$results -> id . '&sale-id=' . $sale -> sale_id . '&parent-id=' . $sale -> test_id . '&machine=' . $results -> machine ) ?>"
@@ -426,6 +427,8 @@
                                                            class="btn dark btn-block btn-xs"
                                                            target="_blank">Print All</a>
                                                     <?php } ?>
+
+
                                                 
                                                 <?php if ( empty( $delivery ) ) : ?>
                                                     <a href="<?php echo base_url ( '/lab/update-delivery-status/?sale-id=' . $sale -> sale_id . '&test-id=' . $sale -> test_id ) ?>"
@@ -436,7 +439,7 @@
                                                 <?php endif; ?>
 
 
-                                                
+                                                <?php } ?>
 
                                             
                                             </td>
