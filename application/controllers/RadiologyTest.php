@@ -1,7 +1,7 @@
 <?php
     defined ( 'BASEPATH' ) or exit( 'No direct script access allowed' );
     
-    class Radiology extends CI_Controller {
+    class RadiologyTest extends CI_Controller {
         
         /**
          * -------------------------
@@ -17,7 +17,6 @@
             $this -> load -> model ( 'DoctorModel' );
             $this -> load -> model ( 'RadiologyModel' );
             $this -> load -> model ( 'TemplateModel' );
-            $this -> load -> model ( 'LabModel' );
         }
         
         /**
@@ -80,7 +79,7 @@
             $this -> sidebar ();
             $data[ 'doctors' ]   = $this -> DoctorModel -> get_doctors ();
             $data[ 'templates' ] = $this -> TemplateModel -> get_xray_templates ();
-            $this -> load -> view ( '/radiology/xray/add', $data );
+            $this -> load -> view ( '/radiology/xray/add_new', $data );
             $this -> footer ();
         }
         
@@ -94,6 +93,7 @@
         public function do_add_xray_report ( $POST ) {
             $template   = $this -> TemplateModel -> get_xray_template_by_id ( $POST[ 'template-id' ] );
             $data       = $POST;
+            $test_id    = $this -> input -> post ( 'test-id', true );
             $patient_id = $this -> input -> post ( 'patient-id', true );
             $sale_id    = $this -> input -> post ( 'sale-id', true );
             
@@ -105,7 +105,8 @@
                 'doctor_id'    => $data[ 'doctor_id' ],
                 'doctor_stamp' => $data[ 'doctor_stamp' ],
                 'patient_id'   => $patient_id,
-                'sale_id'      => $sale_id,
+                'sale_id'        =>  $sale_id ,
+                'test_id'        =>  $test_id,
                 'order_by'     => $data[ 'order_by' ],
                 'study'        => $data[ 'study' ],
                 'report_title' => $template -> title,
@@ -114,10 +115,25 @@
                 'date_added'   => current_date_time ()
             );
             $id         = $this -> RadiologyModel -> add_xray_report ( $info );
+
+            $info         = array (
+                'user_id'        => get_logged_in_user_id (),
+                'sale_id'        =>  $sale_id ,
+                'test_id'        =>  $test_id,
+                'result'         =>  1,
+                'doctor_id'      =>  $POST[ 'doctor_id' ],
+                'date_added'     => current_date_time (),
+            ); 
+
+                $result_id = $this -> LabModel -> do_add_test_results ( $info );
+
+
+
             
             $print = '<a href="' . base_url ( '/invoices/xray-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! Xray report added.' . $print );
+                redirect ( 'RadiologyTest/add_xray_report' );
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
@@ -322,7 +338,7 @@
             $this -> sidebar ();
             $data[ 'doctors' ]   = $this -> DoctorModel -> get_doctors ();
             $data[ 'templates' ] = $this -> TemplateModel -> get_templates ();
-            $this -> load -> view ( '/radiology/ultrasound/add', $data );
+            $this -> load -> view ( '/radiology/ultrasound/add_new', $data );
             $this -> footer ();
         }
         
@@ -336,6 +352,7 @@
         public function do_add_ultrasound_report ( $POST ) {
             $template   = $this -> TemplateModel -> get_template_by_id ( $POST[ 'template-id' ] );
             $patient_id = $this -> input -> post ( 'patient-id', true );
+            $test_id    = $this -> input -> post ( 'test-id', true );
             $sale_id    = $this -> input -> post ( 'sale-id', true );
             
             if ( !empty( trim ( $sale_id ) ) && $sale_id > 0 )
@@ -346,6 +363,8 @@
                 'doctor_id'    => $POST[ 'doctor_id' ],
                 'sale_id'      => $POST[ 'sale-id' ],
                 'patient_id'   => $patient_id,
+                'sale_id'        =>  $sale_id ,
+                'test_id'        =>  $test_id,
                 'order_by'     => $POST[ 'order_by' ],
                 'study'        => $POST[ 'study' ],
                 'report_title' => $template -> title,
@@ -354,10 +373,23 @@
                 'date_added'   => current_date_time ()
             );
             $id         = $this -> RadiologyModel -> add_ultrasound_report ( $info );
+            $info         = array (
+                'user_id'        => get_logged_in_user_id (),
+                'sale_id'        =>  $sale_id ,
+                'test_id'        =>  $test_id,
+                'result'         =>  1,
+                'doctor_id'      =>  $POST[ 'doctor_id' ],
+                'date_added'     => current_date_time (),
+            ); 
+
+                $result_id = $this -> LabModel -> do_add_test_results ( $info );
+
+
             
             $print = '<a href="' . base_url ( '/invoices/ultrasound-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! Ultrasound report added.' . $print );
+                redirect('RadiologyTest/add_ultrasound_report');
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
@@ -494,7 +526,7 @@
             $this -> sidebar ();
             $data[ 'doctors' ]   = $this -> DoctorModel -> get_doctors ();
             $data[ 'templates' ] = $this -> TemplateModel -> get_ct_scan_templates ();
-            $this -> load -> view ( '/radiology/ct-scan/add', $data );
+            $this -> load -> view ( '/radiology/ct-scan/add_new', $data );
             $this -> footer ();
         }
         
@@ -510,6 +542,7 @@
             $template   = $this -> TemplateModel -> get_ct_scan_template_by_id ( $POST[ 'template-id' ] );
             $data       = $POST;
             $patient_id = $this -> input -> post ( 'patient-id', true );
+            $test_id    = $this -> input -> post ( 'test-id', true );
             $sale_id    = $this -> input -> post ( 'sale-id', true );
             
             if ( !empty( trim ( $sale_id ) ) && $sale_id > 0 )
@@ -521,6 +554,7 @@
                 'doctor_stamp' => $data[ 'doctor_stamp' ], 
                 'patient_id'   => $patient_id,
                 'sale_id'      => $data[ 'sale-id' ],
+                'test_id'        =>  $test_id,
                 'order_by'     => $data[ 'order_by' ],
                 'study'        => $data[ 'study' ],
                 'report_title' => $template -> title,
@@ -528,10 +562,23 @@
                 'date_added'   => current_date_time ()
             );
             $id         = $this -> RadiologyModel -> add_ct_scan_report ( $info );
-            
+            $info         = array (
+                'user_id'        => get_logged_in_user_id (),
+                'sale_id'        =>  $sale_id ,
+                'test_id'        =>  $test_id,
+                'result'         =>  1,
+                'doctor_id'      =>  $POST[ 'doctor_id' ],
+                'date_added'     => current_date_time (),
+            ); 
+
+                $result_id = $this -> LabModel -> do_add_test_results ( $info );
+
+
+
             $print = '<a href="' . base_url ( '/invoices/ct-scan-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! Report added.' . $print );
+                redirect('RadiologyTest/add_ct_scan_report');
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
@@ -671,7 +718,7 @@
             $this -> sidebar ();
             $data[ 'doctors' ]   = $this -> DoctorModel -> get_doctors ();
             $data[ 'templates' ] = $this -> TemplateModel -> get_mri_templates ();
-            $this -> load -> view ( '/radiology/mri/add', $data );
+            $this -> load -> view ( '/radiology/mri/add_new', $data );
             $this -> footer ();
         }
         
@@ -686,6 +733,7 @@
             $template   = $this -> TemplateModel -> get_mri_template_by_id ( $POST[ 'template-id' ] );
             $data       = $POST;
             $patient_id = $this -> input -> post ( 'patient-id', true );
+            $test_id    = $this -> input -> post ( 'test-id', true );
             $sale_id    = $this -> input -> post ( 'sale-id', true );
             
             if ( !empty( trim ( $sale_id ) ) && $sale_id > 0 )
@@ -696,6 +744,7 @@
                 'doctor_id'    => $data[ 'doctor_id' ],
                 'doctor_stamp' => $data[ 'doctor_stamp' ],
                 'sale_id'      => $data[ 'sale-id' ],
+                'test_id'        =>  $test_id,
                 'patient_id'   => $patient_id,
                 'order_by'     => $data[ 'order_by' ],
                 'study'        => $data[ 'study' ],
@@ -704,10 +753,25 @@
                 'date_added'   => current_date_time ()
             );
             $id         = $this -> RadiologyModel -> add_mri_report ( $info );
+            $info         = array (
+                'user_id'        => get_logged_in_user_id (),
+                'sale_id'        =>  $sale_id ,
+                'test_id'        =>  $test_id,
+                'result'         =>  1,
+                'doctor_id'      =>  $POST[ 'doctor_id' ],
+                'date_added'     => current_date_time (),
+            ); 
+
+            $result_id = $this -> LabModel -> do_add_test_results ( $info );
+
+
+
+
             
             $print = '<a href="' . base_url ( '/invoices/mri-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! Report added.' . $print );
+                return redirect ( 'RadiologyTest/add_mri_report' );
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
@@ -788,18 +852,10 @@
         
         public function verify_xray_report () {
             $report_id = $this -> input -> get ( 'report-id' );
-            $sale_id = $this -> input -> get ( 'sale_id' );
-            $test_id = $this -> input -> get ( 'test_id' );
             if ( empty( trim ( $report_id ) ) or !is_numeric ( $report_id ) or $report_id < 1 )
                 return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             
             $this -> RadiologyModel -> verify_report ( $report_id, 'hmis_xray' );
-
-            if( !empty( trim( $sale_id ) ) and !empty( trim( $test_id ) ) ){
-                $this -> LabModel -> verify_report_raadiology_result( $sale_id, $test_id );
-
-            }
-
             $this -> session -> set_flashdata ( 'response', 'Success! Report verified.' );
             return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             
@@ -807,17 +863,10 @@
         
         public function verify_ultrasound_report () {
             $report_id = $this -> input -> get ( 'report-id' );
-            $sale_id = $this -> input -> get ( 'sale_id' );
-            $test_id = $this -> input -> get ( 'test_id' );
             if ( empty( trim ( $report_id ) ) or !is_numeric ( $report_id ) or $report_id < 1 )
                 return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             
             $this -> RadiologyModel -> verify_report ( $report_id, 'hmis_ultrasound' );
-
-            if( !empty( trim( $sale_id ) ) and !empty( trim( $test_id ) ) ){
-                $this -> LabModel -> verify_report_raadiology_result( $sale_id, $test_id );
-
-            }
             $this -> session -> set_flashdata ( 'response', 'Success! Report verified.' );
             return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             
@@ -825,17 +874,10 @@
         
         public function verify_ct_scan_report () {
             $report_id = $this -> input -> get ( 'report-id' );
-            $sale_id = $this -> input -> get ( 'sale_id' );
-            $test_id = $this -> input -> get ( 'test_id' );
             if ( empty( trim ( $report_id ) ) or !is_numeric ( $report_id ) or $report_id < 1 )
                 return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             
             $this -> RadiologyModel -> verify_report ( $report_id, 'hmis_ct_scan' );
-
-            if( !empty( trim( $sale_id ) ) and !empty( trim( $test_id ) ) ){
-                $this -> LabModel -> verify_report_raadiology_result( $sale_id, $test_id );
-
-            }
             $this -> session -> set_flashdata ( 'response', 'Success! Report verified.' );
             return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             
@@ -843,17 +885,10 @@
         
         public function verify_mri_report () {
             $report_id = $this -> input -> get ( 'report-id' );
-            $sale_id = $this -> input -> get ( 'sale_id' );
-            $test_id = $this -> input -> get ( 'test_id' );
             if ( empty( trim ( $report_id ) ) or !is_numeric ( $report_id ) or $report_id < 1 )
                 return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             
             $this -> RadiologyModel -> verify_report ( $report_id, 'hmis_mri' );
-
-            if( !empty( trim( $sale_id ) ) and !empty( trim( $test_id ) ) ){
-                $this -> LabModel -> verify_report_raadiology_result( $sale_id, $test_id );
-
-            }
             $this -> session -> set_flashdata ( 'response', 'Success! Report verified.' );
             return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             
@@ -920,7 +955,7 @@
             $this -> sidebar ();
             $data[ 'doctors' ] = $this -> DoctorModel -> get_doctors ();
             $data[ 'templates' ] = $this -> TemplateModel -> get_echo_templates ();
-            $this -> load -> view ( '/radiology/echo/add', $data );
+            $this -> load -> view ( '/radiology/echo/add_new', $data );
             $this -> footer ();
         }
         
@@ -935,13 +970,15 @@
 
             $template = $this -> TemplateModel -> get_echo_template_by_id ( $POST[ 'template-id' ] );
             $sale_id    = $this -> input -> post ( 'sale-id', true );
-            $patient_id = $this -> input -> post ( 'patient-id', true );
+            $test_id    = $this -> input -> post ( 'test-id', true );
             if ( !empty( trim ( $sale_id ) ) && $sale_id > 0 )
                 $patient_id = get_patient_id_by_sale_id ( $sale_id );
             $info = array (
                 'user_id'      => get_logged_in_user_id (),
                 'doctor_id'    => $POST[ 'doctor_id' ],
                 'patient_id'   =>   $patient_id,
+                'sale_id'      =>  $sale_id ,
+                'test_id'      =>  $test_id,
                 'order_by'     => $POST[ 'order_by' ],
                 'study'        => $POST[ 'study' ],
                 'report_title' => $template -> title,
@@ -949,10 +986,32 @@
                 'date_added'   => current_date_time ()
             );
             $id = $this -> RadiologyModel -> add_echo_report ( $info );
+
+            $info         = array (
+                'user_id'        => get_logged_in_user_id (),
+                'sale_id'        =>  $sale_id ,
+                'test_id'        =>  $test_id,
+                'result'         =>  1,
+                'doctor_id'      =>  $POST[ 'doctor_id' ],
+                'date_added'     => current_date_time (),
+            ); 
+
+                $result_id = $this -> LabModel -> do_add_test_results ( $info );
+
+
+            $info = array (
+                'user_id'    => get_logged_in_user_id (),
+                'sale_id'    => $sale_id,
+                'result_id'  => $result_id,
+                'created_at' =>current_date_time (),
+            );
+            $this -> LabModel -> do_lab_result_verify ( $info );
+
             
             $print = '<a href="' . base_url ( '/invoices/echo-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! ECHO report added.' . $print );
+                redirect ( 'RadiologyTest/add_echo_report' );
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
@@ -1107,7 +1166,7 @@
             $this -> sidebar ();
             $data[ 'doctors' ] = $this -> DoctorModel -> get_doctors ();
             $data[ 'templates' ] = $this -> TemplateModel -> get_ecg_templates ();
-            $this -> load -> view ( '/radiology/ecg/add', $data );
+            $this -> load -> view ( '/radiology/ecg/add_new', $data );
             $this -> footer ();
         }
         
@@ -1118,11 +1177,14 @@
          * -------------------------
          */
         
+
+
         public function do_add_ecg_report ( $POST ) {
             $template = $this -> TemplateModel -> get_ecg_template_by_id ( $POST[ 'template-id' ] );
             
             $sale_id    = $this -> input -> post ( 'sale-id', true );
-            $patient_id = $this -> input -> post ( 'patient-id', true );
+            $test_id    = $this -> input -> post ( 'test-id', true );
+            
             if ( !empty( trim ( $sale_id ) ) && $sale_id > 0 )
                 $patient_id = get_patient_id_by_sale_id ( $sale_id );
 
@@ -1130,6 +1192,8 @@
                 'user_id'      => get_logged_in_user_id (),
                 'doctor_id'    => $POST[ 'doctor_id' ],
                 'patient_id'   => $patient_id,
+                'sale_id'        =>  $sale_id ,
+                'test_id'        =>  $test_id,
                 'order_by'     => $POST[ 'order_by' ],
                 'study'        => $POST[ 'study' ],
                 'report_title' => $template -> title,
@@ -1137,10 +1201,33 @@
                 'date_added'   => current_date_time ()
             );
             $id = $this -> RadiologyModel -> add_ecg_report ( $info );
+
+            $info         = array (
+                'user_id'        => get_logged_in_user_id (),
+                'sale_id'        =>  $sale_id ,
+                'test_id'        =>  $test_id,
+                'result'         =>  1,
+                'doctor_id'      =>  $POST[ 'doctor_id' ],
+                'date_added'     => current_date_time (),
+            ); 
+
+                $result_id = $this -> LabModel -> do_add_test_results ( $info );
+
+
+                $info = array (
+                    'user_id'    => get_logged_in_user_id (),
+                    'sale_id'    => $sale_id,
+                    'result_id'  => $result_id,
+                    'created_at' =>current_date_time (),
+                );
+                $this -> LabModel -> do_lab_result_verify ( $info );
+
+
             
             $print = '<a href="' . base_url ( '/invoices/ecg-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! ECG report added.' . $print );
+                redirect('RadiologyTest/add_ecg_report');
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );

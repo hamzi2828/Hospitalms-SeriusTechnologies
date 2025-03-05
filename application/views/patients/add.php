@@ -91,7 +91,7 @@
                                 <label for="exampleInputEmail1">Contact No <sup
                                             style="color: #FF0000; font-weight: 700">*</sup></label>
                                 <input type="text" name="phone" class="form-control" placeholder="Contact No"
-                                       maxlength="11"
+                                       maxlength="14"
                                        value="<?php echo set_value ( 'phone' ) ?>">
                             </div>
                             <div class="form-group col-lg-3">

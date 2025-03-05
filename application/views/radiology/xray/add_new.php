@@ -29,6 +29,8 @@
                     <input type="hidden" name="<?php echo $this -> security -> get_csrf_token_name (); ?>"
                            value="<?php echo $this -> security -> get_csrf_hash (); ?>" id="csrf_token">
                     <input type="hidden" name="action" value="do_add_xray_report">
+                    <input type="hidden" id="test-id" name="test-id" class="form-control"
+                    value="<?php echo @$_GET[ 'test-id' ] ? $_GET[ 'test-id' ] : set_value ( 'test-id' ) ?>">
                     <div class="form-body">
                         <div class="row">
                             <div class="form-group col-lg-2">
@@ -36,14 +38,14 @@
                                 <input type="text" id="sale-id" name="sale-id" class="form-control"
                                        placeholder="<?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>"
                                        autofocus="autofocus" value="<?php echo set_value ( 'sale-id' ) ?>"
-                                       onchange="get_patient_by_lab_sale_id(this.value)">
+                                       onchange="get_patient_by_lab_sale_id(this.value)"readonly="readonly">
                             </div>
                             <div class="form-group col-lg-2">
                                 <label for="patient-id"><?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?></label>
                                 <input type="text" id="patient-id" name="patient-id" class="form-control"
                                        placeholder="<?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?>"
                                        value="<?php echo set_value ( 'patient-id' ) ?>"
-                                       onchange="get_patient(this.value)">
+                                       onchange="get_patient(this.value)"readonly="readonly">
                             </div>
                             <div class="form-group col-lg-3">
                                 <label for="patient-name">Name</label>
@@ -155,3 +157,24 @@
     }
 </style>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Function to get query parameters from the URL
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Get 'sale-id' from the URL
+        const saleId = getQueryParam("sale-id");
+
+        // Check if sale-id exists
+        if (saleId) {
+            // Set the value in the input field
+            document.querySelector("input[name='sale-id']").value = saleId;
+
+            // Call the function to retrieve patient details
+            get_patient_by_lab_sale_id(saleId);
+        }
+    });
+</script>

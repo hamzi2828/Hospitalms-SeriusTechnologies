@@ -149,7 +149,7 @@
                                         <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'verify_culture_report_button', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) && empty( $status ) ) : ?>
                                             <a type="button" class="btn green"
                                                onclick="return confirm('Are you sure?')"
-                                               href="<?php echo base_url ( '/culture/verify_report?report-id=' . $report -> id ) ?>">Verify</a>
+                                               href="<?php echo base_url ( '/culture/verify_report?report-id=' . $report -> id . '&sale_id=' . $report -> sale_id . '&test_id=' . $report -> test_id ) ?>">Verify</a>
                                         <?php endif; ?>
                                         
                                         <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'delete-culture-report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>

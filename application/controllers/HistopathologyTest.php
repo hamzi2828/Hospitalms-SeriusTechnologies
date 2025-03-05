@@ -1,7 +1,7 @@
 <?php
     defined ( 'BASEPATH' ) or exit( 'No direct script access allowed' );
     
-    class Histopathology extends CI_Controller {
+    class HistopathologyTest extends CI_Controller {
         
         /**
          * -------------------------
@@ -19,7 +19,6 @@
             $this -> load -> model ( 'TemplateModel' );
             $this -> load -> model ( 'SampleModel' );
             $this -> load -> model ( 'RadiologyModel' );
-            $this -> load -> model ( 'LabModel' );
         }
         
         /**
@@ -117,7 +116,7 @@
          * -------------------------
          */
         
-        public function add () {
+        public function add_histopathology_report () {
             
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_add_report' )
                 $this -> process_add_report ( $_POST );
@@ -128,7 +127,7 @@
             $data[ 'doctors' ]   = $this -> DoctorModel -> get_doctors ();
             $data[ 'templates' ] = $this -> TemplateModel -> get_histopathology_templates ();
             $data[ 'samples' ]   = $this -> SampleModel -> get_samples ();
-            $this -> load -> view ( '/culture-histopathology/histopathology/add', $data );
+            $this -> load -> view ( '/culture-histopathology/histopathology/add_new', $data );
             $this -> footer ();
         }
         
@@ -143,6 +142,7 @@
             $template = $this -> TemplateModel -> get_histopathology_template_by_id ( $POST[ 'template-id' ] );
             $data     = $POST;
             $patient_id = $this -> input -> post ( 'patient-id', true );
+            $test_id    = $this -> input -> post ( 'test-id', true );
             $sale_id    = $this -> input -> post ( 'sale-id', true );
             
             if ( !empty( trim ( $sale_id ) ) && $sale_id > 0 )
@@ -153,6 +153,7 @@
                 'user_id'      => get_logged_in_user_id (),
                 'doctor_id'    => $data[ 'doctor_id' ],
                 'sale_id'      => $data[ 'sale-id' ],
+                'test_id'      =>  $test_id,
                 'order_by'     => $data[ 'order_by' ],
                 'sample_id'    => $data[ 'sample-id' ],
                 'patient_id'   => $patient_id,
@@ -162,10 +163,25 @@
                 'date_added'   => current_date_time ()
             );
             $id       = $this -> HistopathologyModel -> add ( $info );
+
+            $info         = array (
+                'user_id'        => get_logged_in_user_id (),
+                'sale_id'        =>  $sale_id ,
+                'test_id'        =>  $test_id,
+                'result'         =>  1,
+                'doctor_id'      =>  $POST[ 'doctor_id' ],
+                'date_added'     => current_date_time (),
+            ); 
+       
+            $result_id = $this -> LabModel -> do_add_test_results ( $info );
+
+
+
             
             $print = '<a href="' . base_url ( '/invoices/histopathology-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! Report added.' . $print );
+                redirect( 'HistopathologyTest/add_histopathology_report' );
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
@@ -241,17 +257,10 @@
         
         public function verify_report () {
             $report_id = $this -> input -> get ( 'report-id' );
-            $sale_id = $this -> input -> get ( 'sale_id' );
-            $test_id = $this -> input -> get ( 'test_id' );
             if ( empty( trim ( $report_id ) ) or !is_numeric ( $report_id ) or $report_id < 1 )
                 return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             
             $this -> RadiologyModel -> verify_report ( $report_id, 'hmis_histopathology' );
-
-            if( !empty( trim( $sale_id ) ) and !empty( trim( $test_id ) ) ){
-                $this -> LabModel -> verify_report_raadiology_result( $sale_id, $test_id );
-
-            }
             $this -> session -> set_flashdata ( 'response', 'Success! Report verified.' );
             return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             

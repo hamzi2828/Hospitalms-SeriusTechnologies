@@ -19,6 +19,7 @@
             $this -> load -> model ( 'TemplateModel' );
             $this -> load -> model ( 'SampleModel' );
             $this -> load -> model ( 'RadiologyModel' );
+            $this -> load -> model ( 'LabModel' );
         }
         
         /**
@@ -280,10 +281,18 @@
         
         public function verify_report () {
             $report_id = $this -> input -> get ( 'report-id' );
+            $sale_id = $this -> input -> get ( 'sale_id' );
+            $test_id = $this -> input -> get ( 'test_id' );
+
             if ( empty( trim ( $report_id ) ) or !is_numeric ( $report_id ) or $report_id < 1 )
                 return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             
             $this -> RadiologyModel -> verify_report ( $report_id, 'hmis_culture' );
+
+            if( !empty( trim( $sale_id ) ) and !empty( trim( $test_id ) ) ){
+                $this -> LabModel -> verify_report_raadiology_result( $sale_id, $test_id );
+
+            }
             $this -> session -> set_flashdata ( 'response', 'Success! Report verified.' );
             return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             

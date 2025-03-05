@@ -1,7 +1,7 @@
 <?php
     defined ( 'BASEPATH' ) or exit( 'No direct script access allowed' );
     
-    class Histopathology extends CI_Controller {
+    class CultureTest extends CI_Controller {
         
         /**
          * -------------------------
@@ -15,7 +15,7 @@
             $this -> is_logged_in ();
             $this -> lang -> load ( 'general', 'english' );
             $this -> load -> model ( 'DoctorModel' );
-            $this -> load -> model ( 'HistopathologyModel' );
+            $this -> load -> model ( 'CultureModel' );
             $this -> load -> model ( 'TemplateModel' );
             $this -> load -> model ( 'SampleModel' );
             $this -> load -> model ( 'RadiologyModel' );
@@ -80,8 +80,8 @@
             /**********PAGINATION***********/
             $limit                          = 10;
             $config                         = array ();
-            $config[ "base_url" ]           = base_url ( 'histopathology/histopathology/reports' );
-            $total_row                      = $this -> HistopathologyModel -> count_reports ();
+            $config[ "base_url" ]           = base_url ( 'culture/culture/reports' );
+            $total_row                      = $this -> CultureModel -> count_reports ();
             $config[ "total_rows" ]         = $total_row;
             $config[ "per_page" ]           = $limit;
             $config[ 'use_page_numbers' ]   = false;
@@ -104,10 +104,10 @@
             }
             
             $data[ 'doctors' ] = $this -> DoctorModel -> get_doctors ();
-            $data[ 'reports' ] = $this -> HistopathologyModel -> get_reports ( $config[ "per_page" ], $offset );
+            $data[ 'reports' ] = $this -> CultureModel -> get_reports ( $config[ "per_page" ], $offset );
             $str_links         = $this -> pagination -> create_links ();
             $data[ "links" ]   = explode ( '&nbsp;', $str_links );
-            $this -> load -> view ( '/culture-histopathology/histopathology/index', $data );
+            $this -> load -> view ( '/culture-histopathology/culture/index', $data );
             $this -> footer ();
         }
         
@@ -117,7 +117,7 @@
          * -------------------------
          */
         
-        public function add () {
+        public function add_culture_report () {
             
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_add_report' )
                 $this -> process_add_report ( $_POST );
@@ -125,10 +125,11 @@
             $title = site_name . ' - Add Report';
             $this -> header ( $title );
             $this -> sidebar ();
-            $data[ 'doctors' ]   = $this -> DoctorModel -> get_doctors ();
-            $data[ 'templates' ] = $this -> TemplateModel -> get_histopathology_templates ();
-            $data[ 'samples' ]   = $this -> SampleModel -> get_samples ();
-            $this -> load -> view ( '/culture-histopathology/histopathology/add', $data );
+            $data[ 'doctors' ]     = $this -> DoctorModel -> get_doctors ();
+            $data[ 'templates' ]   = $this -> TemplateModel -> get_culture_templates ();
+            $data[ 'antibiotics' ] = $this -> TemplateModel -> get_antibiotics ();
+            $data[ 'samples' ]     = $this -> SampleModel -> get_samples ();
+            $this -> load -> view ( '/culture-histopathology/culture/add_new', $data );
             $this -> footer ();
         }
         
@@ -140,36 +141,88 @@
          */
         
         public function process_add_report ( $POST ) {
-            $template = $this -> TemplateModel -> get_histopathology_template_by_id ( $POST[ 'template-id' ] );
+            $template = $this -> TemplateModel -> get_culture_template_by_id ( $POST[ 'template-id' ] );
             $data     = $POST;
             $patient_id = $this -> input -> post ( 'patient-id', true );
+            $test_id    = $this -> input -> post ( 'test-id', true );
             $sale_id    = $this -> input -> post ( 'sale-id', true );
             
             if ( !empty( trim ( $sale_id ) ) && $sale_id > 0 )
                 $patient_id = get_patient_id_by_sale_id ( $sale_id );
-    
+        
 
             $info     = array (
                 'user_id'      => get_logged_in_user_id (),
                 'doctor_id'    => $data[ 'doctor_id' ],
                 'sale_id'      => $data[ 'sale-id' ],
+                'test_id'        =>  $test_id,
                 'order_by'     => $data[ 'order_by' ],
                 'sample_id'    => $data[ 'sample-id' ],
-                'patient_id'   => $patient_id,
                 'study'        => $data[ 'study' ],
+                'patient_id'   => $patient_id,
                 'report_title' => $template -> title,
                 'conclusion'   => $data[ 'conclusion' ],
+                'organism_1'   => $data[ 'organism-1' ],
+                'organism_2'   => $data[ 'organism-2' ],
+                'organism_3'   => $data[ 'organism-3' ],
                 'date_added'   => current_date_time ()
             );
-            $id       = $this -> HistopathologyModel -> add ( $info );
+            $id       = $this -> CultureModel -> add ( $info );
+            $info         = array (
+                'user_id'        => get_logged_in_user_id (),
+                'sale_id'        =>  $sale_id ,
+                'test_id'        =>  $test_id,
+                'result'         =>  1,
+                'doctor_id'      =>  $POST[ 'doctor_id' ],
+                'date_added'     => current_date_time (),
+            ); 
+       
+            $result_id = $this -> LabModel -> do_add_test_results ( $info );
+
+
             
-            $print = '<a href="' . base_url ( '/invoices/histopathology-report?report-id=' . $id ) . '" target="_blank">Print</a>';
+            $print = '<a href="' . base_url ( '/invoices/culture-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
+                $this -> add_antibiotic ( $id );
                 $this -> session -> set_flashdata ( 'response', 'Success! Report added.' . $print );
+                redirect( 'CultureTest/add_culture_report' );
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
             }
+        }
+        
+        /**
+         * -------------------------
+         * @param $id
+         * add antibiotics information
+         * -------------------------
+         */
+        
+        private function add_antibiotic ( $id ) {
+            $antibiotics = $this -> input -> post ( 'antibiotic', true );
+            $result_1    = $this -> input -> post ( 'result-1', true );
+            $result_2    = $this -> input -> post ( 'result-2', true );
+            $result_3    = $this -> input -> post ( 'result-3', true );
+            
+            if ( count ( $antibiotics ) > 0 ) {
+                foreach ( $antibiotics as $key => $antibiotic_id ) {
+                    if ( !empty( trim ( $antibiotic_id ) ) and $antibiotic_id > 0 ) {
+                        if ( !empty( trim ( $result_1[ $key ] ) ) or !empty( trim ( $result_2[ $key ] ) or !empty( trim ( $result_3[ $key ] ) ) ) ) {
+                            $info = array (
+                                'user_id'       => get_logged_in_user_id (),
+                                'culture_id'    => $id,
+                                'antibiotic_id' => $antibiotic_id,
+                                'result_1'      => $result_1[ $key ],
+                                'result_2'      => $result_2[ $key ],
+                                'result_3'      => $result_3[ $key ],
+                            );
+                            $this -> CultureModel -> add_antibiotic ( $info );
+                        }
+                    }
+                }
+            }
+            
         }
         
         /**
@@ -186,10 +239,12 @@
             $title = site_name . ' - Edit Reports';
             $this -> header ( $title );
             $this -> sidebar ();
-            $data[ 'doctors' ] = $this -> DoctorModel -> get_doctors ();
-            $data[ 'report' ]  = $this -> HistopathologyModel -> search ();
-            $data[ 'samples' ] = $this -> SampleModel -> get_samples ();
-            $this -> load -> view ( '/culture-histopathology/histopathology/search', $data );
+            $data[ 'doctors' ]          = $this -> DoctorModel -> get_doctors ();
+            $data[ 'report' ]           = $this -> CultureModel -> search ();
+            $data[ 'samples' ]          = $this -> SampleModel -> get_samples ();
+            $data[ 'addedAntibiotics' ] = $this -> CultureModel -> get_added_antibiotics ( $this -> input -> get ( 'report_id' ) );
+            $data[ 'antibiotics' ]      = $this -> CultureModel -> get_antibiotics_not_added ( $this -> input -> get ( 'report_id' ) );
+            $this -> load -> view ( '/culture-histopathology/culture/search', $data );
             $this -> footer ();
         }
         
@@ -209,16 +264,16 @@
                 'sample_id'    => $data[ 'sample-id' ],
                 'report_title' => $data[ 'report_title' ],
                 'study'        => $data[ 'study' ],
-                'conclusion'   => $data[ 'conclusion' ]
+                'conclusion'   => $data[ 'conclusion' ],
+                'organism_1'   => $data[ 'organism-1' ],
+                'organism_2'   => $data[ 'organism-2' ],
+                'organism_3'   => $data[ 'organism-3' ],
             );
-            $updated   = $this -> HistopathologyModel -> update_report ( $info, $report_id );
-            delete_report_verify_status ( $report_id, 'hmis_histopathology' );
-            if ( $updated ) {
-                $this -> session -> set_flashdata ( 'response', 'Success! Report updated.' );
-            }
-            else {
-                $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
-            }
+            $updated   = $this -> CultureModel -> update_report ( $info, $report_id );
+            $this -> CultureModel -> delete_antibiotic ( $report_id );
+            $this -> add_antibiotic ( $report_id );
+            delete_report_verify_status ( $report_id, 'hmis_culture' );
+            $this -> session -> set_flashdata ( 'response', 'Success! Report updated.' );
             return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
         }
         
@@ -234,24 +289,17 @@
             if ( empty( trim ( $report_id ) ) or !is_numeric ( $report_id ) or $report_id < 1 )
                 return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             
-            $this -> HistopathologyModel -> delete_report ( $report_id );
+            $this -> CultureModel -> delete_report ( $report_id );
             $this -> session -> set_flashdata ( 'response', 'Success! Report deleted.' );
             return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
         }
         
         public function verify_report () {
             $report_id = $this -> input -> get ( 'report-id' );
-            $sale_id = $this -> input -> get ( 'sale_id' );
-            $test_id = $this -> input -> get ( 'test_id' );
             if ( empty( trim ( $report_id ) ) or !is_numeric ( $report_id ) or $report_id < 1 )
                 return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             
-            $this -> RadiologyModel -> verify_report ( $report_id, 'hmis_histopathology' );
-
-            if( !empty( trim( $sale_id ) ) and !empty( trim( $test_id ) ) ){
-                $this -> LabModel -> verify_report_raadiology_result( $sale_id, $test_id );
-
-            }
+            $this -> RadiologyModel -> verify_report ( $report_id, 'hmis_culture' );
             $this -> session -> set_flashdata ( 'response', 'Success! Report verified.' );
             return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
             

@@ -3997,6 +3997,27 @@
         }
 
     
-    
+    public function verify_report_raadiology_result($sale_id , $test_id){
+        
+        $result_id = $this -> get_test_results_by_sale_id_test_id ( $sale_id, $test_id );
+        if ( $result_id > 0 ) {
+            $info = array (
+                'user_id'    => get_logged_in_user_id (),
+                'sale_id'    => $sale_id,
+                'result_id'  => $result_id,
+                'created_at' =>current_date_time (),
+            );
+            $this -> db -> insert ( 'lab_results_verified', $info );
+        }
+    }
+
+    public function get_test_results_by_sale_id_test_id($sale_id, $test_id){
+        $this -> db -> select ( 'id' );
+        $this -> db -> where ( 'sale_id', $sale_id );
+        $this -> db -> where ( 'test_id', $test_id );
+        $query = $this -> db -> get ( 'hmis_test_results' );
+        return $query -> row () -> id;
         
     }
+
+}
