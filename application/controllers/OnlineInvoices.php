@@ -21,6 +21,9 @@ class OnlineInvoices extends CI_Controller {
         $this -> load -> model ( 'SectionModel' );
         $this -> load -> model ( 'LocationModel' );
         $this -> load -> library ( 'pdf' );
+        $this -> load -> model ( 'RadiologyModel' );
+        $this -> load -> model ( 'CultureModel' );
+        $this -> load -> model ( 'HistopathologyModel' );
     }
     
 
@@ -187,7 +190,6 @@ class OnlineInvoices extends CI_Controller {
         $mpdf -> WriteHTML ( $html_content );
         $mpdf -> Output ( 'Test-results-report' . rand () . '.pdf', 'I' );
     }
-
     
     public function stool_examination_report () {
 
@@ -528,5 +530,320 @@ class OnlineInvoices extends CI_Controller {
         $mpdf -> SetDisplayMode ( 'real' );
         $mpdf -> WriteHTML ( $html_content );
         $mpdf -> Output ( 'Pericardial-Fluid-Report.pdf', 'I' );
+    }
+
+    public function ecg_report () {
+
+        if ( !isset( $_REQUEST[ 'report-id' ] ) or !is_numeric ( $_REQUEST[ 'report-id' ] ) or $_REQUEST[ 'report-id' ] < 1 )
+            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+
+        $report_id        = $_REQUEST[ 'report-id' ];
+        $data[ 'report' ] = $this -> RadiologyModel -> get_ecg_report_by_id ( $report_id );
+        $html_content     = $this -> load -> view ( '/invoices/ecg-report', $data, true );
+        require_once FCPATH . '/vendor/autoload.php';
+        $mpdf = new \Mpdf\Mpdf( [
+                                    'margin_left'   => 5,
+                                    'margin_right'  => 5,
+                                    'margin_top'    => 35,
+                                    'margin_bottom' => 25,
+                                    'margin_header' => 10,
+                                    'margin_footer' => 10
+                                ] );
+        $name = 'ECG Report ' . rand () . '.pdf';
+
+        $mpdf -> SetTitle ( site_name );
+        $mpdf -> SetAuthor ( site_name );
+        $mpdf -> SetWatermarkText ( site_name );
+        $mpdf -> showWatermarkText  = true;
+        $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+        $mpdf -> watermarkTextAlpha = 0.1;
+        $mpdf -> SetDisplayMode ( 'real' );
+        $mpdf -> WriteHTML ( $html_content );
+        $mpdf -> Output ( $name, 'I' );
+    }
+
+    public function xray_report () {
+
+        if ( !isset( $_REQUEST[ 'report-id' ] ) or !is_numeric ( $_REQUEST[ 'report-id' ] ) or $_REQUEST[ 'report-id' ] < 1 )
+            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+
+        $report_id        = $_REQUEST[ 'report-id' ];
+        $data[ 'report' ] = $this -> RadiologyModel -> get_xray_report_by_id ( $report_id );
+        $data[ 'lab' ]    = get_lab_sale ( $data[ 'report' ] -> sale_id );
+        $data[ 'user' ]   = get_logged_in_user ();
+        $html_content     = $this -> load -> view ( '/invoices/xray-report', $data, true );
+        require_once FCPATH . '/vendor/autoload.php';
+        $mpdf = new \Mpdf\Mpdf( [
+                                    'margin_left'   => 5,
+                                    'margin_right'  => 5,
+                                    'margin_top'    => 35,
+                                    'margin_bottom' => 5,
+                                    'margin_header' => 5,
+                                    'margin_footer' => 5
+                                ] );
+        $name = 'Xray Report ' . rand () . '.pdf';
+
+        $mpdf -> SetTitle ( strip_tags ( site_name ) );
+        $mpdf -> SetAuthor ( site_name );
+
+        $status = get_report_verify_status ( $report_id, 'hmis_xray' );
+        if ( empty( $status ) ) {
+            $mpdf -> SetWatermarkText ( 'Unverified' );
+            $mpdf -> showWatermarkText  = true;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+        }
+        else {
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+        }
+
+        $mpdf -> SetDisplayMode ( 'real' );
+        $mpdf -> WriteHTML ( $html_content );
+        $mpdf -> Output ( $name, 'I' );
+    }
+
+    public function ultrasound_report () {
+
+        if ( !isset( $_REQUEST[ 'report-id' ] ) or !is_numeric ( $_REQUEST[ 'report-id' ] ) or $_REQUEST[ 'report-id' ] < 1 )
+            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+
+        $report_id        = $_REQUEST[ 'report-id' ];
+        $data[ 'report' ] = $this -> RadiologyModel -> get_ultrasound_report_by_id ( $report_id );
+        $data[ 'lab' ]    = get_lab_sale ( $data[ 'report' ] -> sale_id );
+        $data[ 'user' ]   = get_logged_in_user ();
+        $html_content     = $this -> load -> view ( '/invoices/ultrasound-report', $data, true );
+        require_once FCPATH . '/vendor/autoload.php';
+        $mpdf = new \Mpdf\Mpdf( [
+                                    'margin_left'   => 5,
+                                    'margin_right'  => 5,
+                                    'margin_top'    => 41,
+                                    'margin_bottom' => 5,
+                                    'margin_header' => 5,
+                                    'margin_footer' => 5
+                                ] );
+        $name = 'Ultrasound Report ' . rand () . '.pdf';
+
+        $mpdf -> SetTitle ( strip_tags ( site_name ) );
+        $mpdf -> SetAuthor ( site_name );
+
+        $status = get_report_verify_status ( $report_id, 'hmis_ultrasound' );
+        if ( empty( $status ) ) {
+            $mpdf -> SetWatermarkText ( 'Unverified' );
+            $mpdf -> showWatermarkText  = true;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+        }
+        else {
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+        }
+
+        $mpdf -> SetDisplayMode ( 'real' );
+        $mpdf -> WriteHTML ( $html_content );
+        $mpdf -> Output ( $name, 'I' );
+    }
+    public function echo_report () {
+
+        if ( !isset( $_REQUEST[ 'report-id' ] ) or !is_numeric ( $_REQUEST[ 'report-id' ] ) or $_REQUEST[ 'report-id' ] < 1 )
+            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+
+        $report_id        = $_REQUEST[ 'report-id' ];
+        $data[ 'report' ] = $this -> RadiologyModel -> get_echo_report_by_id ( $report_id );
+        $html_content     = $this -> load -> view ( '/invoices/echo-report', $data, true );
+        require_once FCPATH . '/vendor/autoload.php';
+        $mpdf = new \Mpdf\Mpdf( [
+                                    'margin_left'   => 5,
+                                    'margin_right'  => 5,
+                                    'margin_top'    => 35,
+                                    'margin_bottom' => 25,
+                                    'margin_header' => 10,
+                                    'margin_footer' => 10
+                                ] );
+        $name = 'ECHO Report ' . rand () . '.pdf';
+
+        $mpdf -> SetTitle ( site_name );
+        $mpdf -> SetAuthor ( site_name );
+        $mpdf -> SetWatermarkText ( site_name );
+        $mpdf -> showWatermarkText  = true;
+        $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+        $mpdf -> watermarkTextAlpha = 0.1;
+        $mpdf -> SetDisplayMode ( 'real' );
+        $mpdf -> WriteHTML ( $html_content );
+        $mpdf -> Output ( $name, 'I' );
+    }
+    public function mri_report () {
+
+        if ( !isset( $_REQUEST[ 'report-id' ] ) or !is_numeric ( $_REQUEST[ 'report-id' ] ) or $_REQUEST[ 'report-id' ] < 1 )
+            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+
+        $report_id        = $_REQUEST[ 'report-id' ];
+        $data[ 'report' ] = $this -> RadiologyModel -> get_mri_report_by_id ( $report_id );
+        $data[ 'user' ]   = get_logged_in_user ();
+        $html_content     = $this -> load -> view ( '/invoices/mri-report', $data, true );
+        require_once FCPATH . '/vendor/autoload.php';
+        $mpdf = new \Mpdf\Mpdf( [
+                                    'margin_left'   => 5,
+                                    'margin_right'  => 5,
+                                    'margin_top'    => 41,
+                                    'margin_bottom' => 5,
+                                    'margin_header' => 5,
+                                    'margin_footer' => 5
+                                ] );
+        $name = 'MRI Report ' . rand () . '.pdf';
+
+        $mpdf -> SetTitle ( strip_tags ( site_name ) );
+        $mpdf -> SetAuthor ( site_name );
+
+        $status = get_report_verify_status ( $report_id, 'hmis_mri' );
+        if ( empty( $status ) ) {
+            $mpdf -> SetWatermarkText ( 'Unverified' );
+            $mpdf -> showWatermarkText  = true;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+        }
+        else {
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+        }
+
+        $mpdf -> SetDisplayMode ( 'real' );
+        $mpdf -> WriteHTML ( $html_content );
+        $mpdf -> Output ( $name, 'I' );
+    }
+
+    public function ct_scan_report () {
+
+        if ( !isset( $_REQUEST[ 'report-id' ] ) or !is_numeric ( $_REQUEST[ 'report-id' ] ) or $_REQUEST[ 'report-id' ] < 1 )
+            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+
+        $report_id        = $_REQUEST[ 'report-id' ];
+        $data[ 'report' ] = $this -> RadiologyModel -> get_ct_scan_report_by_id ( $report_id );
+        $data[ 'user' ]   = get_logged_in_user ();
+        $html_content     = $this -> load -> view ( '/invoices/ct-scan-report', $data, true );
+        require_once FCPATH . '/vendor/autoload.php';
+        $mpdf = new \Mpdf\Mpdf( [
+                                    'margin_left'   => 5,
+                                    'margin_right'  => 5,
+                                    'margin_top'    => 35,
+                                    'margin_bottom' => 5,
+                                    'margin_header' => 5,
+                                    'margin_footer' => 5
+                                ] );
+        $name = 'CT-Scan Report ' . rand () . '.pdf';
+
+        $mpdf -> SetTitle ( strip_tags ( site_name ) );
+        $mpdf -> SetAuthor ( site_name );
+
+        $status = get_report_verify_status ( $report_id, 'hmis_ct_scan' );
+        if ( empty( $status ) ) {
+            $mpdf -> SetWatermarkText ( 'Unverified' );
+            $mpdf -> showWatermarkText  = true;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+        }
+        else {
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+        }
+
+        $mpdf -> SetDisplayMode ( 'real' );
+        $mpdf -> WriteHTML ( $html_content );
+        $mpdf -> Output ( $name, 'I' );
+    }
+
+    public function histopathology_report () {
+
+        if ( !isset( $_REQUEST[ 'report-id' ] ) or !is_numeric ( $_REQUEST[ 'report-id' ] ) or $_REQUEST[ 'report-id' ] < 1 )
+            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+
+        $report_id        = $_REQUEST[ 'report-id' ];
+        $data[ 'report' ] = $this -> HistopathologyModel -> get_report_by_id ( $report_id );
+        $data[ 'lab' ]    = get_lab_sale ( $data[ 'report' ] -> sale_id );
+        $html_content     = $this -> load -> view ( '/invoices/histopathology-report', $data, true );
+        require_once FCPATH . '/vendor/autoload.php';
+
+        $mpdf = new \Mpdf\Mpdf( [
+                                    'margin_left'   => 5,
+                                    'margin_right'  => 5,
+                                    'margin_top'    => 41,
+                                    'margin_bottom' => 5,
+                                    'margin_header' => 5,
+                                    'margin_footer' => 5
+                                ] );
+        $name = 'Histopathology-Report-' . rand () . '.pdf';
+
+        $mpdf -> SetTitle ( strip_tags ( site_name ) );
+        $mpdf -> SetAuthor ( site_name );
+
+        $status = get_report_verify_status ( $report_id, 'hmis_histopathology' );
+        if ( empty( $status ) ) {
+            $mpdf -> SetWatermarkText ( 'Unverified' );
+            $mpdf -> showWatermarkText  = true;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+        }
+        else {
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+        }
+
+        $mpdf -> SetDisplayMode ( 'real' );
+        $mpdf -> WriteHTML ( $html_content );
+        $mpdf -> Output ( $name, 'I' );
+    }
+
+    public function culture_report () {
+
+        if ( !isset( $_REQUEST[ 'report-id' ] ) or !is_numeric ( $_REQUEST[ 'report-id' ] ) or $_REQUEST[ 'report-id' ] < 1 )
+            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+
+        $report_id             = $_REQUEST[ 'report-id' ];
+        $data[ 'report' ]      = $this -> CultureModel -> get_report_by_id ( $report_id );
+        $data[ 'antibiotics' ] = $this -> CultureModel -> get_added_antibiotics ( $report_id );
+        $data[ 'lab' ]         = get_lab_sale ( $data[ 'report' ] -> sale_id );
+        $html_content          = $this -> load -> view ( '/invoices/culture-report', $data, true );
+        require_once FCPATH . '/vendor/autoload.php';
+
+        $mpdf = new \Mpdf\Mpdf( [
+                                    'margin_left'   => 5,
+                                    'margin_right'  => 5,
+                                    'margin_top'    => 41,
+                                    'margin_bottom' => 5,
+                                    'margin_header' => 5,
+                                    'margin_footer' => 5
+                                ] );
+        $name = 'Culture-Report-' . rand () . '.pdf';
+
+        $mpdf -> SetTitle ( strip_tags ( site_name ) );
+        $mpdf -> SetAuthor ( site_name );
+
+        $status = get_report_verify_status ( $report_id, 'hmis_culture' );
+        if ( empty( $status ) ) {
+            $mpdf -> SetWatermarkText ( 'Unverified' );
+            $mpdf -> showWatermarkText  = true;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+        }
+        else {
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+        }
+
+        $mpdf -> SetDisplayMode ( 'real' );
+        $mpdf -> WriteHTML ( $html_content );
+        $mpdf -> Output ( $name, 'I' );
     }
 }

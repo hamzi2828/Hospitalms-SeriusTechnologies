@@ -133,7 +133,7 @@
             $print = '<a href="' . base_url ( '/invoices/xray-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! Xray report added.' . $print );
-                redirect ( 'RadiologyTest/add_xray_report' );
+                redirect ( 'RadiologyTest/add_xray_report?disable=true' );
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
@@ -389,7 +389,7 @@
             $print = '<a href="' . base_url ( '/invoices/ultrasound-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! Ultrasound report added.' . $print );
-                redirect('RadiologyTest/add_ultrasound_report');
+                redirect('RadiologyTest/add_ultrasound_report?disable=true');
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
@@ -578,7 +578,7 @@
             $print = '<a href="' . base_url ( '/invoices/ct-scan-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! Report added.' . $print );
-                redirect('RadiologyTest/add_ct_scan_report');
+                redirect('RadiologyTest/add_ct_scan_report?disable=true');
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
@@ -771,7 +771,7 @@
             $print = '<a href="' . base_url ( '/invoices/mri-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! Report added.' . $print );
-                return redirect ( 'RadiologyTest/add_mri_report' );
+                return redirect ( 'RadiologyTest/add_mri_report?disable=true' );
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
@@ -1011,7 +1011,7 @@
             $print = '<a href="' . base_url ( '/invoices/echo-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! ECHO report added.' . $print );
-                redirect ( 'RadiologyTest/add_echo_report' );
+                redirect ( 'RadiologyTest/add_echo_report?disable=true' );
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
@@ -1227,7 +1227,7 @@
             $print = '<a href="' . base_url ( '/invoices/ecg-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! ECG report added.' . $print );
-                redirect('RadiologyTest/add_ecg_report');
+                redirect('RadiologyTest/add_ecg_report?disable=true');
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );

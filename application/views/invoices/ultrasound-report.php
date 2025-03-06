@@ -114,7 +114,8 @@ mpdf-->
     <tr>
         <td width="50%" align="left" style="color:#000; ">
             <span style="font-size: 8pt;"><strong>Report ID:</strong> <?php echo @$report -> id ?></span><br>
-            <span style="font-size: 8pt;"><strong><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>:</strong> <?php echo @$report -> sale_id ?></span><br>
+            <!-- <span style="font-size: 8pt;"><strong><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>:</strong> <?php echo @$report -> sale_id ?></span><br> -->
+            <span style="font-size: 8pt;"><strong>Invoice ID:</strong> <?php echo @$report -> sale_id ?></span><br>
             <span style="font-size: 8pt;"><strong> MR No: </strong> <?php echo @$patient -> id ?></span><br>
             <span style="font-size: 8pt;"><strong> Name: </strong> <?php echo @get_patient_name (0, $patient) ?></span><br>
             <span style="font-size: 8pt;"><strong> Gender: </strong> <?php echo ( @$patient -> gender == 1 ) ? 'Male' : 'Female' ?></span><br>
@@ -141,7 +142,7 @@ mpdf-->
         <td width="50%" align="right" style="font-size: 8pt">
             <?php $barcodeValue = online_report_url . 'qr-login/?parameters=' . encode ( $report -> id ); ?>
             <img src="https://quickchart.io/qr?text=<?php echo $barcodeValue ?>&size=40" style="height: 70px;" /> <br />
-            <strong> Sample Date/Time: </strong> <?php echo @date_setter ( $lab -> date_sale ) ?><br>
+            <!-- <strong> Sample Date/Time: </strong> <?php echo @date_setter ( $lab -> date_sale ) ?><br> -->
             <strong> Report Date/Time: </strong> <?php echo date_setter ( $report -> date_added ) ?>
         </td>
     </tr>

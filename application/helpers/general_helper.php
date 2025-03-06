@@ -82,6 +82,13 @@
     
         return $user_data;
     }
+
+    function get_report_saleId_testId($saleId, $testId, $table) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'RadiologyModel' );
+        return $ci -> RadiologyModel -> get_report_saleId_testId ( $saleId, $testId, $table );
+        
+    }
     
     /**
      * ---------------------

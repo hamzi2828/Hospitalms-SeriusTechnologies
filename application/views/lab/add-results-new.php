@@ -251,7 +251,7 @@
                                                         <?php
                                                     }
                                                     
-                                                    else if ( !empty( $verified ) ) {
+                                                    else if ( !empty( $verified ) && $balance <= 0 ) {
                                                         ?>
                                                         <a href="<?php echo base_url ( '/invoices/print_lab_single_invoice_lab/?id=' . @$results -> id . '&sale-id=' . $_REQUEST[ 'invoice_id' ] . '&parent-id=' . $sale -> test_id . '&machine=' . @$results -> machine ) ?>"
                                                            class="btn <?php echo ( $isParent or $test -> parent_id < 1 ) ? 'green btn-xs' : 'purple btn-xs' ?>"

@@ -229,10 +229,12 @@
                                                     if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'lab_add_pending_results_button', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) {
                                                         if ( $results and !empty ( $results ) > 0 ) {
                                                             ?>
+                                                             <?php if ( $test -> category !== 'radiology' ) { ?>
                                                             <a href="<?php echo base_url ( '/lab/add-results/?sale-id=' . $sale -> sale_id . '&parent-id=' . $parent_id . '&test-id=' . $sale -> test_id . '&machine=' . $results -> machine ) ?>"
                                                                class="btn btn-warning btn-xs btn-block"
                                                                target="_blank">Edit Results
                                                             </a>
+                                                            <?php } ?>
                                                             <?php
                                                         }
                                                         else {

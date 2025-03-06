@@ -439,9 +439,123 @@
                                                 <?php endif; ?>
 
 
-                                                <?php } ?>
+                                                <?php }?>
+                                                <?php
+                                            if ($test->category === 'radiology') {
+                                                if ($test->category_type === 'Ecg') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_ecg' );
+                                                    ?>
+                                                     <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_ecg_report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                                    <a type="button" class="btn purple btn-xs btn-block"
+                                                    href="<?php echo base_url ( '/invoices/ecg-report?report-id=' . $report -> id ) ?>"
+                                                    target="_blank">Print</a>
 
-                                            
+                                                    <a type="button"  class="btn dark btn-block btn-xs"
+                                                    href="<?php echo base_url ( '/invoices/ecg-report?logo=true&report-id=' . $report -> id ) ?>"
+                                                    target="_blank">L-Print</a>
+
+                                                <?php endif; ?>
+                                                    <?php
+                                                } elseif ($test->category_type === 'X-Ray') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_xray' );
+                                                    ?>
+                                                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_xray_report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                                        <a type="button"    class="btn purple btn-xs btn-block"
+                                                        href="<?php echo base_url ( '/invoices/xray-report?logo=true&report-id=' . $report -> id ) ?>"
+                                                        target="_blank">L-Print</a>
+                                                        
+                                                        <a type="button"   class="btn dark btn-block btn-xs"
+                                                        href="<?php echo base_url ( '/invoices/xray-report?logo=false&report-id=' . $report -> id ) ?>"
+                                                        target="_blank">Print</a>
+                                                    <?php endif; ?>
+                                                    <?php
+                                                } elseif ($test->category_type === 'Ultrasound') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_ultrasound' );
+                                                    ?>
+                                                        <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_ultrasound_report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                                            <a type="button"  class="btn purple btn-xs btn-block"
+                                                            href="<?php echo base_url ( '/invoices/ultrasound-report?logo=true&report-id=' . $report -> id ) ?>"
+                                                            target="_blank">L-Print</a>
+                                                            
+                                                            <a type="button"   class="btn dark btn-block btn-xs"
+                                                            href="<?php echo base_url ( '/invoices/ultrasound-report?logo=false&report-id=' . $report -> id ) ?>"
+                                                            target="_blank">Print</a>
+                                                        <?php endif; ?>
+                                                    <?php
+                                                } elseif ($test->category_type === 'Echo') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_echo' );
+                                                    ?>
+                                                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_echo_report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                                    <a type="button" class="btn purple btn-xs btn-block"
+                                                    href="<?php echo base_url ( '/invoices/echo-report?report-id=' . $report -> id ) ?>"
+                                                    target="_blank">Print</a>
+
+                                                    <a type="button"  class="btn dark btn-block btn-xs"
+                                                    href="<?php echo base_url ( '/invoices/echo-report?logo=true&report-id=' . $report -> id ) ?>"
+                                                    target="_blank">L-Print</a>
+                                                <?php endif; ?>
+                                                    <?php
+                                                } elseif ($test->category_type === 'MRI') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_mri' );
+                                                    ?>
+                                                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_mri_report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                                    <a type="button" class="btn purple btn-xs btn-block"
+                                                    href="<?php echo base_url ( '/invoices/mri-report?logo=true&report-id=' . $report -> id ) ?>"
+                                                    target="_blank">L-Print</a>
+                                                    
+                                                    <a type="button"  class="btn dark btn-block btn-xs"
+                                                    href="<?php echo base_url ( '/invoices/mri-report?logo=false&report-id=' . $report -> id ) ?>"
+                                                    target="_blank">Print</a>
+                                                <?php endif; ?>
+                                                    <?php
+                                                } elseif ($test->category_type === 'CTScan') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_ct_scan' );
+                                                    ?>
+                                                <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_ct_scan_report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                                    <a type="button" class="btn purple btn-xs btn-block"
+                                                    href="<?php echo base_url ( '/invoices/ct-scan-report?logo=true&report-id=' . $report -> id ) ?>"
+                                                    target="_blank">L-Print</a>
+                                                    
+                                                    <a type="button" class="btn dark btn-block btn-xs"
+                                                    href="<?php echo base_url ( '/invoices/ct-scan-report?logo=false&report-id=' . $report -> id ) ?>"
+                                                    target="_blank">Print</a>
+                                                <?php endif; ?>
+                                                    <?php
+                                                } elseif ($test->category_type === 'Histo') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_histopathology' );
+                                                    ?>
+                                                     <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print-histopathology-report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                                        <a type="button" class="btn purple btn-xs btn-block"
+                                                        href="<?php echo base_url ( '/invoices/histopathology-report?report-id=' . $report -> id . '&logo=true' ) ?>"
+                                                        target="_blank">L-Print</a>
+                                                    <?php endif; ?>
+                                                    
+                                                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print-histopathology-report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                                        <a type="button"  class="btn dark btn-block btn-xs"
+                                                        href="<?php echo base_url ( '/invoices/histopathology-report?report-id=' . $report -> id ) ?>"
+                                                        target="_blank">Print</a>
+                                                    <?php endif; ?>
+                                                    <?php
+                                                } elseif ($test->category_type === 'Culture') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_culture' );
+                                                    ?>
+                                                 <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print-culture-report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                                    <a type="button" class="btn purple btn-xs btn-block"
+                                                    href="<?php echo base_url ( '/invoices/culture-report?report-id=' . $report -> id . '&logo=true' ) ?>"
+                                                    target="_blank">L-Print</a>
+                                                <?php endif; ?>
+                                                
+                                                <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print-culture-report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                                    <a type="button"  class="btn dark btn-block btn-xs"
+                                                    href="<?php echo base_url ( '/invoices/culture-report?report-id=' . $report -> id ) ?>"
+                                                    target="_blank">Print</a>
+                                                <?php endif; ?>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+
+                                               
                                             </td>
                                         </tr>
                                         <?php

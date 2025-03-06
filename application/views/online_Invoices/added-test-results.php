@@ -86,6 +86,7 @@
                                            
                                             <td>
                                                 <?php
+                                                if ( $test -> category !== 'radiology' ) {
                                                     if ( $test -> id == CP_Peripheral_Film ) {
                                                         ?>
                                                        
@@ -170,13 +171,88 @@
                                            
                                                     <?php } ?>
                                                 
+                                                <?php } ?>
+                                                <?php
+                                            if ($test->category === 'radiology') {
+                                                if ($test->category_type === 'Ecg') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_ecg' );
+                                                    ?>
+                                                    <a type="button" 
+                                                    href="<?php echo base_url ( '/OnlineInvoices/ecg_report?logo=true&report-id=' . $report -> id ) ?>"
+                                                    style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download </a>
 
-                                                
+
+
+                                                    <?php
+                                                } elseif ($test->category_type === 'X-Ray') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_xray' );
+                                                    ?>
+                                                        <a type="button"   
+                                                        href="<?php echo base_url ( '/OnlineInvoices/xray_report?logo=true&report-id=' . $report -> id ) ?>"
+                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download </a>
+                                                        
+
+                                                    <?php
+                                                } elseif ($test->category_type === 'Ultrasound') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_ultrasound' );
+                                                    ?>
+                                                            <a type="button" 
+                                                            href="<?php echo base_url ( '/OnlineInvoices/ultrasound_report?logo=true&report-id=' . $report -> id ) ?>"
+                                                            style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download </a>
+                                                            
+                                                    <?php
+                                                } elseif ($test->category_type === 'Echo') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_echo' );
+                                                    ?>
+                                                    <a type="button" 
+                                                    href="<?php echo base_url ( '/OnlineInvoices/echo_report?logo=true&report-id=' . $report -> id ) ?>"
+                                                    style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download </a>
+
+
+                                                    <?php
+                                                } elseif ($test->category_type === 'MRI') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_mri' );
+                                                    ?>
+                                                    <a type="button" 
+                                                    href="<?php echo base_url ( '/OnlineInvoices/mri_report?logo=true&report-id=' . $report -> id ) ?>"
+                                                    style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download </a>
+                                                    
+
+                                                    <?php
+                                                } elseif ($test->category_type === 'CTScan') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_ct_scan' );
+                                                    ?>
+                                                    <a type="button" 
+                                                    href="<?php echo base_url ( '/OnlineInvoices/ct_scan_report?logo=true&report-id=' . $report -> id ) ?>"
+                                                    style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download </a>
+                                                    
+                                                    <?php
+                                                } elseif ($test->category_type === 'Histo') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_histopathology' );
+                                                    ?>
+                                                        <a type="button" 
+                                                        href="<?php echo base_url ( '/OnlineInvoices/histopathology_report?report-id=' . $report -> id . '&logo=true' ) ?>"
+                                                        style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download </a>
+
+                                                    <?php
+                                                } elseif ($test->category_type === 'Culture') {
+                                                    $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_culture' );
+                                                    ?>
+                                                    <a type="button" 
+                                                    href="<?php echo base_url ( '/OnlineInvoices/culture_report?report-id=' . $report -> id . '&logo=true' ) ?>"
+                                                    style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download </a>
+                                            
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
 
                                             
                                             </td>
                                             <td>
+                                        
                                                 <?php
+                                                if ( $test -> category !== 'radiology' ) {
                                                     if ( $test -> id == CP_Peripheral_Film ) {
                                                         ?>
                                                        
@@ -259,8 +335,9 @@
 
                                                 
 
+                                                    <?php } ?>
                                             
-                                            </td>
+                                                </td>
                                         </tr>
                                         <?php
                                     }

@@ -181,7 +181,7 @@
             $print = '<a href="' . base_url ( '/invoices/histopathology-report?report-id=' . $id ) . '" target="_blank">Print</a>';
             if ( $id > 0 ) {
                 $this -> session -> set_flashdata ( 'response', 'Success! Report added.' . $print );
-                redirect( 'HistopathologyTest/add_histopathology_report' );
+                redirect( 'HistopathologyTest/add_histopathology_report?disable=true' );
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );

@@ -127,7 +127,11 @@
                         </div>
                     </div>
                     <div class="form-actions">
-                        <button type="submit" class="btn blue">Submit</button>
+                    <button type="submit" class="btn blue" 
+                    <?php echo (isset($_REQUEST['disable']) && $_REQUEST['disable'] == 'true') ? 'disabled' : ''; ?>>
+                    Submit
+                </button>
+
                     </div>
                 </form>
             </div>

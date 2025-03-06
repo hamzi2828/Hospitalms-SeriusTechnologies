@@ -116,9 +116,11 @@ mpdf-->
         <td width="50%" align="left" style="color:#000; ">
             <span style="font-size: 8pt">
 			<strong>Report ID:</strong> <?php echo @$report -> id ?><br>
-			<strong><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>:</strong> <?php echo @$report -> sale_id ?><br>
-			<strong> <?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?>: </strong> <?php echo @$patient -> id ?><br>
-			<strong> Name: </strong> <?php echo @get_patient_name (0, $patient) ?><br>
+			<!-- <strong><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>:</strong> <?php echo @$report -> sale_id ?><br> -->
+            <span style="font-size: 8pt;"><strong>Invoice ID:</strong> <?php echo @$report -> sale_id ?></span><br>
+            <!-- <strong> <?php echo $this -> lang -> line ( 'PATIENT_EMR' ); ?>: </strong> <?php echo @$patient -> id ?><br> -->
+            <strong> MR No:</strong> <?php echo @$patient -> id ?><br>
+            <strong> Name: </strong> <?php echo @get_patient_name (0, $patient) ?><br>
 			<strong> Age: </strong> <?php echo @$patient -> age . ' ' . ucwords ( $patient -> age_year_month ) ?><br>
 			<strong> Gender: </strong> <?php echo ( @$patient -> gender == 1 ) ? 'Male' : 'Female' ?><br>
 			<?php if ( !empty( trim ( @$report -> order_by ) ) ) : $doctor = get_doctor ( @$report -> order_by ) ?>

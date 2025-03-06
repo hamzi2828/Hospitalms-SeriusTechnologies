@@ -94,6 +94,7 @@
                             <th> Internal Remarks</th>
                             <th>Refunded</th>
                             <th>Refund Reason</th>
+                            <th>Remarks</th>
                             <th> Date</th>
                             <th> Actions</th>
                         </tr>

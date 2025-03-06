@@ -1079,5 +1079,13 @@
             $this -> db -> delete ( 'ecg', array ( 'id' => $report_id ) );
             return $this -> db -> affected_rows ();
         }
+
+        public function get_report_saleId_testId($saleId, $testId, $table) {
+            $this -> db -> select ( '*' );
+            $this -> db -> from ( $table );
+            $this -> db -> where ( array ( 'sale_id' => $saleId, 'test_id' => $testId ) );
+            $query = $this -> db -> get();
+            return $query -> row();
+        }
         
     }

@@ -3610,7 +3610,7 @@
             $config[ 'num_links' ]          = 10;
             $config[ 'cur_tag_open' ]       = '&nbsp;<a class="current">';
             $config[ 'cur_tag_close' ]      = '</a>';
-            $config[ 'next_link' ]          = 'Next';
+            $config[ 'next_link' ]          = 'Next'; 
             $config[ 'prev_link' ]          = 'Previous';
             
             $this -> pagination -> initialize ( $config );

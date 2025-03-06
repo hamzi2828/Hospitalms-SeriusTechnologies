@@ -116,7 +116,7 @@
                                     }
                                 ?>
                             </select>
-                            <!--							<input type="text" class="form-control" name="report_title" required="required">-->
+                            <!--<input type="text" class="form-control" name="report_title" required="required">-->
                         </div>
                         <div class="form-group col-lg-12">
                             <label for="exampleInputEmail1">Study</label>
@@ -129,7 +129,10 @@
                         </div>
                     </div>
                     <div class="form-actions">
-                        <button type="submit" class="btn blue">Submit</button>
+                    <button type="submit" class="btn blue" 
+                    <?php echo (isset($_REQUEST['disable']) && $_REQUEST['disable'] == 'true') ? 'disabled' : ''; ?>>
+                    Submit
+                </button>
                     </div>
                 </form>
             </div>

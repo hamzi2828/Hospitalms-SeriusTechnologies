@@ -111,11 +111,11 @@
                                     <td class="btn-group-xs">
                                         
                                         <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_echo_report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
-                                            <a type="button" class="btn purple"
+                                             <a type="button" class="btn purple"
                                                href="<?php echo base_url ( '/invoices/echo-report?report-id=' . $report -> id ) ?>"
                                                target="_blank">Print</a>
 
-                                               <a type="button" class="btn purple"
+                                          <a type="button" class="btn dark btn-block margin-bottom-5"
                                                href="<?php echo base_url ( '/invoices/echo-report?logo=true&report-id=' . $report -> id ) ?>"
                                                target="_blank">L-Print</a>
 
