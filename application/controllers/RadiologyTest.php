@@ -74,6 +74,14 @@
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_add_xray_report' )
                 $this -> do_add_xray_report ( $_POST );
             
+            if ( isset( $_GET[ 'sale-id' ] ) and $_GET[ 'sale-id' ] > 0 and isset( $_GET[ 'test-id' ] ) and $_GET[ 'test-id' ] > 0 ) {
+                $sale_id = $_GET[ 'sale-id' ];
+                $test_id = $_GET[ 'test-id' ];
+                $report = $this -> RadiologyModel -> get_report_saleId_testId ( $sale_id, $test_id, 'hmis_xray' );
+                if ( !empty( $report ) ) {
+                    redirect ( '/radiology/x-ray/search-xray-report?report_id=' . $report -> id );
+                }
+            }
             $title = site_name . ' - Add X-Ray Report';
             $this -> header ( $title );
             $this -> sidebar ();
@@ -333,6 +341,15 @@
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_add_ultrasound_report' )
                 $this -> do_add_ultrasound_report ( $_POST );
             
+            if ( isset( $_GET[ 'sale-id' ] ) and $_GET[ 'sale-id' ] > 0 and isset( $_GET[ 'test-id' ] ) and $_GET[ 'test-id' ] > 0 ) {
+                $sale_id = $_GET[ 'sale-id' ];
+                $test_id = $_GET[ 'test-id' ];
+                $report = $this -> RadiologyModel -> get_report_saleId_testId ( $sale_id, $test_id, 'hmis_ultrasound' );
+                if ( !empty( $report ) ) {
+                    redirect ( 'radiology/ultrasound/edit-ultrasound-report?report_id=' . $report -> id );
+                }
+            }
+            
             $title = site_name . ' - Add Ultrasound Reports';
             $this -> header ( $title );
             $this -> sidebar ();
@@ -521,6 +538,15 @@
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_add_ct_scan_report' )
                 $this -> do_add_ct_scan_report ( $_POST );
             
+            if ( isset( $_GET[ 'sale-id' ] ) and $_GET[ 'sale-id' ] > 0 and isset( $_GET[ 'test-id' ] ) and $_GET[ 'test-id' ] > 0 ) {
+                $sale_id = $_GET[ 'sale-id' ];
+                $test_id = $_GET[ 'test-id' ];
+                $report = $this -> RadiologyModel -> get_report_saleId_testId ( $sale_id, $test_id, 'hmis_ct_scan' );
+                if ( !empty( $report ) ) {
+                    redirect ( '/radiology/ct-scan/search-ct-scan-report?report_id=' . $report -> id );
+                }
+            }
+
             $title = site_name . ' - Add CT-Scan Report';
             $this -> header ( $title );
             $this -> sidebar ();
@@ -713,6 +739,15 @@
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_add_mri_report' )
                 $this -> do_add_mri_report ( $_POST );
             
+
+            if ( isset( $_GET[ 'sale-id' ] ) and $_GET[ 'sale-id' ] > 0 and isset( $_GET[ 'test-id' ] ) and $_GET[ 'test-id' ] > 0 ) {
+                $sale_id = $_GET[ 'sale-id' ];
+                $test_id = $_GET[ 'test-id' ];
+                $report = $this -> RadiologyModel -> get_report_saleId_testId ( $sale_id, $test_id, 'hmis_mri' );
+                if ( !empty( $report ) ) {
+                    redirect ( '/radiology/mri/search-mri-report?report_id=' . $report -> id );
+                }
+            }
             $title = site_name . ' - Add MRI Report';
             $this -> header ( $title );
             $this -> sidebar ();

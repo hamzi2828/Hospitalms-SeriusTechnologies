@@ -121,6 +121,14 @@
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_add_report' )
                 $this -> process_add_report ( $_POST );
             
+            if ( isset( $_GET[ 'sale-id' ] ) and $_GET[ 'sale-id' ] > 0 and isset( $_GET[ 'test-id' ] ) and $_GET[ 'test-id' ] > 0 ) {
+                $sale_id = $_GET[ 'sale-id' ];
+                $test_id = $_GET[ 'test-id' ];
+                $report = $this -> RadiologyModel -> get_report_saleId_testId ( $sale_id, $test_id, 'hmis_histopathology' );
+                if ( !empty( $report ) ) {
+                    redirect ( '/histopathology/histopathology/edit?report_id=' . $report -> id );
+                }
+            }
             $title = site_name . ' - Add Report';
             $this -> header ( $title );
             $this -> sidebar ();
