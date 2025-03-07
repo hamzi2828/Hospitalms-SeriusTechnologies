@@ -64,7 +64,7 @@
 		.report h1 {
 			font-weight: 800 !important;
 			margin-top: 10px;
-			padding-bottom: 10px; 
+			padding-bottom: 5px; 
 			border-bottom: 1px solid #000000;
 		}
 		.report h2 {
@@ -143,7 +143,7 @@ mpdf-->
     </tr>
 </table>
 <div class="report">
-    <h1 style="text-align: center">
+    <h1 style="text-align: center; margin-top: -10px;">
         <strong><?php echo ucwords(@$report -> report_title) ?></strong>
     </h1>
 <!--	<h2><strong>Verified Report</strong></h2>-->

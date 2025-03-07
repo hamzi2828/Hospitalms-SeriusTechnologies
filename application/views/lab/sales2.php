@@ -91,10 +91,9 @@
                             <!-- added -->
                             <th>Payment Method</th>
                             <th>Chq/Trans. No</th>
-                            <th> Internal Remarks</th>
                             <th>Refunded</th>
                             <th>Refund Reason</th>
-                            <th>Remarks</th>
+                            <th>Internel Remarks</th>
                             <th> Date</th>
                             <th> Actions</th>
                         </tr>
@@ -195,7 +194,6 @@
                                         <?php echo ucfirst($sale_info->payment_method); ?>
                                           </td>
                                           <td align="left"><?php echo $sale_info->transaction_no; ?></td>
-                                        <td align="left"><?php echo $sale_info->internal_remarks; ?></td>
                                         <td align="left"><?php echo ($sale->refunded == '1') ? 'Yes' : 'No'; ?></td>
                                         <td align="left"><?php echo $sale->remarks; ?></td>
 

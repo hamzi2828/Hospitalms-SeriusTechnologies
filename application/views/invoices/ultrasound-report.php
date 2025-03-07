@@ -73,7 +73,7 @@
 
         .report h2 {
             font-weight: 600 !important;
-            margin-top: 10px;
+            margin-top: -10px;
             padding-bottom: 0;
         }
 

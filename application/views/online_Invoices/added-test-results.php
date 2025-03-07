@@ -173,7 +173,7 @@
                                                 
                                                 <?php } ?>
                                                 <?php
-                                            if ($test->category === 'radiology') {
+                                            if ($test->category === 'radiology' and ( $balance <= 0  ) ) {
                                                 if ($test->category_type === 'Ecg') {
                                                     $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_ecg' );
                                                     ?>
@@ -184,7 +184,7 @@
 
 
                                                     <?php
-                                                } elseif ($test->category_type === 'X-Ray') {
+                                                } elseif ($test->category_type === 'X-Ray' and ( $balance <= 0  ) ) {
                                                     $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_xray' );
                                                     ?>
                                                         <a type="button"   
@@ -193,15 +193,15 @@
                                                         
 
                                                     <?php
-                                                } elseif ($test->category_type === 'Ultrasound') {
+                                                } elseif ($test->category_type === 'Ultrasound' and ( $balance <= 0  ) ) {
                                                     $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_ultrasound' );
                                                     ?>
                                                             <a type="button" 
                                                             href="<?php echo base_url ( '/OnlineInvoices/ultrasound_report?logo=true&report-id=' . $report -> id ) ?>"
                                                             style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download </a>
                                                             
-                                                    <?php
-                                                } elseif ($test->category_type === 'Echo') {
+                                                    <?php 
+                                                } elseif ($test->category_type === 'Echo' and ( $balance <= 0  ) ) {
                                                     $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_echo' );
                                                     ?>
                                                     <a type="button" 
@@ -210,7 +210,7 @@
 
 
                                                     <?php
-                                                } elseif ($test->category_type === 'MRI') {
+                                                } elseif ($test->category_type === 'MRI' and ( $balance <= 0  ) ) {
                                                     $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_mri' );
                                                     ?>
                                                     <a type="button" 
@@ -219,7 +219,7 @@
                                                     
 
                                                     <?php
-                                                } elseif ($test->category_type === 'CTScan') {
+                                                } elseif ($test->category_type === 'CTScan' and ( $balance <= 0  ) ) {
                                                     $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_ct_scan' );
                                                     ?>
                                                     <a type="button" 
@@ -227,7 +227,7 @@
                                                     style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download </a>
                                                     
                                                     <?php
-                                                } elseif ($test->category_type === 'Histo') {
+                                                } elseif ($test->category_type === 'Histo'  and ( $balance <= 0  ) ) {
                                                     $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_histopathology' );
                                                     ?>
                                                         <a type="button" 
@@ -235,7 +235,7 @@
                                                         style="padding: 5px 30px; font-weight: bold;" class="btn btn-success "  target="_blank">Download </a>
 
                                                     <?php
-                                                } elseif ($test->category_type === 'Culture') {
+                                                } elseif ($test->category_type === 'Culture' and ( $balance <= 0  ) ) {
                                                     $report = get_report_saleId_testId(  $sale->sale_id, $test->id, 'hmis_culture' );
                                                     ?>
                                                     <a type="button" 

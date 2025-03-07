@@ -1678,8 +1678,8 @@
             $html_content     = $this -> load -> view ( '/invoices/xray-report', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
+                                        'margin_left'   => 7,
+                                        'margin_right'  => 7,
                                         'margin_top'    => 35,
                                         'margin_bottom' => 5,
                                         'margin_header' => 5,
@@ -1816,9 +1816,9 @@
             $html_content     = $this -> load -> view ( '/invoices/ultrasound-report', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
-                                        'margin_top'    => 41,
+                                        'margin_left'   => 7,
+                                        'margin_right'  => 7,
+                                        'margin_top'    => 35,
                                         'margin_bottom' => 5,
                                         'margin_header' => 5,
                                         'margin_footer' => 5
@@ -4556,9 +4556,9 @@
             require_once FCPATH . '/vendor/autoload.php';
 
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
-                                        'margin_top'    => 41,
+                                        'margin_left'   => 7,
+                                        'margin_right'  => 7,
+                                        'margin_top'    => 35,
                                         'margin_bottom' => 5,
                                         'margin_header' => 5,
                                         'margin_footer' => 5
@@ -4606,9 +4606,9 @@
             require_once FCPATH . '/vendor/autoload.php';
 
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
-                                        'margin_top'    => 41,
+                                        'margin_left'   => 7,
+                                        'margin_right'  => 7,
+                                        'margin_top'    => 35,
                                         'margin_bottom' => 5,
                                         'margin_header' => 5,
                                         'margin_footer' => 5
@@ -4719,8 +4719,8 @@
             $html_content     = $this -> load -> view ( '/invoices/ct-scan-report', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
+                                        'margin_left'   => 7,
+                                        'margin_right'  => 7,
                                         'margin_top'    => 35,
                                         'margin_bottom' => 5,
                                         'margin_header' => 5,
@@ -4768,9 +4768,9 @@
             $html_content     = $this -> load -> view ( '/invoices/mri-report', $data, true );
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [
-                                        'margin_left'   => 5,
-                                        'margin_right'  => 5,
-                                        'margin_top'    => 41,
+                                        'margin_left'   => 7,
+                                        'margin_right'  => 7,
+                                        'margin_top'    => 35,
                                         'margin_bottom' => 5,
                                         'margin_header' => 5,
                                         'margin_footer' => 5

@@ -171,6 +171,7 @@
             if ( $id > 0 ) {
                 $this -> add_antibiotic ( $id );
                 $this -> session -> set_flashdata ( 'response', 'Success! Report added.' . $print );
+                redirect ( base_url ( 'culture/culture/add' ) );
             }
             else {
                 $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
