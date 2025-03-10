@@ -206,10 +206,10 @@
         </div>
     </div>
     <?php if ( $sale -> discharged == '1' ) : ?>
-        <a href="<?php echo base_url ( '/IPD/edit-sale/?sale_id=' . $sale -> sale_id . '&action=update-billing' ) ?>"
+        <!-- <a href="<?php echo base_url ( '/IPD/edit-sale/?sale_id=' . $sale -> sale_id . '&action=update-billing' ) ?>"
            style="    position: fixed; top: 75px; right: 20px; z-index: 999;"
            class="btn btn-warning">
             Update GL Billing
-        </a>
+        </a> -->
     <?php endif; ?>
 </div>
