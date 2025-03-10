@@ -37,12 +37,12 @@
                         
                         <div class="form-group col-lg-12">
                             <label for="exampleInputEmail1">Study</label>
-                            <textarea class="form-control wysihtml5" placeholder="Add study" name="study" rows="15" style="height: 100%"><?php echo set_value ('study') ?></textarea>
+                            <textarea class="form-control ckeditor" placeholder="Add study" name="study" rows="15" style="height: 100%"><?php echo set_value ('study') ?></textarea>
                         </div>
                         
                         <div class="form-group col-lg-12">
                             <label for="exampleInputEmail1">Conclusion</label>
-                            <textarea class="form-control wysihtml5" placeholder="Add conclusion" name="conclusion" rows="15" style="height: 100%"><?php echo set_value ('conclusion') ?></textarea>
+                            <textarea class="form-control ckeditor" placeholder="Add conclusion" name="conclusion" rows="15" style="height: 100%"><?php echo set_value ('conclusion') ?></textarea>
                         </div>
                         
                     </div>
