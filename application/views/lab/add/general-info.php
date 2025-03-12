@@ -112,10 +112,20 @@
                                 <?php endforeach; endif; ?>
                             </select>
                         </div>
-
-
-
-
+                        <div class="form-group col-lg-12">
+                            <label for="categoryType">Category Type</label>
+                            <select name="category_type" class="form-control select2me">
+                                <option value="" disabled selected>Select Category Type</option>
+                                <option value="X-Ray">X-Ray</option>
+                                <option value="CTScan">CTScan</option>
+                                <option value="MRI">MRI</option>
+                                <option value="Ultrasound">Ultrasound</option>
+                                <option value="Echo">Echo</option>
+                                <option value="Ecg">Ecg</option>
+                                <option value="Culture">Culture</option>
+                                <option value="Histo">Histo</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>

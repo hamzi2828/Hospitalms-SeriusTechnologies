@@ -1036,9 +1036,9 @@
                     echo 'checked="checked"' ?>> Refund
 
                  <input type="checkbox" class="checkbox" class="checkbox" class="checkbox"
-                       name="access[]"
+                       name="access[]" 
                        value="all_user_invoices" <?php if ( !empty( $access ) and in_array ( 'all_user_invoices', explode ( ',', $access -> access ) ) )
-                    echo 'checked="checked"' ?>> Show All Invoices
+                    echo 'checked="checked"' ?>> Show All Invoices (Locations Data)
             </td>
         </tr>
         <tr>

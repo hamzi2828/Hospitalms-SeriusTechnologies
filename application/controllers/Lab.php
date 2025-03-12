@@ -194,6 +194,7 @@
                     'require_image' => $data[ 'require-image' ],
                     'sort_order'    => set_lab_sort_order (),
                     'date_added'    => current_date_time (),
+                    'category_type' => $data[ 'category_type' ],
                 );
                 $test_id = $this -> LabModel -> add ( $info );
                 if ( $test_id > 0 ) {
@@ -952,7 +953,7 @@
                         'discount'           => $discount,
                         'flat_discount'      => $flat_discount,
                         'total'              => $net_sale,
-                        'show_online_report' => $this -> input -> post ( 'show_online_report' ),
+                        'show_online_report' => 1,
                         'type'               => 'lab',
                         'payment_method'     => $payment_method,
                         'paid_amount'        => $paid_amount,

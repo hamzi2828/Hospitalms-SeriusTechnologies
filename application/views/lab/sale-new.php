@@ -181,11 +181,11 @@
                         </div>
                         
                         <div class="col-lg-4">
-                            <label><strong>Show Lab Online Report</strong></label>
+                            <!-- <label><strong>Show Lab Online Report</strong></label>
                             <select name="show_online_report" class="form-control select2me" required="required">
                                 <option value="1">Yes</option>
                                 <option value="0">No</option>
-                            </select>
+                            </select> -->
                         </div>
                         
                         <div class="col-lg-4">

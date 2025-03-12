@@ -154,12 +154,12 @@
                                 </div>
                                 <div class="form-group col-lg-12">
                                     <label for="exampleInputEmail1">Study</label>
-                                    <textarea rows="5" class="form-control wysihtml5"
+                                    <textarea rows="5" class="form-control ckeditor"
                                               name="study"><?php echo $report -> study ?></textarea>
                                 </div>
                                 <div class="form-group col-lg-12">
                                     <label for="exampleInputEmail1">Conclusion</label>
-                                    <textarea rows="5" class="form-control wysihtml5"
+                                    <textarea rows="5" class="form-control ckeditor"
                                               name="conclusion"><?php echo $report -> conclusion ?></textarea>
                                 </div>
                             </div>

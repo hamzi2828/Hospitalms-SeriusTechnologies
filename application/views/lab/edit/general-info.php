@@ -126,7 +126,7 @@
                                     echo 'selected="selected"' ?>>
                                     <?php echo $section -> name ?>
                                 </option>
-                            <?php endforeach; endif; ?>
+                            <?php endforeach; endif; ?> 
                         </select>
                     </div>
 
