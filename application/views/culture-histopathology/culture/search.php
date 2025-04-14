@@ -333,6 +333,10 @@
                                                                 <option value="">Select</option>
                                                                 <option value="R">R
                                                                 </option>
+                                                                <option value="IS">IS
+                                                                </option>
+                                                                <option value="IR">IR
+                                                                </option>
                                                                 <option value="S">S
                                                                 </option>
                                                             </select>
@@ -342,6 +346,10 @@
                                                                 <option value="">Select</option>
                                                                 <option value="R">R
                                                                 </option>
+                                                                <option value="IS">IS
+                                                                </option>
+                                                                <option value="IR">IR
+                                                                </option>
                                                                 <option value="S">S
                                                                 </option>
                                                             </select>
@@ -350,6 +358,10 @@
                                                             <select name="result-3[]" class="form-control select2me">
                                                                 <option value="">Select</option>
                                                                 <option value="R">R
+                                                                </option>
+                                                                <option value="IS">IS
+                                                                </option>
+                                                                <option value="IR">IR
                                                                 </option>
                                                                 <option value="S">S
                                                                 </option>

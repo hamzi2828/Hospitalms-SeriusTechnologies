@@ -5818,3 +5818,150 @@ function add_more_panel_tests ( test_id ) {
                                 }
                             } )
 }
+
+/**
+ * -------------
+ * add all panel tests at once
+ * -------------
+ */
+function add_all_panel_tests () {
+    var csrf_token = jQuery ( '#csrf_token' ).val ();
+    jQuery ( '.loader' ).show ();
+    
+    // Get all test options from the dropdown
+    var testOptions = jQuery('#ipd-services-dropdown option').not(':first');
+    var testIds = [];
+    
+    // Collect all test IDs
+    testOptions.each(function() {
+        testIds.push(jQuery(this).val());
+    });
+    
+    // If no tests are available, show message and return
+    if (testIds.length === 0) {
+        alert('No tests available to add');
+        jQuery('.loader').hide();
+        return;
+    }
+    
+    // Add tests one by one
+    function addTest(index) {
+        if (index >= testIds.length) {
+            jQuery('.loader').hide();
+            return;
+        }
+        
+        var testId = testIds[index];
+        var added = jQuery('#added').val();
+        added = parseInt(added) + 1;
+        jQuery('#added').val(added);
+        
+        jQuery.ajax({
+            url: path + 'Settings/add_more_panel_tests',
+            type: 'GET',
+            data: {
+                hmis_token: csrf_token,
+                added: added,
+                test_id: testId
+            },
+            success: function(response) {
+                jQuery('#add-more-tests').append(response);
+                jQuery('.js-example-basic-single-' + added).select2();
+                
+                // Process next test
+                addTest(index + 1);
+            },
+            error: function() {
+                // Continue with next test even if there's an error
+                addTest(index + 1);
+            }
+        });
+    }
+    
+    // Start adding tests
+    addTest(0);
+}
+
+/**
+ * -------------
+ * remove added test before saving
+ * -------------
+ */
+function removeAddedTest(rowId) {
+    if (confirm('Are you sure you want to remove this test?')) {
+        jQuery('#' + rowId).remove();
+        
+        // Re-number the remaining rows
+        var counter = 1;
+        jQuery('#add-more-tests tr').each(function() {
+            jQuery(this).find('.counter').text(counter++);
+        });
+        
+        // Update the added counter
+        var newCount = jQuery('#add-more-tests tr').length;
+        jQuery('#added').val(newCount);
+    }
+}
+
+/**
+ * -------------
+ * delete existing test from database
+ * -------------
+ */
+function deleteExistingTest(testId, rowId) {
+    if (confirm('Are you sure you want to delete this test?')) {
+        var csrf_token = jQuery('#csrf_token').val();
+        
+        jQuery.ajax({
+            url: path + 'settings/delete_panel_lab_test/' + testId,
+            type: 'GET',
+            data: {
+                hmis_token: csrf_token,
+                ajax: true
+            },
+            beforeSend: function() {
+                jQuery('.loader').show();
+            },
+            success: function(response) {
+                try {
+                    var result = JSON.parse(response);
+                    if (result.success) {
+                        // Remove the row from UI
+                        jQuery('#' + rowId).remove();
+                        
+                        // Re-number the remaining rows
+                        var counter = 1;
+                        jQuery('#add-more-tests tr').each(function() {
+                            jQuery(this).find('.counter').text(counter++);
+                        });
+                        
+                        // Update the added counter
+                        var newCount = jQuery('#add-more-tests tr').length;
+                        jQuery('#added').val(newCount);
+                    } else {
+                        alert('Error deleting test. Please try again.');
+                    }
+                } catch (e) {
+                    // If response is not JSON, just remove the row anyway
+                    jQuery('#' + rowId).remove();
+                    
+                    // Re-number the remaining rows
+                    var counter = 1;
+                    jQuery('#add-more-tests tr').each(function() {
+                        jQuery(this).find('.counter').text(counter++);
+                    });
+                    
+                    // Update the added counter
+                    var newCount = jQuery('#add-more-tests tr').length;
+                    jQuery('#added').val(newCount);
+                }
+                
+                jQuery('.loader').hide();
+            },
+            error: function() {
+                alert('Error deleting test. Please try again.');
+                jQuery('.loader').hide();
+            }
+        });
+    }
+}

@@ -4700,4 +4700,37 @@
             }
         }
         
+        /**
+         * Delete panel lab test
+         * 
+         * @param int $id Test ID to delete
+         * @return void
+         */
+        public function delete_panel_lab_test ($id) {
+            if (!empty(trim($id)) && is_numeric($id) && $id > 0) {
+                // Delete the test from the database
+                $this -> PanelModel -> delete_panel_lab_test($id);
+                
+                // Check if this is an AJAX request
+                if ($this -> input -> get('ajax')) {
+                    // Return JSON response for AJAX requests
+                    echo json_encode(['success' => true]);
+                    return;
+                } else {
+                    // Set flash message and redirect for regular requests
+                    $this -> session -> set_flashdata('response', 'Success! Test removed from panel.');
+                    return redirect($_SERVER['HTTP_REFERER']);
+                }
+            }
+            
+            // If we get here, something went wrong
+            if ($this -> input -> get('ajax')) {
+                echo json_encode(['success' => false]);
+                return;
+            } else {
+                $this -> session -> set_flashdata('error', 'Error! Unable to remove test from panel.');
+                return redirect($_SERVER['HTTP_REFERER']);
+            }
+        }
+        
     }

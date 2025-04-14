@@ -28,6 +28,11 @@
                             </select>
                         </label>
                     </div>
+                    <div class="col-md-12 margin-top-10">
+                        <button type="button" class="btn btn-primary btn-block" onclick="add_all_panel_tests()">
+                            <i class="fa fa-plus"></i> Add All Tests at Once
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="col-md-8">
@@ -37,8 +42,8 @@
                         <th width="5%" align="center">Sr.No</th>
                         <th width="30%" align="left">Lab Test</th>
                         <th width="20%" align="left">Panel Charges</th>
-                        <!--                        <th width="20%" align="left">Discount</th>-->
-                        <!--                        <th width="20%" align="left">Discount Type</th>-->
+                        <th width="20%" align="left">Discount</th>
+                        <th width="20%" align="left">Discount Type</th>
                     </tr>
                     </thead>
                     <tbody id="add-more-tests">
@@ -50,12 +55,12 @@
                                 ?>
                                 <input type="hidden" name="test_id[]"
                                        value="<?php echo $panel_test -> test_id ?>">
-                                <tr>
+                                <tr id="existing-test-row-<?php echo $panel_test -> id ?>">
                                     <td>
                                         <div style="display: flex; justify-content: center; align-items: center; flex-direction: column">
                                             <div class="counter"><?php echo $counter++ ?></div>
-                                            <a href="<?php echo base_url ( '/settings/delete_panel_lab_test/' . $panel_test -> id ) ?>"
-                                               onclick="return confirm('Are you sure?')">
+                                            <a href="javascript:void(0)"
+                                               onclick="deleteExistingTest('<?php echo $panel_test -> id ?>', 'existing-test-row-<?php echo $panel_test -> id ?>')">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </div>
@@ -70,7 +75,7 @@
                                                    placeholder="Panel Charges" class="form-control">
                                         </label>
                                     </td>
-                                    <?php /* <td>
+                                    <td>
                                         <label style="width: 100%">
                                             <input type="text" name="discount[]" class="form-control"
                                                    value="<?php echo $panel_test -> discount ?>">
@@ -87,7 +92,7 @@
                                                 </option>
                                             </select>
                                         </label>
-                                    </td> */ ?>
+                                    </td>
                                 </tr>
                                 <?php
                             }

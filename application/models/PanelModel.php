@@ -432,4 +432,15 @@
             $this -> db -> insert ( 'panel_lab_tests', $data );
         }
         
+        /**
+         * Delete individual panel lab test by ID
+         * 
+         * @param int $id Test ID to delete
+         * @return int Number of affected rows
+         */
+        public function delete_panel_lab_test ( $id ) {
+            $this -> db -> delete ( 'panel_lab_tests', array ( 'id' => $id ) );
+            return $this -> db -> affected_rows ();
+        }
+        
     }

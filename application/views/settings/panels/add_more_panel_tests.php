@@ -1,9 +1,12 @@
-<tr>
+<tr id="test-row-<?php echo $row ?>">
     <input type="hidden" name="test_id[]"
            value="<?php echo $test_id ?>">
     <td>
         <div style="display: flex; justify-content: center; align-items: center; flex-direction: column">
             <div class="counter"><?php echo $row ?></div>
+            <a href="javascript:void(0)" onclick="removeAddedTest('test-row-<?php echo $row ?>')">
+                <i class="fa fa-trash"></i>
+            </a>
         </div>
     </td>
     <td>
