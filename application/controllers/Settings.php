@@ -4687,8 +4687,8 @@
                                 'panel_id'   => $panel_id,
                                 'test_id'    => $test,
                                 'price'      => $price[ $key ],
-                                'discount'   => 0,
-                                'type'       => 'flat',
+                                'discount'   => isset($discount[ $key ]) ? $discount[ $key ] : 0,
+                                'type'       => isset($type[ $key ]) ? $type[ $key ] : 'flat',
                                 'date_added' => current_date_time ()
                             );
                             $this -> PanelModel -> add_panel_lab_tests ( $info );

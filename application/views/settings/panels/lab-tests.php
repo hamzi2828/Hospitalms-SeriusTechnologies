@@ -105,3 +105,23 @@
         <button type="submit" class="btn blue">Update</button>
     </div>
 </form>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        // Store original prices for all existing rows
+        jQuery('#add-more-tests tr').each(function() {
+            var priceInput = jQuery(this).find('input[name="price[]"]');
+            priceInput.data('original-price', parseFloat(priceInput.val()));
+        });
+        
+        // Add event listeners for discount input changes
+        jQuery(document).on('input', 'input[name="discount[]"]', function() {
+            calculatePanelCharges(this);
+        });
+        
+        // Add event listeners for discount type changes
+        jQuery(document).on('change', 'select[name="type[]"]', function() {
+            calculatePanelCharges(this);
+        });
+    });
+</script>

@@ -5866,7 +5866,15 @@ function add_all_panel_tests () {
             },
             success: function(response) {
                 jQuery('#add-more-tests').append(response);
-                jQuery('.js-example-basic-single-' + added).select2();
+                
+                // Initialize Select2 for the discount type dropdown
+                try {
+                    jQuery('.js-example-basic-single-' + added).select2({
+                        width: '100%'
+                    });
+                } catch (e) {
+                    console.log('Error initializing Select2:', e);
+                }
                 
                 // Process next test
                 addTest(index + 1);
@@ -5901,6 +5909,41 @@ function removeAddedTest(rowId) {
         var newCount = jQuery('#add-more-tests tr').length;
         jQuery('#added').val(newCount);
     }
+}
+
+/**
+ * -------------
+ * calculate panel charges based on discount
+ * -------------
+ */
+function calculatePanelCharges(row) {
+    var priceInput = jQuery(row).closest('tr').find('input[name="price[]"]');
+    var discountInput = jQuery(row).closest('tr').find('input[name="discount[]"]');
+    var typeSelect = jQuery(row).closest('tr').find('select[name="type[]"]');
+    
+    var originalPrice = parseFloat(priceInput.data('original-price') || priceInput.val());
+    var discount = parseFloat(discountInput.val()) || 0;
+    var type = typeSelect.val();
+    
+    // Store original price if not already stored
+    if (!priceInput.data('original-price')) {
+        priceInput.data('original-price', originalPrice);
+    }
+    
+    var newPrice = originalPrice;
+    
+    if (discount > 0) {
+        if (type === 'flat') {
+            newPrice = originalPrice - discount;
+        } else if (type === 'percent') {
+            newPrice = originalPrice - (originalPrice * discount / 100);
+        }
+        
+        // Ensure price doesn't go below zero
+        newPrice = Math.max(newPrice, 0);
+    }
+    
+    priceInput.val(newPrice.toFixed(2));
 }
 
 /**
