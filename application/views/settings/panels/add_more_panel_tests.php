@@ -1,4 +1,12 @@
-<tr id="test-row-<?php echo $row ?>">
+<?php
+    $testInfo = get_test_by_id($test_id);
+    $category = strtolower($testInfo->category);
+    $categories = ['radiology', 'pathology', 'general'];
+    if (!in_array($category, $categories)) {
+        $category = 'general'; // Default category if not found
+    }
+?>
+<tr id="test-row-<?php echo $row ?>" data-category="<?php echo $category; ?>">
     <input type="hidden" name="test_id[]"
            value="<?php echo $test_id ?>">
     <td>
@@ -10,29 +18,29 @@
         </div>
     </td>
     <td>
-        <?php
-            $testInfo = get_test_by_id ( $test_id );
-            echo '(' . $testInfo -> code . ') ' . $testInfo -> name;
-        ?>
+        <?php echo '(' . $testInfo->code . ') ' . $testInfo->name; ?>
     </td>
-
     <td>
         <label style="width: 100%">
-            <input type="text" name="discount[]" class="form-control" value="0">
+            <input type="text" name="discount[]" class="form-control test-discount" 
+                   value="0" data-category="<?php echo $category; ?>">
         </label>
     </td>
     <td>
         <label style="width: 100%">
-            <select name="type[]" class="form-control js-example-basic-single-<?php echo $row ?>">
+            <select name="type[]" class="form-control test-discount-type js-example-basic-single-<?php echo $row ?>"
+                    data-category="<?php echo $category; ?>">
                 <option value="flat">Flat</option>
-                <option value="percent">Percent</option>
+                <option value="percent" selected="selected">Percent</option>
             </select>
         </label>
     </td>
     <td>
         <label style="width: 100%">
-            <input type="text" name="price[]" value="<?php echo get_test_price_by_test_id($test_id) ?>" placeholder="Panel Charges" class="form-control">
+            <input type="text" name="price[]" 
+                   value="<?php echo get_test_price_by_test_id($test_id) ?>" 
+                   data-original-price="<?php echo get_test_price_by_test_id($test_id) ?>"
+                   placeholder="Panel Charges" class="form-control test-price">
         </label>
     </td>
-
 </tr>

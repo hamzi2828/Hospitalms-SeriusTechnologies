@@ -4,6 +4,57 @@ jQuery ( window ).load ( function () {
     jQuery ( '.loader' ).hide ();
 } );
 
+/**
+ * -------------
+ * Calculate panel charges based on discount
+ * -------------
+ */
+function calculatePanelCharges(element) {
+    var row = jQuery(element).closest('tr');
+    var discountInput = row.find('input[name="discount[]"]');
+    var discountTypeSelect = row.find('select[name="type[]"]');
+    var priceInput = row.find('input[name="price[]"]');
+    
+    var originalPrice = priceInput.data('original-price') || parseFloat(priceInput.val());
+    var discount = parseFloat(discountInput.val()) || 0;
+    var discountType = discountTypeSelect.val();
+    
+    var finalPrice = originalPrice;
+    if (discountType === 'percent') {
+        finalPrice = originalPrice - (originalPrice * (discount / 100));
+    } else { // flat
+        finalPrice = originalPrice - discount;
+    }
+    
+    // Ensure price doesn't go below zero
+    finalPrice = Math.max(finalPrice, 0);
+    
+    priceInput.val(finalPrice.toFixed(2));
+}
+
+/**
+ * -------------
+ * Apply category-wide discount to all tests in that category
+ * -------------
+ */
+function applyCategoryDiscount(category, discountPercent) {
+    // Update all tests in this category
+    jQuery('tr[data-category="' + category + '"]').each(function() {
+        var row = jQuery(this);
+        var discountInput = row.find('input[name="discount[]"]');
+        var discountTypeSelect = row.find('select[name="type[]"]');
+        
+        // Set discount value
+        discountInput.val(discountPercent);
+        
+        // Set discount type to percent
+        discountTypeSelect.val('percent').trigger('change');
+        
+        // Calculate the new price
+        calculatePanelCharges(discountInput);
+    });
+}
+
 // jQuery ( 'form' ).on ( 'submit', function () {
 //     jQuery ( '.loader' ).show ();
 //     jQuery ( 'form button' ).attr ('disabled', true);
@@ -5865,7 +5916,22 @@ function add_all_panel_tests () {
                 test_id: testId
             },
             success: function(response) {
-                jQuery('#add-more-tests').append(response);
+                // Get the test row from the response
+                var testRow = jQuery(response);
+                
+                // Get the category of the test
+                var category = testRow.attr('data-category');
+                
+                // Find the appropriate category table to append the test to
+                var categoryTable = jQuery('.category-tests[data-category="' + category + '"]');
+                
+                // If the category table exists, append the test to it
+                if (categoryTable.length > 0) {
+                    categoryTable.append(testRow);
+                } else {
+                    // If the category doesn't exist yet, create a new category section
+                    createCategorySection(category, testRow);
+                }
                 
                 // Initialize Select2 for the discount type dropdown
                 try {
@@ -5884,6 +5950,50 @@ function add_all_panel_tests () {
                 addTest(index + 1);
             }
         });
+    }
+    
+    // Function to create a new category section if it doesn't exist
+    function createCategorySection(category, testRow) {
+        var categoryTitle = category.charAt(0).toUpperCase() + category.slice(1);
+        var categoryHtml = 
+            '<div class="category-section margin-bottom-20">' +
+                '<h4>' + categoryTitle + ' Tests</h4>' +
+                '<div class="row margin-bottom-10">' +
+                    '<div class="col-md-6">' +
+                        '<div class="form-group">' +
+                            '<label>Apply ' + categoryTitle + ' Category Discount (%)</label>' +
+                            '<input type="number" class="form-control category-discount" ' +
+                                   'data-category="' + category + '" ' +
+                                   'min="0" max="100" value="0" ' +
+                                   'placeholder="Enter discount percentage">' +
+                            '<button type="button" class="btn btn-sm btn-info margin-top-5" ' +
+                                    'onclick="applyCategoryDiscount(\'' + category + '\', jQuery(this).prev().val())">' +
+                                'Apply Discount' +
+                            '</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                
+                '<table class="table table-bordered" border="1">' +
+                    '<thead>' +
+                    '<tr>' +
+                        '<th width="5%" align="center">Sr.No</th>' +
+                        '<th width="30%" align="left">Lab Test</th>' +
+                        '<th width="20%" align="left">Discount</th>' +
+                        '<th width="20%" align="left">Discount Type</th>' +
+                        '<th width="20%" align="left">Panel Charges</th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody class="category-tests" data-category="' + category + '">' +
+                    '</tbody>' +
+                '</table>' +
+            '</div>';
+        
+        // Append the new category section before the add-more-tests div
+        jQuery('#add-more-tests').before(categoryHtml);
+        
+        // Now append the test row to the newly created category table
+        jQuery('.category-tests[data-category="' + category + '"]').append(testRow);
     }
     
     // Start adding tests

@@ -36,73 +36,131 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <table class="table table-bordered" border="1">
-                    <thead>
-                    <tr>
-                        <th width="5%" align="center">Sr.No</th>
-                        <th width="30%" align="left">Lab Test</th>
-                        <th width="20%" align="left">Discount</th>
-                        <th width="20%" align="left">Discount Type</th>
-                        <th width="20%" align="left">Panel Charges</th>
-
-                    </tr>
-                    </thead>
-                    <tbody id="add-more-tests">
-                    <?php
-                        $counter = 1;
-                        if ( count ( $panel_tests ) > 0 ) {
-                            foreach ( $panel_tests as $panel_test ) {
-                                $testInfo = get_test_by_id ( $panel_test -> test_id );
-                                ?>
-                                <input type="hidden" name="test_id[]"
-                                       value="<?php echo $panel_test -> test_id ?>">
-                                <tr id="existing-test-row-<?php echo $panel_test -> id ?>">
-                                    <td>
-                                        <div style="display: flex; justify-content: center; align-items: center; flex-direction: column">
-                                            <div class="counter"><?php echo $counter++ ?></div>
-                                            <a href="javascript:void(0)"
-                                               onclick="deleteExistingTest('<?php echo $panel_test -> id ?>', 'existing-test-row-<?php echo $panel_test -> id ?>')">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <?php echo '(' . $testInfo -> code . ') ' . $testInfo -> name ?>
-                                    </td>
-
-                                    <td>
-                                        <label style="width: 100%">
-                                            <input type="text" name="discount[]" class="form-control"
-                                                   value="<?php echo $panel_test -> discount ?>">
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label style="width: 100%">
-                                            <select name="type[]" class="form-control">
-                                                <option value="flat" <?php if ( $panel_test -> type == 'flat' ) echo 'selected="selected"' ?>>
-                                                    Flat
-                                                </option>
-                                                <option value="percent" <?php if ( $panel_test -> type == 'percent' ) echo 'selected="selected"' ?>>
-                                                    Percent
-                                                </option>
-                                            </select>
-                                        </label>
-                                    </td>
-
-                                    <td>
-                                        <label style="width: 100%">
-                                            <input type="text" name="price[]"
-                                                   value="<?php echo $panel_test -> price ?>"
-                                                   placeholder="Panel Charges" class="form-control">
-                                        </label>
-                                    </td>
-                                </tr>
-                                <?php
-                            }
+                <?php
+                // Group tests by category
+                $categorized_tests = [];
+                $categories = ['radiology', 'pathology', 'general'];
+                
+                // Initialize category arrays
+                foreach ($categories as $category) {
+                    $categorized_tests[$category] = [];
+                }
+                
+                // Categorize panel tests
+                $counter = 1;
+                if (count($panel_tests) > 0) {
+                    foreach ($panel_tests as $panel_test) {
+                        $testInfo = get_test_by_id($panel_test->test_id);
+                        $category = strtolower($testInfo->category);
+                        if (!in_array($category, $categories)) {
+                            $category = 'general'; // Default category if not found
                         }
-                    ?>
-                    </tbody>
-                </table>
+                        $categorized_tests[$category][] = [
+                            'panel_test' => $panel_test,
+                            'test_info' => $testInfo
+                        ];
+                    }
+                }
+                
+                // Display each category in a separate table
+                foreach ($categories as $category) {
+                    if (empty($categorized_tests[$category])) {
+                        continue; // Skip empty categories
+                    }
+                    
+                    $category_title = ucfirst($category);
+                ?>
+                
+                <div class="category-section margin-bottom-20">
+                    <h4><?php echo $category_title; ?> Tests</h4>
+                    <div class="row margin-bottom-10">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Apply <?php echo $category_title; ?> Category Discount (%)</label>
+                                <input type="number" class="form-control category-discount" 
+                                       data-category="<?php echo $category; ?>" 
+                                       min="0" max="100" value="0" 
+                                       placeholder="Enter discount percentage">
+                                <button type="button" class="btn btn-sm btn-info margin-top-5" 
+                                        onclick="applyCategoryDiscount('<?php echo $category; ?>', jQuery(this).prev().val())">
+                                    Apply Discount
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <table class="table table-bordered" border="1">
+                        <thead>
+                        <tr>
+                            <th width="5%" align="center">Sr.No</th>
+                            <th width="30%" align="left">Lab Test</th>
+                            <th width="20%" align="left">Discount</th>
+                            <th width="20%" align="left">Discount Type</th>
+                            <th width="20%" align="left">Panel Charges</th>
+                        </tr>
+                        </thead>
+                        <tbody class="category-tests" data-category="<?php echo $category; ?>">
+                        <?php
+                        foreach ($categorized_tests[$category] as $test_data) {
+                            $panel_test = $test_data['panel_test'];
+                            $testInfo = $test_data['test_info'];
+                        ?>
+                            <input type="hidden" name="test_id[]"
+                                   value="<?php echo $panel_test->test_id ?>">
+                            <tr id="existing-test-row-<?php echo $panel_test->id ?>" data-category="<?php echo $category; ?>">
+                                <td>
+                                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column">
+                                        <div class="counter"><?php echo $counter++ ?></div>
+                                        <a href="javascript:void(0)"
+                                           onclick="deleteExistingTest('<?php echo $panel_test->id ?>', 'existing-test-row-<?php echo $panel_test->id ?>')">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <?php echo '(' . $testInfo->code . ') ' . $testInfo->name ?>
+                                </td>
+                                <td>
+                                    <label style="width: 100%">
+                                        <input type="text" name="discount[]" class="form-control test-discount"
+                                               value="<?php echo $panel_test->discount ?>"
+                                               data-category="<?php echo $category; ?>">
+                                    </label>
+                                </td>
+                                <td>
+                                    <label style="width: 100%">
+                                        <select name="type[]" class="form-control test-discount-type"
+                                                data-category="<?php echo $category; ?>">
+                                            <option value="flat" <?php if ($panel_test->type == 'flat') echo 'selected="selected"' ?>>
+                                                Flat
+                                            </option>
+                                            <option value="percent" <?php if ($panel_test->type == 'percent' || empty($panel_test->type)) echo 'selected="selected"' ?>>
+                                                Percent
+                                            </option>
+                                        </select>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label style="width: 100%">
+                                        <input type="text" name="price[]" class="form-control test-price"
+                                               value="<?php echo $panel_test->price ?>"
+                                               data-original-price="<?php echo $testInfo->price ?>"
+                                               placeholder="Panel Charges">
+                                    </label>
+                                </td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+                <?php
+                }
+                ?>
+                
+                <!-- Container for newly added tests -->
+                <div id="add-more-tests"></div>
             </div>
         </div>
         <button type="submit" class="btn blue">Update</button>
@@ -112,19 +170,30 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
         // Store original prices for all existing rows
-        jQuery('#add-more-tests tr').each(function() {
-            var priceInput = jQuery(this).find('input[name="price[]"]');
-            priceInput.data('original-price', parseFloat(priceInput.val()));
+        jQuery('.test-price').each(function() {
+            var priceInput = jQuery(this);
+            if (!priceInput.data('original-price')) {
+                priceInput.data('original-price', parseFloat(priceInput.val()));
+            }
         });
         
-        // Add event listeners for discount input changes
-        jQuery(document).on('input', 'input[name="discount[]"]', function() {
+        // Add event listeners for individual test discount input changes
+        jQuery(document).on('input', '.test-discount', function() {
             calculatePanelCharges(this);
         });
         
-        // Add event listeners for discount type changes
-        jQuery(document).on('change', 'select[name="type[]"]', function() {
+        // Add event listeners for individual test discount type changes
+        jQuery(document).on('change', '.test-discount-type', function() {
             calculatePanelCharges(this);
+        });
+        
+        // Set all discount types to percent by default for new tests
+        jQuery(document).on('DOMNodeInserted', '#add-more-tests', function() {
+            setTimeout(function() {
+                jQuery('#add-more-tests select[name="type[]"]').each(function() {
+                    jQuery(this).val('percent').trigger('change');
+                });
+            }, 100);
         });
     });
 </script>
