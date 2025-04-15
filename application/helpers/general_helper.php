@@ -1453,6 +1453,12 @@
         $ci -> load -> model ( 'LabModel' );
         return $ci -> LabModel -> get_test_by_id ( $test_id );
     }
+
+    function get_test_price_by_test_id ( $test_id ) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'LabModel' );
+        return $ci -> LabModel -> get_test_price_by_test_id ( $test_id );
+    }
     
     /**
      * ---------------------

@@ -69,13 +69,7 @@
                                     <td>
                                         <?php echo '(' . $testInfo -> code . ') ' . $testInfo -> name ?>
                                     </td>
-                                    <td>
-                                        <label style="width: 100%">
-                                            <input type="text" name="price[]"
-                                                   value="<?php echo $panel_test -> price ?>"
-                                                   placeholder="Panel Charges" class="form-control">
-                                        </label>
-                                    </td>
+
                                     <td>
                                         <label style="width: 100%">
                                             <input type="text" name="discount[]" class="form-control"
@@ -92,6 +86,14 @@
                                                     Percent
                                                 </option>
                                             </select>
+                                        </label>
+                                    </td>
+
+                                    <td>
+                                        <label style="width: 100%">
+                                            <input type="text" name="price[]"
+                                                   value="<?php echo $panel_test -> price ?>"
+                                                   placeholder="Panel Charges" class="form-control">
                                         </label>
                                     </td>
                                 </tr>

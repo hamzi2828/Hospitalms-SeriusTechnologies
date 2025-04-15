@@ -586,6 +586,21 @@
         
             return $query->row(); 
         }
+
+        public function get_test_price_by_test_id($test_id) {
+            $this->db->select('price');
+            $this->db->from('hmis_test_price');
+            $this->db->where('test_id', $test_id);
+            $this->db->where('panel_id', 1);
+            $query = $this->db->get();
+        
+            if ($query->num_rows() > 0) {
+                return $query->row()->price;
+            } else {
+                return null; // or return 0;
+            }
+        }
+        
         
         /**
          * -------------------------

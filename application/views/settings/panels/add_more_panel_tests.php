@@ -31,7 +31,7 @@
     </td>
     <td>
         <label style="width: 100%">
-            <input type="text" name="price[]" value="<?php echo $testInfo->price ?>" placeholder="Panel Charges" class="form-control">
+            <input type="text" name="price[]" value="<?php echo get_test_price_by_test_id($test_id) ?>" placeholder="Panel Charges" class="form-control">
         </label>
     </td>
 
