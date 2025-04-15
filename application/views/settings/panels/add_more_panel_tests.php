@@ -15,11 +15,7 @@
             echo '(' . $testInfo -> code . ') ' . $testInfo -> name;
         ?>
     </td>
-    <td>
-        <label style="width: 100%">
-            <input type="text" name="price[]" value="<?php echo $testInfo->price ?>" placeholder="Panel Charges" class="form-control">
-        </label>
-    </td>
+
     <td>
         <label style="width: 100%">
             <input type="text" name="discount[]" class="form-control" value="0">
@@ -33,4 +29,10 @@
             </select>
         </label>
     </td>
+    <td>
+        <label style="width: 100%">
+            <input type="text" name="price[]" value="<?php echo $testInfo->price ?>" placeholder="Panel Charges" class="form-control">
+        </label>
+    </td>
+
 </tr>

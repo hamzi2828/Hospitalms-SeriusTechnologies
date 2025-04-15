@@ -41,9 +41,10 @@
                     <tr>
                         <th width="5%" align="center">Sr.No</th>
                         <th width="30%" align="left">Lab Test</th>
-                        <th width="20%" align="left">Panel Charges</th>
                         <th width="20%" align="left">Discount</th>
                         <th width="20%" align="left">Discount Type</th>
+                        <th width="20%" align="left">Panel Charges</th>
+
                     </tr>
                     </thead>
                     <tbody id="add-more-tests">
