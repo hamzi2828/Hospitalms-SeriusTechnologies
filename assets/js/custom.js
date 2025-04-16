@@ -38,6 +38,10 @@ function calculatePanelCharges(element) {
  * -------------
  */
 function applyCategoryDiscount(category, discountPercent) {
+    if (discountPercent > 100) {
+        alert('Discount cannot be greater than 100%');
+        return;
+    }
     // Update all tests in this category
     jQuery('tr[data-category="' + category + '"]').each(function() {
         var row = jQuery(this);
@@ -5957,18 +5961,17 @@ function add_all_panel_tests () {
         var categoryTitle = category.charAt(0).toUpperCase() + category.slice(1);
         var categoryHtml = 
             '<div class="category-section margin-bottom-20">' +
-                '<h4>' + categoryTitle + ' Tests</h4>' +
+                '<h4><strong>' + categoryTitle + ' Tests</strong></h4>' +
                 '<div class="row margin-bottom-10">' +
                     '<div class="col-md-6">' +
                         '<div class="form-group">' +
-                            '<label>Apply ' + categoryTitle + ' Category Discount (%)</label>' +
                             '<input type="number" class="form-control category-discount" ' +
                                    'data-category="' + category + '" ' +
                                    'min="0" max="100" value="0" ' +
                                    'placeholder="Enter discount percentage">' +
                             '<button type="button" class="btn btn-sm btn-info margin-top-5" ' +
                                     'onclick="applyCategoryDiscount(\'' + category + '\', jQuery(this).prev().val())">' +
-                                'Apply Discount' +
+                                'Apply' +
                             '</button>' +
                         '</div>' +
                     '</div>' +
@@ -6034,27 +6037,42 @@ function calculatePanelCharges(row) {
     var originalPrice = parseFloat(priceInput.data('original-price') || priceInput.val());
     var discount = parseFloat(discountInput.val()) || 0;
     var type = typeSelect.val();
-    
+
     // Store original price if not already stored
     if (!priceInput.data('original-price')) {
         priceInput.data('original-price', originalPrice);
     }
-    
+
+    // Validation: Prevent percentage discount > 100
+    if (type === 'percent' && discount > 100) {
+        alert('Discount cannot exceed 100%');
+        discountInput.val(100);
+        discount = 100;
+    }
+
+    // Validation: Prevent flat discount > original price
+    if (type === 'flat' && discount > originalPrice) {
+        alert('Flat discount cannot exceed original panel charges');
+        discountInput.val(originalPrice);
+        discount = originalPrice;
+    }
+
     var newPrice = originalPrice;
-    
+
     if (discount > 0) {
         if (type === 'flat') {
             newPrice = originalPrice - discount;
         } else if (type === 'percent') {
             newPrice = originalPrice - (originalPrice * discount / 100);
         }
-        
+
         // Ensure price doesn't go below zero
         newPrice = Math.max(newPrice, 0);
     }
-    
+
     priceInput.val(newPrice.toFixed(2));
 }
+
 
 /**
  * -------------

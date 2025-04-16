@@ -72,18 +72,17 @@
                 ?>
                 
                 <div class="category-section margin-bottom-20">
-                    <h4><?php echo $category_title; ?> Tests</h4>
+                    <h4><strong><?php echo $category_title; ?> Tests</strong></h4>
                     <div class="row margin-bottom-10">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Apply <?php echo $category_title; ?> Category Discount (%)</label>
                                 <input type="number" class="form-control category-discount" 
                                        data-category="<?php echo $category; ?>" 
                                        min="0" max="100" value="0" 
                                        placeholder="Enter discount percentage">
                                 <button type="button" class="btn btn-sm btn-info margin-top-5" 
                                         onclick="applyCategoryDiscount('<?php echo $category; ?>', jQuery(this).prev().val())">
-                                    Apply Discount
+                                    Apply
                                 </button>
                             </div>
                         </div>
