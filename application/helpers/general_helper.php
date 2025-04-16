@@ -4754,3 +4754,11 @@
         $ci -> load -> model ( 'IPDModel' );
         return $ci -> IPDModel -> get_ipd_admission_slip ( $sale_id );
     }
+
+
+    function get_machine_name ( $test_id, $machine ) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'LabModel' );
+        return $ci -> LabModel -> get_machine_name ( $test_id, $machine );
+    }
+    

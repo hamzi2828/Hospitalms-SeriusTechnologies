@@ -6,6 +6,10 @@
             <i class="fa fa-trash"></i>
         </a>
         <label>Lab Test</label>
+        <?php if (!empty($outsourcing)) { ?>
+    <span style="margin-left: 10px" class="label label-success"><?php echo ucfirst($outsourcing); ?></span>
+<?php } ?>
+
         <input type="hidden" name="test_id[]" value="<?php echo $test->id ?>">
         <input type="text" class="form-control" readonly="readonly" value="<?php echo '('.$test->code.') '.$test->name ?>">
     </div>

@@ -20,6 +20,10 @@
                 <label for="exampleInputEmail1">Performed Method</label>
                 <textarea class="form-control" name="performed_method" placeholder="Add test performed method" rows="5"><?php echo $procedure -> performed_method ?></textarea>
             </div>
+            <div class="form-group col-lg-6">
+                <label for="outsourcing">Outsourcing</label>
+                <input type="text" class="form-control" name="outsourcing" placeholder="Add test outsourcing" value="<?php echo $procedure -> outsourcing ?>">
+            </div>
         </div>
         <div class="form-actions">
             <button type="submit" class="btn blue">Update & Next</button>

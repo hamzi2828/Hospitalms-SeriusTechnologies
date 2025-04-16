@@ -576,14 +576,37 @@
         //     $test = $this -> db -> get_where ( 'tests', array ( 'id' => $test_id ) );
         //     return $test -> row ();
         // }
+        // public function get_test_by_id($test_id) {
+        //     // $this->db->select('tests.*, hmis_ipd_patient_associated_lab_tests.price');
+        //     $this->db->select('tests.*, hmis_ipd_patient_associated_lab_tests.price, hmis_ipd_patient_associated_lab_tests.net_price');
+        //     $this->db->from('tests');
+        //     $this->db->join('hmis_ipd_patient_associated_lab_tests', 'hmis_ipd_patient_associated_lab_tests.test_id = tests.id', 'left');
+        //     $this->db->where('tests.id', $test_id);
+        //     $query = $this->db->get();
+        
+        //     return $query->row(); 
+        // }
+
+
         public function get_test_by_id($test_id) {
-            // $this->db->select('tests.*, hmis_ipd_patient_associated_lab_tests.price');
-            $this->db->select('tests.*, hmis_ipd_patient_associated_lab_tests.price, hmis_ipd_patient_associated_lab_tests.net_price');
+            $this->db->select('
+                tests.*, 
+                hmis_ipd_patient_associated_lab_tests.price, 
+                hmis_ipd_patient_associated_lab_tests.net_price,
+                hmis_test_details.protocol,
+                hmis_test_details.instruction,
+                hmis_test_details.methodology,
+                hmis_test_details.performed_method,
+                hmis_test_details.outsourcing,
+                hmis_test_details.date_added AS test_details_added,
+                hmis_test_details.date_updated AS test_details_updated
+            ');
             $this->db->from('tests');
             $this->db->join('hmis_ipd_patient_associated_lab_tests', 'hmis_ipd_patient_associated_lab_tests.test_id = tests.id', 'left');
+            $this->db->join('hmis_test_details', 'hmis_test_details.test_id = tests.id', 'left');
             $this->db->where('tests.id', $test_id);
+            
             $query = $this->db->get();
-        
             return $query->row(); 
         }
 
@@ -4034,5 +4057,11 @@
         return $query -> row () -> id;
         
     }
-
+    public function get_machine_name ( $test_id, $machine ) {
+        $parameters = $this -> db -> get_where ( 'test_parameters', array (
+            'test_id' => $test_id,
+            'machine' => $machine
+        ) );
+        return $parameters -> row ();
+    }
 }

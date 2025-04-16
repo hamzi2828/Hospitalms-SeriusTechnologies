@@ -303,11 +303,12 @@
 
                                                 <div style="text-align: center; margin-top: 10px;">
                                                     <?php if ( $balance <= 0 ) : ?>
-                                                        <a href="https://api.whatsapp.com/send/?phone=<?php echo $patient->mobile ?>" target="_blank">
+                                                        <a href="https://api.whatsapp.com/send/?phone=<?php echo ( substr ( $patient->mobile, 0, 1 ) == '0' ? '92' . substr ( $patient->mobile, 1 ) : $patient->mobile ) ?>" target="_blank">
                                                             <img class="img-responsive" src="<?php echo base_url ('/assets/img/waap.png') ?>" style="max-height: 30px; max-width: 30px; display: inline-block;">
                                                         </a>
                                                     <?php endif; ?>
                                                     <br>
+                                                    
                                                     <!-- <img class="img-responsive" src="<?php echo base_url ('/assets/img/alert.gif') ?>" style="max-height: 30px; max-width: 30px; display: inline-block; margin-top: 10px;"> -->
                                                     
                                                 </div>

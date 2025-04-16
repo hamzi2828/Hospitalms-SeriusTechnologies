@@ -70,23 +70,58 @@
                             </div>
                             
                             <div class="col-lg-4 pull-right" style="padding-bottom: 15px">
-                                <label><strong>Choose Machine</strong></label>
-                                <select name="machine" class="form-control select2me"
-                                        onchange="load_test_url(this.value)">
-                                    <option
-                                            value="default" <?php echo $_REQUEST[ 'machine' ] == 'default' ? 'selected="selected"' : '' ?>>
-                                        Default
-                                    </option>
-                                    <option
-                                            value="machine-1" <?php echo $_REQUEST[ 'machine' ] == 'machine-1' ? 'selected="selected"' : '' ?>>
-                                        Machine 1
-                                    </option>
-                                    <option
-                                            value="machine-2" <?php echo $_REQUEST[ 'machine' ] == 'machine-2' ? 'selected="selected"' : '' ?>>
-                                        Machine 2
-                                    </option>
-                                </select>
-                            </div>
+                            <label><strong>Choose Machine</strong></label>
+                            <select name="machine" class="form-control select2me" onchange="load_test_url(this.value)">
+                                <option value="default" <?php echo $_REQUEST[ 'machine' ] == 'default' ? 'selected="selected"' : '' ?>>
+                                    Default
+                                    <?php
+                                        $machine = get_machine_name ( $_GET[ 'test-id' ], 'default' );
+                                        if ( !empty( $machine ) && !empty( trim ( $machine -> machine_name ) ) )
+                                            echo ' (' . $machine -> machine_name . ')';
+                                    ?>
+                                </option>
+                                <option value="machine-1" <?php echo $_REQUEST[ 'machine' ] == 'machine-1' ? 'selected="selected"' : '' ?>>
+                                    Machine 1
+                                    <?php
+                                        $machine = get_machine_name ( $_GET[ 'test-id' ], 'machine-1' );
+                                        if ( !empty( $machine ) && !empty( trim ( $machine -> machine_name ) ) )
+                                            echo ' (' . $machine -> machine_name . ')';
+                                    ?>
+                                </option>
+                                <option value="machine-2" <?php echo $_REQUEST[ 'machine' ] == 'machine-2' ? 'selected="selected"' : '' ?>>
+                                    Machine 2
+                                    <?php
+                                        $machine = get_machine_name ( $_GET[ 'test-id' ], 'machine-2' );
+                                        if ( !empty( $machine ) && !empty( trim ( $machine -> machine_name ) ) )
+                                            echo ' (' . $machine -> machine_name . ')';
+                                    ?>
+                                </option>
+                                <option value="machine-3" <?php echo $_REQUEST[ 'machine' ] == 'machine-3' ? 'selected="selected"' : '' ?>>
+                                    Machine 3
+                                    <?php
+                                        $machine = get_machine_name ( $_GET[ 'test-id' ], 'machine-3' );
+                                        if ( !empty( $machine ) && !empty( trim ( $machine -> machine_name ) ) )
+                                            echo ' (' . $machine -> machine_name . ')';
+                                    ?>
+                                </option>
+                                <option value="machine-4" <?php echo $_REQUEST[ 'machine' ] == 'machine-4' ? 'selected="selected"' : '' ?>>
+                                    Machine 4
+                                    <?php
+                                        $machine = get_machine_name ( $_GET[ 'test-id' ], 'machine-4' );
+                                        if ( !empty( $machine ) && !empty( trim ( $machine -> machine_name ) ) )
+                                            echo ' (' . $machine -> machine_name . ')';
+                                    ?>
+                                </option>
+                                <option value="machine-5" <?php echo $_REQUEST[ 'machine' ] == 'machine-5' ? 'selected="selected"' : '' ?>>
+                                    Machine 5
+                                    <?php
+                                        $machine = get_machine_name ( $_GET[ 'test-id' ], 'machine-5' );
+                                        if ( !empty( $machine ) && !empty( trim ( $machine -> machine_name ) ) )
+                                            echo ' (' . $machine -> machine_name . ')';
+                                    ?>
+                                </option>
+                            </select>
+                        </div>
                             
                             <div class="col-lg-4 pull-right" style="padding-bottom: 15px">
                                 <label><strong>Select graph for HBV or HCV</strong></label>

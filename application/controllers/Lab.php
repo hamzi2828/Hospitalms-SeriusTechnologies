@@ -612,7 +612,8 @@
                     'protocol'         => $data[ 'protocol' ],
                     'instruction'      => $data[ 'instruction' ],
                     'methodology'      => $data[ 'methodology' ],
-                    'performed_method' => $data[ 'performed_method' ]
+                    'performed_method' => $data[ 'performed_method' ],
+                    'outsourcing'      => $data[ 'outsourcing' ]
                 );
                 $this -> LabModel -> edit_test_detail ( $info, $test_id );
                 $this -> session -> set_flashdata ( 'response', 'Success! Test procedure updated.' );
@@ -1983,7 +1984,7 @@
             
             if ( isset( $_POST[ 'action' ] ) and $_POST[ 'action' ] == 'do_lab_result_verify' )
                 $this -> do_lab_result_verify ();
-            
+             
             $title = site_name . ' - Add Test Results';
             $this -> header ( $title );
             $this -> sidebar ();
@@ -4308,7 +4309,9 @@
                     'test'  => $test,
                     'price' => !empty( $price ) ? $price -> price : '0',
                     'row'   => $row,
-                    'default_datetime' => $default_datetime 
+                    'default_datetime' => $default_datetime,
+                    'outsourcing' =>   $test -> outsourcing,
+
                 );
                 
                 $this -> load -> view ( '/lab/load-sale-lab-tests', $array );
