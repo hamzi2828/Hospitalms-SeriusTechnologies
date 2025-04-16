@@ -58,7 +58,32 @@
 
 <?php endif; ?>
 
+<?php if (!empty($access) and !in_array('blood-bank-module-sidebar', explode(',', $access->access))) : ?>
+    <li class="<?php if ($parent_uri == 'blood-bank-module' || strpos($child_uri, 'blood') !== false) echo 'start active'; ?>">
+    <a href="javascript:void(0);">
+        <i class="fa fa-tint"></i>
+        <span class="title"> Blood Bank </span>
+        <span class="arrow "></span>
+    </a>
+    <ul class="sub-menu">
+        <?php if (!empty($access) and !in_array('all-blood-inventory', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'all-blood-inventory') echo 'active'; ?>">
+                <a href="<?php echo base_url('/blood-bank/all-blood-inventory') ?>">
+                    All Blood Inventory
+                </a>
+            </li>
+        <?php endif; ?>
+        <?php if (!empty($access) and !in_array('add-blood', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'add-blood') echo 'active'; ?>">
+                <a href="<?php echo base_url('/blood-bank/add-blood') ?>">
+                    Add Blood
+                </a>
+            </li>
+        <?php endif; ?>
 
+    </ul>
+</li>
+<?php endif; ?>
 
 <?php if (!empty($access) and in_array('cafe-module-sidebar', explode(',', $access->access))) : ?>
 
@@ -181,10 +206,8 @@
             </li>
         <?php endif; ?>
 
-
-    </ul>
-
-    
 </li>
 
 <?php endif; ?>
+
+

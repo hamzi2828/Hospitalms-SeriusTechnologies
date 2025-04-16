@@ -622,7 +622,7 @@
     $route[ 'cafe-setting/add-sale' ]                                  = 'CafeSetting/add_sale';
     $route[ 'cafe-setting/all-sale' ]                                  = 'CafeSetting/all_sale';
     $route[ 'invoices/cafesale-invoice/(:any)' ]                       = 'Invoices/cafesale_invoice/$1';
-    $route[ 'cafe-setting/Refund-sale/(:any)' ]                         = 'CafeSetting/refund_sale/$1';
+    $route[ 'cafe-setting/Refund-sale/(:any)' ]                        = 'CafeSetting/refund_sale/$1';
     $route[ 'cafe-setting/general-sale-report' ]                       = 'CafeSetting/general_sale_report';
     $route[ 'cafe-setting/stock-valuation-report' ]                    = 'CafeSetting/stock_valuation_report';
 
@@ -630,6 +630,15 @@
     $route[ 'vaccination-setting/add-vaccination' ]                   = 'VaccinationSetting/add_vaccination';
     $route[ 'vaccination-setting/delete-vaccination/(:any)' ]         = 'VaccinationSetting/delete_vaccination/$1';
     $route[ 'vaccination-setting/edit-vaccination/(:any)' ]           = 'VaccinationSetting/edit_vaccination/$1';
+
+    $route[ 'blood-bank/all-blood-inventory' ]                       = 'BloodBank/all_blood_inventory';
+    $route[ 'blood-bank/add-blood' ]                                  = 'BloodBank/add_blood';
+    $route[ 'blood-bank/store-blood' ]                                = 'BloodBank/store_blood';
+    $route[ 'blood-bank/edit-blood/(:any)' ]                         = 'BloodBank/edit_blood/$1';
+    $route[ 'blood-bank/update-blood/(:any)' ]                       = 'BloodBank/update_blood/$1';
+    $route[ 'blood-bank/delete-blood/(:any)' ]                       = 'BloodBank/delete_blood/$1';
+
+
 
 
 
