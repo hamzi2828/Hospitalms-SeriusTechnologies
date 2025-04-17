@@ -23,7 +23,7 @@
             </div>
             <div class="portlet-body form">
                 <form action="<?php echo base_url('blood-bank/store-blood'); ?>" method="post" class="form-horizontal">
-                <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" />
+                    <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" />
                     <div class="form-body">
                         <!-- Blood Source Selector -->
                         <div class="form-group">
@@ -42,19 +42,19 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">From</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="from">
+                                    <input type="text" class="form-control" name="from" required data-required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3">Purchase Price</label>
                                 <div class="col-md-6">
-                                    <input type="number" class="form-control" name="purchase_price">
+                                    <input type="number" class="form-control" name="purchase_price" required data-required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3">Blood Type</label>
                                 <div class="col-md-6">
-                                    <select name="blood_type" class="form-control select2" required>
+                                    <select name="blood_type" class="form-control select2" required data-required>
                                         <option value=""></option>
                                         <option value="A+">A+</option>
                                         <option value="A-">A-</option>
@@ -67,11 +67,10 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="control-label col-md-3">Expiry Date</label>
                                 <div class="col-md-6">
-                                    <input type="date" class="form-control" name="expiry_date">
+                                    <input type="date" class="form-control" name="expiry_date" required data-required>
                                 </div>
                             </div>
                         </div>
@@ -81,19 +80,20 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Donor Name</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="donor_name">
+                                    <input type="text" class="form-control" name="donor_name" required data-required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3">Age</label>
                                 <div class="col-md-6">
-                                    <input type="number" class="form-control" name="donor_age">
+                                    <input type="number" class="form-control" name="donor_age" required data-required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3">Gender</label>
                                 <div class="col-md-6">
-                                    <select name="donor_gender" class="form-control">
+                                    <select name="donor_gender" class="form-control" required data-required>
+                                        <option value="">-- Select --</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                     </select>
@@ -102,14 +102,14 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Contact No.</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="contact_no">
+                                    <input type="text" class="form-control" name="contact_no" required data-required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3">Blood Type</label>
                                 <div class="col-md-6">
-                                    <select name="donor_blood_type" class="form-control select2" required>
-                                        <option value="">   </option>
+                                    <select name="donor_blood_type" class="form-control select2" required data-required>
+                                        <option value=""></option>
                                         <option value="A+">A+</option>
                                         <option value="A-">A-</option>
                                         <option value="B+">B+</option>
@@ -124,7 +124,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Expiry Date</label>
                                 <div class="col-md-6">
-                                    <input type="date" class="form-control" name="donor_expiry">
+                                    <input type="date" class="form-control" name="donor_expiry" required data-required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -136,14 +136,14 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Charity</label>
                                 <div class="col-md-6">
-                                    <select name="charity" class="form-control">
+                                    <select name="charity" class="form-control" required data-required>
+                                        <option value="">-- Select --</option>
                                         <option value="no">No</option>
                                         <option value="yes">Yes</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <!-- Submit -->
@@ -161,10 +161,40 @@
     </div>
 </div>
 
+<!-- Script to toggle fields -->
 <script>
     function toggleBloodSource() {
         var value = document.getElementById('bloodSource').value;
-        document.getElementById('purchaseFields').style.display = value === 'purchase' ? 'block' : 'none';
-        document.getElementById('donorFields').style.display = value === 'donor' ? 'block' : 'none';
+        var purchaseFields = document.getElementById('purchaseFields');
+        var donorFields = document.getElementById('donorFields');
+
+        // Show/hide sections
+        purchaseFields.style.display = value === 'purchase' ? 'block' : 'none';
+        donorFields.style.display = value === 'donor' ? 'block' : 'none';
+
+        // Toggle required attributes for purchase fields
+        purchaseFields.querySelectorAll('[data-required]')?.forEach(function(input) {
+            if (value === 'purchase') {
+                input.setAttribute('required', 'required');
+            } else {
+                input.removeAttribute('required');
+            }
+        });
+        // Toggle required attributes for donor fields
+        donorFields.querySelectorAll('[data-required]')?.forEach(function(input) {
+            if (value === 'donor') {
+                input.setAttribute('required', 'required');
+            } else {
+                input.removeAttribute('required');
+            }
+        });
     }
+    document.addEventListener("DOMContentLoaded", function () {
+        toggleBloodSource();
+    });
+
+    // Call this on page load in case validation fails and the form reloads
+    document.addEventListener("DOMContentLoaded", function () {
+        toggleBloodSource();
+    });
 </script>
