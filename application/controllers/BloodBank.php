@@ -73,6 +73,7 @@ class BloodBank extends CI_Controller {
         if ($source === 'purchase') {
             $data = [
                 'source'         => 'purchase',
+                'sequence_number' => $this->BloodBankModel->get_sequence_number(),
                 'from'           => $this->input->post('from', true),
                 'purchase_price' => $this->input->post('purchase_price', true),
                 'blood_type'     => $this->input->post('blood_type', true),
@@ -82,6 +83,7 @@ class BloodBank extends CI_Controller {
         } elseif ($source === 'donor') {
             $data = [
                 'source'         => 'donor',
+                'sequence_number' => $this->BloodBankModel->get_sequence_number(),
                 'donor_name'     => $this->input->post('donor_name', true),
                 'donor_age'      => $this->input->post('donor_age', true),
                 'donor_gender'   => $this->input->post('donor_gender', true),
