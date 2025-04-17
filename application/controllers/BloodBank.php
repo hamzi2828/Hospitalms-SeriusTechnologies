@@ -62,33 +62,51 @@ class BloodBank extends CI_Controller {
     public function store_blood()
     {
         $source = $this->input->post('source', true);
-
+    
         if (!$source) {
             $this->session->set_flashdata('error', 'Please select a blood source (Purchase or Donor).');
-            redirect('BloodBank/add_blood');
+            redirect($_SERVER['HTTP_REFERER']);
+            return;
         }
-
+    
         $this->load->model('BloodBankModel');
-
-        // Convert expiry dates from MM/DD/YYYY to Y-m-d
+        $today = date('Y-m-d');
+    
+        // Get and normalize expiry dates
         $expiry_date = $this->input->post('expiry_date', true);
+        $donor_expiry = $this->input->post('donor_expiry', true);
+    
+        // Normalize expiry_date
         if ($expiry_date) {
-            $dateObj = DateTime::createFromFormat('m/d/Y', $expiry_date);
+            // Try both possible formats
+            $dateObj = DateTime::createFromFormat('Y-m-d', $expiry_date);
+            if (!$dateObj) {
+                $dateObj = DateTime::createFromFormat('m/d/Y', $expiry_date);
+            }
             $expiry_date = $dateObj ? $dateObj->format('Y-m-d') : null;
         }
-
-        $donor_expiry = $this->input->post('donor_expiry', true);
+    
+        // Normalize donor_expiry
         if ($donor_expiry) {
-            $dateObj = DateTime::createFromFormat('m/d/Y', $donor_expiry);
+            $dateObj = DateTime::createFromFormat('Y-m-d', $donor_expiry);
+            if (!$dateObj) {
+                $dateObj = DateTime::createFromFormat('m/d/Y', $donor_expiry);
+            }
             $donor_expiry = $dateObj ? $dateObj->format('Y-m-d') : null;
         }
-
-        // Debugging output if needed
-        // echo "<pre>";
-        // print_r($this->input->post());
-        // print_r($expiry_date);
-        // exit;
-
+    
+        // Validate expiry dates
+        if ($expiry_date && $expiry_date < $today) {
+            $this->session->set_flashdata('error', 'Expiry date should be today or a future date.');
+            redirect($_SERVER['HTTP_REFERER']);
+            return;
+        }
+        if ($donor_expiry && $donor_expiry < $today) {
+            $this->session->set_flashdata('error', 'Expiry date should be today or a future date.');
+            redirect($_SERVER['HTTP_REFERER']);
+            return;
+        }
+    
         if ($source === 'purchase') {
             $data = [
                 'source'            => 'purchase',
@@ -117,19 +135,18 @@ class BloodBank extends CI_Controller {
             $this->session->set_flashdata('error', 'Invalid blood source selected.');
             redirect('BloodBank/add_blood');
         }
-
+    
         // Insert into DB
         $saved = $this->BloodBankModel->insert_blood($data);
-
+    
         if ($saved) {
             $this->session->set_flashdata('response', 'Blood entry saved successfully.');
         } else {
             $this->session->set_flashdata('error', 'Failed to save blood entry.');
         }
-
+    
         redirect('BloodBank/add_blood');
     }
-
     
     public function edit_blood($id)
     {
@@ -159,6 +176,9 @@ class BloodBank extends CI_Controller {
             redirect('blood-bank/edit-blood/' . $id);
         }
     
+        print_r($this->input->post());
+        exit;
+        
         if ($source === 'purchase') {
             $data = [
                 'source'         => 'purchase',
@@ -218,7 +238,7 @@ class BloodBank extends CI_Controller {
         $this->header($title);
         $this->sidebar();
         $this->load->model('BloodBankModel');
-        $data['blood_inventory'] = $this->BloodBankModel->get_all_blood_inventory();
+        $data['blood_inventory'] = $this->BloodBankModel->get_avilable_blood_inventory();
         $this->load->view('bloodbank/issue_blood', $data);
         $this->footer();
     }
@@ -249,6 +269,17 @@ class BloodBank extends CI_Controller {
         redirect('blood-bank/all-issues');
     }
 
+
+    
+    public function blood_status() {
+        $title = site_name . ' - Blood Status';
+        $this->header($title);
+        $this->sidebar();
+        $this->load->model('BloodBankModel');
+        $data['blood_inventory'] = $this->BloodBankModel->get_avilable_blood_inventory();
+        $this->load->view('bloodbank/blood_status', $data);
+        $this->footer();
+    }
 
     
 

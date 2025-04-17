@@ -62,7 +62,16 @@
                                 <?php echo $row['source'] == 'donor' ? htmlspecialchars($row['contact_no']) : '-'; ?>
                             </td>
 
-                            <td><?php echo date('d-M-Y', strtotime($row['expiry_date'])); ?></td>
+                            <td>
+    <?php
+        $expiry = strtotime($row['expiry_date']);
+        $today = strtotime(date('Y-m-d'));
+        echo date('d-M-Y', $expiry);
+        if ($expiry < $today) {
+            echo ' <span class="label label-danger">Expired</span>';
+        }
+    ?>
+</td>
 
                             <!-- Show remarks for donor, or 'N/A' -->
                             <td> 

@@ -95,6 +95,14 @@
                 </a>
             </li>
         <?php endif; ?>
+        <?php if (!empty($access) and !in_array('blood-status', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'blood-status') echo 'active'; ?>">
+                <a href="<?php echo base_url('/blood-bank/blood-status') ?>">
+                    Blood Status
+                </a>
+            </li>
+        <?php endif; ?>
+
 
 
     </ul>

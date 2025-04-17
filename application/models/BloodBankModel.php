@@ -104,4 +104,21 @@ class BloodBankModel extends CI_Model
         return $issuance_number;
     }
 
+    public function get_avilable_blood_inventory() {
+        $today = date('Y-m-d');
+        // Get all issued inventory IDs
+        $issued = $this->db->select('inventory_id')->get('blood_issuance')->result_array();
+        $issued_ids = array_column($issued, 'inventory_id');
+
+        // Get inventory not issued and not expired
+        $this->db->where('expiry_date >=', $today);
+        if (!empty($issued_ids)) {
+            $this->db->where_not_in('id', $issued_ids);
+        }
+        $query = $this->db->get('blood_inventory');
+
+        return $query->result_array();
+    }
+
+
 }

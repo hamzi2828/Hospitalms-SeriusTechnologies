@@ -643,6 +643,7 @@
     $route[ 'blood-bank/edit-issue/(:any)' ]                         = 'BloodBank/edit_issue/$1';
     $route[ 'blood-bank/update-issue/(:any)' ]                       = 'BloodBank/update_issue/$1';
     $route[ 'blood-bank/delete-issue/(:any)' ]                       = 'BloodBank/delete_issue/$1';
+    $route[ 'blood-bank/blood-status' ]                               = 'BloodBank/blood_status';
 
 
 

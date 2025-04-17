@@ -214,5 +214,16 @@
             todayHighlight: true
         });
     }
+    // Force date format to yyyy-mm-dd before submit
+    $('form').on('submit', function() {
+        $('.date-picker').each(function() {
+            var val = $(this).val();
+            // If in MM/DD/YYYY, convert to YYYY-MM-DD
+            if (/\d{2}\/\d{2}\/\d{4}/.test(val)) {
+                var parts = val.split('/');
+                $(this).val(parts[2] + '-' + parts[0].padStart(2, '0') + '-' + parts[1].padStart(2, '0'));
+            }
+        });
+    });
 });
 </script>
