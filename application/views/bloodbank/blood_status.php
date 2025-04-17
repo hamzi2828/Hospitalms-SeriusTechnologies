@@ -38,28 +38,16 @@
                     </thead>
                     <tbody>
                         <?php
-                        $blood_types = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
-                        $today = date('Y-m-d');
                         $sr = 1;
-                        foreach ($blood_types as $type):
-                            $total_qty = $used_qty = $expired_qty = $available_qty = 0;
-                            foreach ($blood_inventory as $item) {
-                                if ($item['blood_type'] == $type) {
-                                    $total_qty++;
-                                    if ($item['expiry_date'] < $today) $expired_qty++;
-                                    if (!empty($item['is_issued']) && $item['is_issued']) $used_qty++;
-                                    if ($item['expiry_date'] >= $today && (empty($item['is_issued']) || !$item['is_issued'])) $available_qty++;
-                                }
-                            }
-                            if ($total_qty == 0) continue;
+                        foreach ($blood_status as $status):
                         ?>
                         <tr>
                             <td><?= $sr++; ?></td>
-                            <td><?= htmlspecialchars($type); ?></td>
-                            <td><?= $total_qty; ?></td>
-                            <td><?= $used_qty; ?></td>
-                            <td><?= $expired_qty; ?></td>
-                            <td><?= $available_qty; ?></td>
+                            <td><?= htmlspecialchars($status['blood_type']); ?></td>
+                            <td><?= $status['total_qty']; ?></td>
+                            <td><?= $status['used_qty']; ?></td>
+                            <td><?= $status['expired_qty']; ?></td>
+                            <td><?= $status['available_qty']; ?></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>

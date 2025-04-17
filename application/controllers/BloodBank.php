@@ -276,7 +276,41 @@ class BloodBank extends CI_Controller {
         $this->header($title);
         $this->sidebar();
         $this->load->model('BloodBankModel');
-        $data['blood_inventory'] = $this->BloodBankModel->get_avilable_blood_inventory();
+        $blood_inventory = $this->BloodBankModel->get_all_blood_inventory();
+        $blood_issuance = $this->BloodBankModel->get_all_blood_issuance();
+        $blood_types = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
+        $today = date('Y-m-d');
+        $blood_status = [];
+        foreach ($blood_types as $type) {
+            $total_qty = $used_qty = $expired_qty = $available_qty = 0;
+            // Collect all inventory IDs for this type
+            $inventory_ids = [];
+            foreach ($blood_inventory as $item) {
+                if ($item['blood_type'] == $type) {
+                    $total_qty++;
+                    $inventory_ids[] = $item['id'];
+                    if ($item['expiry_date'] < $today) $expired_qty++;
+                    if ($item['expiry_date'] >= $today) $available_qty++; // We'll subtract used below
+                }
+            }
+            // Count used_qty from issuance table
+            foreach ($blood_issuance as $issue) {
+                if (in_array($issue['inventory_id'], $inventory_ids)) {
+                    $used_qty++;
+                    $available_qty--; // Decrement available if issued
+                }
+            }
+            // Prevent negative available_qty
+            if ($available_qty < 0) $available_qty = 0;
+            $blood_status[] = [
+                'blood_type' => $type,
+                'total_qty' => $total_qty,
+                'used_qty' => $used_qty,
+                'expired_qty' => $expired_qty,
+                'available_qty' => $available_qty
+            ];
+        }
+        $data['blood_status'] = $blood_status;
         $this->load->view('bloodbank/blood_status', $data);
         $this->footer();
     }
