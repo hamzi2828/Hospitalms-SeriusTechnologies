@@ -72,7 +72,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Expiry Date</label>
                                 <div class="col-md-6">
-                                    <input type="date" class="form-control" name="expiry_date" value="<?php echo $blood['expiry_date']; ?>">
+                                    <input type="text" class="form-control date-picker" name="expiry_date" placeholder="Expiry Date" value="<?php echo $blood['expiry_date']; ?>">
                                 </div>
                             </div>
                         </div>
@@ -125,7 +125,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Expiry Date</label>
                                 <div class="col-md-6">
-                                    <input type="date" class="form-control" name="donor_expiry" value="<?php echo $blood['expiry_date']; ?>">
+                                    <input type="text" class="form-control date-picker" name="donor_expiry" placeholder="Expiry Date" value="<?php echo $blood['expiry_date']; ?>">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -151,7 +151,7 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-6">
-                                <button type="submit" class="btn green">Update</button>
+                                <button type="submit" class="btn blue">Update</button>
                                 <a href="<?php echo base_url('blood-bank/all-blood-inventory'); ?>" class="btn default">Cancel</a>
                             </div>
                         </div>
@@ -169,9 +169,20 @@
         document.getElementById('purchaseFields').style.display = value === 'purchase' ? 'block' : 'none';
         document.getElementById('donorFields').style.display = value === 'donor' ? 'block' : 'none';
     }
-
     // Initialize the form based on the source
     document.addEventListener('DOMContentLoaded', function() {
         // Form is already initialized by PHP display settings
+        // Initialize Select2 for all select2 fields
+        if (window.jQuery && $.fn.select2) {
+            $('.select2').select2();
+        }
+        // Initialize date-picker if needed (assuming bootstrap-datepicker or similar)
+        if (window.jQuery && $.fn.datepicker) {
+            $('.date-picker').datepicker({
+                autoclose: true,
+                format: 'yyyy-mm-dd', // Change format as needed
+                todayHighlight: true
+            });
+        }
     });
 </script>

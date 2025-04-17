@@ -70,7 +70,8 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Expiry Date</label>
                                 <div class="col-md-6">
-                                    <input type="date" class="form-control" name="expiry_date" required data-required>
+                                    
+                                    <input type="text" name="expiry_date" class="form-control date-picker" placeholder="Expiry Date" required data-required>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +125,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Expiry Date</label>
                                 <div class="col-md-6">
-                                    <input type="date" class="form-control" name="donor_expiry" required data-required>
+                                    <input type="text" name="donor_expiry" class="form-control date-picker" placeholder="Expiry Date" required data-required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -150,7 +151,7 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-6">
-                                <button type="submit" class="btn green">Submit</button>
+                                <button type="submit" class="btn blue">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -197,4 +198,21 @@
     document.addEventListener("DOMContentLoaded", function () {
         toggleBloodSource();
     });
+
+
+
+    $(document).ready(function() {
+    // Initialize Select2 for all select2 fields
+    if ($.fn.select2) {
+        $('.select2').select2();
+    }
+    // Initialize date-picker if needed (assuming bootstrap-datepicker or similar)
+    if ($.fn.datepicker) {
+        $('.date-picker').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd', // Change format as needed
+            todayHighlight: true
+        });
+    }
+});
 </script>
