@@ -63,12 +63,13 @@
                             <td><?php echo date('d-M-Y', strtotime($row['expiry_date'])); ?></td>
 
                             <!-- Show remarks for donor, or 'N/A' -->
-                            <td>
+                            <td> 
                                 <?php echo $row['source'] == 'donor' ? htmlspecialchars($row['remarks']) : 'N/A'; ?>
                             </td>
                             <td>
-                                <a href="<?php echo base_url('blood-bank/edit-blood/').$row['id']; ?>" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
-                                <a href="<?php echo base_url('blood-bank/delete-blood/').$row['id']; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                <a type="button" class="btn btn-xs blue" href="<?php echo base_url('blood-bank/edit-blood/').$row['id']; ?>">Edit</a>
+                                
+                                <a type="button" class="btn btn-xs red" href="<?php echo base_url('blood-bank/delete-blood/').$row['id']; ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                             </td>
                         </tr>
                 <?php }
