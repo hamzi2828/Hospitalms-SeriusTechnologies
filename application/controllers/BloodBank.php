@@ -59,57 +59,77 @@ class BloodBank extends CI_Controller {
         $this->footer();
     }
 
-    public function store_blood() {
+    public function store_blood()
+    {
         $source = $this->input->post('source', true);
-    
+
         if (!$source) {
             $this->session->set_flashdata('error', 'Please select a blood source (Purchase or Donor).');
             redirect('BloodBank/add_blood');
         }
-    
-        // Load model for insert if not already
+
         $this->load->model('BloodBankModel');
-    
+
+        // Convert expiry dates from MM/DD/YYYY to Y-m-d
+        $expiry_date = $this->input->post('expiry_date', true);
+        if ($expiry_date) {
+            $dateObj = DateTime::createFromFormat('m/d/Y', $expiry_date);
+            $expiry_date = $dateObj ? $dateObj->format('Y-m-d') : null;
+        }
+
+        $donor_expiry = $this->input->post('donor_expiry', true);
+        if ($donor_expiry) {
+            $dateObj = DateTime::createFromFormat('m/d/Y', $donor_expiry);
+            $donor_expiry = $dateObj ? $dateObj->format('Y-m-d') : null;
+        }
+
+        // Debugging output if needed
+        // echo "<pre>";
+        // print_r($this->input->post());
+        // print_r($expiry_date);
+        // exit;
+
         if ($source === 'purchase') {
             $data = [
-                'source'         => 'purchase',
-                'sequence_number' => $this->BloodBankModel->get_sequence_number(),
-                'from'           => $this->input->post('from', true),
-                'purchase_price' => $this->input->post('purchase_price', true),
-                'blood_type'     => $this->input->post('blood_type', true),
-                'expiry_date'    => $this->input->post('expiry_date', true),
-                'created_at'     => date('Y-m-d H:i:s'),
+                'source'            => 'purchase',
+                'reference_number'  => $this->BloodBankModel->get_reference_number(),
+                'from'              => $this->input->post('from', true),
+                'purchase_price'    => $this->input->post('purchase_price', true),
+                'blood_type'        => $this->input->post('blood_type', true),
+                'expiry_date'       => $expiry_date,
+                'created_at'        => date('Y-m-d H:i:s'),
             ];
         } elseif ($source === 'donor') {
             $data = [
-                'source'         => 'donor',
-                'sequence_number' => $this->BloodBankModel->get_sequence_number(),
-                'donor_name'     => $this->input->post('donor_name', true),
-                'donor_age'      => $this->input->post('donor_age', true),
-                'donor_gender'   => $this->input->post('donor_gender', true),
-                'contact_no'     => $this->input->post('contact_no', true),
-                'blood_type'     => $this->input->post('donor_blood_type', true),
-                'expiry_date'    => $this->input->post('donor_expiry', true),
-                'remarks'        => $this->input->post('remarks', true),
-                'charity'        => $this->input->post('charity', true),
-                'created_at'     => date('Y-m-d H:i:s'),
+                'source'            => 'donor',
+                'reference_number'  => $this->BloodBankModel->get_reference_number(),
+                'donor_name'        => $this->input->post('donor_name', true),
+                'donor_age'         => $this->input->post('donor_age', true),
+                'donor_gender'      => $this->input->post('donor_gender', true),
+                'contact_no'        => $this->input->post('contact_no', true),
+                'blood_type'        => $this->input->post('donor_blood_type', true),
+                'expiry_date'       => $donor_expiry,
+                'remarks'           => $this->input->post('remarks', true),
+                'charity'           => $this->input->post('charity', true),
+                'created_at'        => date('Y-m-d H:i:s'),
             ];
         } else {
             $this->session->set_flashdata('error', 'Invalid blood source selected.');
             redirect('BloodBank/add_blood');
         }
-    
-        // Save to DB using model
+
+        // Insert into DB
         $saved = $this->BloodBankModel->insert_blood($data);
-    
+
         if ($saved) {
             $this->session->set_flashdata('response', 'Blood entry saved successfully.');
         } else {
             $this->session->set_flashdata('error', 'Failed to save blood entry.');
         }
-    
+
         redirect('BloodBank/add_blood');
     }
+
     
     public function edit_blood($id)
     {
@@ -182,9 +202,53 @@ class BloodBank extends CI_Controller {
         redirect('BloodBank/all_blood_inventory');
     }
 
+    public function all_issues() {
+        $title = site_name . ' - All Issues';
+
+        $this->header($title);
+        $this->sidebar();
+        $data['blood_issuance'] = $this->BloodBankModel->get_all_blood_issuance();
+                
+        $this->load->view('bloodbank/all_issues',$data);
+        $this->footer();
+    }
+
+    public function issue_blood() {
+        $title = site_name . ' - Issue Blood';
+        $this->header($title);
+        $this->sidebar();
+        $this->load->model('BloodBankModel');
+        $data['blood_inventory'] = $this->BloodBankModel->get_all_blood_inventory();
+        $this->load->view('bloodbank/issue_blood', $data);
+        $this->footer();
+    }
+    
+    public function store_issue_blood() {
+        $patient_id = $this->input->post('patient_id', true);
+        $blood_type = $this->input->post('blood_type', true);
+        $inventory_id = $this->input->post('inventory_id', true);
+
+        // Prepare data
+        $data = [
+            'patient_id' => $patient_id,
+            'blood_type' => $blood_type,
+            'inventory_id' => $inventory_id,
+            'issued_by' => get_logged_in_user_id(),
+            // 'issued_at' and 'created_at' handled by DB defaults
+        ];
+
+        // Insert using model for better practice
+        $this->BloodBankModel->insert_blood_issuance($data);
+
+        $this->session->set_flashdata('response', 'Blood issued successfully.');
+        redirect('blood-bank/all-issues');
+    }
+
+
     
 
  
     
 
 }
+

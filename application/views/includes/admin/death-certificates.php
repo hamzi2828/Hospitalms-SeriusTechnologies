@@ -81,6 +81,22 @@
             </li>
         <?php endif; ?>
 
+        <?php if (!empty($access) and !in_array('all-issues', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'all-issues') echo 'active'; ?>">
+                <a href="<?php echo base_url('/blood-bank/all-issues') ?>">
+                    All Issues
+                </a>
+            </li>
+        <?php endif; ?>
+        <?php if (!empty($access) and !in_array('issue-blood', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'issue-blood') echo 'active'; ?>">
+                <a href="<?php echo base_url('/blood-bank/issue-blood') ?>">
+                    Issue Blood
+                </a>
+            </li>
+        <?php endif; ?>
+
+
     </ul>
 </li>
 <?php endif; ?>

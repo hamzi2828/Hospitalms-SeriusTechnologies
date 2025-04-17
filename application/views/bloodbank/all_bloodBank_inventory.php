@@ -44,7 +44,7 @@
                     foreach ($blood_inventory as $row) { ?>
                         <tr>
                             <td><?php echo $count++; ?></td>
-                            <td><?php echo htmlspecialchars($row['sequence_number']); ?></td>
+                            <td><?php echo htmlspecialchars($row['reference_number']); ?></td>
                             <td><?php echo htmlspecialchars($row['blood_type']); ?></td>
                             <td><?php echo ucfirst($row['source']); ?></td>
                             

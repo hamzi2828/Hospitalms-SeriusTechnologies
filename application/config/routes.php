@@ -637,7 +637,9 @@
     $route[ 'blood-bank/edit-blood/(:any)' ]                         = 'BloodBank/edit_blood/$1';
     $route[ 'blood-bank/update-blood/(:any)' ]                       = 'BloodBank/update_blood/$1';
     $route[ 'blood-bank/delete-blood/(:any)' ]                       = 'BloodBank/delete_blood/$1';
-
+    $route[ 'blood-bank/all-issues' ]                                 = 'BloodBank/all_issues';
+    $route[ 'blood-bank/issue-blood' ]                               = 'BloodBank/issue_blood';
+    $route[ 'blood-bank/store-issue-blood' ]                         = 'BloodBank/store_issue_blood';
 
 
 
