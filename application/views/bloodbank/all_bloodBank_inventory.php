@@ -28,6 +28,7 @@
             <thead>
                 <tr>
                     <th>Sr. No</th>
+                    <th>Sequence Number</th>
                     <th>Blood Type</th>
                     <th>Source</th>
                     <th>From / Donor Name</th>
@@ -43,6 +44,7 @@
                     foreach ($blood_inventory as $row) { ?>
                         <tr>
                             <td><?php echo $count++; ?></td>
+                            <td><?php echo htmlspecialchars($row['sequence_number']); ?></td>
                             <td><?php echo htmlspecialchars($row['blood_type']); ?></td>
                             <td><?php echo ucfirst($row['source']); ?></td>
                             
@@ -75,7 +77,7 @@
                 <?php }
                 } else { ?>
                     <tr>
-                        <td colspan="7" class="text-center">No records found.</td>
+                        <td colspan="8" class="text-center">No records found.</td>
                     </tr>
                 <?php } ?>
             </tbody>
