@@ -30,7 +30,7 @@
                             <label class="control-label col-md-3">Add Blood From</label>
                             <div class="col-md-6">
                                 <select name="source" class="form-control" id="bloodSource" onchange="toggleBloodSource()" required>
-                                    <option value="">-- Select --</option>
+                                    <option value="">Select</option>
                                     <option value="purchase">Purchase</option>
                                     <option value="donor">Donor</option>
                                 </select>
@@ -94,7 +94,7 @@
                                 <label class="control-label col-md-3">Gender</label>
                                 <div class="col-md-6">
                                     <select name="donor_gender" class="form-control" required data-required>
-                                        <option value="">-- Select --</option>
+                                        <option value=""> </option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                     </select>
@@ -138,7 +138,7 @@
                                 <label class="control-label col-md-3">Charity</label>
                                 <div class="col-md-6">
                                     <select name="charity" class="form-control" required data-required>
-                                        <option value="">-- Select --</option>
+                                        <option value=""> </option>
                                         <option value="no">No</option>
                                         <option value="yes">Yes</option>
                                     </select>
