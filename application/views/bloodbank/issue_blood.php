@@ -45,6 +45,11 @@
                                 <input type="text" class="form-control" id="patient-name" readonly>
                             </div>
 
+                        </div>
+
+                        
+                        <div class="row">
+                         
                             <!-- Blood Type Dropdown -->
                             <div class="form-group col-lg-4">
                                 <label>Blood Type</label>
@@ -64,11 +69,12 @@
                             <!-- Inventory Selection (Dynamic) -->
                             <div class="form-group col-lg-8" id="inventory_group" style="display:none;">
                                 <label>Select Matching Inventory</label>
-                                <select name="inventory_id" id="inventory_id" class="form-control select2me" required>
+                                <select name="inventory_id[]" id="inventory_id" class="form-control select2me" multiple required>
                                     <!-- Populated via JS -->
                                 </select>
                             </div>
                         </div>
+
                     </div>
 
                     <!-- Submit -->
@@ -105,7 +111,7 @@
             filtered.forEach(item => {
                 const option = document.createElement('option');
                 option.value = item.id;
-                option.textContent = `ID: ${item.reference_number} | ${item.source} | From: ${item.from || 'N/A'} | Expiry: ${item.expiry_date}`;
+                option.textContent = `${item.reference_number}`;
                 inventorySelect.appendChild(option);
             });
 

@@ -226,19 +226,20 @@ class BloodBank extends CI_Controller {
     public function store_issue_blood() {
         $patient_id = $this->input->post('patient_id', true);
         $blood_type = $this->input->post('blood_type', true);
-        $inventory_id = $this->input->post('inventory_id', true);
+        $inventory_ids = $this->input->post('inventory_id', true); // This will be an array if multi-select
 
-        // Prepare data
-        $data = [
-            'patient_id' => $patient_id,
-            'blood_type' => $blood_type,
-            'inventory_id' => $inventory_id,
-            'issued_by' => get_logged_in_user_id(),
-            // 'issued_at' and 'created_at' handled by DB defaults
-        ];
-
-        // Insert using model for better practice
-        $this->BloodBankModel->insert_blood_issuance($data);
+        if (!empty($inventory_ids) && is_array($inventory_ids)) {
+            foreach ($inventory_ids as $inventory_id) {
+                $data = [
+                    'patient_id' => $patient_id,
+                    'blood_type' => $blood_type,
+                    'inventory_id' => $inventory_id,
+                    'issued_by' => get_logged_in_user_id(),
+                    // 'issued_at' and 'created_at' handled by DB defaults
+                ];
+                $this->BloodBankModel->insert_blood_issuance($data);
+            }
+        }
 
         $this->session->set_flashdata('response', 'Blood issued successfully.');
         redirect('blood-bank/all-issues');
