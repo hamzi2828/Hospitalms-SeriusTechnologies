@@ -20,7 +20,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i> All Blood Inventory
+                    <i class="fa fa-globe"></i> All Issuance
                 </div>
             </div>
            <div class="portlet-body" style="overflow: auto">
@@ -38,24 +38,40 @@
                 </tr>
             </thead>
             <tbody>
-                <?php if (!empty($blood_issuance)): ?>
-                    <?php $sr = 1; foreach ($blood_issuance as $issue): ?>
+
+                <?php
+                // Group by issuance_number
+                $grouped = [];
+                foreach ($blood_issuance as $issue) {
+                    $grouped[$issue['issuance_number']][] = $issue;
+                }
+                $sr = 1;
+                if (!empty($grouped)):
+                    foreach ($grouped as $issuance_number => $issues):
+                        $first = $issues[0];
+                        // Gather all inventory reference numbers for this issuance_number
+                        $inventory_refs = array_map(function($i) {
+                            return get_blood_inventory_reference_number($i['inventory_id']);
+                        }, $issues);
+                        $inventory_refs_str = htmlspecialchars(implode(', ', $inventory_refs));
+                ?>
                         <tr>
                             <td><?php echo $sr++; ?></td>
-                            <td><?php echo 'ISS-' . str_pad($issue['id'], 6, '0', STR_PAD_LEFT); ?></td>
-                            <td><?php echo htmlspecialchars($issue['patient_id']); ?></td>
-                            <td><!-- Name: Not available --></td>
-                            <td><?php echo htmlspecialchars($issue['blood_type']); ?></td>
-                            <td><?php echo htmlspecialchars($issue['inventory_id']); ?></td>
-                            <td><?php echo isset($issue['issued_at']) ? htmlspecialchars($issue['issued_at']) : htmlspecialchars($issue['created_at']); ?></td>
+                            <td><?php echo htmlspecialchars($issuance_number); ?></td>
+                            <td><?php echo htmlspecialchars($first['patient_id']); ?></td>
+                            <td><?php echo get_patient_name($first['patient_id']); ?></td>
+                            <td><?php echo htmlspecialchars($first['blood_type']); ?></td>
+                            <td><?php echo $inventory_refs_str; ?></td>
+                            <td><?php echo isset($first['issued_at']) ? htmlspecialchars($first['issued_at']) : htmlspecialchars($first['created_at']); ?></td>
                             <td>
-                                <a type="button" class="btn btn-xs blue" href="<?php echo base_url('blood-bank/edit-issue/').$issue['id']; ?>">Edit</a>
-                                
-                                <a type="button" class="btn btn-xs red" href="<?php echo base_url('blood-bank/delete-issue/').$issue['id']; ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                                <a type="button" class="btn btn-xs blue" href="<?php echo base_url('blood-bank/edit-issue/').$first['id']; ?>">Edit</a>
+                                <a type="button" class="btn btn-xs red" href="<?php echo base_url('blood-bank/delete-issue/').$first['id']; ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
+                <?php
+                    endforeach;
+                else:
+                ?>
                     <tr><td colspan="8">No blood issuance records found.</td></tr>
                 <?php endif; ?>
             </tbody>

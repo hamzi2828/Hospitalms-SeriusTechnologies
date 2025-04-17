@@ -228,6 +228,9 @@ class BloodBank extends CI_Controller {
         $blood_type = $this->input->post('blood_type', true);
         $inventory_ids = $this->input->post('inventory_id', true); // This will be an array if multi-select
 
+        $issuance_number = $this->BloodBankModel->get_issuance_number();
+
+        
         if (!empty($inventory_ids) && is_array($inventory_ids)) {
             foreach ($inventory_ids as $inventory_id) {
                 $data = [
@@ -235,6 +238,7 @@ class BloodBank extends CI_Controller {
                     'blood_type' => $blood_type,
                     'inventory_id' => $inventory_id,
                     'issued_by' => get_logged_in_user_id(),
+                    'issuance_number' => $issuance_number,
                     // 'issued_at' and 'created_at' handled by DB defaults
                 ];
                 $this->BloodBankModel->insert_blood_issuance($data);

@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * ---------------------
+ * @param $inventory_id
+ * @return string|null
+ * Get blood inventory reference number by inventory id
+ * ---------------------
+ */
+function get_blood_inventory_reference_number($inventory_id) {
+    $ci = &get_instance();
+    $ci->load->model('BloodBankModel');
+    $inventory = $ci->BloodBankModel->get_by_id($inventory_id);
+    return isset($inventory['reference_number']) ? $inventory['reference_number'] : null;
+}
+
     
     /**
      * ------------

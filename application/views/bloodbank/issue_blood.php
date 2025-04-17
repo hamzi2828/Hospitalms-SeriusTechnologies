@@ -23,8 +23,8 @@
             </div>
             <div class="portlet-body form">
                 <form role="form" method="post" action="<?php echo site_url('blood-bank/store-issue-blood'); ?>" autocomplete="off">
-    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
-           value="<?php echo $this->security->get_csrf_hash(); ?>" id="csrf_token">
+            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                value="<?php echo $this->security->get_csrf_hash(); ?>" id="csrf_token">
 
                     <div class="form-body">
                         <hr style="margin-top: 0"/>
@@ -32,6 +32,7 @@
                         <div class="row">
                             <!-- Patient EMR No -->
                             <div class="form-group col-lg-4">
+                            <label>EMR. No</label>
                                 <label><?php echo $this->lang->line('PATIENT_EMR'); ?></label>
                                 <input type="text" name="patient_id" class="form-control"
                                        placeholder="Enter EMR No"
@@ -53,7 +54,7 @@
                             <!-- Blood Type Dropdown -->
                             <div class="form-group col-lg-4">
                                 <label>Blood Type</label>
-                                <select name="blood_type" id="blood_type" class="form-control select2" required>
+                                <select name="blood_type" id="blood_type" class="form-control" required>
                                     <option value="">Select Blood Type</option>
                                     <option value="A+">A+</option>
                                     <option value="A-">A-</option>
@@ -67,7 +68,7 @@
                             </div>
 
                             <!-- Inventory Selection (Dynamic) -->
-                            <div class="form-group col-lg-8" id="inventory_group" style="display:none;">
+                            <div class="form-group col-lg-4" id="inventory_group" style="display:none;">
                                 <label>Select Matching Inventory</label>
                                 <select name="inventory_id[]" id="inventory_id" class="form-control select2me" multiple required>
                                     <!-- Populated via JS -->
