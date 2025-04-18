@@ -644,7 +644,12 @@
     $route[ 'blood-bank/update-issue/(:any)' ]                       = 'BloodBank/update_issue/$1';
     $route[ 'blood-bank/delete-issue/(:any)' ]                       = 'BloodBank/delete_issue/$1';
     $route[ 'blood-bank/blood-status' ]                               = 'BloodBank/blood_status';
-
+    $route[ 'blood-bank/all-x-match-reports' ]                       = 'BloodBank/all_x_match_reports';
+    $route[ 'blood-bank/add-x-match-report' ]                        = 'BloodBank/add_x_match_report';
+    $route[ 'blood-bank/store-x-match-report' ]                      = 'BloodBank/store_x_match_report';
+    $route[ 'blood-bank/edit-x-match-report/(:any)' ]                = 'BloodBank/edit_x_match_report/$1';
+    $route[ 'blood-bank/update-x-match-report/(:any)' ]              = 'BloodBank/update_x_match_report/$1';
+    $route[ 'blood-bank/delete-x-match-report/(:any)' ]              = 'BloodBank/delete_x_match_report/$1';
 
 
 

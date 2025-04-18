@@ -103,6 +103,20 @@
             </li>
         <?php endif; ?>
 
+        <?php if (!empty($access) and !in_array('all-x-match-reports', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'all-x-match-reports') echo 'active'; ?>">
+                <a href="<?php echo base_url('/blood-bank/all-x-match-reports') ?>">
+                    All X-Match Reports
+                </a>
+            </li>
+        <?php endif; ?>
+        <?php if (!empty($access) and !in_array('add-x-match-report', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'add-x-match-report') echo 'active'; ?>">
+                <a href="<?php echo base_url('/blood-bank/add-x-match-report') ?>">
+                    Add X-Match Report
+                </a>
+            </li>
+        <?php endif; ?>
 
 
     </ul>

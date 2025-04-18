@@ -41,23 +41,20 @@ class BloodBankModel extends CI_Model
     public function get_reference_number(){
         $date = date('Ymd'); // format: YYYYMMDD
         $prefix = 'B-' . $date;
-    
-        // Fetch the maximum existing sequence for today's date
-        $this->db->select('MAX(reference_number) as reference_number');
+
+        // Fetch the maximum numeric suffix for today's date
+        $this->db->select("MAX(CAST(SUBSTRING(reference_number, " . (strlen($prefix) + 1) . ") AS UNSIGNED)) as max_suffix", false);
         $this->db->from('blood_inventory');
         $this->db->where("reference_number LIKE '$prefix%'");
         $query = $this->db->get();
         $result = $query->row_array();
-    
-        if (empty($result['reference_number'])) {
+
+        if (empty($result['max_suffix'])) {
             $new_number = 1;
         } else {
-            // Extract the numeric suffix after the date part
-            $last_sequence = $result['reference_number'];
-            $number_part = intval(substr($last_sequence, strlen($prefix))); // extract suffix
-            $new_number = $number_part + 1;
+            $new_number = $result['max_suffix'] + 1;
         }
-    
+
         // Final sequence number
         $reference_number = $prefix . $new_number;
         return $reference_number;
@@ -82,23 +79,20 @@ class BloodBankModel extends CI_Model
     public function get_issuance_number(){
         $date = date('Ymd'); // format: YYYYMMDD
         $prefix = 'ISS-' . $date;
-    
-        // Fetch the maximum existing sequence for today's date
-        $this->db->select('MAX(issuance_number) as issuance_number');
+
+        // Fetch the maximum numeric suffix for today's date
+        $this->db->select("MAX(CAST(SUBSTRING(issuance_number, " . (strlen($prefix) + 1) . ") AS UNSIGNED)) as max_suffix", false);
         $this->db->from('blood_issuance');
         $this->db->where("issuance_number LIKE '$prefix%'");
         $query = $this->db->get();
         $result = $query->row_array();
-    
-        if (empty($result['issuance_number'])) {
+
+        if (empty($result['max_suffix'])) {
             $new_number = 1;
         } else {
-            // Extract the numeric suffix after the date part
-            $last_sequence = $result['issuance_number'];
-            $number_part = intval(substr($last_sequence, strlen($prefix))); // extract suffix
-            $new_number = $number_part + 1;
+            $new_number = $result['max_suffix'] + 1;
         }
-    
+
         // Final sequence number
         $issuance_number = $prefix . $new_number;
         return $issuance_number;
@@ -120,5 +114,20 @@ class BloodBankModel extends CI_Model
         return $query->result_array();
     }
 
+    public function get_all_x_match_reports() {
+        $this->db->select('*');
+        $this->db->from('x_match_reports');
+        $this->db->order_by('created_at', 'DESC');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 
+    public function insert_x_match_report($data) {
+        $this->db->insert('x_match_reports', $data);
+        return $this->db->insert_id();
+    }
+
+    public function insert_x_match_report_test($data) {
+        $this->db->insert('x_match_report_tests', $data);
+    }
 }

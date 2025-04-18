@@ -23,8 +23,8 @@
             </div>
             <div class="portlet-body form">
                 <form role="form" method="post" action="<?php echo site_url('blood-bank/store-issue-blood'); ?>" autocomplete="off">
-            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
-                value="<?php echo $this->security->get_csrf_hash(); ?>" id="csrf_token">
+                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                           value="<?php echo $this->security->get_csrf_hash(); ?>" id="csrf_token">
 
                     <div class="form-body">
                         <hr style="margin-top: 0"/>
@@ -32,8 +32,7 @@
                         <div class="row">
                             <!-- Patient EMR No -->
                             <div class="form-group col-lg-4">
-                            <label>EMR. No</label>
-                                <label><?php echo $this->lang->line('PATIENT_EMR'); ?></label>
+                                <label>EMR. No</label>
                                 <input type="text" name="patient_id" class="form-control"
                                        placeholder="Enter EMR No"
                                        value="<?php echo isset($patient_id) ? $patient_id : set_value('patient_id'); ?>"
@@ -45,12 +44,9 @@
                                 <label>Name</label>
                                 <input type="text" class="form-control" id="patient-name" readonly>
                             </div>
-
                         </div>
 
-                        
                         <div class="row">
-                         
                             <!-- Blood Type Dropdown -->
                             <div class="form-group col-lg-4">
                                 <label>Blood Type</label>
@@ -71,11 +67,10 @@
                             <div class="form-group col-lg-4" id="inventory_group" style="display:none;">
                                 <label>Select Matching Inventory</label>
                                 <select name="inventory_id[]" id="inventory_id" class="form-control select2me" multiple required>
-                                    <!-- Populated via JS -->
+                                    <!-- Options populated via JS -->
                                 </select>
                             </div>
                         </div>
-
                     </div>
 
                     <!-- Submit -->
@@ -97,7 +92,16 @@
         const inventorySelect = document.getElementById('inventory_id');
         const inventoryGroup = document.getElementById('inventory_group');
 
-        inventorySelect.innerHTML = '';
+        // Clear all old options and selections
+        while (inventorySelect.options.length > 0) {
+            inventorySelect.remove(0);
+        }
+        inventorySelect.value = null; // Clear selection for native select
+
+        // If using Select2, also clear selection
+        if ($(inventorySelect).hasClass('select2me')) {
+            $(inventorySelect).val(null).trigger('change');
+        }
 
         const filtered = bloodInventory.filter(item => item.blood_type === selectedType);
 
@@ -105,7 +109,7 @@
             inventoryGroup.style.display = 'block';
 
             const defaultOpt = document.createElement('option');
-            defaultOpt.value = '';
+            defaultOpt.disabled = true;
             defaultOpt.textContent = 'Select Inventory Record';
             inventorySelect.appendChild(defaultOpt);
 
@@ -116,12 +120,16 @@
                 inventorySelect.appendChild(option);
             });
 
+            // If using Select2, refresh it
+            if ($(inventorySelect).hasClass('select2me')) {
+                $(inventorySelect).trigger('change');
+            }
         } else {
             inventoryGroup.style.display = 'none';
         }
     });
 
-    // Auto-fetch patient name if EMR is already set
+    // Auto-fetch patient name on load if EMR already filled
     document.addEventListener('DOMContentLoaded', function () {
         const patientId = document.getElementById('patient_id').value;
         if (patientId) {
@@ -129,9 +137,9 @@
         }
     });
 
+    // Placeholder for actual AJAX call to get patient name
     function get_consultancy_patient(patientId) {
-        // Replace this with your AJAX logic to fetch patient details
-        // Here's a placeholder example
+        // Use AJAX in production; static placeholder for now
         document.getElementById('patient-name').value = 'Fetched Patient Name';
     }
 </script>

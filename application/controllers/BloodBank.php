@@ -315,10 +315,63 @@ class BloodBank extends CI_Controller {
         $this->footer();
     }
 
-    
+    public function all_x_match_reports(){
+        $title = site_name . ' - All X-Match Reports';
+        $this->header($title);
+        $this->sidebar();
+        $this->load->model('BloodBankModel');
+        $data['x_match_reports'] = $this->BloodBankModel->get_all_x_match_reports();
+        $this->load->view('bloodbank/all_x_match_reports', $data);
+        $this->footer();
+    }
 
- 
-    
+
+    public function add_x_match_report(){
+        $title = site_name . ' - Add X-Match Report';
+        $this->header($title);
+        $this->sidebar();
+        $this->load->model('BloodBankModel');
+
+        $this->load->view('bloodbank/add_x_match_report');
+        $this->footer();
+    }
+
+    public function store_x_match_report()
+    {
+        $this->load->model('BloodBankModel');
+        $this->load->helper('url');
+
+        $patient_id = $this->input->post('patient_id');
+        $tests = $this->input->post('tests');
+
+        // OPTIONAL: You can fetch actual patient name from DB if needed
+        $patient_name = ''; // Replace with actual logic if needed
+
+        // Insert into x_match_reports table via model
+        $report_data = array(
+            'patient_id' => $patient_id,
+            'patient_name' => $patient_name
+        );
+
+        $report_id = $this->BloodBankModel->insert_x_match_report($report_data);
+
+        // Insert each test into x_match_report_tests table via model
+        foreach ($tests as $test) {
+            $test_data = array(
+                'report_id' => $report_id,
+                'test_name' => $test['name'],
+                'cut_off_value' => $test['cut_off'],
+                'patient_value' => $test['patient_value'],
+                'result' => $test['result']
+            );
+            $this->BloodBankModel->insert_x_match_report_test($test_data);
+        }
+
+        // Set flash message and redirect
+        $this->session->set_flashdata('response', 'X Match Report saved successfully!');
+        redirect('blood-bank/add-x-match-report');
+    }
+
 
 }
 
