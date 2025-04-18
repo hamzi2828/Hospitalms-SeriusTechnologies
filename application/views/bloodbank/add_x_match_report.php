@@ -43,6 +43,7 @@
                                 <label>Patient Name</label>
                                 <input type="text" class="form-control" id="patient-name" readonly>
                             </div>
+                            
                         </div>
 
                         <!-- Static Table for Tests -->
@@ -57,30 +58,39 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                    $tests = [
-                                        "Donor Name",
-                                        "Donor Blood Group",
-                                        "Donor Rh Factor",
-                                        "Anti HCV by ELISA",
-                                        "HBsAg by ELISA",
-                                        "Anti HIV - 1 & 2 Antibodies",
-                                        "Malaria Parasite (MP)",
-                                        "Syphilis Antibodies",
-                                        "Coombs Test (Direct)",
-                                        "Coombs Test (Indirect)",
-                                        "Compatibility"
-                                    ];
-                                    foreach ($tests as $index => $test) {
-                                        echo '<tr>';
-                                        echo '<td><input type="text" name="tests['.$index.'][name]" value="'.$test.'" class="form-control" readonly></td>';
-                                        echo '<td><input type="text" name="tests['.$index.'][cut_off]" class="form-control" required></td>';
-                                        echo '<td><input type="text" name="tests['.$index.'][patient_value]" class="form-control" required></td>';
-                                        echo '<td><input type="text" name="tests['.$index.'][result]" class="form-control" required></td>';
-                                        echo '</tr>';
-                                    }
-                                    ?>
-                                </tbody>
+<?php
+$tests = [
+    "Donor Name:",
+    "<h2>DONOR</h2>",
+    "Donor Blood Group",
+    "Donor Rh Factor",
+    "Anti HCV by ELISA",
+    "HBsAg by ELISA",
+    "Anti HIV - 1 & 2 Antibodies",
+    "Malaria Parasite (MP)",
+    "Syphilis Antibodies",
+    "Recipient Name:",
+    "<h2>PATIENT</h2>",
+    "Patient Blood Group",
+    "Patient Rh Factor",
+    "Coombs Test (Direct)",
+    "Coombs Test (Indirect)",
+    "Compatibility"
+];
+foreach ($tests as $index => $test) {
+    if ($test === '<h2>DONOR</h2>' || $test === '<h2>PATIENT</h2>') {
+        echo '<tr><td colspan="4">'.$test.'</td></tr>';
+    } else {
+        echo '<tr>';
+        echo '<td><input type="text" name="tests['.$index.'][name]" value="'.$test.'" class="form-control" readonly></td>';
+        echo '<td><input type="text" name="tests['.$index.'][cut_off]" class="form-control" required></td>';
+        echo '<td><input type="text" name="tests['.$index.'][patient_value]" class="form-control" required></td>';
+        echo '<td><input type="text" name="tests['.$index.'][result]" class="form-control" required></td>';
+        echo '</tr>';
+    }
+}
+?>
+</tbody>
                             </table>
                         </div>
                     </div>

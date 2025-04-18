@@ -339,18 +339,32 @@ class BloodBank extends CI_Controller {
     public function store_x_match_report()
     {
         $this->load->model('BloodBankModel');
-        $this->load->helper('url');
+        $this->load->helper(['url', 'general_2']);
 
         $patient_id = $this->input->post('patient_id');
         $tests = $this->input->post('tests');
 
-        // OPTIONAL: You can fetch actual patient name from DB if needed
-        $patient_name = ''; // Replace with actual logic if needed
+        // Fetch actual patient name using helper
+        $patient_name = get_patient_name($patient_id);
+
+        // Optionally extract blood type from tests if available
+        $blood_type = '';
+        foreach ($tests as $test) {
+            if (
+                isset($test['name']) &&
+                (stripos($test['name'], 'Blood Group') !== false || stripos($test['name'], 'Blood Type') !== false)
+                && !empty($test['patient_value'])
+            ) {
+                $blood_type = $test['patient_value'];
+                break;
+            }
+        }
 
         // Insert into x_match_reports table via model
         $report_data = array(
-            'patient_id' => $patient_id,
-            'patient_name' => $patient_name
+            'patient_id'   => $patient_id,
+            'blood_type'   => $blood_type,
+            'created_at'   => date('Y-m-d H:i:s'),
         );
 
         $report_id = $this->BloodBankModel->insert_x_match_report($report_data);
@@ -358,11 +372,11 @@ class BloodBank extends CI_Controller {
         // Insert each test into x_match_report_tests table via model
         foreach ($tests as $test) {
             $test_data = array(
-                'report_id' => $report_id,
-                'test_name' => $test['name'],
-                'cut_off_value' => $test['cut_off'],
-                'patient_value' => $test['patient_value'],
-                'result' => $test['result']
+                'report_id'      => $report_id,
+                'test_name'      => $test['name'],
+                'cut_off_value'  => $test['cut_off'],
+                'patient_value'  => $test['patient_value'],
+                'result'         => $test['result']
             );
             $this->BloodBankModel->insert_x_match_report_test($test_data);
         }
@@ -374,4 +388,3 @@ class BloodBank extends CI_Controller {
 
 
 }
-

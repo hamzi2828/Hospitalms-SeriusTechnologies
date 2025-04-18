@@ -1,3 +1,15 @@
+<?php
+function get_xmatch_donor_name($report_id) {
+    $ci =& get_instance();
+    $ci->load->database();
+    $ci->db->select('patient_value');
+    $ci->db->from('x_match_report_tests');
+    $ci->db->where('report_id', $report_id);
+    $ci->db->where('test_name', 'Donor Name:');
+    $row = $ci->db->get()->row();
+    return $row ? $row->patient_value : '';
+}
+?>
 <!-- BEGIN PAGE CONTENT-->
 <div class="row">
     <div class="col-md-12">
@@ -39,9 +51,9 @@
             <?php if (!empty($x_match_reports)) { $i = 1; foreach ($x_match_reports as $report) { ?>
                 <tr>
                     <td><?php echo $i++; ?></td>
-                    <td><!-- Donor: Add if available in DB --></td>
+                    <td><?php echo htmlspecialchars(get_xmatch_donor_name($report['id'])); ?></td>
                     <td><?php echo get_patient_name($report['patient_id']); ?></td>
-                    <td><!-- Blood Type: Add if available in DB --></td>
+                    <td><?php echo htmlspecialchars($report['blood_type']); ?></td>
                     <td><?php echo date('Y-m-d H:i', strtotime($report['created_at'])); ?></td>
                     <td>
                         <a href="#" class="btn btn-xs btn-info">View</a>
@@ -62,6 +74,7 @@
         width: 100px !important;
     }
 </style>
+
 
 
 
