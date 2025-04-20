@@ -130,4 +130,24 @@ class BloodBankModel extends CI_Model
     public function insert_x_match_report_test($data) {
         $this->db->insert('x_match_report_tests', $data);
     }
+    public function get_x_match_report_by_id_with_tests($id) {
+        // Get the main report
+        $this->db->select('*');
+        $this->db->from('x_match_reports');
+        $this->db->where('id', $id);
+        $report = $this->db->get()->row_array();
+    
+        if ($report) {
+            // Get all tests for this report
+            $this->db->select('*');
+            $this->db->from('x_match_report_tests');
+            $this->db->where('report_id', $id);
+            $tests = $this->db->get()->result_array();
+    
+            $report['tests'] = $tests;
+        }
+    
+        return $report;
+    }
+
 }
