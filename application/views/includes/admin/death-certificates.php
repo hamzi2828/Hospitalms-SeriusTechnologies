@@ -118,6 +118,26 @@
             </li>
         <?php endif; ?>
 
+        <?php if (!empty($access) and !in_array('issuance-report', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'issuance-report') echo 'active'; ?>">
+                <a href="<?php echo base_url('/blood-bank/issuance-report') ?>">
+                    Issuance Report
+                </a>
+            </li>
+        <?php endif; ?>
+        
+
+        <?php if (!empty($access) and !in_array('summary-report', explode(',', $access->access))) : ?>
+            <li class="<?php if ($child_uri == 'summary-report') echo 'active'; ?>">
+                <a href="<?php echo base_url('/blood-bank/summary-report') ?>">
+                    Summary Report
+                </a>
+            </li>
+        <?php endif; ?>
+        
+
+
+
 
     </ul>
 </li>

@@ -68,9 +68,13 @@ class BloodBankModel extends CI_Model
         return $this->db->insert_id();
     }
 
-    public function get_all_blood_issuance() {
+    public function get_all_blood_issuance($start_date = null, $end_date = null) {
         $this->db->select('*');
         $this->db->from('blood_issuance');
+        if ($start_date && $end_date) {
+            $this->db->where('created_at >=', $start_date . ' 00:00:00');
+            $this->db->where('created_at <=', $end_date . ' 23:59:59');
+        }
         $query = $this->db->get();
         return $query->result_array();
     }

@@ -457,6 +457,35 @@ class BloodBank extends CI_Controller {
         redirect('blood-bank/edit-x-match-report/' . $id);
     }
 
+    public function issuance_report() {
+        $title = site_name . ' - Issuance Report';
 
+        $this->header($title);
+        $this->sidebar();
+
+        $start_date = $this->input->get('start_date');
+        $end_date = $this->input->get('end_date');
+
+        $data['start_date'] = $start_date;
+        $data['end_date'] = $end_date;
+        $data['blood_issuance'] = $this->BloodBankModel->get_all_blood_issuance($start_date, $end_date);
+                
+        $this->load->view('bloodbank/issues_report', $data);
+        $this->footer();
+    }
+
+    public function issuance_summary_report() {
+        $title = site_name . ' - Summary Report';
+        $this->header($title);
+        $this->sidebar();
+        $start_date = $this->input->get('start_date');
+        $end_date = $this->input->get('end_date');
+        $this->load->model('BloodBankModel');
+        $data['start_date'] = $start_date;
+        $data['end_date'] = $end_date;
+        $data['blood_issuance'] = $this->BloodBankModel->get_all_blood_issuance($start_date, $end_date);
+        $this->load->view('bloodbank/issuance_summary_report', $data);
+        $this->footer();
+    }
 
 }
