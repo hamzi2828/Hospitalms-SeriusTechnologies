@@ -124,7 +124,8 @@
                         
                         <div class="form-group">
                         <label>Remarks</label>
-                        <textarea name="remarks" class="form-control" rows="3"></textarea>
+                        <textarea name="remarks" class="form-control" rows="3">Reaction between recipient serum and donor red blood cells are
+compatible at immediate spin, albumin and coomb`s phase.</textarea>
                     </div>
                     </div>
 
