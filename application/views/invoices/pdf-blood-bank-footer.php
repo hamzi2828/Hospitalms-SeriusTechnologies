@@ -1,3 +1,7 @@
+<div style="width:100%; text-align:center; font-size:6pt; padding:2mm 0;">
+    <b>Electronically verified report. No signature(s) required.</b>
+</div>
+
 
 <div style="border-top: 1px solid #000000; font-size: 6pt; padding-top: 3mm;">
     <table width="100%" style="font-size:6pt; border-collapse:collapse;">
