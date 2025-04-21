@@ -150,4 +150,14 @@ class BloodBankModel extends CI_Model
         return $report;
     }
 
+    function get_xmatch_patient_blood_group($report_id) {
+        $ci =& get_instance();
+        $ci->load->database();
+        $ci->db->select('result');
+        $ci->db->from('x_match_report_tests');
+        $ci->db->where('report_id', $report_id);
+        $ci->db->where('test_name', 'Patient Blood Group');
+        $row = $ci->db->get()->row();
+        return $row ? $row->result : '';
+    }
 }

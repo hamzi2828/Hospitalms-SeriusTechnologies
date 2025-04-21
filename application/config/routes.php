@@ -650,7 +650,7 @@
     $route[ 'blood-bank/edit-x-match-report/(:any)' ]                = 'BloodBank/edit_x_match_report/$1';
     $route[ 'blood-bank/update-x-match-report/(:any)' ]              = 'BloodBank/update_x_match_report/$1';
     $route[ 'blood-bank/delete-x-match-report/(:any)' ]              = 'BloodBank/delete_x_match_report/$1';
-$route[ 'invoices/x-match-reports/(:num)' ]                      = 'Invoices/x_match_reports/$1';
+$route[ 'invoices/x-match-reports/(:num)' ]                         = 'Invoices/x_match_reports/$1';
 
 
     $route[ '404_override' ]                                          = '';

@@ -57,7 +57,7 @@ function get_xmatch_donor_name($report_id) {
                     <td><?php echo htmlspecialchars($report['patient_id']); ?></td>
                     <td><?php echo get_patient_name($report['patient_id']); ?></td>
                     <td><?php echo htmlspecialchars($report['donor_name']); ?></td>
-                    <td><?php echo htmlspecialchars($report['blood_type']); ?></td>
+                    <td><?php echo htmlspecialchars(get_xmatch_patient_blood_group($report['id'])); ?></td>
                     <td><?php echo date('Y-m-d H:i', strtotime($report['created_at'])); ?></td>
                     <td>
                         <a href="<?php echo site_url('invoices/x-match-reports/' . $report['id']); ?>" class="btn btn-xs btn-info">View</a>

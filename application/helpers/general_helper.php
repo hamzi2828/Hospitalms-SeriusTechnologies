@@ -4605,6 +4605,12 @@ function get_blood_inventory_reference_number($inventory_id) {
         $ci -> load -> model ( 'ReferenceModel' );
         return $ci -> ReferenceModel -> get_reference_by_id ( $id );
     }
+
+    function get_xmatch_patient_blood_group ($report_id) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'BloodBankModel' );
+        return $ci -> BloodBankModel -> get_xmatch_patient_blood_group ( $report_id );
+    }
     
     /**
      * ---------------------
