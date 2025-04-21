@@ -99,7 +99,21 @@
                                     echo '<td><input type="text" name="tests['.$index.'][name]" value="'.$test.'" class="form-control" readonly></td>';
                                     echo '<td><input type="text" name="tests['.$index.'][cut_off]" class="form-control" ></td>';
                                     echo '<td><input type="text" name="tests['.$index.'][patient_value]" class="form-control" ></td>';
-                                    echo '<td><input type="text" name="tests['.$index.'][result]" class="form-control" ></td>';
+                                    if ($test === 'Donor Blood Group' || $test === 'Patient Blood Group') {
+                                        echo '<td><select name="tests['.$index.'][result]" class="form-control select2me" required>';
+                                        echo '<option value=""></option>';
+                                        echo '<option value="A+">A+</option>';
+                                        echo '<option value="A-">A-</option>';
+                                        echo '<option value="B+">B+</option>';
+                                        echo '<option value="B-">B-</option>';
+                                        echo '<option value="O+">O+</option>';
+                                        echo '<option value="O-">O-</option>';
+                                        echo '<option value="AB+">AB+</option>';
+                                        echo '<option value="AB-">AB-</option>';
+                                        echo '</select></td>';
+                                    } else {
+                                        echo '<td><input type="text" name="tests['.$index.'][result]" class="form-control" ></td>';
+                                    }
                                     echo '</tr>';
                                 }
                             }
