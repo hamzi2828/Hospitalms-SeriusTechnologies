@@ -59,9 +59,29 @@ function get_xmatch_donor_name($report_id) {
                     <td><?php echo htmlspecialchars($report['donor_name']); ?></td>
                     <td><?php echo htmlspecialchars(get_xmatch_patient_blood_group($report['id'])); ?></td>
                     <td><?php echo date('Y-m-d H:i', strtotime($report['created_at'])); ?></td>
-                    <td>
-                        <a href="<?php echo site_url('invoices/x-match-reports/' . $report['id']); ?>" class="btn btn-xs btn-info">View</a>
-                    </td>
+                    
+                    <td class="btn-group-xs">
+
+                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_product_stock', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                    <a type="button" class="btn purple"
+                    href="<?php echo site_url('invoices/x-match-reports/' . $report['id']); ?>">Print</a>
+
+                    <?php endif; ?>
+
+
+                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_product_edit', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                    <a type="button" class="btn blue"
+                    href="<?php echo base_url ( 'bloodbank/edit-x-match-report/' . $report['id'] ) ?>">Edit</a>
+                    <?php endif; ?>
+
+
+
+                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_product_delete', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                    <a type="button" class="btn red"
+                               href="<?php echo base_url('blood-bank/delete-x-match-report/' . $report['id']) ?>"
+                                onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                    <?php endif; ?>
+                        </td>
                 </tr>
             <?php }} else { ?>
                 <tr><td colspan="8" class="text-center">No reports found.</td></tr>

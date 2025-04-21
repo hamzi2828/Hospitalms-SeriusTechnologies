@@ -393,5 +393,11 @@ class BloodBank extends CI_Controller {
         redirect('blood-bank/add-x-match-report');
     }
 
+    public function delete_x_match_report($id) {
+        $this->BloodBankModel->delete_x_match_report($id);
+        $this->session->set_flashdata('response', 'X Match Report deleted successfully.');
+        redirect('blood-bank/all-x-match-reports');
+    }
+
 
 }

@@ -160,4 +160,14 @@ class BloodBankModel extends CI_Model
         $row = $ci->db->get()->row();
         return $row ? $row->result : '';
     }
+
+    
+    public function delete_x_match_report($id) {
+        $this->db->where('id', $id);
+        $this->db->delete('x_match_reports');
+        
+        $this->db->where('report_id', $id);
+        $this->db->delete('x_match_report_tests');
+    }
+
 }
