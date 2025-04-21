@@ -170,4 +170,30 @@ class BloodBankModel extends CI_Model
         $this->db->delete('x_match_report_tests');
     }
 
+
+    public function get_x_match_report($id) {
+        $this->db->select('*');
+        $this->db->from('x_match_reports');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function get_x_match_report_tests($id) {
+        $this->db->select('*');
+        $this->db->from('x_match_report_tests');
+        $this->db->where('report_id', $id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+        
+    public function update_x_match_report($id, $data) {
+        $this->db->where('id', $id);
+        return $this->db->update('x_match_reports', $data);
+    }
+    public function update_x_match_report_test($id, $data) {
+        $this->db->where('id', $id);
+        return $this->db->update('x_match_report_tests', $data);
+    }
+
 }

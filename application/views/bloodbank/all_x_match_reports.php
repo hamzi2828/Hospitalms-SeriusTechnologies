@@ -71,7 +71,7 @@ function get_xmatch_donor_name($report_id) {
 
                     <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_product_edit', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                     <a type="button" class="btn blue"
-                    href="<?php echo base_url ( 'bloodbank/edit-x-match-report/' . $report['id'] ) ?>">Edit</a>
+                    href="<?php echo base_url ( 'blood-bank/edit-x-match-report/' . $report['id'] ) ?>">Edit</a>
                     <?php endif; ?>
 
 

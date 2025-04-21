@@ -399,5 +399,64 @@ class BloodBank extends CI_Controller {
         redirect('blood-bank/all-x-match-reports');
     }
 
+    public function edit_x_match_report($id) {
+        $this->load->model('BloodBankModel');
+        $title = site_name . ' - Edit X-Match Report';
+        $this->header($title);
+        $this->sidebar();
+        $data['report'] = $this->BloodBankModel->get_x_match_report($id);
+        $data['report_tests'] = $this->BloodBankModel->get_x_match_report_tests($id);
+        $this->load->view('bloodbank/edit_x_match_report', $data);
+        $this->footer();
+    }
+
+    
+    public function update_x_match_report($id) {
+        $this->load->model('BloodBankModel');
+    
+        $tests = $this->input->post('tests');
+    
+
+        // Optionally extract blood type from tests if available (like in store)
+        $blood_type = '';
+        foreach ($tests as $test) {
+            if (
+                isset($test['name']) &&
+                (stripos($test['name'], 'Blood Group') !== false || stripos($test['name'], 'Blood Type') !== false)
+                && !empty($test['patient_value'])
+            ) {
+                $blood_type = $test['patient_value'];
+                break;
+            }
+        }
+    
+        $report_data = array(
+            'patient_id'   => $this->input->post('patient_id', true),
+            'donor_name'   => $this->input->post('donor_name', true),
+            'remarks'      => $this->input->post('remarks', true),
+            'blood_type'   => $blood_type,
+        );
+    
+        // Update the report
+        $this->BloodBankModel->update_x_match_report($id, $report_data);
+    
+        // Update each test row
+        foreach ($tests as $test) {
+            if (!empty($test['id'])) { // Only update if test row has an ID
+                $test_data = array(
+                    'test_name'      => $test['name'],
+                    'cut_off_value'  => $test['cut_off'],
+                    'patient_value'  => $test['patient_value'],
+                    'result'         => $test['result']
+                );
+                $this->BloodBankModel->update_x_match_report_test($test['id'], $test_data);
+            }
+        }
+    
+        $this->session->set_flashdata('response', 'X Match Report updated successfully!');
+        redirect('blood-bank/edit-x-match-report/' . $id);
+    }
+
+
 
 }
