@@ -1,3 +1,4 @@
+
 <div style="width:100%; display:block; text-align:right">
     <small><b><?php echo ( isset( $sold_by ) && !empty( trim ( $sold_by ) ) ) ? $sold_by : get_logged_in_user () -> name ?? '' ?>
             <br></small>

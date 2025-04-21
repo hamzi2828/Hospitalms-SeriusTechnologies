@@ -343,6 +343,10 @@ class BloodBank extends CI_Controller {
 
         $patient_id = $this->input->post('patient_id');
         $tests = $this->input->post('tests');
+        $report_collection_date_time = $this->input->post('report-collection-date-time');
+        $donor_name = $this->input->post('donor_name');
+        $remarks = $this->input->post('remarks');
+
 
         // Fetch actual patient name using helper
         $patient_name = get_patient_name($patient_id);
@@ -364,6 +368,9 @@ class BloodBank extends CI_Controller {
         $report_data = array(
             'patient_id'   => $patient_id,
             'blood_type'   => $blood_type,
+            'report_collection_date_time' => $report_collection_date_time,
+            'donor_name'   => $donor_name,
+            'remarks'      => $remarks,
             'created_at'   => date('Y-m-d H:i:s'),
         );
 

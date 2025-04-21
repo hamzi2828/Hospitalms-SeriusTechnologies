@@ -40,9 +40,11 @@ function get_xmatch_donor_name($report_id) {
             <thead>
                 <tr>
                     <th>Sr.</th>
-                    <th>Donor</th>
-                    <th>Patient</th>
-                    <th>Blood Type</th>
+                    <th>Report ID</th>
+                    <th>EMR No.</th>
+                    <th>Name</th>
+                    <th>Doner</th>
+                    <th>Patient Blood Type</th>
                     <th>Date Added</th>
                     <th>Action</th>
                 </tr>
@@ -51,8 +53,10 @@ function get_xmatch_donor_name($report_id) {
             <?php if (!empty($x_match_reports)) { $i = 1; foreach ($x_match_reports as $report) { ?>
                 <tr>
                     <td><?php echo $i++; ?></td>
-                    <td><?php echo htmlspecialchars(get_xmatch_donor_name($report['id'])); ?></td>
+                    <td><?php echo htmlspecialchars($report['id']); ?></td>
+                    <td><?php echo htmlspecialchars($report['patient_id']); ?></td>
                     <td><?php echo get_patient_name($report['patient_id']); ?></td>
+                    <td><?php echo htmlspecialchars($report['donor_name']); ?></td>
                     <td><?php echo htmlspecialchars($report['blood_type']); ?></td>
                     <td><?php echo date('Y-m-d H:i', strtotime($report['created_at'])); ?></td>
                     <td>
@@ -60,7 +64,7 @@ function get_xmatch_donor_name($report_id) {
                     </td>
                 </tr>
             <?php }} else { ?>
-                <tr><td colspan="6" class="text-center">No reports found.</td></tr>
+                <tr><td colspan="8" class="text-center">No reports found.</td></tr>
             <?php } ?>
             </tbody>
         </table>

@@ -4598,6 +4598,13 @@ function get_blood_inventory_reference_number($inventory_id) {
         $ci -> load -> model ( 'LabModel' );
         return $ci -> LabModel -> get_test_parameters ( $test_id );
     }
+
+
+    function get_reference_details_by_id ($id) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'ReferenceModel' );
+        return $ci -> ReferenceModel -> get_reference_by_id ( $id );
+    }
     
     /**
      * ---------------------
