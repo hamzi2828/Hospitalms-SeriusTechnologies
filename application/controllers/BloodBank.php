@@ -492,4 +492,10 @@ class BloodBank extends CI_Controller {
         $this->footer();
     }
 
+    public function delete_issue($id) {
+        $this->load->model('BloodBankModel');
+        $this->BloodBankModel->delete_issue($id);
+        $this->session->set_flashdata('response', 'Issue deleted successfully.');
+        redirect('blood-bank/all-issues');
+    }
 }

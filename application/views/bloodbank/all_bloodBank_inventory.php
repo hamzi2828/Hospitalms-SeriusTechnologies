@@ -44,10 +44,10 @@
                     foreach ($blood_inventory as $row) { ?>
                         <tr>
                             <td><?php echo $count++; ?></td>
-                            <td><?php echo htmlspecialchars($row['reference_number']); 
-                            if ($this->BloodBankModel->is_inventory_id_issued($row['id'])) {
-                                echo ' <span class="label label-success">Issued</span>';
-                            } ?></td>
+                            <td><?php echo htmlspecialchars($row['reference_number']);  echo "<br>";
+                                if ($this->BloodBankModel->is_inventory_id_issued($row['id'])) {
+                                    echo ' <span class="label label-success">Issued</span>';
+                                } ?></td>
                             <td><?php echo htmlspecialchars($row['blood_type']); ?></td>
                             <td><?php echo ucfirst($row['source']); ?></td>
                             
@@ -69,7 +69,7 @@
                                 <?php
                                     $expiry = strtotime($row['expiry_date']);
                                     $today = strtotime(date('Y-m-d'));
-                                    echo date('d-M-Y', $expiry);
+                                    echo date('d-M-Y', $expiry); echo "<br>";
                                     if ($expiry < $today) {
                                         echo ' <span class="label label-danger">Expired</span>';
                                     }

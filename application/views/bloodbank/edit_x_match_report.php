@@ -119,6 +119,18 @@
                                             echo '<option value="'.$bg.'" '.$selected.'>'.$bg.'</option>';
                                         }
                                         echo '</select></td>';
+                                    } elseif ($test === 'Donor Rh Factor' || $test === 'Patient Rh Factor' || $test === 'Coombs Test (Direct)' || $test === 'Coombs Test (Indirect)' || $test === 'Malaria Parasite (MP)') {
+                                        echo '<td><select name="tests['.$index.'][result]" class="form-control select2me" required>';
+                                        echo '<option value=""></option>';
+                                        echo '<option value="Negative"'.($result==='Negative'?' selected':'').'>Negative</option>';
+                                        echo '<option value="Positive"'.($result==='Positive'?' selected':'').'>Positive</option>';
+                                        echo '</select></td>';
+                                    } elseif ($test === 'Anti HCV by ELISA' || $test === 'HBsAg by ELISA' || $test === 'Anti HIV - 1 & 2 Antibodies' || $test === 'Syphilis Antibodies') {
+                                        echo '<td><select name="tests['.$index.'][result]" class="form-control select2me" required>';
+                                        echo '<option value=""></option>';
+                                        echo '<option value="Non-Reactive"'.($result==='Non-Reactive'?' selected':'').'>Non-Reactive</option>';
+                                        echo '<option value="Reactive"'.($result==='Reactive'?' selected':'').'>Reactive</option>';
+                                        echo '</select></td>';
                                     } else {
                                         echo '<td><input type="text" name="tests['.$index.'][result]" class="form-control" value="'.$result.'"></td>';
                                     }

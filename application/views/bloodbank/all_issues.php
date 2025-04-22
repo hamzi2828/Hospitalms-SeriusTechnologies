@@ -64,7 +64,6 @@
                             <td><?php echo $inventory_refs_str; ?></td>
                             <td><?php echo isset($first['issued_at']) ? htmlspecialchars($first['issued_at']) : htmlspecialchars($first['created_at']); ?></td>
                             <td>
-                                <a type="button" class="btn btn-xs blue" href="<?php echo base_url('blood-bank/edit-issue/').$first['id']; ?>">Edit</a>
                                 <a type="button" class="btn btn-xs red" href="<?php echo base_url('blood-bank/delete-issue/').$first['id']; ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                             </td>
                         </tr>

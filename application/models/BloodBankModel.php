@@ -209,4 +209,9 @@ class BloodBankModel extends CI_Model
         return $query->num_rows() > 0;
     }
 
+    public function delete_issue($id) {
+        $this->db->where('id', $id);
+        $this->db->delete('blood_issuance');
+    }
+
 }

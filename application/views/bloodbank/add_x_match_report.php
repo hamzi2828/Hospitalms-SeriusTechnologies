@@ -111,6 +111,48 @@
                                         echo '<option value="AB+">AB+</option>';
                                         echo '<option value="AB-">AB-</option>';
                                         echo '</select></td>';
+                                    } elseif ($test === 'Donor Rh Factor') {
+                                        echo '<td><select name="tests['.$index.'][result]" class="form-control select2me" required>';
+                                        echo '<option value=""></option>';
+                                        echo '<option value="Negative">Negative</option>';
+                                        echo '<option value="Positive">Positive</option>';
+                                        echo '</select></td>';
+                                    } elseif ($test === 'Anti HCV by ELISA') {
+                                        echo '<td><select name="tests['.$index.'][result]" class="form-control select2me" required>';
+                                        echo '<option value=""></option>';
+                                        echo '<option value="Non-Reactive">Non-Reactive</option>';
+                                        echo '<option value="Reactive">Reactive</option>';
+                                        echo '</select></td>';
+                                    } elseif ($test === 'HBsAg by ELISA') {
+                                        echo '<td><select name="tests['.$index.'][result]" class="form-control select2me" required>';
+                                        echo '<option value=""></option>';
+                                        echo '<option value="Non-Reactive">Non-Reactive</option>';
+                                        echo '<option value="Reactive">Reactive</option>';
+                                        echo '</select></td>';
+                                    } elseif ($test === 'Anti HIV - 1 & 2 Antibodies') {
+                                        echo '<td><select name="tests['.$index.'][result]" class="form-control select2me" required>';
+                                        echo '<option value=""></option>';
+                                        echo '<option value="Non-Reactive">Non-Reactive</option>';
+                                        echo '<option value="Reactive">Reactive</option>';
+                                        echo '</select></td>';
+                                    } elseif ($test === 'Malaria Parasite (MP)') {
+                                        echo '<td><select name="tests['.$index.'][result]" class="form-control select2me" required>';
+                                        echo '<option value=""></option>';
+                                        echo '<option value="Negative">Negative</option>';
+                                        echo '<option value="Positive">Positive</option>';
+                                        echo '</select></td>';
+                                    } elseif ($test === 'Syphilis Antibodies') {
+                                        echo '<td><select name="tests['.$index.'][result]" class="form-control select2me" required>';
+                                        echo '<option value=""></option>';
+                                        echo '<option value="Non-Reactive">Non-Reactive</option>';
+                                        echo '<option value="Reactive">Reactive</option>';
+                                        echo '</select></td>';
+                                    } elseif ($test === 'Patient Rh Factor' || $test === 'Coombs Test (Direct)' || $test === 'Coombs Test (Indirect)') {
+                                        echo '<td><select name="tests['.$index.'][result]" class="form-control select2me" required>';
+                                        echo '<option value=""></option>';
+                                        echo '<option value="Negative">Negative</option>';
+                                        echo '<option value="Positive">Positive</option>';
+                                        echo '</select></td>';
                                     } else {
                                         echo '<td><input type="text" name="tests['.$index.'][result]" class="form-control" ></td>';
                                     }
