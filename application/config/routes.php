@@ -643,20 +643,20 @@
     $route[ 'blood-bank/edit-issue/(:any)' ]                         = 'BloodBank/edit_issue/$1';
     $route[ 'blood-bank/update-issue/(:any)' ]                       = 'BloodBank/update_issue/$1';
     $route[ 'blood-bank/delete-issue/(:any)' ]                       = 'BloodBank/delete_issue/$1';
-    $route[ 'blood-bank/blood-status' ]                               = 'BloodBank/blood_status';
+    $route[ 'blood-bank/blood-status' ]                              = 'BloodBank/blood_status';
     $route[ 'blood-bank/all-x-match-reports' ]                       = 'BloodBank/all_x_match_reports';
     $route[ 'blood-bank/add-x-match-report' ]                        = 'BloodBank/add_x_match_report';
     $route[ 'blood-bank/store-x-match-report' ]                      = 'BloodBank/store_x_match_report';
     $route[ 'blood-bank/edit-x-match-report/(:any)' ]                = 'BloodBank/edit_x_match_report/$1';
     $route[ 'blood-bank/update-x-match-report/(:any)' ]              = 'BloodBank/update_x_match_report/$1';
-    $route['blood-bank/delete-x-match-report/(:any)']              = 'BloodBank/delete_x_match_report/$1';
-    $route[ 'invoices/x-match-reports/(:num)' ]                         = 'Invoices/x_match_reports/$1';
-    $route[ 'blood-bank/issuance-report' ]                             = 'BloodBank/issuance_report';
+    $route['blood-bank/delete-x-match-report/(:any)']                = 'BloodBank/delete_x_match_report/$1';
+    $route[ 'invoices/x-match-reports/(:num)' ]                       = 'Invoices/x_match_reports/$1';
+    $route[ 'blood-bank/issuance-report' ]                            = 'BloodBank/issuance_report';
     $route[ 'blood-bank/summary-report' ]                             = 'BloodBank/issuance_summary_report';
-    $route['invoices/issuance-report'] = 'Invoices/issuance_report';
-    $route[ 'invoices/issuance-report/(:any)' ]                        = 'Invoices/issuance_report/$1';
-    $route['invoices/issuance-summary-report'] = 'Invoices/issuance_summary_report';
-$route[ 'invoices/issuance-summary-report/(:any)' ]                        = 'Invoices/issuance_summary_report/$1';
+    $route['invoices/issuance-report']                                = 'Invoices/issuance_report';
+    $route[ 'invoices/issuance-report/(:any)' ]                       = 'Invoices/issuance_report/$1';
+    $route['invoices/issuance-summary-report']                        = 'Invoices/issuance_summary_report';
+    $route[ 'invoices/issuance-summary-report/(:any)' ]               = 'Invoices/issuance_summary_report/$1';
 
 
     $route[ '404_override' ]                                          = '';

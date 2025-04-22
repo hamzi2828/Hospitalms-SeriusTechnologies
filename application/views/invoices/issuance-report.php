@@ -18,37 +18,37 @@
         }
 
         table.items {
-            border: none;
+            border: 0.1mm solid #000000;
         }
-        
 
         td {
             vertical-align: top;
-            border: none;
         }
 
         .items td {
-            border-left: none;
-            border-right: none;
-            border: none;
-            border-bottom : 0.1mm dotted #000000;
+            border-left: 0.1mm solid #000000;
+            border-right: 0.1mm solid #000000;
         }
 
         table thead td {
             background-color: #EEEEEE;
             text-align: center;
-            border: none;
+            border: 0.1mm solid #000000;
             font-variant: small-caps;
         }
 
         .items td.blanktotal {
+            background-color: #EEEEEE;
+            border: 0.1mm solid #000000;
             background-color: #FFFFFF;
-            border: none;
+            border: 0mm none #000000;
+            border-top: 0.1mm solid #000000;
+            border-right: 0.1mm solid #000000;
         }
 
         .items td.totals {
             text-align: right;
-            border: none;
+            border: 0.1mm solid #000000;
             font-weight: 800 !important;
         }
 
@@ -68,46 +68,54 @@
 </htmlpageheader>
 
 <htmlpagefooter name="myfooter">
-    <?php require 'pdf-blood-bank-footer.php'; ?>
+    <?php require 'pdf-footer.php'; ?>
 </htmlpagefooter>
 
 <sethtmlpageheader name="myheader" value="on" show-this-page="1" />
 <sethtmlpagefooter name="myfooter" value="on" />
 mpdf-->
 
-
-<?php
-if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
-    $start_date = date('Y-m-d', strtotime($_GET['start_date']));
-    $end_date = date('Y-m-d', strtotime($_GET['end_date']));
-    echo "Start Date: " . $start_date . "<br>";
-    echo "End Date: " . $end_date . "<br>";
-}
-?>
+<br />
+<table width="100%">
+    <tr>
+        <td width="100%" style="text-align: right;">
+            <span style="font-size: 8pt;">
+                <strong>Date & Time:</strong> <?php echo date ( 'd-m-Y' ) . '@' . date ( 'g:i a' ) ?><br />
+            </span>
+            <span style="font-size: 8pt;">
+                <strong>Search Criteria:</strong>
+                <?php echo date ( 'd-m-Y', strtotime ( @$_REQUEST[ 'start_date' ] ) ) ?>
+                <?php echo !empty( @$_REQUEST[ 'start_time' ] ) ? date ( 'H:i:s', strtotime ( @$_REQUEST[ 'start_time' ] ) ) : '' ?> @
+                <?php echo date ( 'd-m-Y', strtotime ( @$_REQUEST[ 'end_date' ] ) ) ?>
+                <?php echo !empty( @$_REQUEST[ 'end_time' ] ) ? date ( 'H:i:s', strtotime ( @$_REQUEST[ 'end_time' ] ) ) : '' ?>
+            </span>
+        </td>
+    </tr>
+    
+</table>
+<br />
 <table width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8" border="0">
     <tr>
         <td style="width: 100%; background: #f5f6f7; text-align: center">
-            <h3><strong>Issusance Report </strong></h3>
+            <h3><strong> Issusance Report </strong></h3>
         </td>
     </tr>
 </table>
 <br>
-<!-- Tests Table -->
-<table class="items" width="100%" style="font-size: 8pt; border-collapse: collapse; margin-top: 15px; border: 0"
-    cellpadding="8">
-    <thead>
-        <tr style="background-color:#f2f2f2;">
-            <th>Sr.</th>
+<table class="items" width="100%" style="font-size: 9pt; border-collapse: collapse; width: 100%; overflow: wrap;"
+       border="1" cellpadding="5px" autosize="1">
+       <thead>
+        <tr>
+        <th>Sr.</th>
             <th>Issuance ID</th>
             <th>EMR No.</th>
             <th>Name</th>
             <th>Blood Type</th>
             <th>Reference ID</th>
-        </tr>   
+        </tr>
     </thead>
     <tbody>
-
-        <?php
+    <?php
         // Group by issuance_number 
         $grouped = [];
         foreach ($blood_issuance as $issue) {
@@ -137,7 +145,8 @@ if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
         ?>
             <tr><td colspan="6">No blood issuance records found.</td></tr>
         <?php endif; ?>
-    </tbody>
+</tbody>
+
 </table>
 </body>
 </html>

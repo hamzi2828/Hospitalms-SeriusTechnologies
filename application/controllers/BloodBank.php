@@ -388,8 +388,9 @@ class BloodBank extends CI_Controller {
             $this->BloodBankModel->insert_x_match_report_test($test_data);
         }
 
-        // Set flash message and redirect
-        $this->session->set_flashdata('response', 'X Match Report saved successfully!');
+        $print = '<strong><a href="' . base_url ( '/invoices/x-match-reports/' . $report_id ) . '" target="_blank">Print</a></strong>';
+                
+        $this -> session -> set_flashdata ( 'response', 'Success! X Match Report has been added. ' . $print );
         redirect('blood-bank/add-x-match-report');
     }
 
@@ -468,8 +469,11 @@ class BloodBank extends CI_Controller {
 
         $data['start_date'] = $start_date;
         $data['end_date'] = $end_date;
-        $data['blood_issuance'] = $this->BloodBankModel->get_all_blood_issuance($start_date, $end_date);
-                
+        if (!empty($start_date) && !empty($end_date)) {
+            $data['blood_issuance'] = $this->BloodBankModel->get_all_blood_issuance($start_date, $end_date);
+        } else {
+            $data['blood_issuance'] = array();
+        }
         $this->load->view('bloodbank/issues_report', $data);
         $this->footer();
     }

@@ -26,7 +26,7 @@
            <div class="portlet-body" style="overflow: auto">
            <table class="table table-striped table-bordered table-hover" id="sample_1">
             <thead>
-                <tr style="background-color:#f2f2f2;">
+                <tr>
                     <th>Sr.</th>
                     <th>Issuance ID</th>
                     <th>EMR No.</th>

@@ -200,4 +200,13 @@ class BloodBankModel extends CI_Model
         return $this->db->update('x_match_report_tests', $data);
     }
 
+    
+    public function is_inventory_id_issued($id) {
+        $this->db->select('inventory_id');
+        $this->db->from('blood_issuance');
+        $this->db->where('inventory_id', $id);
+        $query = $this->db->get();
+        return $query->num_rows() > 0;
+    }
+
 }

@@ -63,7 +63,7 @@ function get_xmatch_donor_name($report_id) {
                     <td class="btn-group-xs">
 
                     <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_product_stock', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
-                    <a type="button" class="btn purple"
+                    <a type="button" class="btn purple" target="_blank"
                     href="<?php echo site_url('invoices/x-match-reports/' . $report['id']); ?>">Print</a>
 
                     <?php endif; ?>

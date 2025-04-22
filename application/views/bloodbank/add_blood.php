@@ -29,7 +29,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Add Blood From</label>
                             <div class="col-md-6">
-                                <select name="source" class="form-control" id="bloodSource" onchange="toggleBloodSource()" required>
+                                <select name="source" class="form-control select2me" id="bloodSource" onchange="toggleBloodSource()" required>
                                     <option value="">Select</option>
                                     <option value="purchase">Purchase</option>
                                     <option value="donor">Donor</option>
@@ -84,7 +84,7 @@
                                     <input type="text" class="form-control" name="donor_name" required data-required>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group">    
                                 <label class="control-label col-md-3">Age</label>
                                 <div class="col-md-6">
                                     <input type="number" class="form-control" name="donor_age" required data-required>
@@ -93,7 +93,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Gender</label>
                                 <div class="col-md-6">
-                                    <select name="donor_gender" class="form-control" required data-required>
+                                    <select name="donor_gender" class="form-control select2me" required data-required>
                                         <option value=""> </option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
@@ -109,7 +109,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Blood Type</label>
                                 <div class="col-md-6">
-                                    <select name="donor_blood_type" class="form-control select2" required data-required>
+                                    <select name="donor_blood_type" class="form-control select2me" required data-required>
                                         <option value=""></option>
                                         <option value="A+">A+</option>
                                         <option value="A-">A-</option>
@@ -137,7 +137,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Charity</label>
                                 <div class="col-md-6">
-                                    <select name="charity" class="form-control" required data-required>
+                                    <select name="charity" class="form-control select2me" required data-required>
                                         <option value=""> </option>
                                         <option value="no">No</option>
                                         <option value="yes">Yes</option>

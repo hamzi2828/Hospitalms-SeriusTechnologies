@@ -10,7 +10,7 @@
 
         body {
             font-family: sans-serif;
-            font-size: 10pt;
+            font-size: 9pt;
         }
 
         p {
@@ -85,27 +85,26 @@ $reference = get_reference_details_by_id($patient->reference_id);
     <tr>
         <td width="50%" align="left" style="color:#000; vertical-align:top;">
             <!-- First section -->
-            <span style="font-size: 8pt;"><strong>Report ID:</strong> <?php echo @$x_match_report['id']; ?></span><br>
-            <span style="font-size: 8pt;"><strong> MR No: </strong> <?php echo @$patient->id; ?></span><br>
-            <span style="font-size: 8pt;"><strong> Name: </strong> <?php echo @get_patient_name(0, $patient); ?></span><br>
-            <span style="font-size: 8pt;"><strong> Gender: </strong> <?php echo (@$patient->gender == 1) ? 'Male' : 'Female'; ?></span><br>
-            <span style="font-size: 8pt;">
+            <span ><strong>Report ID:</strong> <?php echo @$x_match_report['id']; ?></span><br>
+            <span ><strong> MR No: </strong> <?php echo @$patient->id; ?></span><br>
+            <span ><strong> Name: </strong> <?php echo @get_patient_name(0, $patient); ?></span><br>
+            <span ><strong> Gender: </strong> <?php echo (@$patient->gender == 1) ? 'Male' : 'Female'; ?></span><br>
+            <span >
                 <strong> Age: </strong>
                 <?php echo @$patient->age . ' ' . ucwords($patient->age_year_month); ?>
             </span><br>
 
         </td>
-        <td width="50%" align="right" style="font-size: 8pt; vertical-align:top;">
+        <td width="50%" align="right" style="vertical-align:top;">
         <?php if (!empty(trim($patient->cnic))) : ?>
-                <span style="font-size: 8pt;"><strong> CNIC: </strong> <?php echo @$patient->cnic; ?></span><br>
+                <span ><strong> CNIC: </strong> <?php echo @$patient->cnic; ?></span><br>
             <?php endif; ?>
-            <span style="font-size: 8pt;"><strong>Collection Date & Time:</strong> <?php echo date('d-m-Y H:i', strtotime(@$x_match_report['report_collection_date_time'])); ?></span><br>
+            <span ><strong>Collection Date & Time:</strong> <?php echo date('d-m-Y H:i', strtotime(@$x_match_report['report_collection_date_time'])); ?></span><br>
             
 
-            <span style="font-size: 8pt;"><strong>Reporting Time:</strong> <?php echo date('d-m-Y H:i'); ?></span><br>
+            <span ><strong>Reporting Time:</strong> <?php echo date('d-m-Y H:i'); ?></span><br>
 
-            <span style="font-size: 8pt;">
-                <strong>Referred By:</strong> <?php echo $reference-> title ?></span><br>
+            <span ><strong>Referred By:</strong> <?php echo $reference-> title ?? '' ?></span><br>
         </td>
     </tr>
 </table>
@@ -118,9 +117,9 @@ $reference = get_reference_details_by_id($patient->reference_id);
     </tr>
 </table>
 <br>
-<span style="font-size: 8pt;"><strong>Donor Name:</strong> <?php echo @$x_match_report['donor_name']; ?></span><br>
+<span ><strong>Donor Name:</strong> <?php echo @$x_match_report['donor_name']; ?></span><br>
 <!-- Tests Table -->
-<table class="items" width="100%" style="font-size: 8pt; border-collapse: collapse; margin-top: 15px; border: 0"
+<table class="items" width="100%" style="font-size: 9pt; border-collapse: collapse; margin-top: 15px; border: 0"
     cellpadding="8">
     <thead>
         <tr style="background: #f5f5f5;">
@@ -137,7 +136,7 @@ $reference = get_reference_details_by_id($patient->reference_id);
                     <?php continue; // Skip this, handle before Donor Blood Group ?>
                 <?php elseif ($test['test_name'] === 'Donor Blood Group'): ?>
                     <tr>
-                        <td colspan="5"><h4>DONOR</h4></td>
+                        <td colspan="4"><h4>DONOR</h4></td>
                     </tr>
                     <tr>
                         <td><?php echo htmlspecialchars($test['test_name']); ?></td>
@@ -155,7 +154,7 @@ $reference = get_reference_details_by_id($patient->reference_id);
                         <td><?php echo htmlspecialchars($test['result']); ?></td>
                     </tr>
                     <tr>
-                        <td colspan="5"><h4>PATIENT</h4></td>
+                        <td colspan="4"><h4>PATIENT</h4></td>
                     </tr>
                 <?php else: ?>
                     <tr>
@@ -169,7 +168,7 @@ $reference = get_reference_details_by_id($patient->reference_id);
 
             <?php if (!empty($x_match_report['remarks'])): ?>
                 <tr>
-                    <td colspan="5" style="text-align:left; border-bottom: none;"><strong>Remarks:</strong> <?php echo htmlspecialchars($x_match_report['remarks']); ?></td>
+                    <td colspan="4" style="text-align:left; border-bottom: none;"><strong>Remarks:</strong> <?php echo htmlspecialchars($x_match_report['remarks']); ?></td>
                 </tr>
             <?php endif; ?>
 

@@ -1,14 +1,14 @@
-<div style="width:100%; text-align:center; font-size:6pt; padding:2mm 0;">
+<div style="width:100%; text-align:center; font-size:9pt; padding:2mm 0;">
     <b>Electronically verified report. No signature(s) required.</b>
 </div>
 
 
-<div style="border-top: 1px solid #000000; font-size: 6pt; padding-top: 3mm;">
-    <table width="100%" style="font-size:6pt; border-collapse:collapse;">
+<div style="border-top: 1px solid #000000; font-size: 9pt; padding-top: 3mm;">
+    <table width="100%" style="font-size:9pt; border-collapse:collapse;">
         <tr>
             <td style="width:33%; vertical-align:top;">
                 <b>Dr Nadia Tasawar</b><br>
-                <span style="font-size:6pt;">
+                <span style="font-size:9pt;">
                     Consultant Pathologist<br>
                     MBBS, DCP
                 </span>
@@ -36,4 +36,5 @@
 <div style="width:100%; display:block; text-align:right">
     <small><b><?php echo ( isset( $sold_by ) && !empty( trim ( $sold_by ) ) ) ? $sold_by : get_logged_in_user () -> name ?? '' ?>
             <br></small>
+</div>
 </div>

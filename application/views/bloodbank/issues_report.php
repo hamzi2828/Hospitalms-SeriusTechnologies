@@ -38,7 +38,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i> All Issuance
+                    <i class="fa fa-globe"></i> Issuance Report
                 </div>
                 <a href="<?php echo base_url ( '/invoices/issuance-report?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"
                    target="_blank"

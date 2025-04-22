@@ -28,7 +28,7 @@
             <thead>
                 <tr>
                     <th>Sr. No</th>
-                    <th>Sequence Number</th>
+                    <th>Reference ID</th>
                     <th>Blood Type</th>
                     <th>Source</th>
                     <th>From / Donor Name</th>
@@ -44,7 +44,10 @@
                     foreach ($blood_inventory as $row) { ?>
                         <tr>
                             <td><?php echo $count++; ?></td>
-                            <td><?php echo htmlspecialchars($row['reference_number']); ?></td>
+                            <td><?php echo htmlspecialchars($row['reference_number']); 
+                            if ($this->BloodBankModel->is_inventory_id_issued($row['id'])) {
+                                echo ' <span class="label label-success">Issued</span>';
+                            } ?></td>
                             <td><?php echo htmlspecialchars($row['blood_type']); ?></td>
                             <td><?php echo ucfirst($row['source']); ?></td>
                             
@@ -63,15 +66,15 @@
                             </td>
 
                             <td>
-    <?php
-        $expiry = strtotime($row['expiry_date']);
-        $today = strtotime(date('Y-m-d'));
-        echo date('d-M-Y', $expiry);
-        if ($expiry < $today) {
-            echo ' <span class="label label-danger">Expired</span>';
-        }
-    ?>
-</td>
+                                <?php
+                                    $expiry = strtotime($row['expiry_date']);
+                                    $today = strtotime(date('Y-m-d'));
+                                    echo date('d-M-Y', $expiry);
+                                    if ($expiry < $today) {
+                                        echo ' <span class="label label-danger">Expired</span>';
+                                    }
+                                ?>
+                            </td>
 
                             <!-- Show remarks for donor, or 'N/A' -->
                             <td> 

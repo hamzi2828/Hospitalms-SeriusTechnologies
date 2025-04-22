@@ -84,7 +84,7 @@
         <?php if (!empty($access) and !in_array('all-issues', explode(',', $access->access))) : ?>
             <li class="<?php if ($child_uri == 'all-issues') echo 'active'; ?>">
                 <a href="<?php echo base_url('/blood-bank/all-issues') ?>">
-                    All Issues
+                    All Issuance
                 </a>
             </li>
         <?php endif; ?>
