@@ -4877,6 +4877,180 @@
 
 
 
+        <tr style="background: #dff0d8;">
+          
+        <td>Blood Bank</td> 
+        <td></td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                    value="blood-bank-module-sidebar" <?php if (!empty($access) and in_array('blood-bank-module-sidebar', explode(',', $access->access)))
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr>
+
+    <tr style="background: #dff0d8;">
+        <td></td>
+        <td>All Blood Inventory</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="all-blood-inventory" <?php if (!empty($access) and in_array('all-blood-inventory', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td> 
+    </tr>
+
+    <tr style="background: #dff0d8;">
+            <td></td>
+            <td></td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="edit-blood-inventory" <?php if ( !empty( $access ) and in_array ( 'edit-blood-inventory', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Edit
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="delete-blood-inventory" <?php if ( !empty( $access ) and in_array ( 'delete-blood-inventory', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Delete
+            </td>
+    </tr>
+
+
+
+    <tr style="background: #dff0d8;">
+        <td></td>
+        <td>Add Blood</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="add-blood" <?php if (!empty($access) and in_array('add-blood', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td> 
+    </tr>
+    <tr style="background: #dff0d8;">
+        <td></td>
+        <td>All Issues</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="all-issues" <?php if (!empty($access) and in_array('all-issues', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td> 
+    </tr>
+    <tr style="background: #dff0d8;">
+        <td></td>
+        <td></td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="delete-blood-issuance" <?php if (!empty($access) and in_array('delete-blood-issuance', explode(',', $access->access)))
+                echo 'checked="checked"' ?>> Delete
+        </td>
+    </tr>
+    
+    <tr style="background: #dff0d8;">
+        <td></td>
+        <td>Issue Blood</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="issue-blood" <?php if (!empty($access) and in_array('issue-blood', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td> 
+    </tr>
+    <tr style="background: #dff0d8;">
+        <td></td>
+        <td>Blood Status</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="blood-status" <?php if (!empty($access) and in_array('blood-status', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td> 
+    </tr>
+    <tr style="background: #dff0d8;">
+        <td></td>
+        <td>All X Match Reports</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="all-x-match-reports" <?php if (!empty($access) and in_array('all-x-match-reports', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td> 
+    </tr>
+
+    <tr style="background: #dff0d8;">
+        <td></td>
+        <td></td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="print-x-match-report" <?php if (!empty($access) and in_array('print-x-match-report', explode(',', $access->access)))
+                echo 'checked="checked"' ?>> Print
+
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="edit-x-match-report" <?php if (!empty($access) and in_array('edit-x-match-report', explode(',', $access->access)))
+                echo 'checked="checked"' ?>> Edit
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="delete-x-match-report" <?php if (!empty($access) and in_array('delete-x-match-report', explode(',', $access->access)))
+                echo 'checked="checked"' ?>> Delete
+        </td>
+    </tr>
+
+    <tr style="background: #dff0d8;">
+        <td></td>
+        <td>Add X Match Report</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="add-x-match-report" <?php if (!empty($access) and in_array('add-x-match-report', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td> 
+    </tr>
+    <tr style="background: #dff0d8;">
+        <td></td>
+        <td>Issuance Report</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="issuance-report" <?php if (!empty($access) and in_array('issuance-report', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td> 
+    </tr>
+    <tr style="background: #dff0d8;">
+        <td></td>
+        <td>Summary Report</td>
+        <td>
+            <input type="checkbox" class="checkbox" name="access[]"
+                value="summary-report" <?php if (!empty($access) and in_array('summary-report', explode(',', $access->access)))
+                echo 'checked="checked"' ?>>
+        </td> 
+    </tr>
+
+
+<!-- 
+    <tr style="background: #dff0d8;">
+            <td></td>
+            <td>Add Blood</td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="add-blood" <?php if ( !empty( $access ) and in_array ( 'add-blood', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Print
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="cafe_all_sales_refund" <?php if ( !empty( $access ) and in_array ( 'cafe_all_sales_refund', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>> Refund
+               
+            </td>
+    </tr>
+
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

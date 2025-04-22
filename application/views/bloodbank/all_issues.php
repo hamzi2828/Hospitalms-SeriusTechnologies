@@ -64,7 +64,9 @@
                             <td><?php echo $inventory_refs_str; ?></td>
                             <td><?php echo isset($first['issued_at']) ? htmlspecialchars($first['issued_at']) : htmlspecialchars($first['created_at']); ?></td>
                             <td>
+                            <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'delete-blood-issuance', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                 <a type="button" class="btn btn-xs red" href="<?php echo base_url('blood-bank/delete-issue/').$first['id']; ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                 <?php

@@ -81,9 +81,12 @@
                                 <?php echo $row['source'] == 'donor' ? htmlspecialchars($row['remarks']) : 'N/A'; ?>
                             </td>
                             <td>
+                            <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'edit-blood-inventory', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                 <a type="button" class="btn btn-xs blue" href="<?php echo base_url('blood-bank/edit-blood/').$row['id']; ?>">Edit</a>
-                                
+                                <?php endif; ?>
+                                <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'delete-blood-inventory', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                                 <a type="button" class="btn btn-xs red" href="<?php echo base_url('blood-bank/delete-blood/').$row['id']; ?>" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                 <?php }

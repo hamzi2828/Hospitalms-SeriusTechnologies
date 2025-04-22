@@ -62,21 +62,21 @@ function get_xmatch_donor_name($report_id) {
                     
                     <td class="btn-group-xs">
 
-                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_product_stock', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print-x-match-report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                     <a type="button" class="btn purple" target="_blank"
                     href="<?php echo site_url('invoices/x-match-reports/' . $report['id']); ?>">Print</a>
 
                     <?php endif; ?>
 
 
-                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_product_edit', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'edit-x-match-report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                     <a type="button" class="btn blue"
                     href="<?php echo base_url ( 'blood-bank/edit-x-match-report/' . $report['id'] ) ?>">Edit</a>
                     <?php endif; ?>
 
 
 
-                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'cafe_all_product_delete', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'delete-x-match-report', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
                     <a type="button" class="btn red"
                                href="<?php echo base_url('blood-bank/delete-x-match-report/' . $report['id']) ?>"
                                 onclick="return confirm('Are you sure you want to delete?')">Delete</a>

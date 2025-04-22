@@ -58,90 +58,93 @@
 
 <?php endif; ?>
 
-<?php if (!empty($access) and !in_array('blood-bank-module-sidebar', explode(',', $access->access))) : ?>
-    <li class="<?php if ($parent_uri == 'blood-bank-module' || strpos($child_uri, 'blood') !== false) echo 'start active'; ?>">
-    <a href="javascript:void(0);">
-        <i class="fa fa-tint"></i>
-        <span class="title"> Blood Bank </span>
-        <span class="arrow "></span>
-    </a>
-    <ul class="sub-menu">
-        <?php if (!empty($access) and !in_array('all-blood-inventory', explode(',', $access->access))) : ?>
-            <li class="<?php if ($child_uri == 'all-blood-inventory') echo 'active'; ?>">
-                <a href="<?php echo base_url('/blood-bank/all-blood-inventory') ?>">
-                    All Blood Inventory
-                </a>
-            </li>
-        <?php endif; ?>
-        <?php if (!empty($access) and !in_array('add-blood', explode(',', $access->access))) : ?>
-            <li class="<?php if ($child_uri == 'add-blood') echo 'active'; ?>">
-                <a href="<?php echo base_url('/blood-bank/add-blood') ?>">
-                    Add Blood
-                </a>
-            </li>
-        <?php endif; ?>
-
-        <?php if (!empty($access) and !in_array('all-issues', explode(',', $access->access))) : ?>
-            <li class="<?php if ($child_uri == 'all-issues') echo 'active'; ?>">
-                <a href="<?php echo base_url('/blood-bank/all-issues') ?>">
-                    All Issuance
-                </a>
-            </li>
-        <?php endif; ?>
-        <?php if (!empty($access) and !in_array('issue-blood', explode(',', $access->access))) : ?>
-            <li class="<?php if ($child_uri == 'issue-blood') echo 'active'; ?>">
-                <a href="<?php echo base_url('/blood-bank/issue-blood') ?>">
-                    Issue Blood
-                </a>
-            </li>
-        <?php endif; ?>
-        <?php if (!empty($access) and !in_array('blood-status', explode(',', $access->access))) : ?>
-            <li class="<?php if ($child_uri == 'blood-status') echo 'active'; ?>">
-                <a href="<?php echo base_url('/blood-bank/blood-status') ?>">
-                    Blood Status
-                </a>
-            </li>
-        <?php endif; ?>
-
-        <?php if (!empty($access) and !in_array('all-x-match-reports', explode(',', $access->access))) : ?>
-            <li class="<?php if ($child_uri == 'all-x-match-reports') echo 'active'; ?>">
-                <a href="<?php echo base_url('/blood-bank/all-x-match-reports') ?>">
-                    All X-Match Reports
-                </a>
-            </li>
-        <?php endif; ?>
-        <?php if (!empty($access) and !in_array('add-x-match-report', explode(',', $access->access))) : ?>
-            <li class="<?php if ($child_uri == 'add-x-match-report') echo 'active'; ?>">
-                <a href="<?php echo base_url('/blood-bank/add-x-match-report') ?>">
-                    Add X-Match Report
-                </a>
-            </li>
-        <?php endif; ?>
-
-        <?php if (!empty($access) and !in_array('issuance-report', explode(',', $access->access))) : ?>
-            <li class="<?php if ($child_uri == 'issuance-report') echo 'active'; ?>">
-                <a href="<?php echo base_url('/blood-bank/issuance-report') ?>">
-                    Issuance Report
-                </a>
-            </li>
-        <?php endif; ?>
-        
-
-        <?php if (!empty($access) and !in_array('summary-report', explode(',', $access->access))) : ?>
-            <li class="<?php if ($child_uri == 'summary-report') echo 'active'; ?>">
-                <a href="<?php echo base_url('/blood-bank/summary-report') ?>">
-                    Summary Report
-                </a>
-            </li>
-        <?php endif; ?>
-        
-
-
-
-
-    </ul>
-</li>
+<?php if (!empty($access) && in_array('blood-bank-module-sidebar', explode(',', $access->access))) : ?>
+    <?php
+    // Open the menu if any blood-related route is active
+    $is_blood_section_open = (
+        $parent_uri == 'blood-bank-module' ||
+        strpos($child_uri, 'blood') !== false ||
+        in_array($child_uri, [
+            'all-blood-inventory', 'add-blood', 'all-issues', 'issue-blood',
+            'blood-status', 'all-x-match-reports', 'add-x-match-report',
+            'issuance-report', 'summary-report'
+        ])
+    );
+    ?>
+    <li class="<?php echo $is_blood_section_open ? 'start active' : ''; ?>">
+        <a href="javascript:void(0);">
+            <i class="fa fa-tint"></i>
+            <span class="title"> Blood Bank </span>
+            <span class="arrow <?php echo $is_blood_section_open ? 'open' : ''; ?>"></span>
+        </a>
+        <ul class="sub-menu">
+            <?php if (in_array('all-blood-inventory', explode(',', $access->access))) : ?>
+                <li class="<?php if ($child_uri == 'all-blood-inventory') echo 'active'; ?>">
+                    <a href="<?php echo base_url('/blood-bank/all-blood-inventory') ?>">
+                        All Blood Inventory
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if (in_array('add-blood', explode(',', $access->access))) : ?>
+                <li class="<?php if ($child_uri == 'add-blood') echo 'active'; ?>">
+                    <a href="<?php echo base_url('/blood-bank/add-blood') ?>">
+                        Add Blood
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if (in_array('all-issues', explode(',', $access->access))) : ?>
+                <li class="<?php if ($child_uri == 'all-issues') echo 'active'; ?>">
+                    <a href="<?php echo base_url('/blood-bank/all-issues') ?>">
+                        All Issuance
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if (in_array('issue-blood', explode(',', $access->access))) : ?>
+                <li class="<?php if ($child_uri == 'issue-blood') echo 'active'; ?>">
+                    <a href="<?php echo base_url('/blood-bank/issue-blood') ?>">
+                        Issue Blood
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if (in_array('blood-status', explode(',', $access->access))) : ?>
+                <li class="<?php if ($child_uri == 'blood-status') echo 'active'; ?>">
+                    <a href="<?php echo base_url('/blood-bank/blood-status') ?>">
+                        Blood Status
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if (in_array('all-x-match-reports', explode(',', $access->access))) : ?>
+                <li class="<?php if ($child_uri == 'all-x-match-reports') echo 'active'; ?>">
+                    <a href="<?php echo base_url('/blood-bank/all-x-match-reports') ?>">
+                        All X-Match Reports
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if (in_array('add-x-match-report', explode(',', $access->access))) : ?>
+                <li class="<?php if ($child_uri == 'add-x-match-report') echo 'active'; ?>">
+                    <a href="<?php echo base_url('/blood-bank/add-x-match-report') ?>">
+                        Add X-Match Report
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if (in_array('issuance-report', explode(',', $access->access))) : ?>
+                <li class="<?php if ($child_uri == 'issuance-report') echo 'active'; ?>">
+                    <a href="<?php echo base_url('/blood-bank/issuance-report') ?>">
+                        Issuance Report
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if (in_array('summary-report', explode(',', $access->access))) : ?>
+                <li class="<?php if ($child_uri == 'summary-report') echo 'active'; ?>">
+                    <a href="<?php echo base_url('/blood-bank/summary-report') ?>">
+                        Summary Report
+                    </a>
+                </li>
+            <?php endif; ?>
+        </ul>
+    </li>
 <?php endif; ?>
+
 
 <?php if (!empty($access) and in_array('cafe-module-sidebar', explode(',', $access->access))) : ?>
 
