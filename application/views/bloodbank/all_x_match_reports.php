@@ -84,7 +84,6 @@ function get_xmatch_donor_name($report_id) {
                         </td>
                 </tr>
             <?php }} else { ?>
-                <tr><td colspan="8" class="text-center">No reports found.</td></tr>
             <?php } ?>
             </tbody>
         </table>

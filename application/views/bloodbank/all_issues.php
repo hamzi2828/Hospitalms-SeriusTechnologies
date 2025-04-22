@@ -72,7 +72,6 @@
                     endforeach;
                 else:
                 ?>
-                    <tr><td colspan="8">No blood issuance records found.</td></tr>
                 <?php endif; ?>
             </tbody>
         </table>
