@@ -42,6 +42,10 @@
                 <div class="caption">
                     <i class="fa fa-tint"></i> Blood Issuance Summary
                 </div>
+                <a href="<?php echo base_url ( '/invoices/issuance-summary-report?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"
+                   target="_blank"
+                   class="pull-right print-btn">Print</a>
+
             </div>
             <div class="portlet-body" style="overflow: auto">
                 <table class="table table-striped table-bordered table-hover">

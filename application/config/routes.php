@@ -653,6 +653,10 @@
     $route[ 'invoices/x-match-reports/(:num)' ]                         = 'Invoices/x_match_reports/$1';
     $route[ 'blood-bank/issuance-report' ]                             = 'BloodBank/issuance_report';
     $route[ 'blood-bank/summary-report' ]                             = 'BloodBank/issuance_summary_report';
+    $route['invoices/issuance-report'] = 'Invoices/issuance_report';
+    $route[ 'invoices/issuance-report/(:any)' ]                        = 'Invoices/issuance_report/$1';
+    $route['invoices/issuance-summary-report'] = 'Invoices/issuance_summary_report';
+$route[ 'invoices/issuance-summary-report/(:any)' ]                        = 'Invoices/issuance_summary_report/$1';
 
 
     $route[ '404_override' ]                                          = '';

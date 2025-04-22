@@ -32,10 +32,7 @@
                 <div class="form-group col-lg-1">
                     <button type="submit" class="btn btn-primary btn-block" style="margin-top: 25px;">Search</button>
                 </div>
-            <
-        </form>
-<!-- END PAGE CONTENT-->    
-
+            </form>
         </div>
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
         <div class="portlet box green">
@@ -43,6 +40,9 @@
                 <div class="caption">
                     <i class="fa fa-globe"></i> All Issuance
                 </div>
+                <a href="<?php echo base_url ( '/invoices/issuance-report?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"
+                   target="_blank"
+                   class="pull-right print-btn">Print</a>
             </div>
            <div class="portlet-body" style="overflow: auto">
            <table class="table table-striped table-bordered table-hover" id="sample_1">

@@ -6406,4 +6406,66 @@
             $mpdf -> WriteHTML ( $html_content );
             $mpdf -> Output ( 'X Match Report.pdf', 'I' );
         }
+
+        public function  issuance_report () {
+            $start_date = $this->input->get('start_date');
+            $end_date = $this->input->get('end_date');
+    
+            $data['start_date'] = $start_date;
+            $data['end_date'] = $end_date;
+            $data['blood_issuance'] = $this->BloodBankModel->get_all_blood_issuance($start_date, $end_date);
+            
+            $html_content        = $this -> load -> view ( '/invoices/issuance-report', $data, true );
+
+            require_once FCPATH . '/vendor/autoload.php';
+            $mpdf = new \Mpdf\Mpdf( [
+                                        'margin_left'   => 5,
+                                        'margin_right'  => 5,
+                                        'margin_top'    => 35,
+                                        'margin_bottom' => 5,
+                                        'margin_header' => 5,
+                                        'margin_footer' => 5
+                                    ] );
+
+            $mpdf -> SetTitle ( strip_tags ( site_name ) );
+            $mpdf -> SetAuthor ( site_name );
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+            $mpdf -> SetDisplayMode ( 'real' );
+            $mpdf -> WriteHTML ( $html_content );
+            $mpdf -> Output ( 'X Match Report.pdf', 'I' );
+        }
+
+
+        public function  issuance_summary_report () {
+            $start_date = $this->input->get('start_date');
+            $end_date = $this->input->get('end_date');
+            $data['start_date'] = $start_date;
+            $data['end_date'] = $end_date;
+            $data['blood_issuance'] = $this->BloodBankModel->get_all_blood_issuance($start_date, $end_date);
+           
+            $html_content        = $this -> load -> view ( '/invoices/issuance-summary-report', $data, true );
+
+            require_once FCPATH . '/vendor/autoload.php';
+            $mpdf = new \Mpdf\Mpdf( [
+                                        'margin_left'   => 5,
+                                        'margin_right'  => 5,
+                                        'margin_top'    => 35,
+                                        'margin_bottom' => 5,
+                                        'margin_header' => 5,
+                                        'margin_footer' => 5
+                                    ] );
+
+            $mpdf -> SetTitle ( strip_tags ( site_name ) );
+            $mpdf -> SetAuthor ( site_name );
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+            $mpdf -> SetDisplayMode ( 'real' );
+            $mpdf -> WriteHTML ( $html_content );
+            $mpdf -> Output ( 'X Match Report.pdf', 'I' );
+        }
     }

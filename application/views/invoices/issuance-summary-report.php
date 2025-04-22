@@ -1,0 +1,131 @@
+<?php header ( 'Content-Type: application/pdf' ); ?>
+<html>
+<head>
+    <style>
+        @page {
+            size: auto;
+            header: myheader;
+            footer: myfooter;
+        }
+
+        body {
+            font-family: sans-serif;
+            font-size: 10pt;
+        }
+
+        p {
+            margin: 0pt;
+        }
+
+        table.items {
+            border: none;
+        }
+        
+
+        td {
+            vertical-align: top;
+            border: none;
+        }
+
+        .items td {
+            border-left: none;
+            border-right: none;
+            border: none;
+            border-bottom : 0.1mm dotted #000000;
+        }
+
+        table thead td {
+            background-color: #EEEEEE;
+            text-align: center;
+            border: none;
+            font-variant: small-caps;
+        }
+
+        .items td.blanktotal {
+            background-color: #FFFFFF;
+            border: none;
+        }
+
+        .items td.totals {
+            text-align: right;
+            border: none;
+            font-weight: 800 !important;
+        }
+
+        .items td.cost {
+            text-align: center;
+        }
+
+        .totals {
+            font-weight: 800 !important;
+        }
+    </style>
+</head>
+<body>
+<!--mpdf
+<htmlpageheader name="myheader">
+    <?php require 'pdf-header.php'; ?>
+</htmlpageheader>
+
+<htmlpagefooter name="myfooter">
+    <?php require 'pdf-blood-bank-footer.php'; ?>
+</htmlpagefooter>
+
+<sethtmlpageheader name="myheader" value="on" show-this-page="1" />
+<sethtmlpagefooter name="myfooter" value="on" />
+mpdf-->
+
+
+<?php
+if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
+    $start_date = date('Y-m-d', strtotime($_GET['start_date']));
+    $end_date = date('Y-m-d', strtotime($_GET['end_date']));
+    echo "Start Date: " . $start_date . "<br>";
+    echo "End Date: " . $end_date . "<br>";
+}
+?>
+<table width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8" border="0">
+    <tr>
+        <td style="width: 100%; background: #f5f6f7; text-align: center">
+            <h3><strong>Issusance Report </strong></h3>
+        </td>
+    </tr>
+</table>
+<br>
+<!-- Tests Table -->
+<table class="items" width="100%" style="font-size: 8pt; border-collapse: collapse; margin-top: 15px; border: 0"
+    cellpadding="8">
+    <thead>
+    <tr style="background-color:#f2f2f2;">
+        <th style="text-align: left;">Sr. No.</th>
+        <th style="text-align: left;">Blood Type</th>
+        <th style="text-align: left;">Total Issued Quantity</th>
+    </tr>
+</thead>
+<tbody>
+    <?php
+    $blood_types = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
+    $sr = 1;
+    // Aggregate quantities by blood type
+    $type_totals = array_fill_keys($blood_types, 0);
+    if (!empty($blood_issuance)) {
+        foreach ($blood_issuance as $issue) {
+            $type = $issue['blood_type'];
+            $qty = isset($issue['quantity']) ? (int)$issue['quantity'] : 1;
+            if (isset($type_totals[$type])) {
+                $type_totals[$type] += $qty;
+            }
+        }
+    }
+    foreach ($blood_types as $type):
+    ?>
+    <tr>
+        <td><?= $sr++; ?></td>
+        <td><?= htmlspecialchars($type); ?></td>
+        <td><?= $type_totals[$type]; ?></td>
+    </tr>
+    <?php endforeach; ?>
+</tbody>
+</table>
+</body>
+</html>
