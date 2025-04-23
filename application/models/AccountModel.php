@@ -2225,8 +2225,15 @@
                     $net_closing += $this -> get_child_account_heads_by_parent ( $result[ 'id' ] );
                 }
             }
-
+            $opening_balance = $this->get_opening_balance($id);
+            $net_closing += ($opening_balance['credit'] - $opening_balance['debit']);
             return abs ( $net_closing );
+        }
+
+        public function get_opening_balance($acc_head_id) {
+            $sql = "SELECT SUM(credit) as credit, SUM(debit) as debit FROM hmis_general_ledger WHERE acc_head_id=$acc_head_id AND transaction_type='opening_balance'";
+            $result = $this->db->query($sql)->row();
+            return ['credit' => $result->credit, 'debit' => $result->debit];
         }
 
         public function sum_transactions_by_date ( $acc_head_id, $date ) {
