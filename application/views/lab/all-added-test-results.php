@@ -278,7 +278,15 @@
                                                 ?>
                                             </td>
                                             <td>
+                                            <?php if (is_object($results) && !empty($results->film)) : ?>
+                                                    <a href="<?php echo $results->film; ?>"
+                                                       download="<?php echo 'report-sale-id-' . $results->sale_id; ?>"
+                                                       class="btn btn-info btn-xs btn-block"target="_blank">
+                                                        Download
+                                                    </a>
+                                                <?php endif; ?>
                                                 <?php
+                                                
                                                     if ( $patient -> panel_id > 0 )
                                                         $link = base_url ( '/patients/edit-panel/' . $patient -> id );
                                                     else

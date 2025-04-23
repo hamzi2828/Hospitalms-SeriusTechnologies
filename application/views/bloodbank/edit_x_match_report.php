@@ -1,4 +1,11 @@
 <?php $access = get_user_access(get_logged_in_user_id()); ?>
+<style>
+input[readonly], input[readonly].form-control {
+    background-color: #fff !important;
+    color: #000 !important;
+    opacity: 1;
+}
+</style>
 <div class="row">
     <div class="col-md-12">
         <?php if (validation_errors()) { ?>
@@ -46,7 +53,7 @@
                             
 
                             <div class="form-group col-lg-3">
-                                <label><strong>Collection Date & Time</strong></label>
+                                <label>Collection Date & Time</label>
                                 <input type="datetime-local" 
                                        name="report-collection-date-time" 
                                        class="form-control"
@@ -81,7 +88,7 @@
                                 }
                             }
                             $tests = [
-                                "<h4>DONOR</h4>",
+                                "DONOR",
                                 "Donor Blood Group",
                                 "Donor Rh Factor",
                                 "Anti HCV by ELISA",
@@ -90,7 +97,7 @@
                                 "Malaria Parasite (MP)",
                                 "Syphilis Antibodies",
                                 "Recipient Name:",
-                                "<h4>PATIENT</h4>",
+                                "PATIENT",
                                 "Patient Blood Group",
                                 "Patient Rh Factor",
                                 "Coombs Test (Direct)",
@@ -98,8 +105,8 @@
                                 "Compatibility"
                             ];
                             foreach ($tests as $index => $test) {
-                                if ($test === '<h4>DONOR</h4>' || $test === '<h4>PATIENT</h4>') {
-                                    echo '<tr><td colspan="4">'.$test.'</td></tr>';
+                                if ($test === 'DONOR' || $test === 'PATIENT') {
+                                    echo '<tr><td colspan="4"><strong>'.$test.'</strong></td></tr>';
                                 } else {
                                     $cut_off = isset($test_map[$test]['cut_off_value']) ? htmlspecialchars($test_map[$test]['cut_off_value']) : '';
                                     $patient_value = isset($test_map[$test]['patient_value']) ? htmlspecialchars($test_map[$test]['patient_value']) : '';
@@ -107,7 +114,7 @@
                                     echo '<tr>';
                                     // Add hidden id input for test row
                                     echo '<input type="hidden" name="tests['.$index.'][id]" value="'.(isset($test_map[$test]['id']) ? $test_map[$test]['id'] : '').'">';
-                                    echo '<td><input type="text" name="tests['.$index.'][name]" value="'.$test.'" class="form-control" readonly></td>';
+                                    echo '<td><input type="text" name="tests['.$index.'][name]" value="'.htmlspecialchars($test).'" class="form-control" readonly style="font-weight:bold;"></td>';
                                     echo '<td><input type="text" name="tests['.$index.'][cut_off]" class="form-control" value="'.$cut_off.'"></td>';
                                     echo '<td><input type="text" name="tests['.$index.'][patient_value]" class="form-control" value="'.$patient_value.'"></td>';
                                     if ($test === 'Donor Blood Group' || $test === 'Patient Blood Group') {

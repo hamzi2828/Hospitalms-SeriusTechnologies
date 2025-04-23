@@ -97,7 +97,7 @@ mpdf-->
 <table width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8" border="0">
     <tr>
         <td style="width: 100%; background: #f5f6f7; text-align: center">
-            <h3><strong> Issusance Report </strong></h3>
+            <h3><strong>Issuance Report </strong></h3>
         </td>
     </tr>
 </table>
@@ -106,12 +106,12 @@ mpdf-->
        border="1" cellpadding="5px" autosize="1">
        <thead>
         <tr>
-        <th>Sr.</th>
-            <th>Issuance ID</th>
-            <th>EMR No.</th>
-            <th>Name</th>
-            <th>Blood Type</th>
-            <th>Reference ID</th>
+        <th style="width: 10%;">Sr.</th>
+            <th style="width: 20%;">Issuance ID</th>
+            <th style="width: 10%;">EMR No.</th>
+            <th style="width: 20%;">Name</th>
+            <th style="width: 15%;">Blood Type</th>
+            <th style="min-width: 20%;">Reference ID</th>
         </tr>
     </thead>
     <tbody>

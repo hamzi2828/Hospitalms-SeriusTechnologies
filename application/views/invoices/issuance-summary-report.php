@@ -97,7 +97,7 @@ mpdf-->
 <table width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8" border="0">
     <tr>
         <td style="width: 100%; background: #f5f6f7; text-align: center">
-        <h3><strong>Issusance Report </strong></h3>
+        <h3><strong>Summary Report </strong></h3>
         </td>
     </tr>
 </table>

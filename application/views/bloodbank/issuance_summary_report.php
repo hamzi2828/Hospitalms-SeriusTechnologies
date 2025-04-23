@@ -40,7 +40,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-tint"></i> Blood Issuance Summary
+                    <i class="fa fa-tint"></i>Summary Report
                 </div>
                 <a href="<?php echo base_url ( '/invoices/issuance-summary-report?' . $_SERVER[ 'QUERY_STRING' ] ) ?>"
                    target="_blank"
@@ -48,9 +48,9 @@
 
             </div>
             <div class="portlet-body" style="overflow: auto">
-            <table class="table table-striped table-bordered table-hover" id="sample_1">
+            <table class="table table-striped table-bordered table-hover">
                     <thead>
-                        <tr style="background-color:#f2f2f2;">
+                        <tr>
                             <th>Sr. No.</th>
                             <th>Blood Type</th>
                             <th>Total Issued Quantity</th>

@@ -2058,9 +2058,9 @@
             $parent_test_id = $data[ 'parent_test_id' ];
             $machine        = $data[ 'machine' ];
             $doctor_id      = $data[ 'doctor_id' ];
-            $covid_detected = $data[ 'detected' ];
-            $batch_no       = $data[ 'batch-no' ];
-            $abnormal       = $data[ 'abnormal' ];
+            $covid_detected = isset($data['detected']) ? $data['detected'] : array();
+            $batch_no       = isset($data['batch-no']) ? $data['batch-no'] : array();
+            $abnormal       = isset($data['abnormal']) ? $data['abnormal'] : array();
             $last_insert_id = 0;
             
             if ( isset( $selected ) and count ( $selected ) > 0 ) {
@@ -2074,23 +2074,27 @@
                 foreach ( $test_id as $key => $value ) {
                     $isTestChild  = check_if_test_is_child ( $value );
                     $isTestParent = check_if_test_has_sub_tests ( $value );
+                    // print_r($_FILES);exit;
                     $info         = array (
                         'user_id'        => get_logged_in_user_id (),
                         'sale_id'        => $_REQUEST[ 'invoice_id' ],
                         'test_id'        => $value,
                         'machine'        => $machine,
                         'doctor_id'      => $doctor_id,
-                        'covid_detected' => @$data[ 'covid-detected' ],
+                        'covid_detected' => isset($covid_detected[$key]) ? $covid_detected[$key] : '',
                         'regents'        => @$regents[ $key ],
                         'result'         => $result[ $key ],
                         'remarks'        => $remarks[ $key ],
-                        'abnormal'       => isset( $abnormal[ $value ] ) ? '1' : '0',
-                        'detected'       => $covid_detected[ $key ],
-                        'batch_no'       => $batch_no[ $key ],
+                        'abnormal'       => isset($abnormal[$value]) ? '1' : '0',
+                        'detected'       => isset($covid_detected[$key]) ? $covid_detected[$key] : '',
+                        'batch_no'       => isset($batch_no[$key]) ? $batch_no[$key] : '',
                         'date_added'     => current_date_time (),
+                        'film'           => isset( $_FILES[ 'film' ] ) && !empty( trim ( $_FILES[ 'film' ][ 'tmp_name' ] ) ) ? upload_files ( 'film' ) : '',
                     ); 
-                    if ( $isTestChild and $last_insert_id > 0 )
+                    if ( $isTestChild and $last_insert_id > 0 ){
                         $info[ 'result_id' ] = $last_insert_id;
+                    }
+
                     $last_id = $this -> LabModel -> do_add_test_results ( $info );
                     $this -> LabModel -> do_add_test_results_logs ( $info );
 
@@ -2170,7 +2174,7 @@
                     'user_id'    => get_logged_in_user_id (),
                     'sale_id'    => $sale_id,
                     'result_id'  => $result_id,
-                    'created_at' => date ( 'Y-m-d H:i:s' )
+                    'created_at' => date ( 'Y-m-d H:i:s' ),
                 );
                 $this -> LabModel -> do_lab_result_verify ( $info );
                 $this -> LabModel -> do_lab_result_verify_logs ( $info );

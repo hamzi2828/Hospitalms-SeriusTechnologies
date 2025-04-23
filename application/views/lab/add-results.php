@@ -48,8 +48,20 @@
                                value="<?php echo @$testResult -> id > 0 ? @$testResult -> id : @$_REQUEST[ 'test-id' ] ?>">
                         <?php $results = @get_test_results ( $_REQUEST[ 'sale-id' ], $_REQUEST[ 'parent-id' ] ); ?>
                         
+                       <?php $report = $results; ?>
                         <div class="row">
-                            <div class="col-lg-4 pull-right" style="padding-bottom: 15px">
+                        <div class="col-lg-3 pull-right" style="padding-bottom: 15px">
+                                <label for="film">
+                                    Film
+                                    <?php if (is_object($report) && !empty(trim($report->film))) : ?>
+                                        <a type="button"
+                                            href="<?php echo $report->film ?>"
+                                            download="<?php echo 'report-sale-id-' . $report->sale_id; ?>">Download</a>
+                                    <?php endif; ?>
+                                </label>
+                                <input type="file" name="film" id="film" class="form-control" accept="image/*">
+                            </div>
+                            <div class="col-lg-3 pull-right" style="padding-bottom: 15px">
                                 <label><strong>Referred By</strong></label>
                                 <select name="doctor_id" class="form-control select2me">
                                     <option value="">Select</option>
@@ -68,8 +80,8 @@
                                     ?>
                                 </select>
                             </div>
-                            
-                            <div class="col-lg-4 pull-right" style="padding-bottom: 15px">
+                         
+                            <div class="col-lg-3 pull-right" style="padding-bottom: 15px">
                             <label><strong>Choose Machine</strong></label>
                             <select name="machine" class="form-control select2me" onchange="load_test_url(this.value)">
                                 <option value="default" <?php echo $_REQUEST[ 'machine' ] == 'default' ? 'selected="selected"' : '' ?>>
@@ -96,7 +108,7 @@
                                             echo ' (' . $machine -> machine_name . ')';
                                     ?>
                                 </option>
-                                <option value="machine-3" <?php echo $_REQUEST[ 'machine' ] == 'machine-3' ? 'selected="selected"' : '' ?>>
+                                <!-- <option value="machine-3" <?php echo $_REQUEST[ 'machine' ] == 'machine-3' ? 'selected="selected"' : '' ?>>
                                     Machine 3
                                     <?php
                                         $machine = get_machine_name ( $_GET[ 'test-id' ], 'machine-3' );
@@ -119,11 +131,11 @@
                                         if ( !empty( $machine ) && !empty( trim ( $machine -> machine_name ) ) )
                                             echo ' (' . $machine -> machine_name . ')';
                                     ?>
-                                </option>
+                                </option> -->
                             </select>
                         </div>
                             
-                            <div class="col-lg-4 pull-right" style="padding-bottom: 15px">
+                            <div class="col-lg-3 pull-right" style="padding-bottom: 15px">
                                 <label><strong>Select graph for HBV or HCV</strong></label>
                                 <select name="covid-detected" class="form-control select2me">
                                     <option value="">Select</option>
@@ -135,6 +147,7 @@
                                     </option>
                                 </select>
                             </div>
+
                         </div>
                         
                         <table class="table table-striped table-bordered table-hover">
