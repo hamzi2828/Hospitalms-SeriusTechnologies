@@ -1272,7 +1272,7 @@
                 $search     = true;
             }
             else if ( $financial_year ) {
-                $trans_date = $_REQUEST[ 'trans_date' ];
+                $trans_date = isset($_REQUEST['trans_date']) ? $_REQUEST['trans_date'] : null;
                 $month      = date ( 'm' );
                 if ( $month <= 7 )
                     $year = date ( 'Y' ) - 1;
