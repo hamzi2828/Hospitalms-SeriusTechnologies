@@ -2225,8 +2225,6 @@
                     $net_closing += $this -> get_child_account_heads_by_parent ( $result[ 'id' ] );
                 }
             }
-            $opening_balance = $this->get_opening_balance($id);
-            $net_closing += ($opening_balance['credit'] - $opening_balance['debit']);
             return abs ( $net_closing );
         }
 
@@ -2234,6 +2232,36 @@
             $sql = "SELECT SUM(credit) as credit, SUM(debit) as debit FROM hmis_general_ledger WHERE acc_head_id=$acc_head_id AND transaction_type='opening_balance'";
             $result = $this->db->query($sql)->row();
             return ['credit' => $result->credit, 'debit' => $result->debit];
+        }
+
+        /**
+         * Get total opening balance (credit, debit) for all account heads under a parent (recursively)
+         * @param int $parent_id
+         * @return array ['credit' => float, 'debit' => float]
+         */
+        public function get_opening_balance_by_parent($parent_id) {
+            $total_credit = 0;
+            $total_debit = 0;
+
+            // Get all direct children
+            $account_heads = $this->db
+                ->select('id')
+                ->from('account_heads')
+                ->where('parent_id', $parent_id)
+                ->get();
+            $results = $account_heads->result_array();
+
+            foreach ($results as $row) {
+                $id = $row['id'];
+                $opening = $this->get_opening_balance($id);
+                $total_credit += (float)$opening['credit'];
+                $total_debit += (float)$opening['debit'];
+                // Recursively add children
+                $child_opening = $this->get_opening_balance_by_parent($id);
+                $total_credit += (float)$child_opening['credit'];
+                $total_debit += (float)$child_opening['debit'];
+            }
+            return ['credit' => $total_credit, 'debit' => $total_debit];
         }
 
         public function sum_transactions_by_date ( $acc_head_id, $date ) {

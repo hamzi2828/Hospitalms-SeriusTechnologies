@@ -60,16 +60,35 @@
                             foreach ( $currentAssets as $currentAsset ) {
                                 $balance_sheet    = filter_balance_sheet ( $currentAsset -> id );
                                 $netCurrentAssets += $balance_sheet[ 'net_closing' ];
+                                // Get opening balance for this asset
+                                $opening_balance = $this->AccountModel->get_opening_balance_by_parent($currentAsset->id);
+                                $opening_credit = (float)$opening_balance['credit'];
+                                $opening_debit = (float)$opening_balance['debit'];
                                 ?>
                                 <tr>
                                  <td >
                                         <?php echo $currentAsset -> serial_number ?>
                                     </td>
                                     <td style="padding-left: 25px">
-                                        <?php echo $currentAsset -> title ?>
+                                        <?php echo $currentAsset -> title ?><br>
+                                        <span style="font-size:12px; color:#555;">
+                                            <strong> Debit: <?php echo number_format($opening_credit, 2); ?></strong>,
+                                            <strong>Credit: <?php echo number_format($opening_debit, 2); ?></strong>,
+                                          
+                                        </span>
                                     </td>
                                     <td style="padding-left: 25px">
-                                        <?php echo number_format ( $balance_sheet[ 'net_closing' ], 2 ) ?>
+                                        <?php
+                                    $display_balance = $balance_sheet['net_closing'];
+                                    if ($opening_credit > 0 && $opening_debit == 0) {
+                                        $display_balance = $opening_credit + $balance_sheet['net_closing'];
+                                    } elseif ($opening_debit > 0 && $opening_credit == 0) {
+                                        $display_balance = $opening_debit - $balance_sheet['net_closing'];
+                                    }else{
+                                        $display_balance = ($opening_credit - $opening_debit) + $balance_sheet['net_closing'];
+                                    }
+                                    echo number_format(abs($display_balance), 2);
+                                    ?>
                                     </td>
                                 </tr>
                                 <?php
@@ -105,15 +124,35 @@
                                 $balance_sheet       = filter_balance_sheet ( $nonCurrentAsset -> id );
                                 $netNonCurrentAssets += $balance_sheet[ 'net_closing' ];
                                 ?>
+                                <?php
+                                // Get opening balance for this asset
+                                $opening_balance = $this->AccountModel->get_opening_balance_by_parent($nonCurrentAsset->id);
+                                $opening_credit = (float)$opening_balance['credit'];
+                                $opening_debit = (float)$opening_balance['debit'];
+                                ?>
                                 <tr>
                                 <td >
                                         <?php echo $nonCurrentAsset -> serial_number ?>
                                     </td>
                                     <td style="padding-left: 25px">
-                                        <?php echo $nonCurrentAsset -> title ?>
+                                        <?php echo $nonCurrentAsset -> title ?><br>
+                                        <span style="font-size:12px; color:#555;">
+                                            <strong> Debit: <?php echo number_format($opening_credit, 2); ?></strong>,
+                                            <strong>Credit: <?php echo number_format($opening_debit, 2); ?></strong>,
+                                        </span>
                                     </td>
                                     <td style="padding-left: 25px">
-                                        <?php echo number_format ( $balance_sheet[ 'net_closing' ], 2 ) ?>
+                                        <?php
+                                        $display_balance = $balance_sheet['net_closing'];
+                                        if ($opening_credit > 0 && $opening_debit == 0) {
+                                            $display_balance = $opening_credit + $balance_sheet['net_closing'];
+                                        } elseif ($opening_debit > 0 && $opening_credit == 0) {
+                                            $display_balance = $opening_debit - $balance_sheet['net_closing'];
+                                        } else {
+                                            $display_balance = ($opening_credit - $opening_debit) + $balance_sheet['net_closing'];
+                                        }
+                                        echo number_format(abs($display_balance), 2);
+                                        ?>
                                     </td>
                                 </tr>
                                 <?php
@@ -189,15 +228,35 @@
                                 $balance_sheet         = filter_balance_sheet ( $currentLiability -> id );
                                 $netCurrentLiabilities += $balance_sheet[ 'net_closing' ];
                                 ?>
+                                <?php
+                                // Get opening balance for this liability
+                                $opening_balance = $this->AccountModel->get_opening_balance_by_parent($currentLiability->id);
+                                $opening_credit =  (float)$opening_balance['debit'];
+                                $opening_debit =  (float)$opening_balance['credit'];
+                                ?>
                                 <tr>
                                 <td >
                                         <?php echo $currentLiability -> serial_number ?>
                                     </td>
                                     <td style="padding-left: 25px">
-                                        <?php echo $currentLiability -> title ?>
+                                        <?php echo $currentLiability -> title ?><br>
+                                        <span style="font-size:12px; color:#555;">
+                                            <strong> Debit: <?php echo number_format($opening_credit, 2); ?></strong>,
+                                            <strong>Credit: <?php echo number_format($opening_debit, 2); ?></strong>,
+                                        </span>
                                     </td>
                                     <td style="padding-left: 25px">
-                                        <?php echo number_format ( $balance_sheet[ 'net_closing' ], 2 ) ?>
+                                        <?php
+                                        $display_balance = $balance_sheet['net_closing'];
+                                        if ($opening_credit > 0 && $opening_debit == 0) {
+                                            $display_balance = $opening_credit + $balance_sheet['net_closing'];
+                                        } elseif ($opening_debit > 0 && $opening_credit == 0) {
+                                            $display_balance = $opening_debit - $balance_sheet['net_closing'];
+                                        } else {
+                                            $display_balance = ($opening_credit - $opening_debit) + $balance_sheet['net_closing'];
+                                        }
+                                        echo number_format(abs($display_balance), 2);
+                                        ?>
                                     </td>
                                 </tr>
                                 <?php
