@@ -1623,5 +1623,17 @@
             $this -> footer ();
         }
 
+        public function balance_sheet_summary_pro () {
+            $title = site_name . ' - Trial Balance Sheet (Detail)';
+            $this -> header ( $title );
+            $this -> sidebar ();
+            $account_heads           = $this -> AccountModel -> get_chart_of_accounts ();
+            $tree                    = buildTree ( $account_heads );
+            $data[ 'account_heads_pro' ] = $this -> AccountModel -> build_chart_of_accounts_table_for_Balance_summary_pro ( $tree );
+            $data[ 'balance_sheet_sum_footer_new' ] = $this -> AccountModel -> trial_balance_sum ();
+
+            $this -> load -> view ( '/accounts/balance-sheet-summary-pro', $data );
+            $this -> footer ();
+        }
 
     }

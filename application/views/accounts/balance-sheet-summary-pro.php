@@ -26,7 +26,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i> Trial Balance Sheet Pro
+                    <i class="fa fa-globe"></i> Balance Sheet Summary Pro
                     <?php
                         $start_date = $this -> input -> get ( 'start_date' );
                         $end_date   = $this -> input -> get ( 'end_date' );
@@ -42,7 +42,7 @@
                     ?>
                 </div>
 
-                <a href="<?php echo base_url ( '/invoices/trial-balance-sheet?' . $_SERVER[ 'QUERY_STRING' ] . '&balance_sheet_new=true' ) ?>"
+                <a href="<?php echo base_url ( '/accounts/balance-sheet-summary-pro?' . $_SERVER[ 'QUERY_STRING' ] . '&balance_sheet_new=true' ) ?>"
                    class="pull-right print-btn" target="_blank">Print</a>
 
                 <a href="javascript:void(0)" onclick="downloadExcel()" style="margin-right: 10px"

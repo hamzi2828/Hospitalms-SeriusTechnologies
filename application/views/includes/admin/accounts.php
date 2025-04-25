@@ -148,6 +148,19 @@
                         </li>
                     <?php endif; ?>
 
+                    <li class="<?php if ($child_uri == 'trial_balance_pro') echo 'active'; ?>">
+                            <a href="<?php echo base_url('/accounts/trial_balance_pro'); ?>">
+                                Trial Balance Sheet (Pro)
+                            </a>
+                    </li>
+
+                    <li class="<?php if ($child_uri == 'balance_sheet_summary_pro') echo 'active'; ?>">
+                            <a href="<?php echo base_url('/accounts/balance_sheet_summary_pro'); ?>">
+                                Balance Sheet Summary (Pro)
+                            </a>
+                    </li>
+
+
             <?php if ( !empty( $access ) and in_array ( 'balance_sheet', explode ( ',', $access -> access ) ) ) : ?>
                 <li class="<?php if ( $child_uri == 'balance-sheet' )
                     echo 'active'; ?>">
