@@ -1608,4 +1608,20 @@
             return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
         }
 
+
+
+        public function trial_balance_pro () {
+            $title = site_name . ' - Trial Balance Sheet (Detail)';
+            $this -> header ( $title );
+            $this -> sidebar ();
+            $account_heads           = $this -> AccountModel -> get_chart_of_accounts ();
+            $tree                    = buildTree ( $account_heads );
+            $data[ 'account_heads_pro' ] = $this -> AccountModel -> build_chart_of_accounts_table_for_Trial_Balance_pro ( $tree );
+            $data[ 'balance_sheet_sum_footer_new' ] = $this -> AccountModel -> trial_balance_sum ();
+
+            $this -> load -> view ( '/accounts/trial-balance-pro', $data );
+            $this -> footer ();
+        }
+
+
     }

@@ -1962,6 +1962,123 @@
 
      
 
+        public function build_chart_of_accounts_table_for_Trial_Balance_pro($data, $level = 0, $hide_actions = false, &$first_level_sr = 0, &$second_level_sr = '', &$third_level_sr = '', &$fourth_level_sr = '', &$fifth_level_sr = '') {
+            $html = '<tbody>';
+            $sr_number = 0;
+        
+            $start_date = isset($_GET['start_date']) && !empty(trim($_GET['start_date'])) 
+                ? date('Y-m-d', strtotime($_GET['start_date'])) 
+                : null;
+        
+            foreach ($data as $row) {
+                $acc_head_id = $row['id'];
+                $padding = str_repeat('&nbsp;', $level * 6);
+                $title = isset($row['children']) && count($row['children']) > 0 
+                    ? '<strong>' . $row['title'] . '</strong>' 
+                    : $row['title'];
+        
+                // Opening balances
+                $opening_balance_dr = $start_date ? $this->get_opening_balance_previous_than_searched_start_date_debit($start_date, $acc_head_id) : 0;
+                $opening_balance_cr = $start_date ? $this->get_opening_balance_previous_than_searched_start_date_credit($start_date, $acc_head_id) : 0;
+        
+                // Transactions
+                $transaction = calculate_acc_head_transaction($acc_head_id);
+                $movement_cr = $transaction->credit ?? 0;
+                $movement_dr = $transaction->debit ?? 0;
+        
+                // Closing balances
+                $closing_cr = max(0, $opening_balance_dr + $movement_dr - $opening_balance_cr - $movement_cr);
+                $closing_dr = max(0, $opening_balance_cr + $movement_cr - $opening_balance_dr - $movement_dr);
+        
+                // Update global totals
+                $this->total_opening_balance_dr += $opening_balance_dr;
+                $this->total_opening_balance_cr += $opening_balance_cr;
+                $this->total_movement_cr += $movement_cr;
+                $this->total_movement_dr += $movement_dr;
+                $this->total_closing_dr += $closing_dr;
+                $this->total_closing_cr += $closing_cr;
+        
+                // Serial number
+                $serial_number = $this->generate_serial_number($level, $sr_number, $first_level_sr, $second_level_sr, $third_level_sr, $fourth_level_sr, $fifth_level_sr, isset($row['children']) && count($row['children']) > 0);
+        
+                // Output row
+                $html .= '<tr>';
+                $html .= "<td>{$serial_number}</td>";
+                $html .= "<td>{$padding}{$title}</td>";
+                $html .= "<td>" . number_format($opening_balance_cr, 2) . "</td>";
+                $html .= "<td>" . number_format($opening_balance_dr, 2) . "</td>";
+                $html .= "<td>" . number_format($movement_cr, 2) . "</td>";
+                $html .= "<td>" . number_format($movement_dr, 2) . "</td>";
+                $html .= "<td>" . number_format($closing_dr, 2) . "</td>";
+                $html .= "<td>" . number_format($closing_cr, 2) . "</td>";
+                $html .= '</tr>';
+        
+                // Process children recursively
+                if (isset($row['children']) && is_array($row['children'])) {
+                    $html .= $this->build_chart_of_accounts_table_for_Trial_Balance_pro(
+                        $row['children'],
+                        $level + 1,
+                        $hide_actions,
+                        $first_level_sr,
+                        $second_level_sr,
+                        $third_level_sr,
+                        $fourth_level_sr,
+                        $fifth_level_sr
+                    );
+        
+                    // ✅ Show Subtotal if this is a Level 2 item (e.g., Banks, Cash Balances)
+                    if ($level === 2) {
+                        $totals = $this->get_nested_closing_totals($row['children'], $start_date);
+        
+                        $html .= '<tr style="background-color:#eef; font-weight:bold;">';
+                        $html .= '<td></td>';
+                        $html .= '<td style="padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' Subtotal</td>';
+                        $html .= '<td></td><td></td><td></td><td></td>';
+                        $html .= '<td>' . number_format($totals['dr'], 2) . '</td>';
+                        $html .= '<td>' . number_format($totals['cr'], 2) . '</td>';
+                        $html .= '<td>' . number_format($totals['dr'] - $totals['cr'], 2) . '</td>';
+                        $html .= '</tr>';
+                    }
+                }
+            }
+        
+            $html .= '</tbody>';
+            return $html;
+        }
+        
+        
+        
+
+        private function get_nested_closing_totals($nodes, $start_date) {
+            $closing_dr_total = 0;
+            $closing_cr_total = 0;
+        
+            foreach ($nodes as $node) {
+                $acc_head_id = $node['id'];
+        
+                $ob_dr = $start_date ? $this->get_opening_balance_previous_than_searched_start_date_debit($start_date, $acc_head_id) : 0;
+                $ob_cr = $start_date ? $this->get_opening_balance_previous_than_searched_start_date_credit($start_date, $acc_head_id) : 0;
+                $tx = calculate_acc_head_transaction($acc_head_id);
+                $tx_cr = $tx->credit ?? 0;
+                $tx_dr = $tx->debit ?? 0;
+        
+                $closing_cr = max(0, $ob_dr + $tx_dr - $ob_cr - $tx_cr);
+                $closing_dr = max(0, $ob_cr + $tx_cr - $ob_dr - $tx_dr);
+        
+                $closing_cr_total += $closing_cr;
+                $closing_dr_total += $closing_dr;
+        
+                if (isset($node['children']) && is_array($node['children'])) {
+                    $child_totals = $this->get_nested_closing_totals($node['children'], $start_date);
+                    $closing_dr_total += $child_totals['dr'];
+                    $closing_cr_total += $child_totals['cr'];
+                }
+            }
+        
+            return ['dr' => $closing_dr_total, 'cr' => $closing_cr_total];
+        }
+        
+        
 
         function build_chart_of_accounts_table_for_Trial_Balance($data, $level = 0, $hide_actions = false, &$first_level_sr = 0, &$second_level_sr = '', &$third_level_sr = '', &$fourth_level_sr = '' , &$fifth_level_sr = '') {
             $html = '<tbody>';
