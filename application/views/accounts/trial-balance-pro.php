@@ -59,6 +59,7 @@
                 <th colspan="2" style="text-align: center;">Opening</th>
                 <th colspan="2" style="text-align: center;">Movement</th>
                 <th colspan="2" style="text-align: center;">Closing</th>
+                <th colspan="2" style="text-align: center;">Net Closing</th>
             </tr>
             <tr>
                 <th> DR</th>

@@ -2030,35 +2030,39 @@
                     );
                 }
         
-                // ✅ Level 2 Subtotal (e.g., Banks, Cash Balances)
-                if ($level === 2) {
-                    $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
-                    $is_liability = isset($first_level_sr) && strpos((string)$first_level_sr, '2') === 0;
+            // ✅ Level 2 Subtotal (e.g., Banks, Cash Balances)
+            if ($level === 2) {
+                $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
+                $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2', '4']);
 
-                    $html .= '<tr style="font-weight:bold;">';
-                    $html .= '<td></td>';
-                    $html .= '<td style="color:green; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' Subtotal</td>';
-                    $html .= '<td></td><td></td><td></td><td></td>';
-                    $html .= '<td><span style="color:green;">' . number_format($totals['dr'], 2) . '</span></td>';
-                    $html .= '<td><span style="color:green;">' . number_format($totals['cr'], 2) . '</span></td>';
-                    $html .= '<td><span style="color:green;">' . number_format($is_liability ? $totals['cr'] - $totals['dr'] : $totals['dr'] - $totals['cr'], 2) . '</span></td>';
-                    $html .= '</tr>';
-                }
+                $html .= '<tr style="font-weight:bold;">';
+                $html .= '<td></td>';
+                $html .= '<td style="color:green; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' Subtotal</td>';
+                $html .= '<td></td><td></td><td></td><td></td>';
+                $html .= '<td><span style="color:green;">' . number_format($totals['dr'], 2) . '</span></td>';
+                $html .= '<td><span style="color:green;">' . number_format($totals['cr'], 2) . '</span></td>';
+                $html .= '<td><span style="color:green;">' .
+                    number_format($is_cr_based ? $totals['cr'] - $totals['dr'] : $totals['dr'] - $totals['cr'], 2) .
+                '</span></td>';
+                $html .= '</tr>';
+            }
 
-                // ✅ Level 1 Subtotal (e.g., Current Assets, Fixed Assets)
-                if ($level === 1) {
-                    $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
-                    $is_liability = isset($first_level_sr) && strpos((string)$first_level_sr, '2') === 0;
+            // ✅ Level 1 Subtotal (e.g., Current Assets, Fixed Assets)
+            if ($level === 1) {
+                $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
+                $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2', '4']);
 
-                    $html .= '<tr style="font-weight:bold;">';
-                    $html .= '<td></td>';
-                    $html .= '<td style="color:orange; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' Subtotal</td>';
-                    $html .= '<td></td><td></td><td></td><td></td>';
-                    $html .= '<td><span style="color:orange;">' . number_format($totals['dr'], 2) . '</span></td>';
-                    $html .= '<td><span style="color:orange;">' . number_format($totals['cr'], 2) . '</span></td>';
-                    $html .= '<td><span style="color:orange;">' . number_format($is_liability ? $totals['cr'] - $totals['dr'] : $totals['dr'] - $totals['cr'], 2) . '</span></td>';
-                    $html .= '</tr>';
-                }
+                $html .= '<tr style="font-weight:bold;">';
+                $html .= '<td></td>';
+                $html .= '<td style="color:orange; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' Subtotal</td>';
+                $html .= '<td></td><td></td><td></td><td></td>';
+                $html .= '<td><span style="color:orange;">' . number_format($totals['dr'], 2) . '</span></td>';
+                $html .= '<td><span style="color:orange;">' . number_format($totals['cr'], 2) . '</span></td>';
+                $html .= '<td><span style="color:orange;">' .
+                    number_format($is_cr_based ? $totals['cr'] - $totals['dr'] : $totals['dr'] - $totals['cr'], 2) .
+                '</span></td>';
+                $html .= '</tr>';
+            }
 
             }
         
