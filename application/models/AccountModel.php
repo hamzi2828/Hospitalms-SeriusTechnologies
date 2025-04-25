@@ -2013,8 +2013,11 @@
                 $html .= "<td>" . number_format($closing_cr, 2) . "</td>";
                 $html .= '</tr>';
         
-                // Process children recursively
-                if (isset($row['children']) && is_array($row['children'])) {
+                // Children check
+                $has_children = isset($row['children']) && is_array($row['children']) && count($row['children']) > 0;
+        
+                if ($has_children) {
+                    // Recursively build children rows
                     $html .= $this->build_chart_of_accounts_table_for_Trial_Balance_pro(
                         $row['children'],
                         $level + 1,
@@ -2025,26 +2028,42 @@
                         $fourth_level_sr,
                         $fifth_level_sr
                     );
+                }
         
-                    // ✅ Show Subtotal if this is a Level 2 item (e.g., Banks, Cash Balances)
-                    if ($level === 2) {
-                        $totals = $this->get_nested_closing_totals($row['children'], $start_date);
+                // ✅ Level 2 Subtotal (e.g., Banks, Cash Balances)
+                if ($level === 2) {
+                    $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
+                
+                    $html .= '<tr style="font-weight:bold;">';
+                    $html .= '<td></td>';
+                    $html .= '<td style="color:green; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' Subtotal</td>';
+                    $html .= '<td></td><td></td><td></td><td></td>';
+                    $html .= '<td><span style="color:green;">' . number_format($totals['dr'], 2) . '</span></td>';
+                    $html .= '<td><span style="color:green;">' . number_format($totals['cr'], 2) . '</span></td>';
+                    $html .= '<td><span style="color:green;">' . number_format($totals['dr'] - $totals['cr'], 2) . '</span></td>';
+                    $html .= '</tr>';
+                }
+                
+                // ✅ Level 1 Subtotal (e.g., Current Assets, Fixed Assets)
+                if ($level === 1) {
+                    $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
         
-                        $html .= '<tr style="background-color:#eef; font-weight:bold;">';
-                        $html .= '<td></td>';
-                        $html .= '<td style="padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' Subtotal</td>';
-                        $html .= '<td></td><td></td><td></td><td></td>';
-                        $html .= '<td>' . number_format($totals['dr'], 2) . '</td>';
-                        $html .= '<td>' . number_format($totals['cr'], 2) . '</td>';
-                        $html .= '<td>' . number_format($totals['dr'] - $totals['cr'], 2) . '</td>';
-                        $html .= '</tr>';
-                    }
+                    $html .= '<tr style="font-weight:bold;">';
+                    $html .= '<td></td>';
+                    $html .= '<td style="color:orange; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' Subtotal</td>';
+                    $html .= '<td></td><td></td><td></td><td></td>';
+                    $html .= '<td><span style="color:orange;">' . number_format($totals['dr'], 2) . '</span></td>';
+                    $html .= '<td><span style="color:orange;">' . number_format($totals['cr'], 2) . '</span></td>';
+                    $html .= '<td><span style="color:orange;">' . number_format($totals['dr'] - $totals['cr'], 2) . '</span></td>';
+                    $html .= '</tr>';
                 }
             }
         
             $html .= '</tbody>';
             return $html;
         }
+        
+        
         
         
         
