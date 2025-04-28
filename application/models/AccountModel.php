@@ -2002,19 +2002,7 @@
                 $serial_number = $this->generate_serial_number($level, $sr_number, $first_level_sr, $second_level_sr, $third_level_sr, $fourth_level_sr, $fifth_level_sr, isset($row['children']) && count($row['children']) > 0);
         
                 // ✅ Only print HTML rows if level is 0, 1, or 2
-                if ($level <= 2) {
-                    $html .= '<tr>';
-                    $html .= "<td>{$serial_number}</td>";
-                    $html .= "<td>{$padding}{$title}</td>";
-                    $html .= "<td>" . number_format($opening_balance_cr, 2) . "</td>";
-                    $html .= "<td>" . number_format($opening_balance_dr, 2) . "</td>";
-                    $html .= "<td>" . number_format($movement_cr, 2) . "</td>";
-                    $html .= "<td>" . number_format($movement_dr, 2) . "</td>";
-                    $html .= "<td>" . number_format($closing_dr, 2) . "</td>";
-                    $html .= "<td>" . number_format($closing_cr, 2) . "</td>";
-                    $html .= '</tr>';
-                }
-        
+          
                 // Children check
                 $has_children = isset($row['children']) && is_array($row['children']) && count($row['children']) > 0;
         
@@ -2038,9 +2026,9 @@
                     $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2', '4']);
         
                     $html .= '<tr style="font-weight:bold;">';
-                    $html .= '<td></td>';
-                    $html .= '<td style="color:green; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' Subtotal</td>';
-                    $html .= '<td></td><td></td><td></td><td></td>';
+                    $html .= "<td>{$serial_number}</td>";
+                    $html .= '<td style="color:green; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' </td>';
+                  
                     $html .= '<td><span style="color:green;">' . number_format($totals['dr'], 2) . '</span></td>';
                     $html .= '<td><span style="color:green;">' . number_format($totals['cr'], 2) . '</span></td>';
                     $html .= '<td><span style="color:green;">' .
@@ -2056,8 +2044,8 @@
         
                     $html .= '<tr style="font-weight:bold;">';
                     $html .= '<td></td>';
-                    $html .= '<td style="color:orange; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' Subtotal</td>';
-                    $html .= '<td></td><td></td><td></td><td></td>';
+                    $html .= '<td style="color:orange; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' </td>';
+
                     $html .= '<td><span style="color:orange;">' . number_format($totals['dr'], 2) . '</span></td>';
                     $html .= '<td><span style="color:orange;">' . number_format($totals['cr'], 2) . '</span></td>';
                     $html .= '<td><span style="color:orange;">' .

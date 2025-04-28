@@ -56,22 +56,16 @@
            <tr>
                 <th rowspan="2" style="text-align: left;">Code</th>
                 <th rowspan="2" style="text-align: left;">Account Heads</th>
-                <th colspan="2" style="text-align: center;">Opening</th>
-                <th colspan="2" style="text-align: center;">Movement</th>
                 <th colspan="2" style="text-align: center;">Closing</th>
                 <th colspan="2" style="text-align: center;">Net Closing</th>
             </tr>
             <tr>
-                <th> DR</th>
-                <th> CR</th>
-                <th> DR</th>
-                <th> CR</th>
+
                 <th> DR</th>
                 <th> CR</th>
             </tr>
             </thead>
                     <?php echo $account_heads_pro ?>
-                    <?php echo $balance_sheet_sum_footer_new ?>
 
                 </table>
 
