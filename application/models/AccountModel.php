@@ -1973,6 +1973,13 @@
             static $current_assets_totals = null;
             static $non_current_assets_totals = null; // Use null to detect if already set
             static $printed_total_assets = false; // Flag to print Total Assets only once
+            // Track liabilities subtotals for Total Liabilities row
+            static $current_liabilities_totals = null;
+            static $accounts_payable_totals = null;
+            static $long_term_debt_totals = null;
+            static $other_long_term_liabilities_totals = null;
+            static $muhammad_hussain_sadpara_totals = null;
+            static $printed_total_liabilities = false; // Flag to print Total Liabilities only once
 
             foreach ($data as $row) {
                 $acc_head_id = $row['id'];
@@ -2067,6 +2074,23 @@
                         $non_current_assets_totals = $totals;
                     }
 
+                    // Track liabilities subtotals for Total Liabilities row (set only once)
+                    if (stripos($row['title'], 'Current Liabilities') !== false && $current_liabilities_totals === null) {
+                        $current_liabilities_totals = $totals;
+                    }
+                    if (stripos($row['title'], 'Accounts Payable') !== false && $accounts_payable_totals === null) {
+                        $accounts_payable_totals = $totals;
+                    }
+                    if (stripos($row['title'], 'Long Term Debt') !== false && $long_term_debt_totals === null) {
+                        $long_term_debt_totals = $totals;
+                    }
+                    if (stripos($row['title'], 'Other Long Term Liabilities') !== false && $other_long_term_liabilities_totals === null) {
+                        $other_long_term_liabilities_totals = $totals;
+                    }
+                    if (stripos($row['title'], 'Muhammad Hussain Sadpara') !== false && $muhammad_hussain_sadpara_totals === null) {
+                        $muhammad_hussain_sadpara_totals = $totals;
+                    }
+
                     // Print Total Assets row only after both subtotals are set and not yet printed
                     if (!$printed_total_assets && $current_assets_totals !== null && $non_current_assets_totals !== null) {
                         $total_assets_dr = $current_assets_totals['dr'] + $non_current_assets_totals['dr'];
@@ -2082,8 +2106,29 @@
                         $html .= '</tr>';
                         $printed_total_assets = true;
                     }
-                    
-                    
+
+                    // Print Total Liabilities row only after all 5 subtotals are set and not yet printed
+                    if (
+                        !$printed_total_liabilities &&
+                        $current_liabilities_totals !== null &&
+                        $accounts_payable_totals !== null &&
+                        $long_term_debt_totals !== null &&
+                        $other_long_term_liabilities_totals !== null &&
+                        $muhammad_hussain_sadpara_totals !== null
+                    ) {
+                        $total_liabilities_dr = $current_liabilities_totals['dr'] + $accounts_payable_totals['dr'] + $long_term_debt_totals['dr'] + $other_long_term_liabilities_totals['dr'] + $muhammad_hussain_sadpara_totals['dr'];
+                        $total_liabilities_cr = $current_liabilities_totals['cr'] + $accounts_payable_totals['cr'] + $long_term_debt_totals['cr'] + $other_long_term_liabilities_totals['cr'] + $muhammad_hussain_sadpara_totals['cr'];
+                        $net_total_liabilities = $total_liabilities_cr - $total_liabilities_dr;
+
+                        $html .= '<tr style="font-weight:bold; background-color:#f0f0f0;">';
+                        $html .= '<td>🔷</td>';
+                        $html .= '<td style="color:blue; padding-left:' . ($level + 1) * 20 . 'px;">Total Liabilities</td>';
+                        $html .= '<td><span style="color:blue;">' . number_format($total_liabilities_dr, 2) . '</span></td>';
+                        $html .= '<td><span style="color:blue;">' . number_format($total_liabilities_cr, 2) . '</span></td>';
+                        $html .= '<td><span style="color:blue;">' . number_format($net_total_liabilities, 2) . '</span></td>';
+                        $html .= '</tr>';
+                        $printed_total_liabilities = true;
+                    }
                 }
             }
             $html .= '</tbody>';
