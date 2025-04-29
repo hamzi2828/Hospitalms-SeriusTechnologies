@@ -1965,31 +1965,35 @@
         public function build_chart_of_accounts_table_for_Balance_summary_pro($data, $level = 0, $hide_actions = false, &$first_level_sr = 0, &$second_level_sr = '', &$third_level_sr = '', &$fourth_level_sr = '', &$fifth_level_sr = '') {
             $html = '<tbody>';
             $sr_number = 0;
-        
-            $start_date = isset($_GET['start_date']) && !empty(trim($_GET['start_date'])) 
-                ? date('Y-m-d', strtotime($_GET['start_date'])) 
+            $start_date = isset($_GET['start_date']) && !empty(trim($_GET['start_date']))
+                ? date('Y-m-d', strtotime($_GET['start_date']))
                 : null;
-        
+
+            // Track assets subtotals for Total Assets row
+            static $current_assets_totals = null;
+            static $non_current_assets_totals = null; // Use null to detect if already set
+            static $printed_total_assets = false; // Flag to print Total Assets only once
+
             foreach ($data as $row) {
                 $acc_head_id = $row['id'];
                 $padding = str_repeat('&nbsp;', $level * 6);
-                $title = isset($row['children']) && count($row['children']) > 0 
-                    ? '<strong>' . $row['title'] . '</strong>' 
+                $title = isset($row['children']) && count($row['children']) > 0
+                    ? '<strong>' . $row['title'] . '</strong>'
                     : $row['title'];
-        
+
                 // Opening balances
                 $opening_balance_dr = $start_date ? $this->get_opening_balance_previous_than_searched_start_date_debit($start_date, $acc_head_id) : 0;
                 $opening_balance_cr = $start_date ? $this->get_opening_balance_previous_than_searched_start_date_credit($start_date, $acc_head_id) : 0;
-        
+
                 // Transactions
-                $transaction = calculate_acc_head_transaction($acc_head_id);
-                $movement_cr = $transaction->credit ?? 0;
-                $movement_dr = $transaction->debit ?? 0;
-        
+                $transaction = function_exists('calculate_acc_head_transaction') ? calculate_acc_head_transaction($acc_head_id) : null;
+                $movement_cr = $transaction && isset($transaction->credit) ? $transaction->credit : 0;
+                $movement_dr = $transaction && isset($transaction->debit) ? $transaction->debit : 0;
+
                 // Closing balances
                 $closing_cr = max(0, $opening_balance_dr + $movement_dr - $opening_balance_cr - $movement_cr);
                 $closing_dr = max(0, $opening_balance_cr + $movement_cr - $opening_balance_dr - $movement_dr);
-        
+
                 // Update global totals
                 $this->total_opening_balance_dr += $opening_balance_dr;
                 $this->total_opening_balance_cr += $opening_balance_cr;
@@ -1997,17 +2001,22 @@
                 $this->total_movement_dr += $movement_dr;
                 $this->total_closing_dr += $closing_dr;
                 $this->total_closing_cr += $closing_cr;
-        
+
                 // Serial number
                 $serial_number = $this->generate_serial_number($level, $sr_number, $first_level_sr, $second_level_sr, $third_level_sr, $fourth_level_sr, $fifth_level_sr, isset($row['children']) && count($row['children']) > 0);
-        
-                // ✅ Only print HTML rows if level is 0, 1, or 2
-          
+
+                // Always print 5 columns for summary table
+                if ($level <= 1) {
+                    $html .= '<tr>';
+                    $html .= "<td>{$serial_number}</td>";
+                    $html .= "<td>{$padding}{$title}</td>";
+                    $html .= '<td></td><td></td><td></td>';
+                    $html .= '</tr>';
+                }
+
                 // Children check
                 $has_children = isset($row['children']) && is_array($row['children']) && count($row['children']) > 0;
-        
                 if ($has_children) {
-                    // Recursively build children rows (even if not displaying)
                     $html .= $this->build_chart_of_accounts_table_for_Balance_summary_pro(
                         $row['children'],
                         $level + 1,
@@ -2019,16 +2028,14 @@
                         $fifth_level_sr
                     );
                 }
-        
-                // ✅ Level 2 Subtotal
+
+                // Level 2 Subtotal
                 if ($level === 2) {
                     $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
                     $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2', '4']);
-        
                     $html .= '<tr style="font-weight:bold;">';
                     $html .= "<td>{$serial_number}</td>";
                     $html .= '<td style="color:green; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' </td>';
-                  
                     $html .= '<td><span style="color:green;">' . number_format($totals['dr'], 2) . '</span></td>';
                     $html .= '<td><span style="color:green;">' . number_format($totals['cr'], 2) . '</span></td>';
                     $html .= '<td><span style="color:green;">' .
@@ -2036,25 +2043,49 @@
                     '</span></td>';
                     $html .= '</tr>';
                 }
-        
-                // ✅ Level 1 Subtotal
+
+                // Level 1 Subtotal
                 if ($level === 1) {
                     $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
                     $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2', '4']);
-        
                     $html .= '<tr style="font-weight:bold;">';
                     $html .= '<td></td>';
                     $html .= '<td style="color:orange; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' </td>';
-
                     $html .= '<td><span style="color:orange;">' . number_format($totals['dr'], 2) . '</span></td>';
                     $html .= '<td><span style="color:orange;">' . number_format($totals['cr'], 2) . '</span></td>';
                     $html .= '<td><span style="color:orange;">' .
                         number_format($is_cr_based ? $totals['cr'] - $totals['dr'] : $totals['dr'] - $totals['cr'], 2) .
                     '</span></td>';
                     $html .= '</tr>';
+
+                    // Track asset subtotals for Total Assets row
+                    // Set subtotals only once for each section
+                    if (stripos($row['title'], 'Current Assets') !== false && $current_assets_totals === null) {
+                        $current_assets_totals = $totals;
+                    }
+                    if (stripos($row['title'], 'Non Current Assets') !== false && $non_current_assets_totals === null) {
+                        $non_current_assets_totals = $totals;
+                    }
+
+                    // Print Total Assets row only after both subtotals are set and not yet printed
+                    if (!$printed_total_assets && $current_assets_totals !== null && $non_current_assets_totals !== null) {
+                        $total_assets_dr = $current_assets_totals['dr'] + $non_current_assets_totals['dr'];
+                        $total_assets_cr = $current_assets_totals['cr'] + $non_current_assets_totals['cr'];
+                        $net_total_assets = $total_assets_dr - $total_assets_cr;
+
+                        $html .= '<tr style="font-weight:bold; background-color:#f0f0f0;">';
+                        $html .= '<td>🔷</td>';
+                        $html .= '<td style="color:blue;">Total Assets</td>';
+                        $html .= '<td><span style="color:blue;">' . number_format($total_assets_dr, 2) . '</span></td>';
+                        $html .= '<td><span style="color:blue;">' . number_format($total_assets_cr, 2) . '</span></td>';
+                        $html .= '<td><span style="color:blue;">' . number_format($net_total_assets, 2) . '</span></td>';
+                        $html .= '</tr>';
+                        $printed_total_assets = true;
+                    }
+                    
+                    
                 }
             }
-        
             $html .= '</tbody>';
             return $html;
         }
