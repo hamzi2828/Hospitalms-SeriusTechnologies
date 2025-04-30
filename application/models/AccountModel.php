@@ -2132,6 +2132,10 @@
             static $Finance_Cost = 0;
             static $Tax = 0;
             static $Accumulated_Depreciation = 0;  
+            
+            // New static variable to store net profit
+            static $net_profit = 0;
+            static $net_profit_calculated = false;
         
             $total_income = 0;
             $total_expenditure = 0;
@@ -2286,18 +2290,13 @@
                     if (stripos($row['title'], 'Accumulated Depreciation (On Asset Dispose)') !== false && !$printed_expenditure_total) {
                         $total_expenditure = $General_Expanses + $Fee_Discounts_Client_Returns + $Direct_Costs + $Finance_Cost + $Tax + $Accumulated_Depreciation;
                         $printed_expenditure_total = true;
-                    }
-        
-                    // Display Net Profit directly after processing all income and expenditure
-                    if (stripos($row['title'], 'Accumulated Depreciation (On Asset Dispose)') !== false) {
-                        $total_income = $sales_net_total + $income_other_activities_net_total + $other_income_net_total;
-                        $net_profit = $total_income - $total_expenditure;
-                        $html .= '<tr style="font-weight:bold; background-color:#f9f9f9;">';
-                        $html .= '<td>💰</td>';
-                        $html .= '<td style="color:#0d6efd;">Net Profit</td>';
-                        $html .= '<td></td><td></td>';
-                        $html .= '<td><span style="color:#0d6efd;">' . number_format($net_profit, 2) . '</span></td>';
-                        $html .= '</tr>';
+                        
+                        // Calculate Net Profit but don't display it yet
+                        if (!$net_profit_calculated) {
+                            $total_income = $sales_net_total + $income_other_activities_net_total + $other_income_net_total;
+                            $net_profit = $total_income - $total_expenditure;
+                            $net_profit_calculated = true;
+                        }
                     }
         
                     if (!$printed_total_assets && $current_assets_totals !== null && $non_current_assets_totals !== null) {
@@ -2327,6 +2326,16 @@
                         $printed_total_liabilities = true;
                     }
                 }
+            }
+        
+            // Only add Net Profit row at the very end of the table when level is 0 (root level)
+            if ($level === 0 && $net_profit_calculated) {
+                $html .= '<tr style="font-weight:bold; background-color:#f9f9f9;">';
+                $html .= '<td>💰</td>';
+                $html .= '<td style="color:#0d6efd;">Net Profit</td>';
+                $html .= '<td></td><td></td>';
+                $html .= '<td><span style="color:#0d6efd;">' . number_format($net_profit, 2) . '</span></td>';
+                $html .= '</tr>';
             }
         
             $html .= '</tbody>';
