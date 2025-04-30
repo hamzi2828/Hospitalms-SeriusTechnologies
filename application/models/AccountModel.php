@@ -1876,89 +1876,7 @@
         }
         
 
-        
-        // function build_chart_of_accounts_table_for_Trial_Balance($data, $level = 0) {
-        //     $html = '<tbody>';
-        //     $start_date = (isset($_GET['start_date']) && !empty(trim($_GET['start_date'])))
-        //         ? date('Y-m-d', strtotime($_GET['start_date']))
-        //         : null;
 
-
-        //     foreach ($data as $row) {
-        //         $acc_head_id = $row['id'];
-        //         $padding = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $level);
-        //         $title = isset($row['children']) && count($row['children']) > 0
-        //             ? '<strong>' . $row['title'] . '</strong>'
-        //             : $row['title'];
-
-        //         // Get opening balances
-        //         $opening_balance_dr = 0;
-        //         $opening_balance_cr = 0;
-        //         if (!empty($start_date)) {
-        //             $opening_balance_dr = $this->get_opening_balance_previous_than_searched_start_date_debit($start_date, $acc_head_id);
-        //             $opening_balance_cr = $this->get_opening_balance_previous_than_searched_start_date_credit($start_date, $acc_head_id);
-        //         }
-
-
-
-        //         // Calculate transactions
-        //         $transaction = calculate_acc_head_transaction($acc_head_id);
-        //         $movement_cr = 0;
-        //         $movement_dr = 0;
-        //         if (!empty($transaction)) {
-        //             $movement_cr = $transaction->credit;
-        //             $movement_dr = $transaction->debit;
-        //         }
-
-        //         // Calculate closing balances
-        //         $closing_cr = $opening_balance_dr + $movement_dr - $opening_balance_cr - $movement_cr;
-        //         $closing_dr = $opening_balance_cr + $movement_cr - $opening_balance_dr - $movement_dr;
-        //         $closing_dr = $closing_dr < 0 ? 0 : $closing_dr;
-        //         $closing_cr = $closing_cr < 0 ? 0 : $closing_cr;
-
-        //         // Update totals
-        //         $this -> total_opening_balance_dr += $opening_balance_dr;
-        //         $this -> total_opening_balance_cr += $opening_balance_cr;
-        //         $this -> total_movement_cr += $movement_cr;
-        //         $this -> total_movement_dr += $movement_dr;
-        //         $this -> total_closing_dr += $closing_dr;
-        //         $this -> total_closing_cr += $closing_cr;
-
-        //         // Add row to the table
-        //         if ( isset( $row[ 'children' ] ) && count ( $row[ 'children' ] ) > 0 ) {
-
-        //             $html .= "<tr>";
-        //             $html .= "<td>{$padding}{$title}</td>";
-        //             $html .= "<td></td>";
-        //             $html .= "<td></td>";
-        //             $html .= "<td></td>";
-        //             $html .= "<td></td>";
-        //             $html .= "<td></td>";
-        //             $html .= "<td></td>";
-        //             $html .= "</tr>";
-
-        //         }else{
-        //         $html .= "<tr>";
-        //         $html .= "<td>{$padding}{$title}</td>";
-        //         $html .= "<td>" . number_format($opening_balance_cr, 2) . "</td>";
-        //         $html .= "<td>" . number_format($opening_balance_dr, 2) . "</td>";
-        //         $html .= "<td>" . number_format($movement_cr, 2) . "</td>";
-        //         $html .= "<td>" . number_format($movement_dr, 2) . "</td>";
-        //         $html .= "<td>" . number_format($closing_dr, 2) . "</td>";
-        //         $html .= "<td>" . number_format($closing_cr, 2) . "</td>";
-        //         $html .= "</tr>";
-        //         }
-        //         // Recursively add rows for children
-        //         if (isset($row['children']) && is_array($row['children'])) {
-        //             $html .= $this->build_chart_of_accounts_table_for_Trial_Balance($row['children'], $level + 1);
-        //         }
-        //     }
-
-        //     $html .= '</tbody>';
-
-
-        //     return $html;
-        // }
 
         public function build_chart_of_accounts_table_for_Balance_summary_pro($data, $level = 0, $hide_actions = false, &$first_level_sr = 0, &$second_level_sr = '', &$third_level_sr = '', &$fourth_level_sr = '', &$fifth_level_sr = '') {
             $html = '<tbody>';
@@ -1978,16 +1896,20 @@
             static $muhammad_hussain_sadpara_totals = null;
             static $printed_total_liabilities = false;
         
-            static $General_Expanses = 0;
-            static $Fee_Discounts_Client_Returns = 0;
-            static $Direct_Costs = 0;
-            static $Finance_Cost = 0;
-
 
             static $sales_net_total = 0;
             static $income_other_activities_net_total = 0;
             static $other_income_net_total = 0;
             static $printed_income_total = false;
+
+            static $General_Expanses = 0;
+            static $Fee_Discounts_Client_Returns = 0;
+            static $Direct_Costs = 0;
+            static $Finance_Cost = 0;
+            static $Tax = 0;
+
+            $total_income = 0;
+            $total_expenditure = 0;
         
             foreach ($data as $row) {
                 $acc_head_id = $row['id'];
@@ -2106,7 +2028,10 @@
                     if (stripos($row['title'], 'Finance Cost') !== false) {
                         $Finance_Cost += $net;
                     }
-                    if (!$printed_income_total && stripos($row['title'], 'Other Income') !== false) {
+                    if (stripos($row['title'], 'Tax') !== false) {
+                        $Tax += $net;
+                    }
+                    if (stripos($row['title'], 'Other Income') !== false) {
                         $total_income = $sales_net_total + $income_other_activities_net_total + $other_income_net_total;
                         $html .= '<tr style="font-weight:bold; background-color:#f0f0f0;">';
                         $html .= '<td>💰</td>';
@@ -2114,17 +2039,28 @@
                         $html .= '<td></td><td></td>';
                         $html .= '<td><span style="color:#0d6efd;">' . number_format($total_income, 2) . '</span></td>';
                         $html .= '</tr>';
-                        $printed_income_total = true;
                     }
-                    
+
                     // Total Expenditure (Net) row
-                    if (stripos($row['title'], 'Finance Cost') !== false) {
-                        $total_expenditure = $General_Expanses + $Fee_Discounts_Client_Returns + $Direct_Costs + $Finance_Cost;
+                    if (stripos($row['title'], 'Tax') !== false) {
+                        $total_expenditure = $General_Expanses + $Fee_Discounts_Client_Returns + $Direct_Costs + $Finance_Cost + $Tax;
                         $html .= '<tr style="font-weight:bold; background-color:#f9f9f9;">';
                         $html .= '<td>💸</td>';
                         $html .= '<td style="color:#dc3545;">Total Expenditure (Net)</td>';
                         $html .= '<td></td><td></td>';
                         $html .= '<td><span style="color:#dc3545;">' . number_format($total_expenditure, 2) . '</span></td>';
+                        $html .= '</tr>';
+                    }
+
+
+                    if (stripos($row['title'], 'Accumulated Depreciation (On Asset Dispose)') !== false) {
+                        $total_income = $sales_net_total + $income_other_activities_net_total + $other_income_net_total;
+                        $net_profit = $total_income - $total_expenditure;
+                        $html .= '<tr style="font-weight:bold; background-color:#f9f9f9;">';
+                        $html .= '<td>💸</td>';
+                        $html .= '<td style="color:#dc3545;">Net Profit</td>';
+                        $html .= '<td></td><td></td>';
+                        $html .= '<td><span style="color:#dc3545;">' . number_format($net_profit, 2) . '</span></td>';
                         $html .= '</tr>';
                     }
 
