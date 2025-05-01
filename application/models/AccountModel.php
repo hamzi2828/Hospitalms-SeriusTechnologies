@@ -1962,7 +1962,7 @@
         
                 if ($level === 2) {
                     $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
-                    $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2', '4']);
+                    $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2','3', '4']);
                     $html .= '<tr style="font-weight:bold;">';
                     $html .= "<td>{$serial_number}</td>";
                     $html .= '<td style="color:green; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' </td>';
@@ -2200,7 +2200,7 @@
         
                 if ($level === 2 && !$should_skip_rendering) {
                     $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
-                    $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2', '4']);
+                    $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2','3', '4']);
                     $html .= '<tr style="font-weight:bold;">';
                     $html .= "<td>{$serial_number}</td>";
                     $html .= '<td style="color:green; padding-left:' . ($level + 1) * 20 . 'px;">' . $row['title'] . ' </td>';
@@ -2212,7 +2212,7 @@
         
                 if ($level === 1) {
                     $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
-                    $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2', '4']);
+                    $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2','3', '4']);
                     $net = $is_cr_based ? $totals['cr'] - $totals['dr'] : $totals['dr'] - $totals['cr'];
         
                     // Only render level 1 rows if they're not Income or Sales
@@ -2414,7 +2414,7 @@
             // ✅ Level 2 Subtotal (e.g., Banks, Cash Balances)
             if ($level === 2) {
                 $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
-                $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2', '4']);
+                $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2','3', '4']);
 
                 $html .= '<tr style="font-weight:bold;">';
                 $html .= '<td></td>';
@@ -2431,7 +2431,7 @@
             // ✅ Level 1 Subtotal (e.g., Current Assets, Fixed Assets)
             if ($level === 1) {
                 $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
-                $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2', '4']);
+                $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2','3', '4']);
 
                 $html .= '<tr style="font-weight:bold;">';
                 $html .= '<td></td>';
