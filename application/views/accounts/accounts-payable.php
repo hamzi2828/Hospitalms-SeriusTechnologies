@@ -55,7 +55,10 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td colspan="3"></td>
+                        <td colspan="2"></td>
+                        <td>
+                            <strong><?php echo number_format ( $payable[ 'netOpeningBalance' ], 2 ) ?></strong>
+                        </td>
                         <td>
                             <strong><?php echo number_format ( $payable[ 'netCredit' ], 2 ) ?></strong>
                         </td>
@@ -63,7 +66,7 @@
                             <strong><?php echo number_format ( $payable[ 'netDebit' ], 2 ) ?></strong>
                         </td>
                         <td>
-                            <!-- <strong><?php echo number_format ( ( $payable[ 'netDebit' ] - $payable[ 'netCredit' ] ), 2 ) ?></strong> -->
+                            <!-- Running balance total, if needed -->
                         </td>
                     </tr>
                     </tfoot>
