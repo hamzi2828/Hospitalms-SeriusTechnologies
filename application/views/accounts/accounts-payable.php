@@ -66,7 +66,7 @@
                             <strong><?php echo number_format ( $payable[ 'netDebit' ], 2 ) ?></strong>
                         </td>
                         <td>
-                            <!-- Running balance total, if needed -->
+                            <strong><?php echo number_format($payable['netRunningBalance'], 2); ?></strong>
                         </td>
                     </tr>
                     </tfoot>
