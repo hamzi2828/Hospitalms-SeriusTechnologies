@@ -160,6 +160,13 @@
                             </a>
                     </li>
 
+                    
+                    <li class="<?php if ($child_uri == 'balance_sheet_summary_pro_2') echo 'active'; ?>">
+                            <a href="<?php echo base_url('/accounts/balance_sheet_summary_pro_2'); ?>">
+                                Balance Sheet Summary (Pro) 2
+                            </a>
+                    </li>
+
 
             <?php if ( !empty( $access ) and in_array ( 'balance_sheet', explode ( ',', $access -> access ) ) ) : ?>
                 <li class="<?php if ( $child_uri == 'balance-sheet' )
