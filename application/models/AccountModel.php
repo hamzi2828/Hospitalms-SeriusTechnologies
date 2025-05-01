@@ -1974,7 +1974,7 @@
         
                 if ($level === 1) {
                     $totals = $this->get_nested_closing_totals($has_children ? $row['children'] : [$row], $start_date);
-                    $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2', '4']);
+                    $is_cr_based = isset($first_level_sr) && in_array((string)$first_level_sr, ['2','3', '4']);
                     $net = $is_cr_based ? $totals['cr'] - $totals['dr'] : $totals['dr'] - $totals['cr'];
         
                     $html .= '<tr style="font-weight:bold;">';
