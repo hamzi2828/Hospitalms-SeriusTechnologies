@@ -2155,6 +2155,9 @@
             
             // New static variable to store net profit
             static $net_profit = 0;
+            static $net_total_liabilities = 0;
+            
+
             static $net_profit_calculated = false;
         
             $total_income = 0;
@@ -2372,6 +2375,16 @@
                 $html .= '<td><span style="color:#198754;">' . number_format($net_profit, 2) . '</span></td>';
                 $html .= '<td><span style="color:#198754;">' . number_format($capital_total, 2) . '</span></td>';
                 $html .= '<td><span style="color:#198754;">' . number_format($total_capital, 2) . '</span></td>';
+                $html .= '</tr>';
+
+                static $total_assets = 0;
+                $total_assets = $net_total_liabilities + $total_capital;
+                $html .= '<tr style="font-weight:bold; background-color:#e3f7e3;">';
+                $html .= '<td>🏦</td>';
+                $html .= '<td style="color:#198754;">Total Assets = Total Liabilities + Capital</td>';
+                $html .= '<td><span style="color:#198754;">' . number_format($net_total_liabilities, 2) . '</span></td>';
+                $html .= '<td><span style="color:#198754;">' . number_format($total_capital, 2) . '</span></td>';
+                $html .= '<td><span style="color:#198754;">' . number_format($total_assets, 2) . '</span></td>';
                 $html .= '</tr>';
             }
         
