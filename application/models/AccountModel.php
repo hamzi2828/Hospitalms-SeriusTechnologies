@@ -1879,7 +1879,7 @@
 
         public function profit_loss_statement_2($data, $level = 0, $hide_actions = false, &$first_level_sr = 0, &$second_level_sr = '', &$third_level_sr = '', &$fourth_level_sr = '', &$fifth_level_sr = '') {
             $html = '<tbody>';
-            $sr_number = 0;
+            $sr_number = 2;
             $start_date = isset($_GET['start_date']) && !empty(trim($_GET['start_date']))
                 ? date('Y-m-d', strtotime($_GET['start_date']))
                 : null;
@@ -1912,6 +1912,11 @@
             $total_expenditure = 0;
         
             foreach ($data as $row) {
+
+                if ($level === 0 && $first_level_sr < 2) {
+                    $first_level_sr++;
+                    continue;
+                }
                 $acc_head_id = $row['id'];
                 $padding = str_repeat('&nbsp;', $level * 6);
                 $title = isset($row['children']) && count($row['children']) > 0

@@ -168,7 +168,14 @@
                     </li>
 
 
-            <?php if ( !empty( $access ) and in_array ( 'balance_sheet', explode ( ',', $access -> access ) ) ) : ?>
+                    <li class="<?php if ($child_uri == 'profit_loss_statement_2') echo 'active'; ?>">
+                            <a href="<?php echo base_url('/accounts/profit_loss_statement_2'); ?>">
+                                Profit & Loss  
+                            </a>
+                    </li>
+
+
+            <!-- <?php if ( !empty( $access ) and in_array ( 'balance_sheet', explode ( ',', $access -> access ) ) ) : ?>
                 <li class="<?php if ( $child_uri == 'balance-sheet' )
                     echo 'active'; ?>">
                     <a href="<?php echo base_url ( '/accounts/balance-sheet' ) ?>">
@@ -183,7 +190,7 @@
                         Balance Sheet (II)
                     </a>
                 </li>
-            <?php endif; ?>
+            <?php endif; ?> 
             <?php if ( !empty( $access ) and in_array ( 'profit_loss_statement', explode ( ',', $access -> access ) ) ) : ?>
                 <li class="<?php if ( $child_uri == 'profit-loss-statement' )
                     echo 'active'; ?>">
@@ -191,7 +198,7 @@
                         Profit and Loss Statement
                     </a>
                 </li>
-            <?php endif; ?>
+            <?php endif; ?>-->
             <?php if ( !empty( $access ) and in_array ( 'accounts-receivable-report', explode ( ',', $access -> access ) ) ) : ?>
                 <li class="<?php if ( $child_uri == 'accounts-receivable' )
                     echo 'active'; ?>">

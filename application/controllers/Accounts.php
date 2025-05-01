@@ -1612,6 +1612,7 @@
 
         public function trial_balance_pro () {
             $title = site_name . ' - Trial Balance Sheet (Detail)';
+            $data[ 'title' ] = 'Trail Balance Sheet Summary Pro';
             $this -> header ( $title );
             $this -> sidebar ();
             $account_heads           = $this -> AccountModel -> get_chart_of_accounts ();
@@ -1625,6 +1626,7 @@
 
         public function balance_sheet_summary_pro () {
             $title = site_name . ' - Trial Balance Sheet (Detail)';
+            $data[ 'title' ] = 'Balance Sheet Summary Pro';
             $this -> header ( $title );
             $this -> sidebar ();
             $account_heads           = $this -> AccountModel -> get_chart_of_accounts ();
@@ -1639,13 +1641,14 @@
 
 
         
-        public function balance_sheet_summary_pro_2 () {
-            $title = site_name . ' - Trial Balance Sheet (Detail)';
+        public function profit_loss_statement_2 () {
+            $title = site_name . ' - Profit & Loss Statement ';
+            $data[ 'title' ] = 'Profit & Loss ';
             $this -> header ( $title );
             $this -> sidebar ();
             $account_heads           = $this -> AccountModel -> get_chart_of_accounts ();
             $tree                    = buildTree ( $account_heads );
-            $data[ 'account_heads_pro' ] = $this -> AccountModel -> build_chart_of_accounts_table_for_Balance_summary_pro_2 ( $tree );
+            $data[ 'account_heads_pro' ] = $this -> AccountModel -> profit_loss_statement_2 ( $tree );
             $data[ 'balance_sheet_sum_footer_new' ] = $this -> AccountModel -> trial_balance_sum ();
 
             $this -> load -> view ( '/accounts/balance-sheet-summary-pro', $data );
