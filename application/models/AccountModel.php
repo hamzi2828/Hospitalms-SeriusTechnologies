@@ -1984,6 +1984,12 @@
                     $html .= '<td><span style="color:orange;">' . number_format($totals['cr'], 2) . '</span></td>';
                     $html .= '<td><span style="color:orange;">' . number_format($net, 2) . '</span></td>';
                     $html .= '</tr>';
+
+                    // Track Capital from Equity/Capital row for Total Capital calculation
+                    if (stripos($row['title'], 'Capital') !== false && $level === 1) {
+                        static $capital_total = 0;
+                        $capital_total += $net;
+                    }
         
                     if (stripos($row['title'], 'Current Assets') !== false && $current_assets_totals === null) {
                         $current_assets_totals = $totals;
@@ -2065,6 +2071,20 @@
                         $html .= '<td style="color:#dc3545;">Profit (From P&L)</td>';
                         $html .= '<td></td><td></td>';
                         $html .= '<td><span style="color:#dc3545;">' . number_format($net_profit, 2) . '</span></td>';
+                        $html .= '</tr>';
+
+                        // Add Total Capital row below Profit (From P&L)
+                        // --- Begin: Track Capital from Equity section ---
+                        static $capital_total = 0;
+                        // Capital is usually tracked from the Equity/Capital row, so accumulate it:
+                        // This block should be placed where you process the Capital row (see below for placement)
+                        // --- End: Track Capital ---
+                        $total_capital = $net_profit + $capital_total;
+                        $html .= '<tr style="font-weight:bold; background-color:#e3f7e3;">';
+                        $html .= '<td>🏦</td>';
+                        $html .= '<td style="color:#198754;">Total Capital = Profit (From P&amp;L) + Capital</td>';
+                        $html .= '<td></td><td></td>';
+                        $html .= '<td><span style="color:#198754;">' . number_format($total_capital, 2) . '</span></td>';
                         $html .= '</tr>';
                     }
 
@@ -2224,6 +2244,12 @@
                         $html .= '<td><span style="color:orange;">' . number_format($totals['cr'], 2) . '</span></td>';
                         $html .= '<td><span style="color:orange;">' . number_format($net, 2) . '</span></td>';
                         $html .= '</tr>';
+
+                        // Track Capital from Equity/Capital row for Total Capital calculation
+                        if (stripos($row['title'], 'Capital') !== false && $level === 1) {
+                            static $capital_total = 0;
+                            $capital_total += $net;
+                        }
                     }
         
                     // Still process all calculations regardless of display status
@@ -2335,6 +2361,17 @@
                 $html .= '<td style="color:#0d6efd;">Profit (From P&L)</td>';
                 $html .= '<td></td><td></td>';
                 $html .= '<td><span style="color:#0d6efd;">' . number_format($net_profit, 2) . '</span></td>';
+                $html .= '</tr>';
+
+                // Add Total Capital row below Profit (From P&L)
+                static $capital_total = 0;
+                $total_capital = $net_profit + $capital_total;
+                $html .= '<tr style="font-weight:bold; background-color:#e3f7e3;">';
+                $html .= '<td>🏦</td>';
+                $html .= '<td style="color:#198754;">Total Capital = Profit (From P&amp;L) + Capital</td>';
+                $html .= '<td><span style="color:#198754;">' . number_format($net_profit, 2) . '</span></td>';
+                $html .= '<td><span style="color:#198754;">' . number_format($capital_total, 2) . '</span></td>';
+                $html .= '<td><span style="color:#198754;">' . number_format($total_capital, 2) . '</span></td>';
                 $html .= '</tr>';
             }
         
