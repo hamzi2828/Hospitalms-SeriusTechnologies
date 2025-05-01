@@ -2000,7 +2000,7 @@
                     if (stripos($row['title'], 'Long Term Debt') !== false && $long_term_debt_totals === null) {
                         $long_term_debt_totals = $totals;
                     }
-                    if (stripos($row['title'], 'Other Long Term Liabilities') !== false && $other_long_term_liabilities_totals === null) {
+                    if (stripos($row['title'], 'Long Term Liabilities') !== false && $other_long_term_liabilities_totals === null) {
                         $other_long_term_liabilities_totals = $totals;
                     }
                     if (stripos($row['title'], 'Muhammad Hussain Sadpara') !== false && $muhammad_hussain_sadpara_totals === null) {
@@ -2081,7 +2081,7 @@
                         $html .= '</tr>';
                         $printed_total_assets = true;
                     }
-                    if (!$printed_total_liabilities && $current_liabilities_totals && $accounts_payable_totals && $long_term_debt_totals && $other_long_term_liabilities_totals && $muhammad_hussain_sadpara_totals) {
+                    if (!$printed_total_liabilities && $current_liabilities_totals && $accounts_payable_totals && $long_term_debt_totals && $other_long_term_liabilities_totals) {
                         $total_liabilities_dr = $current_liabilities_totals['dr'] + $accounts_payable_totals['dr'] + $long_term_debt_totals['dr'] + $other_long_term_liabilities_totals['dr'] + $muhammad_hussain_sadpara_totals['dr'];
                         $total_liabilities_cr = $current_liabilities_totals['cr'] + $accounts_payable_totals['cr'] + $long_term_debt_totals['cr'] + $other_long_term_liabilities_totals['cr'] + $muhammad_hussain_sadpara_totals['cr'];
                         $net_total_liabilities = $total_liabilities_cr - $total_liabilities_dr;
@@ -2242,7 +2242,7 @@
                     if (stripos($row['title'], 'Long Term Debt') !== false && $long_term_debt_totals === null) {
                         $long_term_debt_totals = $totals;
                     }
-                    if (stripos($row['title'], 'Other Long Term Liabilities') !== false && $other_long_term_liabilities_totals === null) {
+                    if (stripos($row['title'], 'Long Term Liabilities') !== false && $other_long_term_liabilities_totals === null) {
                         $other_long_term_liabilities_totals = $totals;
                     }
                     if (stripos($row['title'], 'Muhammad Hussain Sadpara') !== false && $muhammad_hussain_sadpara_totals === null) {
@@ -2312,7 +2312,7 @@
                         $html .= '</tr>';
                         $printed_total_assets = true;
                     }
-                    if (!$printed_total_liabilities && $current_liabilities_totals && $accounts_payable_totals && $long_term_debt_totals && $other_long_term_liabilities_totals && $muhammad_hussain_sadpara_totals) {
+                    if (!$printed_total_liabilities && $current_liabilities_totals && $accounts_payable_totals && $long_term_debt_totals && $other_long_term_liabilities_totals) {
                         $total_liabilities_dr = $current_liabilities_totals['dr'] + $accounts_payable_totals['dr'] + $long_term_debt_totals['dr'] + $other_long_term_liabilities_totals['dr'] + $muhammad_hussain_sadpara_totals['dr'];
                         $total_liabilities_cr = $current_liabilities_totals['cr'] + $accounts_payable_totals['cr'] + $long_term_debt_totals['cr'] + $other_long_term_liabilities_totals['cr'] + $muhammad_hussain_sadpara_totals['cr'];
                         $net_total_liabilities = $total_liabilities_cr - $total_liabilities_dr;
