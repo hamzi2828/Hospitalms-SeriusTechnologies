@@ -2062,7 +2062,7 @@
                         $net_profit = $total_income - $total_expenditure;
                         $html .= '<tr style="font-weight:bold; background-color:#f9f9f9;">';
                         $html .= '<td>💸</td>';
-                        $html .= '<td style="color:#dc3545;">Net Profit</td>';
+                        $html .= '<td style="color:#dc3545;">Profit (From P&L)</td>';
                         $html .= '<td></td><td></td>';
                         $html .= '<td><span style="color:#dc3545;">' . number_format($net_profit, 2) . '</span></td>';
                         $html .= '</tr>';
@@ -2332,7 +2332,7 @@
             if ($level === 0 && $net_profit_calculated) {
                 $html .= '<tr style="font-weight:bold; background-color:#f9f9f9;">';
                 $html .= '<td>💰</td>';
-                $html .= '<td style="color:#0d6efd;">Net Profit</td>';
+                $html .= '<td style="color:#0d6efd;">Profit (From P&L)</td>';
                 $html .= '<td></td><td></td>';
                 $html .= '<td><span style="color:#0d6efd;">' . number_format($net_profit, 2) . '</span></td>';
                 $html .= '</tr>';
