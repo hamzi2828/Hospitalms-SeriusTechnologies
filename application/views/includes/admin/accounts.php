@@ -148,31 +148,37 @@
                         </li>
                     <?php endif; ?>
 
+                    <?php if (!empty($access) && in_array('trial_balance_sheet_pro', explode(',', $access->access))) : ?>
                     <li class="<?php if ($child_uri == 'trial_balance_pro') echo 'active'; ?>">
                             <a href="<?php echo base_url('/accounts/trial_balance_pro'); ?>">
                                 Trial Balance Sheet (Pro)
                             </a>
                     </li>
+                    <?php endif; ?>
 
+                    <?php if (!empty($access) && in_array('balance_sheet_summary_pro', explode(',', $access->access))) : ?>
                     <li class="<?php if ($child_uri == 'balance_sheet_summary_pro') echo 'active'; ?>">
                             <a href="<?php echo base_url('/accounts/balance_sheet_summary_pro'); ?>">
                                 Balance Sheet (Pro)
                             </a>
                     </li>
+                    <?php endif; ?>
 
-                    
+                    <?php if (!empty($access) && in_array('balance_sheet_pro_2', explode(',', $access->access))) : ?>
                     <li class="<?php if ($child_uri == 'balance_sheet_summary_pro_2') echo 'active'; ?>">
                             <a href="<?php echo base_url('/accounts/balance_sheet_summary_pro_2'); ?>">
                                 Balance Sheet (Pro) 2
                             </a>
                     </li>
+                    <?php endif; ?>
 
-
+                    <?php if (!empty($access) && in_array('profit_loss_statement', explode(',', $access->access))) : ?>
                     <li class="<?php if ($child_uri == 'profit_loss_statement_2') echo 'active'; ?>">
                             <a href="<?php echo base_url('/accounts/profit_loss_statement_2'); ?>">
                                 Profit & Loss  
                             </a>
                     </li>
+                    <?php endif; ?>
 
 
             <!-- <?php if ( !empty( $access ) and in_array ( 'balance_sheet', explode ( ',', $access -> access ) ) ) : ?>

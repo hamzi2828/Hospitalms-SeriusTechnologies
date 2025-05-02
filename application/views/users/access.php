@@ -2329,6 +2329,47 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
+
+        <tr>
+            <td></td>
+            <td> Trial Balance Sheet (Pro)</td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="trial_balance_sheet_pro" <?php if ( !empty( $access ) and in_array ( 'trial_balance_sheet_pro', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td></td>
+            <td> Balance Sheet (Pro)</td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="balance_sheet_pro" <?php if ( !empty( $access ) and in_array ( 'balance_sheet_pro', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td> Balance Sheet (Pro) 2</td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="balance_sheet_pro_2" <?php if ( !empty( $access ) and in_array ( 'balance_sheet_pro_2', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td> Profit & Loss</td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="profit_loss" <?php if ( !empty( $access ) and in_array ( 'profit_loss', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr>
         <tr>
             <td></td>
             <td> Balance Sheet</td>
