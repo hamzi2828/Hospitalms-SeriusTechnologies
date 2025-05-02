@@ -59,7 +59,7 @@
                                             download="<?php echo 'report-sale-id-' . $report->sale_id; ?>">Download</a>
                                     <?php endif; ?>
                                 </label>
-                                <input type="file" name="film" id="film" class="form-control" accept="image/*">
+                                <input type="file" name="film" id="film" class="form-control" accept="image/*,application/pdf">
                             </div>
                             <div class="col-lg-3 pull-right" style="padding-bottom: 15px">
                                 <label><strong>Referred By</strong></label>
