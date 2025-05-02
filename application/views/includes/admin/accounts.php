@@ -156,14 +156,14 @@
 
                     <li class="<?php if ($child_uri == 'balance_sheet_summary_pro') echo 'active'; ?>">
                             <a href="<?php echo base_url('/accounts/balance_sheet_summary_pro'); ?>">
-                                Balance Sheet Summary (Pro)
+                                Balance Sheet (Pro)
                             </a>
                     </li>
 
                     
                     <li class="<?php if ($child_uri == 'balance_sheet_summary_pro_2') echo 'active'; ?>">
                             <a href="<?php echo base_url('/accounts/balance_sheet_summary_pro_2'); ?>">
-                                Balance Sheet Summary (Pro) 2
+                                Balance Sheet (Pro) 2
                             </a>
                     </li>
 

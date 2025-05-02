@@ -56,16 +56,12 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td colspan="3"></td>
-                        <td>
-                            <strong><?php echo number_format ( $receivables[ 'netCredit' ], 2 ) ?></strong>
-                        </td>
-                        <td>
-                            <strong><?php echo number_format ( $receivables[ 'netDebit' ], 2 ) ?></strong>
-                        </td>
-                        <td>
-                            <!-- <strong><?php echo number_format ( ( $receivables[ 'netDebit' ] - $receivables[ 'netCredit' ] ), 2 ) ?></strong> -->
-                        </td>
+                        <td></td>
+                        <td style="text-align:right;"><strong>Totals:</strong></td>
+                        <td><strong><?php echo number_format($receivables['totalOpeningBalance'], 2); ?></strong></td>
+                        <td><strong><?php echo number_format($receivables['netCredit'], 2); ?></strong></td>
+                        <td><strong><?php echo number_format($receivables['netDebit'], 2); ?></strong></td>
+                        <td><strong><?php echo number_format($receivables['totalRunningBalance'], 2); ?></strong></td>
                     </tr>
                     </tfoot>
                 </table>

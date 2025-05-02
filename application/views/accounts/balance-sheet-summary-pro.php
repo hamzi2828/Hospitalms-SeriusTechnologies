@@ -26,7 +26,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i> <?php echo !empty($title) ? $title : 'Balance Sheet Summary Pro'; ?>
+                    <i class="fa fa-globe"></i> <?php echo !empty($title) ? $title : 'Balance Sheet (Pro)'; ?>
                     <?php
                         $start_date = $this -> input -> get ( 'start_date' );
                         $end_date   = $this -> input -> get ( 'end_date' );

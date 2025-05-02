@@ -1442,7 +1442,7 @@
         public function accounts_receivable () {
             $title = site_name . ' - Accounts Receivable';
             $this -> header ( $title );
-            $this -> sidebar ();
+            $this -> sidebar (); 
             $account_heads         = $this -> AccountModel -> getRecursiveAccountHeads ( receivable_accounts );
             $data[ 'receivables' ] = displayRecursiveAccountHeads ( $account_heads );
             $this -> load -> view ( '/accounts/accounts-receivable', $data );
@@ -1643,7 +1643,7 @@
 
         public function balance_sheet_summary_pro_2 () {
             $title = site_name . ' - Trial Balance Sheet (Detail)';
-            $data[ 'title' ] = 'Balance Sheet Summary Pro 2';
+            $data[ 'title' ] = 'Balance Sheet (Pro) 2';
             $this -> header ( $title );
             $this -> sidebar ();
             $account_heads           = $this -> AccountModel -> get_chart_of_accounts ();
