@@ -2346,7 +2346,7 @@
             <td> Balance Sheet (Pro)</td>
             <td>
                 <input type="checkbox" class="checkbox" name="access[]"
-                       value="balance_sheet_pro" <?php if ( !empty( $access ) and in_array ( 'balance_sheet_pro', explode ( ',', $access -> access ) ) )
+                       value="balance_sheet_summary_pro" <?php if ( !empty( $access ) and in_array ( 'balance_sheet_summary_pro', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
@@ -2390,10 +2390,10 @@
         </tr>
         <tr>
             <td></td>
-            <td> Profit and Loss Statement</td>
+            <td> Profit and Loss Statement (II)</td>
             <td>
                 <input type="checkbox" class="checkbox" name="access[]"
-                       value="profit_loss_statement" <?php if ( !empty( $access ) and in_array ( 'profit_loss_statement', explode ( ',', $access -> access ) ) )
+                       value="profit_loss_statement_2" <?php if ( !empty( $access ) and in_array ( 'profit_loss_statement_2', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
