@@ -3341,17 +3341,10 @@
             $user_id    = $this->input->get('user_id');
             $start_time = $this->input->get('start_time');
             $end_time   = $this->input->get('end_time');
-
-
-            if (!empty(trim($start_date)) && !empty(trim($end_date))) {
-                $start_date = date('Y-m-d', strtotime($start_date)) . ' 00:00:00';
-                $end_date   = date('Y-m-d', strtotime($end_date)) . ' 23:59:59';
-            }
-
-            // Get total from `lab_sales`
+            $location_id = $this->input->get('location_id');
             $this->db->select('SUM(ABS(paid_amount)) as net')
                     ->from('lab_sales')
-                    ->where("id IN (SELECT sale_id FROM hmis_test_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))");
+                    ->where("id IN (SELECT sale_id FROM hmis_test_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))" );
 
             if (!empty(trim($start_date)) && !empty(trim($end_date))) {
                 $this->db->where("date_sale BETWEEN '$start_date' AND '$end_date'");
@@ -3359,6 +3352,10 @@
 
             if (isset($user_id) && $user_id > 0) {
                 $this->db->where('user_id', $user_id);
+            }
+
+            if (isset($location_id) && $location_id > 0) {
+                $this->db->where('locations_id', $location_id);
             }
 
             $this->db->where('payment_method', $method);
@@ -3621,6 +3618,7 @@
             $user_id    = $this->input->get('user_id');
             $start_time = $this->input->get('start_time');
             $end_time   = $this->input->get('end_time');
+            $location_id = $this->input->get('location_id');
         
             $this->db->select('SUM(ABS(total)) as net')
                      ->from('lab_sales')
@@ -3639,6 +3637,10 @@
         
             if (isset($user_id) && $user_id > 0) {
                 $this->db->where('user_id', $user_id);
+            }
+
+            if (isset($location_id) && $location_id > 0) {
+                $this->db->where('locations_id', $location_id);
             }
         
             // Apply filters for refunded status, payment method, and negative total
