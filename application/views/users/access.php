@@ -2366,7 +2366,7 @@
             <td> Profit & Loss</td>
             <td>
                 <input type="checkbox" class="checkbox" name="access[]"
-                       value="profit_loss" <?php if ( !empty( $access ) and in_array ( 'profit_loss', explode ( ',', $access -> access ) ) )
+                       value="profit_loss_statement_2" <?php if ( !empty( $access ) and in_array ( 'profit_loss_statement_2', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
@@ -2390,10 +2390,10 @@
         </tr>
         <tr>
             <td></td>
-            <td> Profit and Loss Statement (II)</td>
+            <td> Profit and Loss Statement</td>
             <td>
                 <input type="checkbox" class="checkbox" name="access[]"
-                       value="profit_loss_statement_2" <?php if ( !empty( $access ) and in_array ( 'profit_loss_statement_2', explode ( ',', $access -> access ) ) )
+                       value="profit_loss_statement" <?php if ( !empty( $access ) and in_array ( 'profit_loss_statement', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>>
             </td>
         </tr>

@@ -45,7 +45,7 @@
                 </div>
 
                 
-                <div class="form-group col-lg-3">
+                <div class="form-group col-lg-2">
                     <label for="user-id">Member</label>
                     <select class="form-control select2me" name="user_id" id="user-id">
                         <option value="">Select</option>
@@ -56,6 +56,19 @@
                             <?php endforeach; ?>
                     </select>
                 </div>
+
+                <div class="form-group col-lg-2">
+                    <label for="location-id">Location</label>
+                    <select class="form-control select2me" name="location_id" id="location-id">
+                        <option value="">Select</option>
+                        <?php
+                            foreach ( $locations as $location ) :
+                                ?>
+                                <option value="<?php echo $location -> id ?>" <?php if ( $location -> id == $this -> input -> get ( 'location_id' ) ) echo 'selected="selected"' ?>> <?php echo $location -> name ?> </option>
+                            <?php endforeach; ?>
+                    </select>
+                </div>
+
 
                 <div class="form-group col-lg-1">
                     <button type="submit" class="btn-block btn btn-primary" style="margin-top: 25px;">Search</button>

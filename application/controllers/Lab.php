@@ -2096,7 +2096,9 @@
                     }
 
                     $last_id = $this -> LabModel -> do_add_test_results ( $info );
-                    $this -> LabModel -> do_add_test_results_logs ( $info );
+                    $log_info = $info;
+                    unset($log_info['film']);
+                    $this->LabModel->do_add_test_results_logs($log_info);
 
                     if ( $isTestParent )
                         $last_insert_id = $last_id;

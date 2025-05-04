@@ -3336,55 +3336,56 @@
 
 
         public function get_lab_total_by_payment_method($method = 'cash') {
-    $start_date = $this->input->get('start_date');
-    $end_date   = $this->input->get('end_date');
-    $user_id    = $this->input->get('user_id');
-    $start_time = $this->input->get('start_time');
-    $end_time   = $this->input->get('end_time');
+            $start_date = $this->input->get('start_date');
+            $end_date   = $this->input->get('end_date');
+            $user_id    = $this->input->get('user_id');
+            $start_time = $this->input->get('start_time');
+            $end_time   = $this->input->get('end_time');
 
-    if (!empty(trim($start_date)) && !empty(trim($end_date))) {
-        $start_date = date('Y-m-d', strtotime($start_date)) . ' 00:00:00';
-        $end_date   = date('Y-m-d', strtotime($end_date)) . ' 23:59:59';
-    }
 
-    // Get total from `lab_sales`
-    $this->db->select('SUM(ABS(paid_amount)) as net')
-             ->from('lab_sales')
-             ->where("id IN (SELECT sale_id FROM hmis_test_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))");
+            if (!empty(trim($start_date)) && !empty(trim($end_date))) {
+                $start_date = date('Y-m-d', strtotime($start_date)) . ' 00:00:00';
+                $end_date   = date('Y-m-d', strtotime($end_date)) . ' 23:59:59';
+            }
 
-    if (!empty(trim($start_date)) && !empty(trim($end_date))) {
-        $this->db->where("date_sale BETWEEN '$start_date' AND '$end_date'");
-    }
+            // Get total from `lab_sales`
+            $this->db->select('SUM(ABS(paid_amount)) as net')
+                    ->from('lab_sales')
+                    ->where("id IN (SELECT sale_id FROM hmis_test_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))");
 
-    if (isset($user_id) && $user_id > 0) {
-        $this->db->where('user_id', $user_id);
-    }
+            if (!empty(trim($start_date)) && !empty(trim($end_date))) {
+                $this->db->where("date_sale BETWEEN '$start_date' AND '$end_date'");
+            }
 
-    $this->db->where('payment_method', $method);
-    $this->db->where('total >', 0);
+            if (isset($user_id) && $user_id > 0) {
+                $this->db->where('user_id', $user_id);
+            }
 
-    $query1 = $this->db->get();
-    $total_lab_sales = $query1->row()->net ?? 0;
+            $this->db->where('payment_method', $method);
+            $this->db->where('total >', 0);
 
-    // Get total from `hmis_lab_sales_receiving`
-    $this->db->select('SUM(amount) as net')
-             ->from('hmis_lab_sales_receiving')
-             ->where('payment_method', $method);
+            $query1 = $this->db->get();
+            $total_lab_sales = $query1->row()->net ?? 0;
 
-    if (!empty(trim($start_date)) && !empty(trim($end_date))) {
-        $this->db->where("created_at BETWEEN '$start_date' AND '$end_date'");
-    }
+            // Get total from `hmis_lab_sales_receiving`
+            $this->db->select('SUM(amount) as net')
+                    ->from('hmis_lab_sales_receiving')
+                    ->where('payment_method', $method);
 
-    if (isset($user_id) && $user_id > 0) {
-        $this->db->where('user_id', $user_id);
-    }
+            if (!empty(trim($start_date)) && !empty(trim($end_date))) {
+                $this->db->where("created_at BETWEEN '$start_date' AND '$end_date'");
+            }
 
-    $query2 = $this->db->get();
-    $total_lab_sales_receiving = $query2->row()->net ?? 0;
+            if (isset($user_id) && $user_id > 0) {
+                $this->db->where('user_id', $user_id);
+            }
 
-    // Return the sum of both tables
-    return $total_lab_sales + $total_lab_sales_receiving;
-}
+            $query2 = $this->db->get();
+            $total_lab_sales_receiving = $query2->row()->net ?? 0;
+
+            // Return the sum of both tables
+            return $total_lab_sales + $total_lab_sales_receiving;
+        }
 
 
 
