@@ -103,6 +103,16 @@
                 <textarea rows="5" id="description" name="description" class="form-control"
                           placeholder="Add Description"><?php echo $panel -> description ?></textarea>
             </div>
+
+            <div class="form-group col-lg-3">
+                <label for="panel_type">Panel Type</label>
+                <select name="panel_type" id="panel_type" class="form-control select2me">
+                    <option value="">Select</option>
+                    <option value="Bill To Company" <?php echo (isset($panel->panel_type) && $panel->panel_type == 'Bill To Company') ? 'selected="selected"' : '' ?>>Bill To Company</option>
+                    <option value="Cash Panel" <?php echo (isset($panel->panel_type) && $panel->panel_type == 'Cash Panel') ? 'selected="selected"' : '' ?>>Cash Panel</option>
+                </select>
+            </div>
+
         </div>
         <button type="submit" class="btn blue">Update</button>
     </div>

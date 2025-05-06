@@ -708,6 +708,7 @@
                     'exclude_lab'      => $data[ 'exclude-lab' ],
                     'exclude_xray'     => $data[ 'exclude-xray' ],
                     'tax'              => $data[ 'tax' ],
+                    'panel_type'       => $data[ 'panel_type' ],
                 );
                 $updated = $this -> PanelModel -> edit_panel ( $info, $panel_id );
                 $this -> PanelModel -> delete_panel_companies ( $panel_id );

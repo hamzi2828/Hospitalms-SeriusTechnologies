@@ -1368,3 +1368,10 @@ function displayRecursiveAccountHeadsPayableReport($records, $level = 1, $revers
         $ci -> load -> model ( 'LabModel' );
         return $ci -> LabModel -> get_test_panels ( $id );
     }
+
+
+    function check_panel_type_cash_panel ( $panel_id ) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'PanelModel' );
+        return $ci -> PanelModel -> check_panel_type_cash_panel ( $panel_id );
+    }

@@ -1499,10 +1499,18 @@
             
             if ( $panelSales ) {
                 $sql .= " and patient_id IN (Select id from hmis_patients where panel_id > 0)";
+                // Exclude Cash Panel types from panel sales
+                $sql .= " and patient_id NOT IN (Select p.id from hmis_patients p 
+                                                JOIN hmis_panels pnl ON p.panel_id = pnl.id 
+                                                WHERE pnl.panel_type = 'Cash Panel')";
             }
             
             else {
-                $sql .= " and patient_id IN (Select id from hmis_patients where panel_id < 1 or panel_id = 0 or panel_id IS NULL)";
+                // Include both regular cash patients (no panel) and patients with Cash Panel type
+                $sql .= " and (patient_id IN (Select id from hmis_patients where panel_id < 1 or panel_id = 0 or panel_id IS NULL)
+                        OR patient_id IN (Select p.id from hmis_patients p 
+                                        JOIN hmis_panels pnl ON p.panel_id = pnl.id 
+                                        WHERE pnl.panel_type = 'Cash Panel'))";
             }
             
             if ( isset( $_REQUEST[ 'start_date' ] ) and isset( $_REQUEST[ 'end_date' ] ) and !empty( trim ( $_REQUEST[ 'start_date' ] ) ) and !empty( trim ( $_REQUEST[ 'end_date' ] ) ) ) {

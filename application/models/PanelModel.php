@@ -443,4 +443,14 @@
             return $this -> db -> affected_rows ();
         }
         
+        public function check_panel_type_cash_panel ( $panel_id ) {
+            $panel = $this -> db -> get_where ( 'hmis_panels', array ( 'id' => $panel_id ) );
+            $row = $panel -> row ();
+            if ( $row && isset ( $row -> panel_type ) ) {
+                return $row -> panel_type;
+            } else {
+                return null;
+            }
+        }
+        
     }

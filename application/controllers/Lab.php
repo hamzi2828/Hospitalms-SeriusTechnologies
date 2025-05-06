@@ -907,6 +907,9 @@
             $this -> form_validation -> set_rules ( 'patient_id', 'patient_id', 'required|min_length[1]|numeric' );
             if ( $this -> form_validation -> run () == true ) {
                
+              
+
+
                 $discount         = $this -> input -> post ( 'discount', true );
                 $flat_discount    = $this -> input -> post ( 'flat-discount', true );
                 $tests            = $this -> input -> post ( 'test_id' );
@@ -921,6 +924,13 @@
                 $doctor_id        = $this -> input -> post ( 'doctor-id' );
                 $doctor_share     = 0;
                 $total_doctor_share_path_radio = 0;
+                $panel_type = check_panel_type_cash_panel($panel_id);
+                if ($panel_type === 'Cash Panel') {
+                    $panel_id = 0;
+                }
+
+                // print_r($panel_id);exit;
+     
                 $patient          = get_patient ( $patient_id );
                 $service_info     = array ();
                 $location_id = get_logged_in_user_locations_id ();
@@ -1030,7 +1040,6 @@
                     
                     if ( $discount < 1 and $flat_discount < 1 ) {
                             $location_user_id = get_logged_in_user_locations_id ();
-                            print_r($location_user_id);
                         $ledger = array (
                             'user_id'          => get_logged_in_user_id (),
                             'acc_head_id'      => $cashAccountHead,
@@ -1043,8 +1052,6 @@
                             'debit'            => 0,
                             'transaction_type' => 'credit',
                             'description'      => $description,
-                            'locations_id'   => get_logged_in_user_locations_id(),
-
                             'transaction_no'   => $this -> input -> post ( 'transaction-no' ),
                         );
                         if ( $panel_id > 0 ) {
@@ -1107,7 +1114,6 @@
                             'debit'            => 0,
                             'transaction_type' => 'credit',
                             'description'      => $description,
-                            'locations_id'   => get_logged_in_user_locations_id(),
                             'transaction_no'   => $this -> input -> post ( 'transaction-no' ),
                         );
                         if ( $panel_id > 0 ) {
