@@ -109,7 +109,6 @@
                         }
                         for ( $i = 1; $i <= $remaning; $i++ ) :
                             ?>
-                            
                             <div class="form-group col-lg-4">
                                 <label for="exampleInputEmail1">Gender</label>
                                 <select name="gender[]" class="form-control select2me">
@@ -140,6 +139,10 @@
                         <?php endfor; ?>
                 </div>
             </div>
+        </div>
+        <div class="form-group col-lg-12">
+            <label for="machine_remarks">Machine Remarks</label>
+            <textarea name="machine_remarks" class="form-control" rows="4"><?php echo isset($parameter->machine_remarks) ? $parameter->machine_remarks : ''; ?></textarea>
         </div>
         <div class="form-actions">
             <button type="submit" class="btn blue">Update & Next</button>

@@ -532,7 +532,7 @@
             $data[ 'regents' ]     = $this -> LabModel -> get_regents ();
             $data[ 'airlines' ]    = $this -> AirlineModel -> get_airlines ();
             $this -> load -> view ( '/lab/edit', $data );
-            $this -> footer ();
+            $this -> footer (); 
         }
         
         /**
@@ -637,11 +637,12 @@
             if ( $this -> form_validation -> run () == true ) {
                 $test_id = $data[ 'test_id' ];
                 $info    = array (
-                    'user_id'      => get_logged_in_user_id (),
-                    'unit_id'      => $data[ 'unit_id' ],
-                    'test_id'      => $data[ 'test_id' ],
-                    'machine'      => $_GET[ 'machine' ],
-                    'machine_name' => $_POST[ 'machine-name' ],
+                    'user_id'        => get_logged_in_user_id (),
+                    'unit_id'        => $data[ 'unit_id' ],
+                    'test_id'        => $data[ 'test_id' ],
+                    'machine'        => $_GET[ 'machine' ],
+                    'machine_name'   => $_POST[ 'machine-name' ],
+                    'machine_remarks' => isset($data[ 'machine_remarks' ]) ? $data[ 'machine_remarks' ] : '',
                 );
                 $this -> LabModel -> edit_test_parameters ( $info, $test_id );
                 $panic = array (
