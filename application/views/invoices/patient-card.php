@@ -116,11 +116,11 @@
                 </tr>
                 <tr>
                     <td>
-                        <strong>Blood Group:</strong>
+                        <strong>CNIC:</strong>
                     </td>
                     <td>
                         <strong>
-                            <?php echo $patient -> blood_group ?>
+                            <?php echo $patient -> cnic ?>
                         </strong>
                     </td>
                 </tr>
@@ -137,7 +137,7 @@
                     </tr>
                 <?php endif; ?>
                 <?php if ( !empty( trim ( $patient -> address ) ) ) : ?>
-                    <tr>
+                    <!-- <tr>
                         <td>
                             <strong>Address:</strong>
                         </td>
@@ -146,7 +146,7 @@
                                 <?php echo $patient -> address ?>
                             </strong>
                         </td>
-                    </tr>
+                    </tr> -->
                 <?php endif; ?>
                 </tbody>
             </table>

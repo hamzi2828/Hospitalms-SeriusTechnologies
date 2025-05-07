@@ -648,7 +648,7 @@
                 $panic = array (
                     'user_id'   => get_logged_in_user_id (),
                     'test_id'   => $data[ 'test_id' ],
-                    'min_value' => $data[ 'min_value' ],
+                    'min_value' => $data[ 'min_value' ], 
                     'max_value' => $data[ 'max_value' ],
                     'machine'   => $_GET[ 'machine' ]
                 );
@@ -925,10 +925,10 @@
                 $doctor_id        = $this -> input -> post ( 'doctor-id' );
                 $doctor_share     = 0;
                 $total_doctor_share_path_radio = 0;
-                $panel_type = check_panel_type_cash_panel($panel_id);
-                if ($panel_type === 'Cash Panel') {
-                    $panel_id = 0;
-                }
+                 $panel_type = check_panel_type_cash_panel($panel_id);
+                // if ($panel_type === 'Cash Panel') {
+                //     $panel_id = 0;
+                // }
 
                 // print_r($panel_id);exit;
      
@@ -1055,11 +1055,10 @@
                             'description'      => $description,
                             'transaction_no'   => $this -> input -> post ( 'transaction-no' ),
                         );
-                        if ( $panel_id > 0 ) {
+                        if ( $panel_id > 0 && $panel_type !== 'Cash Panel' ) {
                             $accHeadID = get_account_head_id_by_panel_id ( $panel_id ) -> id;
                             if ( $accHeadID > 0 )
                                 $ledger[ 'acc_head_id' ] = $accHeadID;
-
                         }
                         $this -> AccountModel -> add_ledger ( $ledger );
                         
@@ -1081,7 +1080,7 @@
                         $ledger[ 'acc_head_id' ] = sales_lab_services;
                         $ledger[ 'credit' ]      = 0;
                         $ledger[ 'debit' ]       = $net_sale;
-                        if ( $patient -> panel_id > 0 )
+                        if ( $patient -> panel_id > 0 && $panel_type !== 'Cash Panel' )
                             $ledger[ 'acc_head_id' ] = sales_lab_services_panel;
                         $this -> AccountModel -> add_ledger ( $ledger );
                         
