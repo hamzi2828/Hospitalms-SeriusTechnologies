@@ -1039,6 +1039,7 @@
                     else if ( $this -> input -> post ( 'payment-method' ) == 'bank' )
                         $cashAccountHead = $this -> input -> post ( 'bank-id' );
                     
+             
                     if ( $discount < 1 and $flat_discount < 1 ) {
                             $location_user_id = get_logged_in_user_locations_id ();
                         $ledger = array (
@@ -1116,7 +1117,7 @@
                             'description'      => $description,
                             'transaction_no'   => $this -> input -> post ( 'transaction-no' ),
                         );
-                        if ( $panel_id > 0 ) {
+                        if ( $panel_id > 0  && $panel_type !== 'Cash Panel' ) {
                             $accHeadID = get_account_head_id_by_panel_id ( $panel_id ) -> id;
                             if ( $accHeadID > 0 )
                                 $ledger[ 'acc_head_id' ] = $accHeadID;
@@ -2596,7 +2597,7 @@
                 if ( $discount > 0 || $flat_discount > 0 ) {
                     $ledger[ 'debit' ] = abs ( $net_bill );
                 }
-                if ( $accHeadID > 0 ) {
+                if ( $accHeadID > 0  ) {
                     $ledger[ 'acc_head_id' ] = $accHeadID;
                 }
                 $this -> AccountModel -> add_ledger ( $ledger );
