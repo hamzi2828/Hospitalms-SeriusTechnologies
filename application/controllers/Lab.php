@@ -1141,7 +1141,7 @@
                         $ledger[ 'acc_head_id' ] = sales_lab_services;
                         $ledger[ 'credit' ]      = 0;
                         $ledger[ 'debit' ]       = $total_sale;
-                        if ( $patient -> panel_id > 0 )
+                        if ( $patient -> panel_id > 0 && $panel_type !== 'Cash Panel' )
                             $ledger[ 'acc_head_id' ] = sales_lab_services_panel;
                         $this -> AccountModel -> add_ledger ( $ledger );
                         
@@ -1164,7 +1164,7 @@
                         $ledger[ 'acc_head_id' ] = discount_lab_services;
                         $ledger[ 'credit' ]      = $total_sale - $net_sale;
                         $ledger[ 'debit' ]       = 0;
-                        if ( $patient -> panel_id > 0 )
+                        if ( $patient -> panel_id > 0 && $panel_type !== 'Cash Panel' )
                             $ledger[ 'acc_head_id' ] = discount_lab_services_panel;
                         $this -> AccountModel -> add_ledger ( $ledger );
                         
@@ -3366,7 +3366,7 @@
                     $ledger[ 'acc_head_id' ] = sales_lab_services;
                     $ledger[ 'credit' ]      = 0;
                     $ledger[ 'debit' ]       = $net_sale;
-                    if ( $patient -> panel_id > 0 )
+                    if ( $patient -> panel_id > 0  )
                         $ledger[ 'acc_head_id' ] = sales_lab_services_panel;
                     $this -> AccountModel -> add_ledger ( $ledger );
                     
