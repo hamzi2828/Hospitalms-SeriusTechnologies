@@ -2556,6 +2556,7 @@
                         // Get panel type
                         $panel_type = check_panel_type_cash_panel($panel_id);
                         if ( $panel_id > 0 && $panel_type !== 'Cash Panel' ) {
+                            $accHeadObj = get_account_head_id_by_panel_id ( $panel_id );
                             if ($accHeadObj && isset($accHeadObj->id)) {
                                 $accHeadID = $accHeadObj->id;
                             } else {
