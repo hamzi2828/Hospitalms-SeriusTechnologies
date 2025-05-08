@@ -140,10 +140,15 @@
                 </div>
             </div>
         </div>
-        <div class="form-group col-lg-12">
-            <label for="machine_remarks">Machine Remarks</label>
-            <textarea name="machine_remarks" class="form-control" rows="4"><?php echo isset($parameter->machine_remarks) ? $parameter->machine_remarks : ''; ?></textarea>
-        </div>
+
+            <div class="col-lg-12" style="padding: 0; margin-top: 10px">
+                <h3 class="sample-information">Machine Remarks</h3>
+                <div class="info">
+                    <div class="form-group col-lg-12">
+                        <textarea name="machine_remarks" class="form-control" rows="4"><?php echo isset($parameter->machine_remarks) ? $parameter->machine_remarks : ''; ?></textarea>
+                    </div>
+                </div>
+            </div>
         <div class="form-actions">
             <button type="submit" class="btn blue">Update & Next</button>
         </div>

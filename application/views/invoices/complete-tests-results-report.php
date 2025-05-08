@@ -571,7 +571,13 @@ mpdf-->
                             ?>
                             <tr>
                                 <td style="font-size: 10px; border-bottom: 0" colspan="6">
-                                    <?php echo $test_info -> report_footer ?>
+                                    <?php echo $test_info -> report_footer; 
+                                       $machine = get_machine_remarks_and_machine_name($test -> test_id);
+                         
+                                       if (!empty($machine) && !empty(trim($machine->machine_remarks))) {
+                                           echo '<br/><small><b>Machine Remarks: (' . htmlspecialchars($machine->machine_name) . ')</b></small>';
+                                           echo '<br/><small>' . nl2br(htmlspecialchars($machine->machine_remarks)) . '</small>';
+                                       }?>
                                 </td>
                             </tr>
                             <?php
@@ -580,8 +586,17 @@ mpdf-->
                             ?>
                             <tr>
                                 <td style="font-size: 10px; border-bottom: 0" colspan="6">
-                                    <?php echo $test_info -> report_footer ?>
+                                    <?php echo $test_info -> report_footer; 
+                                     
+                                      $machine = get_machine_remarks_and_machine_name($test -> test_id);
+                         
+                                      if (!empty($machine) && !empty(trim($machine->machine_remarks))) {
+                                          echo '<br/><small><b>Machine Remarks: (' . htmlspecialchars($machine->machine_name) . ')</b></small>';
+                                          echo '<br/><small>' . nl2br(htmlspecialchars($machine->machine_remarks)) . '</small>';
+                                      }
+                                      ?>
                                 </td>
+                              
                             </tr>
                             <?php
                         }

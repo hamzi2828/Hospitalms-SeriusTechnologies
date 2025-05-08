@@ -487,6 +487,7 @@ mpdf-->
         }
         if ( !empty( $machine ) and !empty( trim ( $machine -> machine_name ) ) )
             echo '<br/><small><b>Performed On: ' . $machine -> machine_name . '</b></small>';
+        
     ?>
 </div>
 <?php
@@ -521,6 +522,13 @@ mpdf-->
         <img src="<?php echo $test_result_image -> image ?>" style="margin-top: 0; max-height: 380px">
     <?php
     endif;
+
+
+    if ( !empty( $machine ) and !empty( trim ( $machine -> machine_remarks ) ) ) {
+        echo '<br/><small><b>Machine Remarks: (' . $machine -> machine_name . ')</b></small>';
+        echo '<br/><small>' . $machine -> machine_remarks . '</small>';
+
+    }
 ?>
 </body>
 </html>

@@ -508,5 +508,12 @@ mpdf-->
         }
     }
 ?>
+    <?php
+        $machine = get_test_parameters ( @$_GET[ 'parent-id' ] );
+        if ( !empty( $machine ) and !empty( trim ( $machine -> machine_remarks ) ) ) {
+            echo '<br/><small><b>Machine Remarks: (' . $machine -> machine_name . ')</b></small>';
+            echo '<br/><small>' . $machine -> machine_remarks . '</small>';
+        }
+    ?>
 </body>
 </html>

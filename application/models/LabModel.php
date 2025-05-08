@@ -764,6 +764,19 @@
             ) );
             return $parameters -> row ();
         }
+
+        public function get_machine_remarks_and_machine_name($test_id) {
+            $this->db->select('machine_remarks, machine_name');
+            $this->db->from('test_parameters');
+            $this->db->where('test_id', $test_id);
+            $query = $this->db->get();
+            
+            if ($query->num_rows() > 0) {
+                return $query->row();
+            } else {
+                return null;
+            }
+        }
         
         /**
          * -------------------------

@@ -3915,7 +3915,7 @@
             $link .= "://";
 
             // Append the host(domain name, ip) to the URL.
-            $link .= $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
+            $link .= $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ]; 
 
             if ( strpos ( $link, ',qrcode=true' ) !== false ) {
                 return redirect ( str_replace ( ',', '&', str_replace ( ',qrcode=true', '', $link ) ) );
@@ -5527,7 +5527,7 @@
             $mpdf -> WriteHTML ( $html_content );
             $mpdf -> Output ( 'Park Plaza - Letter Head.pdf', 'I' );
         }
-
+ 
         public function patient_card ( $patient_id ) {
             $data[ 'patient' ] = $patient = get_patient_by_id ( $patient_id );
             $html_content      = $this -> load -> view ( '/invoices/patient-card', $data, true );
