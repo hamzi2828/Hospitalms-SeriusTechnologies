@@ -2518,27 +2518,28 @@
          */
         
         public function do_refund_lab () {
-            $sale_id                 = $this -> input -> post ( 'sale_id' );
-            $amount_paid_to_customer = $this -> input -> post ( 'amount_paid_to_customer' );
-            $description             = $this -> input -> post ( 'description' );
-            $discount                = $this -> input -> post ( 'discount' );
-            $flat_discount           = $this -> input -> post ( 'flat_discount' );
-            $net_bill                = $this -> input -> post ( 'net_bill' );
-            
-            if ( !$sale_id or !is_numeric ( $sale_id ) or $sale_id < 1 )
-                return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
-            
-            $lab_sale   = (array)$this -> LabModel -> get_lab_sale ( $sale_id );
-            $lab_sales  = (array)$this -> LabModel -> get_lab_sales_by_sale_id ( $sale_id );
-            $ledger     = (array)$this -> AccountModel -> get_lab_sales_ledger_by_sale_id ( $sale_id );
-            $date_added = date ( 'Y-m-d', strtotime ( $_POST[ 'date_added' ] ) ) . ' ' . date ( 'H:i:s' );
-            $accHeadID  = 0;
-            
-            array_shift ( $lab_sale );
-            array_shift ( $ledger );
-            
-            $this -> db -> trans_begin ();
-            try {
+        $sale_id                 = $this -> input -> post ( 'sale_id' );
+        $amount_paid_to_customer = $this -> input -> post ( 'amount_paid_to_customer' );
+        $description             = $this -> input -> post ( 'description' );
+        $discount                = $this -> input -> post ( 'discount' );
+        $flat_discount           = $this -> input -> post ( 'flat_discount' );
+        $net_bill                = $this -> input -> post ( 'net_bill' );
+        
+        if ( !$sale_id or !is_numeric ( $sale_id ) or $sale_id < 1 )
+            return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
+        
+        $lab_sale   = (array)$this -> LabModel -> get_lab_sale ( $sale_id );
+        $lab_sales  = (array)$this -> LabModel -> get_lab_sales_by_sale_id ( $sale_id );
+        $ledger     = (array)$this -> AccountModel -> get_lab_sales_ledger_by_sale_id ( $sale_id );
+        $date_added = date ( 'Y-m-d', strtotime ( $_POST[ 'date_added' ] ) ) . ' ' . date ( 'H:i:s' );
+        $accHeadID  = 0;
+        $panel_type = '';
+        
+        array_shift ( $lab_sale );
+        array_shift ( $ledger );
+        
+        $this -> db -> trans_begin ();
+        try {
                 $lab_sale[ 'total' ] = -$amount_paid_to_customer;
                 if ( $discount > 0 ) {
                     $lab_sale[ 'total' ] = -$net_bill;
@@ -2548,15 +2549,22 @@
                 
                 if ( count ( $lab_sales ) > 0 ) {
                     $patient_id = $lab_sales[ 0 ] -> patient_id;
+                    $panel_id = 0;
                     if ( $patient_id > 0 ) {
                         $patient  = get_patient ( $patient_id );
                         $panel_id = $patient -> panel_id;
-                        if ( $panel_id > 0 )
-                            $accHeadID = get_account_head_id_by_panel_id ( $panel_id ) -> id;
-                        else
+                        // Get panel type
+                        $panel_type = check_panel_type_cash_panel($panel_id);
+                        if ( $panel_id > 0 && $panel_type !== 'Cash Panel' ) {
+                            if ($accHeadObj && isset($accHeadObj->id)) {
+                                $accHeadID = $accHeadObj->id;
+                            } else {
+                                $accHeadID = 0;
+                            }
+                        } else {
                             $accHeadID = 0;
-                    }
-                    else {
+                        }
+                    } else {
                         $accHeadID = 0;
                     }
                     foreach ( $lab_sales as $lab_sale ) {
