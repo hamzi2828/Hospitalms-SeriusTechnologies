@@ -125,7 +125,7 @@
                     </td>
                 </tr>
                 <?php if ( $patient -> city > 0 ) : ?>
-                    <tr>
+                    <!-- <tr>
                         <td>
                             <strong>City:</strong>
                         </td>
@@ -134,19 +134,19 @@
                                 <?php echo get_city_by_id ( $patient -> city ) -> title ?>
                             </strong>
                         </td>
-                    </tr>
+                    </tr> -->
                 <?php endif; ?>
                 <?php if ( !empty( trim ( $patient -> address ) ) ) : ?>
-                    <!-- <tr>
+                    <tr>
                         <td>
-                            <strong>Address:</strong>
+                            <strong>Add/Dpt:</strong>
                         </td>
                         <td>
                             <strong>
                                 <?php echo $patient -> address ?>
                             </strong>
                         </td>
-                    </tr> -->
+                    </tr>
                 <?php endif; ?>
                 </tbody>
             </table>

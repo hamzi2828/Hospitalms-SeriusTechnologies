@@ -314,7 +314,7 @@
                                 <p style="margin-top: 5px; color: #FF0000;">Upload Image (Max. 2MB)</p>
                             </div>
                             <div class="form-group col-lg-6">
-                                <label for="exampleInputEmail1">Address</label>
+                                <label for="exampleInputEmail1">Address/Dpt</label>
                                 <textarea class="form-control" rows="5"
                                           name="address"><?php echo $patient -> address ?></textarea>
                             </div>

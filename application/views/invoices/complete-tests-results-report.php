@@ -555,7 +555,7 @@ mpdf-->
                         if ( !empty( trim ( $test -> remarks ) ) and $test_info -> parent_id < 1 ) {
                             ?>
                             <tr>
-                                <td style="font-size: 10px; border-bottom: 0" colspan="6">
+                                <td style="font-size: 12px; border-bottom: 0" colspan="6">
                                     <?php
                                         $machine = get_test_parameters ( $test -> test_id );
                                         echo $test -> remarks;
@@ -570,14 +570,9 @@ mpdf-->
                         if ( !empty( trim ( $test -> remarks ) ) and !empty( trim ( $test_info -> report_footer ) ) and $test_info -> parent_id < 1 ) {
                             ?>
                             <tr>
-                                <td style="font-size: 10px; border-bottom: 0" colspan="6">
-                                    <?php echo $test_info -> report_footer; 
-                                       $machine = get_machine_remarks_and_machine_name($test -> test_id);
-                         
-                                       if (!empty($machine) && !empty(trim($machine->machine_remarks))) {
-                                           echo '<br/><small><b>Machine Remarks: (' . htmlspecialchars($machine->machine_name) . ')</b></small>';
-                                           echo '<br/><small>' . nl2br(htmlspecialchars($machine->machine_remarks)) . '</small>';
-                                       }?>
+                                <td style="font-size: 12px; border-bottom: 0" colspan="6">
+                                    <?php echo $test_info -> report_footer;
+                                    ?>
                                 </td>
                             </tr>
                             <?php
@@ -585,18 +580,21 @@ mpdf-->
                         else if ( !empty( trim ( $test_info -> report_footer ) ) and $test_info -> parent_id < 1 ) {
                             ?>
                             <tr>
-                                <td style="font-size: 10px; border-bottom: 0" colspan="6">
-                                    <?php echo $test_info -> report_footer; 
-                                     
-                                      $machine = get_machine_remarks_and_machine_name($test -> test_id);
-                         
-                                      if (!empty($machine) && !empty(trim($machine->machine_remarks))) {
-                                          echo '<br/><small><b>Machine Remarks: (' . htmlspecialchars($machine->machine_name) . ')</b></small>';
-                                          echo '<br/><small>' . nl2br(htmlspecialchars($machine->machine_remarks)) . '</small>';
-                                      }
-                                      ?>
+                                <td style="font-size: 12px; border-bottom: 0" colspan="6">
+                                    <br/><small><b>Remarks: </b></small>
+                                    <?php echo $test_info -> report_footer; ?>
                                 </td>
-                              
+                            </tr>
+                            <?php
+                        }
+                        $machine = get_machine_remarks_and_machine_name($test->test_id);
+                        if (!empty($machine) && !empty(trim($machine->machine_remarks))) {
+                            ?>
+                            <tr>
+                                <td style="font-size: 12px; border-bottom: 0; padding-top: -12px" colspan="6">
+                                    <br/><small><b>Machine Remarks: (<?php echo htmlspecialchars($machine->machine_name); ?>)</b></small>
+                                    <br/><small><?php echo nl2br(htmlspecialchars($machine->machine_remarks)); ?></small>
+                                </td>
                             </tr>
                             <?php
                         }

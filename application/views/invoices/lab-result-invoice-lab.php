@@ -462,7 +462,6 @@ mpdf-->
 
 
 <div class="remarks">
-    <h3>Remarks:</h3>
     <?php
         $machine = get_test_parameters ( @$_GET[ 'parent-id' ] );
         if ( count ( $tests ) > 0 ) {
@@ -485,8 +484,8 @@ mpdf-->
                 <?php
             }
         }
-        if ( !empty( $machine ) and !empty( trim ( $machine -> machine_name ) ) )
-            echo '<br/><small><b>Performed On: ' . $machine -> machine_name . '</b></small>';
+        if ( !empty( trim ( $note ) ) )
+            echo '<br/><small><b>Remarks: </b></small>';
         
     ?>
 </div>
