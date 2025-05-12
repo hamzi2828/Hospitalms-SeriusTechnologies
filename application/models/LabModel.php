@@ -1998,7 +1998,7 @@
                 $sql       .= " AND DATE(ts.date_added) BETWEEN '$start_date' AND '$end_date'";
                 $search     = true;
             }
-        // print_data($_REQUEST['panel-id']);exit;
+             // print_data($_REQUEST['panel-id']);exit;
             if (isset($_REQUEST['panel-id']) && !empty(trim($_REQUEST['panel-id']))) {
                 if (is_numeric($_REQUEST['panel-id']) && $_REQUEST['panel-id'] > 0) {
                     $panel_id = $_REQUEST['panel-id'];
@@ -2052,8 +2052,14 @@
                 $sql      .= " AND ts.sale_id IN (SELECT id FROM hmis_lab_sales WHERE doctor_id=$doctor_id)";
                 $search   = true;
             }
+            
+            // Location Filter
+            if (isset($_REQUEST['location-id']) && !empty(trim($_REQUEST['location-id'])) && is_numeric($_REQUEST['location-id']) && $_REQUEST['location-id'] > 0) {
+                $location_id = $_REQUEST['location-id'];
+                $sql      .= " AND ts.sale_id IN (SELECT id FROM hmis_lab_sales WHERE locations_id=$location_id)";
+                $search   = true;
+            }
         
-            // **Include Payment Method Filter**
             if (isset($_REQUEST['payment-method']) && !empty(trim($_REQUEST['payment-method']))) {
                 $payment_method = $_REQUEST['payment-method'];
                 $sql          .= " AND ls.payment_method = '$payment_method'";
