@@ -1366,7 +1366,7 @@
                     
                     $daily_location_sale_id = get_daily_location_sale_id_by_hmis_lab_sales_id($sale_id);
                     $panel = 'false';
-                    if ($patient -> panel_id ){
+                    if ($patient -> panel_id && $panel_type !== 'Cash Panel' ){
                         $panel = 'true';
                     }
 

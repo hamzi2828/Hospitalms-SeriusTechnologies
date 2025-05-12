@@ -121,6 +121,7 @@ mpdf-->
 <br />
 <?php
 
+$panel_type = check_panel_type_cash_panel($patient->panel_id);
 $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'true' ) ? true : false ;?>
 <table width="100%">
     <tr>
@@ -173,6 +174,9 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
         <th align="left">Due</th>
         <th align="left">Type</th>
         <th align="left">Reporting Date</th>
+        <?php if ($panel_type === 'Cash Panel') : ?>
+        <th align="left">Actual Price</th>
+        <?php endif; ?>
         <?php if ( $panel_request != 'true'  ) { ?>
         <th>Price</th>
         <?php } ?>
@@ -225,6 +229,9 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                                     echo '-';
                             ?>
                         </td>
+                        <?php if ($panel_type === 'Cash Panel') : ?>
+                        <td align="center" style="<?php echo $style ?>"><?php echo number_format($test->price, 2); ?></td>
+                        <?php endif; ?>
                         <?php if ( $panel_request != 'true'  ) { ?>
                             <td align="center"
                             style="<?php echo $style ?>"><?php echo number_format ( $sale -> price, 2 ) ?></td>
@@ -239,7 +246,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
              if ( $panel_request != 'true'  ) { 
             if ( $test_sale_info -> refunded != '1'  ) { ?>
                 <tr>
-                    <td colspan="6" style="text-align: right">
+                    <td colspan="<?php echo $panel_type === 'Cash Panel' ? 7 : 6; ?>" style="text-align: right">
                         <strong>Gross Total</strong>
             
                     </td>
@@ -247,6 +254,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                         <h4><?php echo  number_format ( $netSalePrice, 2 ); ?></h4>
                     </td>
                 </tr>
+                <?php if ($panel_type !== 'Cash Panel') { ?>
                 <tr>
                     <td colspan="6" style="text-align: right">
                         <strong>Discount(%)</strong>
@@ -255,6 +263,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                         <h4><?php echo $sale_info -> discount; ?></h4>
                     </td>
                 </tr>
+            
                 <tr>
                     <td colspan="6" style="text-align: right">
                         <strong>Discount(Flat)</strong>
@@ -263,8 +272,9 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                         <h4><?php echo $sale_info -> flat_discount; ?></h4>
                     </td>
                 </tr>
+                <?php } ?>
                 <tr>
-                    <td colspan="6" style="text-align: right">
+                    <td colspan="<?php echo $panel_type === 'Cash Panel' ? 7 : 6; ?>" style="text-align: right">
                         <strong>Net Total</strong>
                     </td>
                     <td style="text-align: center">
@@ -272,7 +282,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6" style="text-align: right">
+                    <td colspan="<?php echo $panel_type === 'Cash Panel' ? 7 : 6; ?>" style="text-align: right">
                         <strong>Paid Amount</strong>
                     </td>
                     <td style="text-align: center">
@@ -280,7 +290,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6" style="text-align: right; color: #ff0000">
+                    <td colspan="<?php echo $panel_type === 'Cash Panel' ? 7 : 6; ?>" style="text-align: right; color: #ff0000">
                         <strong>Balance</strong>
                     </td>
                     <td style="text-align: center; color: #ff0000">
@@ -298,6 +308,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                         <h4><?php echo abs ( $net ); ?></h4>
                     </td>
                 </tr>
+                <?php if ($panel_type !== 'Cash Panel') { ?>
                 <tr>
                     <td colspan="6" style="text-align: right">
                         <strong>Discount(%)</strong>
@@ -306,8 +317,9 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                         <h4><?php echo $sale_info -> discount; ?></h4>
                     </td>
                 </tr>
+                <?php } ?>
                 <tr>
-                    <td colspan="6" style="text-align: right">
+                    <td colspan="<?php echo $panel_type === 'Cash Panel' ? 7 : 6; ?>" style="text-align: right">
                         <strong>Refund Amount</strong>
                     </td>
                     <td style="text-align: center">
@@ -315,7 +327,7 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                     </td>
                 </tr>
                 <tr> 
-                    <td colspan="6" style="text-align: right">
+                    <td colspan="<?php echo $panel_type === 'Cash Panel' ? 7 : 6; ?>" style="text-align: right">
                         <strong>Balance</strong>
                     </td>
                     <td style="text-align: center">

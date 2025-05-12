@@ -147,6 +147,7 @@
                         <th> Sr. No</th>
                         <th> <?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></th>
                         <th> Sold By</th>
+                        <th> Patient</th>
                         <th> Medicine</th>
                         <th> Batch</th>
                         <th> Account Head</th>
@@ -191,6 +192,12 @@
                                     <td><?php echo $count++; ?></td>
                                     <td><?php echo $report -> sale_id; ?><?php if ( check_id_is_refonded_or_not ( $report -> sale_id ) ) echo '&nbsp;&nbsp; <span class="badge badge-important">Refunded</span>'; ?></td>
                                     <td><?php echo $user -> name; ?></td>
+                                    <td>
+                                        <?php
+                                            $patient = get_patient($report->patient_id);
+                                            echo $patient ? htmlspecialchars($patient->name) : '';
+                                        ?>
+                                    </td>
                                     <td>
                                         <?php
                                             foreach ( $medicine as $id ) {

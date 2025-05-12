@@ -121,6 +121,8 @@ mpdf-->
 <br />
 <?php
 
+$panel_type = check_panel_type_cash_panel($patient -> panel_id );
+
 $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'true' ) ? true : false ;?>
 <table width="100%">
     <tr>
@@ -189,6 +191,9 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
         <th align="left">Type</th>
         <th align="center">Lab Ref No.</th>
         <th align="left">Reporting Date</th>
+        <?php if ($panel_type === 'Cash Panel') : ?>
+        <th align="left">Actual Price</th>
+        <?php endif; ?>
         <?php if ( $panel_request != 'true'  ) { ?>
         <th>Price</th>
         <?php } ?>
@@ -234,7 +239,8 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                                 <?php echo $sale->urgent ? '<b>' . $test->code . '</b>' : $test->code; ?>
                             </td> -->
                             <td align="left" style="<?php echo $style; ?>">
-                                <?php echo $sale->urgent ? '<b>' . $test->name . '</b>' : $test->name; ?>
+                                <?php 
+                                echo $sale->urgent ? '<b>' . $test->name . '</b>' : $test->name; ?>
                             </td>
                             <td align="left"><?php echo $sale->urgent ? '<b>Urgent</b>' : ' '; ?></td>
                             <td><?php echo $sale -> due ? '
@@ -252,6 +258,12 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                                     date('d-m-Y h:i A', strtotime($sale->report_collection_date_time)) : '-';
                                 ?>
                             </td>
+                            <?php if ($panel_type === 'Cash Panel') : ?>
+                            <td align="center" style="<?php echo $style; ?>">
+                                <?php 
+                                echo $sale->urgent ? '<b>' . number_format($test->price, 2) . '</b>' : number_format($test->price, 2); ?>
+                            </td>
+                            <?php endif; ?>
                             <?php if ($panel_request != 'true') { ?>
                             <td align="center" style="<?php echo $style; ?>">
                                 <?php echo $sale->urgent ? '<b>' . number_format($sale->price, 2) . '</b>' : number_format($sale->price, 2); ?>
@@ -267,46 +279,50 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
             if ($panel_request != 'true') {
                 if ($test_sale_info->refunded != '1') { ?>
                     <tr>
-                        <td colspan="7" style="text-align: right"><strong>Gross Total</strong></td>
+                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Gross Total</strong></td>
                         <td style="text-align: center"><h4><?php echo number_format($netSalePrice, 2); ?></h4></td>
                     </tr>
+                    <?php if ($panel_type !== 'Cash Panel') : ?>
                     <tr>
-                        <td colspan="7" style="text-align: right"><strong>Discount(%)</strong></td>
+                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Discount(%)</strong></td>
                         <td style="text-align: center"><h4><?php echo $sale_info->discount; ?></h4></td>
                     </tr>
                     <tr>
-                        <td colspan="7" style="text-align: right"><strong>Discount(Flat)</strong></td>
+                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Discount(Flat)</strong></td>
                         <td style="text-align: center"><h4><?php echo $sale_info->flat_discount; ?></h4></td>
                     </tr>
+                    <?php endif; ?>
                     <tr>
-                        <td colspan="7" style="text-align: right"><strong>Net Total</strong></td>
+                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Net Total</strong></td>
                         <td style="text-align: center"><h4><?php echo number_format($sale_info->total, 2); ?></h4></td>
                     </tr>
                     <tr>
-                        <td colspan="7" style="text-align: right"><strong>Paid Amount</strong></td>
+                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Paid Amount</strong></td>
                         <td style="text-align: center"><h4><?php echo number_format($sale_info->paid_amount, 2); ?></h4></td>
                     </tr>
                     <tr>
-                        <td colspan="7" style="text-align: right; color: #ff0000"><strong>Balance</strong></td>
+                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right; color: #ff0000"><strong>Balance</strong></td>
                         <td style="text-align: center; color: #ff0000">
                             <h4><?php echo number_format($sale_info->total - $sale_info->paid_amount, 2); ?></h4>
                         </td>
                     </tr>
                 <?php } else { ?>
                     <tr>
-                        <td colspan="7" style="text-align: right"><strong>Total</strong></td>
+                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Total</strong></td>
                         <td style="text-align: center"><h4><?php echo abs($net); ?></h4></td>
                     </tr>
+                    <?php if ($panel_type !== 'Cash Panel') : ?>
                     <tr>
-                        <td colspan="7" style="text-align: right"><strong>Discount(%)</strong></td>
+                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Discount(%)</strong></td>
                         <td style="text-align: center"><h4><?php echo $sale_info->discount; ?></h4></td>
                     </tr>
+                    <?php endif; ?>
                     <tr>
-                        <td colspan="7" style="text-align: right"><strong>Refund Amount</strong></td>
+                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Refund Amount</strong></td>
                         <td style="text-align: center"><h4><?php echo abs($sale_info->total); ?></h4></td>
                     </tr>
                     <tr>
-                        <td colspan="7" style="text-align: right"><strong>Balance</strong></td>
+                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Balance</strong></td>
                         <td style="text-align: center"><h4><?php echo number_format($sale_info->paid_amount - abs($sale_info->total), 2); ?></h4></td>
                     </tr>
                 <?php }
