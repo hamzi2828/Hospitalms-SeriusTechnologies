@@ -178,6 +178,18 @@
                     <label for="exampleInputEmail1">Exclude Cash</label>
                 </div>
                 
+                <div class="form-group col-lg-2">
+                    <label for="amount-from">Amount From</label>
+                    <input type="number" name="amount-from" id="amount-from" class="form-control" 
+                           value="<?php echo @$_REQUEST['amount-from']; ?>" placeholder="Min Amount">
+                </div>
+                
+                <div class="form-group col-lg-2">
+                    <label for="amount-to">Amount To</label>
+                    <input type="number" name="amount-to" id="amount-to" class="form-control" 
+                           value="<?php echo @$_REQUEST['amount-to']; ?>" placeholder="Max Amount">
+                </div>
+                
                 <div class="form-group col-lg-1">
                     <button type="submit" class="btn btn-primary" style="margin-top: 25px;">Search</button>
                 </div>

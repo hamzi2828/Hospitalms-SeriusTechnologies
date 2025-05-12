@@ -2065,6 +2065,19 @@
                 $sql          .= " AND ls.payment_method = '$payment_method'";
                 $search       = true;
             }
+            
+            // Invoice Amount Filter (Net Amount)
+            if (isset($_REQUEST['amount-from']) && !empty(trim($_REQUEST['amount-from'])) && is_numeric($_REQUEST['amount-from'])) {
+                $amount_from = floatval($_REQUEST['amount-from']);
+                $sql        .= " AND ts.sale_id IN (SELECT id FROM hmis_lab_sales WHERE total >= $amount_from)";
+                $search     = true;
+            }
+            
+            if (isset($_REQUEST['amount-to']) && !empty(trim($_REQUEST['amount-to'])) && is_numeric($_REQUEST['amount-to'])) {
+                $amount_to = floatval($_REQUEST['amount-to']);
+                $sql      .= " AND ts.sale_id IN (SELECT id FROM hmis_lab_sales WHERE total <= $amount_to)";
+                $search   = true;
+            }
         
             $sql   .= " GROUP BY ts.sale_id ORDER BY DATE(ts.date_added) ASC";
             $sales = $this->db->query($sql);
