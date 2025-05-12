@@ -1176,6 +1176,7 @@ function displayRecursiveAccountHeadsPayableReport($records, $level = 1, $revers
     
     function lab_sales_DOCTOR_ledger ( $data, $sale_id, $service_info, $doctor_id, $doctor_share ) {
         $ci          = &get_instance ();
+        $location_user_id = get_logged_in_user_locations_id ();
         $description = 'Lab tests sold . Doctor Ledger: ' . implode ( ',', $service_info );
         $ledger      = array (
             'user_id'          => get_logged_in_user_id (),
@@ -1190,6 +1191,7 @@ function displayRecursiveAccountHeadsPayableReport($records, $level = 1, $revers
             'transaction_type' => 'debit',
             'description'      => $description,
             'date_added'       => current_date_time (),
+            'locations_id'     => $location_user_id,
         );
         
         $ci -> load -> model ( 'AccountModel' );
@@ -1209,6 +1211,7 @@ function displayRecursiveAccountHeadsPayableReport($records, $level = 1, $revers
     
     function lab_sales_COS_Laboratory_ledger ( $data, $sale_id, $service_info, $doctor_id, $doctor_share ) {
         $ci          = &get_instance ();
+        $location_user_id = get_logged_in_user_locations_id ();
         $description = 'Lab tests sold . Doctor Ledger: ' . implode ( ',', $service_info );
         $ledger      = array (
             'user_id'          => get_logged_in_user_id (),
@@ -1223,6 +1226,7 @@ function displayRecursiveAccountHeadsPayableReport($records, $level = 1, $revers
             'transaction_type' => 'credit',
             'description'      => $description,
             'date_added'       => current_date_time (),
+            'locations_id'     => $location_user_id,
         );
         
         $ci -> load -> model ( 'AccountModel' );

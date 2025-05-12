@@ -277,9 +277,9 @@
             $data[ 'doctors' ]    = $this -> DoctorModel -> get_doctors ();
             $data[ 'reports' ]    = $this -> LabModel -> get_general_report ();
             $data[ 'receivings' ] = $this -> LabModel -> get_lab_receiving_general_report ();
-//            print_data ($this -> db -> last_query());
+            //print_data ($this -> db -> last_query());
             $data[ 'references' ] = $this -> ReferenceModel -> get_references ();
-            
+            $data['locations'] = $this -> LocationModel -> get_locations ();
             $user = get_user ( get_logged_in_user_id () );
             if ( $user -> department_id == ADMINISTRATION_DEPT )
                 $data[ 'users' ] = $this -> UserModel -> get_active_users ();

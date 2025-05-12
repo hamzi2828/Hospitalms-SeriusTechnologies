@@ -62,7 +62,7 @@
                             <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="form-group col-lg-3">
+                <div class="form-group col-lg-2">
                     <label for="payment-method">Payment Method</label>
                     <select class="form-control select2me" name="payment-method"
                             id="payment-method"
@@ -149,6 +149,22 @@
                                     ?>
                                     <option value="<?php echo $doctor -> id ?>" <?php if ( $doctor -> id == @$_REQUEST[ 'doctor-id' ] )
                                         echo 'selected="selected"' ?>><?php echo $doctor -> name ?></option>
+                                    <?php
+                                }
+                            }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group col-lg-2">
+                    <label for="exampleInputEmail1">Location</label>
+                    <select class="form-control select2me" name="location-id">
+                        <option value="">Select</option>
+                        <?php
+                            if ( count ( $locations ) > 0 ) {
+                                foreach ( $locations as $location ) {
+                                    ?>
+                                    <option value="<?php echo $location -> id ?>" <?php if ( $location -> id == @$_REQUEST[ 'location-id' ] )
+                                        echo 'selected="selected"' ?>><?php echo $location -> name ?></option>
                                     <?php
                                 }
                             }

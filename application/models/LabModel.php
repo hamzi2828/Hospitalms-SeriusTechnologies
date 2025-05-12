@@ -1998,13 +1998,17 @@
                 $sql       .= " AND DATE(ts.date_added) BETWEEN '$start_date' AND '$end_date'";
                 $search     = true;
             }
-        
+        // print_data($_REQUEST['panel-id']);exit;
             if (isset($_REQUEST['panel-id']) && !empty(trim($_REQUEST['panel-id']))) {
                 if (is_numeric($_REQUEST['panel-id']) && $_REQUEST['panel-id'] > 0) {
                     $panel_id = $_REQUEST['panel-id'];
                     $sql     .= " AND ts.patient_id IN (SELECT id FROM hmis_patients WHERE panel_id=$panel_id)";
                 } elseif ($_REQUEST['panel-id'] == 'cash') {
-                    $sql    .= " AND ts.patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id IS NULL OR panel_id='0' OR panel_id=''))";
+                    // Include both patients with no panel AND patients with panels of type 'Cash Panel'
+                    $sql    .= " AND (ts.patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id IS NULL OR panel_id='0' OR panel_id=''))
+                              OR ts.patient_id IN (SELECT p.id FROM hmis_patients p 
+                                                 JOIN hmis_panels pnl ON p.panel_id = pnl.id 
+                                                 WHERE pnl.panel_type = 'Cash Panel'))";
                 }
                 $search = true;
             } elseif (isset($_REQUEST['exclude-cash']) && !empty(trim($_REQUEST['exclude-cash'])) && $_REQUEST['exclude-cash'] == 'yes') {
