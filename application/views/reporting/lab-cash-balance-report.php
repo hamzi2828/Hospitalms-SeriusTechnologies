@@ -52,6 +52,22 @@
                     <input type="text" name="end_date" class="form-control date-picker"
                            value="<?php echo ( isset( $_REQUEST[ 'end_date' ] ) and !empty( trim ( $_REQUEST[ 'end_date' ] ) ) ) ? date ( 'm/d/Y', strtotime ( $_REQUEST[ 'end_date' ] ) ) : '' ?>">
                 </div>
+                <div class="form-group col-lg-2">
+                    <label for="exampleInputEmail1">Location</label>
+                    <select name="location_id" class="form-control select2me">
+                        <option value="">Select</option>
+                        <?php if ( count ( $locations ) > 0 ) {
+                            foreach ( $locations as $location ) {
+                                ?>
+                                <option value="<?php echo $location -> id ?>"
+                                        <?php if ( @$_REQUEST[ 'location_id' ] == $location -> id ) echo 'selected="selected"' ?>>
+                                    <?php echo $location -> name ?>
+                                </option>
+                                <?php
+                            }
+                        } ?>
+                    </select>
+                </div>
                 <div class="form-group col-lg-1">
                     <button type="submit" class="btn btn-primary" style="margin-top: 25px;">Search</button>
                 </div>

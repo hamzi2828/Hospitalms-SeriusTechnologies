@@ -2202,6 +2202,11 @@
                 $end_date   = date ( 'Y-m-d', strtotime ( $_REQUEST[ 'end_date' ] ) );
                 $sql        .= " and DATE(date_added) BETWEEN '$start_date' and '$end_date'";
             }
+            
+            if (isset($_REQUEST['location_id']) && !empty(trim($_REQUEST['location_id'])) && is_numeric($_REQUEST['location_id']) && $_REQUEST['location_id'] > 0) {
+                $location_id = $_REQUEST['location_id'];
+                $sql .= " AND user_id IN (SELECT id FROM hmis_users WHERE locations_id=$location_id)";
+            }
             $sql   .= " group by sale_id order by id DESC";
             $sales = $this -> db -> query ( $sql );
             return $sales -> result ();

@@ -1311,6 +1311,10 @@
                 <input type="checkbox" class="checkbox" name="access[]"
                        value="lab_general_reporting" <?php if ( !empty( $access ) and in_array ( 'lab_general_reporting', explode ( ',', $access -> access ) ) )
                     echo 'checked="checked"' ?>>
+                      Show All (Locations Data)
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="lab_general_reporting_show_all_locations" <?php if ( !empty( $access ) and in_array ( 'lab_general_reporting_show_all_locations', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
             </td>
         </tr>
         <tr>

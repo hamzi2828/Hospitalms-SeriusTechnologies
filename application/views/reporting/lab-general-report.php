@@ -158,13 +158,36 @@
                 <div class="form-group col-lg-2">
                     <label for="exampleInputEmail1">Location</label>
                     <select class="form-control select2me" name="location-id">
-                        <option value="">Select</option>
                         <?php
-                            if ( count ( $locations ) > 0 ) {
-                                foreach ( $locations as $location ) {
+                            // Get the logged in user's location ID
+                            $user_location_id = get_logged_in_user_locations_id();
+                            
+                            // Check if user has access to view all locations
+                            $ci = &get_instance();
+                            $user_id = get_logged_in_user_id();
+                            $user_access = $ci->db->where('user_id', $user_id)->get('hmis_user_access')->row();
+                            $has_all_locations_access = false;
+                            
+                            if (!empty($user_access) && in_array('lab_general_reporting_show_all_locations', explode(',', $user_access->access))) {
+                                $has_all_locations_access = true;
+                            }
+                            
+                            if ($has_all_locations_access) {
+                                // Show all locations
+                                echo '<option value="">Select</option>';
+                                if (count($locations) > 0) {
+                                    foreach ($locations as $location) {
+                                        ?>
+                                        <option value="<?php echo $location->id ?>" <?php if ($location->id == @$_REQUEST['location-id']) echo 'selected="selected"' ?>><?php echo $location->name ?></option>
+                                        <?php
+                                    }
+                                }
+                            } else {
+                                // Show only user's location
+                                $location_obj = get_location_by_id($user_location_id);
+                                if ($location_obj) {
                                     ?>
-                                    <option value="<?php echo $location -> id ?>" <?php if ( $location -> id == @$_REQUEST[ 'location-id' ] )
-                                        echo 'selected="selected"' ?>><?php echo $location -> name ?></option>
+                                    <option value="<?php echo $location_obj->id ?>" selected="selected"><?php echo $location_obj->name ?></option>
                                     <?php
                                 }
                             }

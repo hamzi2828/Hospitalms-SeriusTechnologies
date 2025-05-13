@@ -320,6 +320,7 @@
             $this -> header ( $title );
             $this -> sidebar ();
             $data[ 'sales' ] = $this -> LabModel -> get_lab_cash_balance_report ();
+            $data['locations'] = $this -> LocationModel -> get_locations ();
             $this -> load -> view ( '/reporting/lab-cash-balance-report', $data );
             $this -> footer ();
         }

@@ -15,6 +15,7 @@
                         <th> Sr. No</th>
                         <th> <?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?></th>
                         <th> Received By</th>
+                        <th> Location</th>
                         <th> Received Amount</th>
                         <th> Payment Method</th>
                         <th> Date</th>
@@ -34,6 +35,18 @@
                                     <td> <?php echo $counter++ ?> </td>
                                     <td> <?php echo $receive -> sale_id ?> </td>
                                     <td> <?php echo $received_by -> name ?> </td>
+                                    <td>
+                                        <?php 
+                                       
+                                        // Get location by user ID instead of location_id
+                                        $ci = &get_instance();
+                                        if (!isset($ci->UserModel)) {
+                                            $ci->load->model('UserModel');
+                                        }
+                                        $location_id = $ci->UserModel->get_location_id_by_user_id($receive->user_id);
+                                        echo get_location_by_id($location_id)->name;
+                                        ?>
+                                    </td>
                                     <td>
                                         <?php echo number_format ( $receive -> amount, 2 ) ?>
                                     </td>
