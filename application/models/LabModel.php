@@ -2113,6 +2113,11 @@
                 $sql     .= " and user_id=$user_id";
                 $search  = true;
             }
+            if (isset($_REQUEST['location-id']) && !empty(trim($_REQUEST['location-id'])) && is_numeric($_REQUEST['location-id']) && $_REQUEST['location-id'] > 0) {
+                $location_id = $_REQUEST['location-id'];
+                $sql .= " AND user_id IN (SELECT id FROM hmis_users WHERE locations_id=$location_id)";
+                $search = true;
+            }
             $sales = $this -> db -> query ( $sql );
             if ( $search )
                 return $sales -> result ();
