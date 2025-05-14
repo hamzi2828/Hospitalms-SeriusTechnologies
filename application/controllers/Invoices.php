@@ -29,6 +29,7 @@
             $this -> load -> model ( 'SupplierModel' );
             $this -> load -> model ( 'DoctorModel' );
             $this -> load -> model ( 'HrModel' );
+            $this -> load -> model ( 'LocationModel' );
             $this -> load -> model ( 'LoanModel' );
             $this -> load -> model ( 'CompanyModel' );
             $this -> load -> model ( 'MemberModel' );
@@ -457,6 +458,81 @@
                                         'orientation' => 'L' 
                                     ] );
             $name = 'Lab General report ' . time () . '.pdf';
+
+            $mpdf -> SetTitle ( strip_tags ( site_name ) );
+            $mpdf -> SetAuthor ( site_name );
+            $mpdf -> SetWatermarkText ( site_name );
+            $mpdf -> showWatermarkText  = false;
+            $mpdf -> watermark_font     = 'DejaVuSansCondensed';
+            $mpdf -> watermarkTextAlpha = 0.1;
+            $mpdf -> SetDisplayMode ( 'real' );
+            $mpdf -> WriteHTML ( $html_content );
+            $mpdf -> Output ( $name, 'I' );
+        }
+
+
+        public function location_wise_report_cash () {
+            // Get date range if provided
+            $start_date = isset($_GET['start_date']) && !empty(trim($_GET['start_date'])) ? date('Y-m-d', strtotime($_GET['start_date'])) : '';
+            $end_date = isset($_GET['end_date']) && !empty(trim($_GET['end_date'])) ? date('Y-m-d', strtotime($_GET['end_date'])) : '';
+            
+            // Get all locations
+            $locations = $this -> LocationModel -> get_locations();
+            
+            // Check if date range is selected
+            $date_range_selected = !empty($start_date) || !empty($end_date);
+            
+            // Calculate total sales for each location
+            foreach ($locations as &$location) {
+                // Initialize with zero values if no date range is selected
+                if (!$date_range_selected) {
+                    $location->total_debit = 0;
+                    $location->total_credit = 0;
+                    $location->total_sales = 0;
+                    continue; // Skip the database query
+                }
+                
+                // Get total debit and credit for account head 24 for this location
+                $this->db->select('SUM(debit) as total_debit, SUM(credit) as total_credit');
+                $this->db->from('hmis_general_ledger');
+                $this->db->where('acc_head_id', 24); // Account head ID 24
+                
+                // Filter by location users
+                $this->db->where("user_id IN (SELECT id FROM hmis_users WHERE locations_id={$location->id})");
+                
+                // Apply date filters if provided
+                if (!empty($start_date)) {
+                    $this->db->where('DATE(trans_date) >=', $start_date);
+                }
+                if (!empty($end_date)) {
+                    $this->db->where('DATE(trans_date) <=', $end_date);
+                }
+                
+                $result = $this->db->get()->row();
+                
+                // Calculate total sales (debit - credit)
+                $location->total_debit = $result->total_debit ?? 0;
+                $location->total_credit = $result->total_credit ?? 0;
+                $location->total_sales = $location->total_credit - $location->total_debit;
+            }
+            
+            $data['locations'] = $locations;
+            $data['start_date'] = $start_date;
+            $data['end_date'] = $end_date;
+            
+            $html_content = $this -> load -> view ( '/invoices/location_wise_report_cash', $data, true );
+
+            require_once FCPATH . '/vendor/autoload.php';
+            $mpdf = new \Mpdf\Mpdf( [
+                                        'margin_left'   => 5,
+                                        'margin_right'  => 5,
+                                        'margin_top'    => 35,
+                                        'margin_bottom' => 5,
+                                        'margin_header' => 5,
+                                        'margin_footer' => 5,
+                                        'orientation' => 'L' 
+                                    ] );
+            $name = 'Location Wise Report (Cash) ' . time () . '.pdf';
 
             $mpdf -> SetTitle ( strip_tags ( site_name ) );
             $mpdf -> SetAuthor ( site_name );

@@ -587,12 +587,13 @@ mpdf-->
                             </tr>
                             <?php
                         }
-                        $machine = get_machine_remarks_and_machine_name($test->test_id);
+                        $machine = get_test_parameters($test->test_id);
                         if (!empty($machine) && !empty(trim($machine->machine_remarks))) {
                             ?>
                             <tr>
                                 <td style="font-size: 12px; border-bottom: 0; padding-top: -12px" colspan="6">
-                                    <br/><small><b>Machine Remarks: (<?php echo htmlspecialchars($machine->machine_name); ?>)</b></small>
+                                    <br/><small><b>Machine Remarks: (<?php 
+                                      echo htmlspecialchars($machine->machine_name); ?>)</b></small>
                                     <br/><small><?php echo nl2br(htmlspecialchars($machine->machine_remarks)); ?></small>
                                 </td>
                             </tr>

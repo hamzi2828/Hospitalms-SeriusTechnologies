@@ -1410,6 +1410,15 @@
                     echo 'checked="checked"' ?>>
             </td>
         </tr>
+        <tr>
+            <td></td>
+            <td>Location Wise (Cash)</td>
+            <td>
+                <input type="checkbox" class="checkbox" name="access[]"
+                       value="location_wise_report_cash" <?php if ( !empty( $access ) and in_array ( 'location_wise_report_cash', explode ( ',', $access -> access ) ) )
+                    echo 'checked="checked"' ?>>
+            </td>
+        </tr>
         <tr style="background: #dff0d8;">
             <td> lab settings</td>
             <td></td>

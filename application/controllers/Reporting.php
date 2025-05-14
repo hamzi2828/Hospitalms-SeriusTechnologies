@@ -327,6 +327,8 @@
 
         public function location_wise_report_cash () {
             $title = site_name . ' - Location Wise Report (Cash)';
+            // Set menu parameter for proper sidebar highlighting
+            $_GET['menu'] = 'lab';
             $this -> header ( $title );
             $this -> sidebar ();
             

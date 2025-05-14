@@ -80,14 +80,14 @@
     </li>
 <?php endif; ?>
 
-
+<?php if ( !empty( $access ) and in_array ( 'location_wise_report_cash', explode ( ',', $access -> access ) ) ) : ?>
     <li class="<?php if ( $child_uri == 'location_wise_report_cash' )
             echo 'active'; ?>">
-            <a href="<?php echo base_url ( '/reporting/location_wise_report_cash' ) ?>">
-            Location Wise (Cash )
+            <a href="<?php echo base_url ( '/reporting/location_wise_report_cash/?menu=lab' ) ?>">
+            Location Wise (Cash)
             </a>
         </li>
-
+<?php endif; ?>
         </ul>
     </li>
 <?php endif; ?>
