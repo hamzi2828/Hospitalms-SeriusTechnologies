@@ -80,6 +80,14 @@
     </li>
 <?php endif; ?>
 
+
+    <li class="<?php if ( $child_uri == 'location_wise_report_cash' )
+            echo 'active'; ?>">
+            <a href="<?php echo base_url ( '/reporting/location_wise_report_cash' ) ?>">
+            Location Wise (Cash )
+            </a>
+        </li>
+
         </ul>
     </li>
 <?php endif; ?>
