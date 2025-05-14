@@ -42,8 +42,8 @@
                     ?>
                 </div>
 
-                <a href="<?php echo base_url ( '/accounts/balance-sheet-summary-pro?' . $_SERVER[ 'QUERY_STRING' ] . '&balance_sheet_new=true' ) ?>"
-                   class="pull-right print-btn" target="_blank">Print</a>
+                <!-- <a href="<?php echo base_url ( '/accounts/balance-sheet-summary-pro?' . $_SERVER[ 'QUERY_STRING' ] . '&balance_sheet_new=true' ) ?>"
+                   class="pull-right print-btn" target="_blank">Print</a> -->
 
                 <a href="javascript:void(0)" onclick="downloadExcel()" style="margin-right: 10px"
                    class="pull-right print-btn">Download Excel</a>

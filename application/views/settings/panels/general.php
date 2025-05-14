@@ -105,7 +105,7 @@
             </div>
 
             <div class="form-group col-lg-3">
-                <label for="panel_type">Panel Type</label>
+                <label for="panel_type">Panel Type (Only applicable for Lab)</label>
                 <select name="panel_type" id="panel_type" class="form-control select2me">
                     <option value="">Select</option>
                     <option value="Bill To Company" <?php echo (isset($panel->panel_type) && $panel->panel_type == 'Bill To Company') ? 'selected="selected"' : '' ?>>Bill To Company</option>
