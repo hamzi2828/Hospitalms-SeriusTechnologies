@@ -530,7 +530,7 @@
                                         'margin_bottom' => 5,
                                         'margin_header' => 5,
                                         'margin_footer' => 5,
-                                        'orientation' => 'L' 
+                                        'orientation' => 'P' 
                                     ] );
             $name = 'Location Wise Report (Cash) ' . time () . '.pdf';
 
