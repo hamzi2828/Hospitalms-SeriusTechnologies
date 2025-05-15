@@ -1418,6 +1418,7 @@
                 
                 /***********LOGS*************/
                 
+            
                 $log = array (
                     'user_id'      => get_logged_in_user_id (),
                     'sale_id'      => $sale_id,
@@ -1483,23 +1484,35 @@
                     }
                 }
                 
-                // $description = 'Medicine sold. Invoice# ' . $sale_id;
-                // $ledger      = array (
-                //     'user_id'          => get_logged_in_user_id (),
-                //     'acc_head_id'      => $patient_id,
-                //     'invoice_id'       => $sale_id,
-                //     'trans_date'       => date ( 'Y-m-d' ),
-                //     'payment_mode'     => 'cash',
-                //     'paid_via'         => 'cash',
-                //     'transaction_type' => 'credit',
-                //     'credit'           => $sale_total,
-                //     'debit'            => 0,
-                //     'description'      => $description,
-                //     'date_added'       => current_date_time (),
-                // );
-               
-                // $this -> AccountModel -> add_ledger ( $ledger );
+                $description = 'Medicine sold. Invoice# ' . $sale_id;
+                $ledger      = array (
+                    'user_id'          => get_logged_in_user_id (),
+                    'acc_head_id'      => $patient_id,
+                    'invoice_id'       => $sale_id,
+                    'trans_date'       => date ( 'Y-m-d' ),
+                    'payment_mode'     => 'cash',
+                    'paid_via'         => 'cash',
+                    'transaction_type' => 'credit',
+                    'credit'           => $sale_total,
+                    'debit'            => 0,
+                    'description'      => $description,
+                    'date_added'       => current_date_time (),
+                );
                 
+                if ($ledger['acc_head_id'] == 22 && $sale['payment_method'] == 'cash') {
+                    $this->AccountModel->add_ledger($ledger);
+                }
+                if ($ledger['acc_head_id'] == 869 && $sale['payment_method'] == 'card') {
+                    $this->AccountModel->add_ledger($ledger);
+                }
+             
+                if ( $sale['payment_method'] == 'bank' ){
+                    $ledger['acc_head_id'] = $sale['account_head_id'];
+                    $this->AccountModel->add_ledger($ledger);
+                 }
+                
+                
+            
                 $pharmacy_sale_total = $data[ 'pharmacy_sale_total' ];
                 
                 if ( isset( $data[ 'sale_discount' ] ) and $data[ 'sale_discount' ] > 0 ) {
