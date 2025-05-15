@@ -1483,21 +1483,22 @@
                     }
                 }
                 
-                $description = 'Medicine sold. Invoice# ' . $sale_id;
-                $ledger      = array (
-                    'user_id'          => get_logged_in_user_id (),
-                    'acc_head_id'      => $patient_id,
-                    'invoice_id'       => $sale_id,
-                    'trans_date'       => date ( 'Y-m-d' ),
-                    'payment_mode'     => 'cash',
-                    'paid_via'         => 'cash',
-                    'transaction_type' => 'credit',
-                    'credit'           => $sale_total,
-                    'debit'            => 0,
-                    'description'      => $description,
-                    'date_added'       => current_date_time (),
-                );
-                $this -> AccountModel -> add_ledger ( $ledger );
+                // $description = 'Medicine sold. Invoice# ' . $sale_id;
+                // $ledger      = array (
+                //     'user_id'          => get_logged_in_user_id (),
+                //     'acc_head_id'      => $patient_id,
+                //     'invoice_id'       => $sale_id,
+                //     'trans_date'       => date ( 'Y-m-d' ),
+                //     'payment_mode'     => 'cash',
+                //     'paid_via'         => 'cash',
+                //     'transaction_type' => 'credit',
+                //     'credit'           => $sale_total,
+                //     'debit'            => 0,
+                //     'description'      => $description,
+                //     'date_added'       => current_date_time (),
+                // );
+               
+                // $this -> AccountModel -> add_ledger ( $ledger );
                 
                 $pharmacy_sale_total = $data[ 'pharmacy_sale_total' ];
                 
