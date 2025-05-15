@@ -3399,7 +3399,7 @@
         
             $this->db->select('SUM(ABS(paid_amount)) as net')
                      ->from('lab_sales')
-                     ->where("id IN (SELECT sale_id FROM hmis_test_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))");
+                     ->where("id IN (SELECT sale_id FROM hmis_test_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')) OR patient_id IN (SELECT p.id FROM hmis_patients p JOIN hmis_panels pnl ON p.panel_id = pnl.id WHERE pnl.panel_type = 'Cash Panel'))");
         
             if (isset($start_date) && !empty(trim($start_date)) && isset($end_date) && !empty(trim($end_date))) {
                 $start_date = date('Y-m-d', strtotime($start_date));
@@ -3665,7 +3665,7 @@
         
             $this->db->select('SUM(ABS(total)) as net')
                      ->from('lab_sales')
-                     ->where("id IN (SELECT sale_id FROM hmis_test_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')))");
+                     ->where("id IN (SELECT sale_id FROM hmis_test_sales WHERE patient_id IN (SELECT id FROM hmis_patients WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id='')) OR patient_id IN (SELECT p.id FROM hmis_patients p JOIN hmis_panels pnl ON p.panel_id = pnl.id WHERE pnl.panel_type = 'Cash Panel'))");
         
             if (isset($start_date) && !empty(trim($start_date)) && isset($end_date) && !empty(trim($end_date))) {
                 $start_date = date('Y-m-d', strtotime($start_date));
