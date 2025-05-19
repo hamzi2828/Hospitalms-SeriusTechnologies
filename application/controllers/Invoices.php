@@ -1424,7 +1424,13 @@
             $data[ 'sales' ]     = $this -> OPDModel -> get_sales ( $sale_id );
             $sale                = $data[ 'sale' ] = get_opd_sale ( $sale_id );
             $data[ 'sold_by' ]   = get_user ( $sale -> user_id ) -> name;
+            if ($this->input->get('erprint') === 'true') {
+                
+            $html_content        = $this -> load -> view ( '/invoices/opd-er-sale-invoice', $data, true );
+            }else{
             $html_content        = $this -> load -> view ( '/invoices/opd-sale-invoice', $data, true );
+            }
+
 
             require_once FCPATH . '/vendor/autoload.php';
             $mpdf = new \Mpdf\Mpdf( [

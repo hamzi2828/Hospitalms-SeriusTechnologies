@@ -207,11 +207,15 @@
 
                                     <td><?php echo date_setter ( $sale -> date_added ) ?></td>
                                     <td class="btn-group-xs">
-                                        <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_opd_invoices', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
-                                            <a type="button" class="btn purple" target="_blank"
-                                               href="<?php echo base_url ( '/invoices/opd-service-invoice/' . $sale -> sale_id ) ?>">Print</a>
-                                        <?php endif; ?>
-                                        <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'refund_opd_invoices', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) and $sale_info -> refund != '1' ) : ?>
+
+                                    <a type="button" class="btn blue" target="_blank"
+                                    href="<?php echo base_url ( '/invoices/opd-service-invoice/' . $sale -> sale_id . '?erprint=true' ) ?>">ER-Print</a>
+
+                                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'print_opd_invoices', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) ) : ?>
+                                        <a type="button" class="btn purple" target="_blank"
+                                           href="<?php echo base_url ( '/invoices/opd-service-invoice/' . $sale -> sale_id ) ?>">Print</a>
+                                    <?php endif; ?>
+                                    <?php if ( get_user_access ( get_logged_in_user_id () ) and in_array ( 'refund_opd_invoices', explode ( ',', get_user_access ( get_logged_in_user_id () ) -> access ) ) and $sale_info -> refund != '1' ) : ?>
                                             <a type="button" class="btn green"
                                                href="<?php echo base_url ( '/OPD/refund/' . $sale -> sale_id ) ?>">Refund</a>
                                         <?php endif; ?>
