@@ -3600,30 +3600,50 @@
                 $end   = date('Y-m-d', strtotime($end_date)) . (!empty($end_time) ? ' ' . date('H:i:s', strtotime($end_time)) : ' 23:59:59');
             }
         
-            // From hmis_lab_sales
+            // Step 1: Get bank sales total from hmis_lab_sales
             $this->db->select('SUM(paid_amount) as net')
                      ->from('hmis_lab_sales')
                      ->where('payment_method', 'bank');
-        
             if (!empty($start)) $this->db->where("date_sale BETWEEN '$start' AND '$end'");
             if (!empty($user_id)) $this->db->where('user_id', $user_id);
             if (!empty($location_id)) $this->db->where("user_id IN (SELECT id FROM hmis_users WHERE locations_id = $location_id)");
+            $sales_total = $this->db->get()->row()->net ?? 0;
         
-            $sales = $this->db->get()->row()->net ?? 0;
-        
-            // From hmis_lab_sales_receiving
+            // Step 2: Get bank receiving from hmis_lab_sales_receiving
             $this->db->select('SUM(amount) as net')
                      ->from('hmis_lab_sales_receiving')
                      ->where('payment_method', 'bank');
-        
             if (!empty($start)) $this->db->where("created_at BETWEEN '$start' AND '$end'");
             if (!empty($user_id)) $this->db->where('user_id', $user_id);
             if (!empty($location_id)) $this->db->where("user_id IN (SELECT id FROM hmis_users WHERE locations_id = $location_id)");
+            $receiving_bank = $this->db->get()->row()->net ?? 0;
         
-            $receiving = $this->db->get()->row()->net ?? 0;
+            // Step 3: Get sale_ids from hmis_lab_sales where payment_method = 'bank'
+            $this->db->select('id')
+                     ->from('hmis_lab_sales')
+                     ->where('payment_method', 'bank');
+            if (!empty($start)) $this->db->where("date_sale BETWEEN '$start' AND '$end'");
+            if (!empty($user_id)) $this->db->where('user_id', $user_id);
+            if (!empty($location_id)) $this->db->where("user_id IN (SELECT id FROM hmis_users WHERE locations_id = $location_id)");
+            $sale_ids = array_column($this->db->get()->result_array(), 'id');
         
-            return $sales + $receiving;
+            // Step 4: Get non-bank receiving (cash, card) related to bank sale_ids
+            $receiving_non_bank = 0;
+            if (!empty($sale_ids)) {
+                $this->db->select('SUM(amount) as non_bank_total')
+                         ->from('hmis_lab_sales_receiving')
+                         ->where_in('payment_method', ['cash', 'card', 'bank'])
+                         ->where_in('sale_id', $sale_ids);
+                if (!empty($start)) $this->db->where("created_at BETWEEN '$start' AND '$end'");
+                if (!empty($user_id)) $this->db->where('user_id', $user_id);
+                if (!empty($location_id)) $this->db->where("user_id IN (SELECT id FROM hmis_users WHERE locations_id = $location_id)");
+                $receiving_non_bank = $this->db->get()->row()->non_bank_total ?? 0;
+            }
+        
+            // Final Net Bank Total
+            return ($sales_total + $receiving_bank) - $receiving_non_bank;
         }
+        
         
 
 
