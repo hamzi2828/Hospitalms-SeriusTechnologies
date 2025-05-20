@@ -89,12 +89,12 @@
 </htmlpageheader>
 <htmlpagefooter name="myfooter">
 <div style="width:100%; display:block; text-align:right;">
-    <small><b>Advice/Follow up:</b>
+   
     
     <br/><br/><br/>
     _________________________________<br>
     <small><b>Doctor's Sign</b></small>
-    <br/><br/><br/>
+    
 </div>
 <?php require_once 'pdf-footer.php' ?>
 </htmlpagefooter>
@@ -104,64 +104,42 @@ mpdf-->
 <table width="100%">
     <tr>
         <td width="50%">
-            <span style="font-weight: bold; font-size: 18pt;"></span>
-            <span style="font-weight: bold; font-size: 10pt;"><br>
-                
+            <span style="font-weight: bold; font-size: 15pt;"><br>
+               Emergency Department
             </span>
-            
         </td>
         <td width="50%" align="right" style="text-align: right;">
-            <span style="font-weight: bold; font-size: 25pt;"></span>
             <br />
-            <strong>Prescription Date:</strong> 
+            <strong>Date & Time:</strong> <?php echo date('d-m-Y') . ' ' . date('g:i a'); ?>
         </td>
     </tr>
 </table>
 <br /><br /><br />
 
 <div class="left">
+    <?php 
+    $sales = get_opd_sale_by_id($sale->id);
+    $sale_info = !empty($sales) ? $sales[0] : null;
+    $patient_info = $sale_info ? get_patient_by_id($sale_info->patient_id) : null;
+    ?>
     <div class="details">
-        
         <h3 style="border-bottom: 1px solid #a4a4a4; margin-top: -15px"><strong>Patient Information</strong></h3>
-        EMR:
-        <br>
-        Name:
-        <br>
-        Age:
-        <br>
-        Gender:
-        
+        EMR: <?= isset($patient_info->id) ? $patient_info->id : 'N/A' ?><br>
+        Name: <?= isset($patient_info->name) ? $patient_info->prefix . ' ' . $patient_info->name : 'N/A' ?><br>
+        Age: <?= isset($patient_info->age) ? $patient_info->age : 'N/A' ?><br>
+        Gender: <?= isset($patient_info->gender) ? $patient_info->gender : 'N/A' ?>
     </div>
     <?php
       
         ?>
-            <div class="details">
-                <h3 style="border-bottom: 1px solid #a4a4a4"><strong>Patient Vitals</strong></h3>
-                
-            </div>
-        
-            <div class="details">
-                <h3 style="border-bottom: 1px solid #a4a4a4"><strong>Patient Vitals</strong></h3>
-                <br /><br /><br /><br />
-            </div>
-        
-
-    
         <div class="details">
-            <h3 style="border-bottom: 1px solid #a4a4a4"><strong>Complaints</strong></h3>
-            
+            <h3 style="border-bottom: 1px solid #a4a4a4"><strong>Patient Vitals</strong></h3>
+            <br /><br /><br /><br />
         </div>
-    
         <div class="details">
             <h3 style="border-bottom: 1px solid #a4a4a4"><strong>Subjective Complaints</strong></h3>
             <br /><br /><br /><br /><br /><br /><br />
         </div>
-    
-        <div class="details">
-            <h3 style="border-bottom: 1px solid #a4a4a4"><strong>Diagnosis</strong></h3>
-            
-        </div>
-        
         <div class="details">
             <h3 style="border-bottom: 1px solid #a4a4a4"><strong>Objective Complaints</strong></h3>
             <br /><br /><br /><br /><br /><br /><br />

@@ -2230,6 +2230,12 @@ function get_blood_inventory_reference_number($inventory_id) {
         $ci -> load -> model ( 'OPDModel' );
         return $ci -> OPDModel -> get_opd_sale ( $sale_id );
     }
+
+    function get_opd_sale_by_id($sale_id) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'OPDModel' );
+        return $ci -> OPDModel -> get_sales ( $sale_id );
+    }
     
     /**
      * ---------------------
