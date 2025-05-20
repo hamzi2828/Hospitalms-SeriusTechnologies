@@ -126,8 +126,19 @@ mpdf-->
         <h3 style="border-bottom: 1px solid #a4a4a4; margin-top: -15px"><strong>Patient Information</strong></h3>
         EMR: <?= isset($patient_info->id) ? $patient_info->id : 'N/A' ?><br>
         Name: <?= isset($patient_info->name) ? $patient_info->prefix . ' ' . $patient_info->name : 'N/A' ?><br>
-        Age: <?= isset($patient_info->age) ? $patient_info->age : 'N/A' ?><br>
-        Gender: <?= isset($patient_info->gender) ? $patient_info->gender : 'N/A' ?>
+        Age: <?= isset($patient_info->dob) ? calculatePatientAge($patient_info->dob) : (isset($patient_info->age) ? $patient_info->age . ' years' : 'N/A') ?><br>
+        Gender: <?php 
+            if(isset($patient_info->gender)) {
+                switch($patient_info->gender) {
+                    case 1: echo 'Male'; break;
+                    case 2: echo 'Female'; break;
+                    case 3: echo 'Other'; break;
+                    default: echo 'N/A';
+                }
+            } else {
+                echo 'N/A';
+            }
+        ?>
     </div>
     <?php
       
