@@ -103,13 +103,10 @@
 mpdf-->
 <table width="100%">
     <tr>
-        <td width="50%">
-            <span style="font-weight: bold; font-size: 15pt;"><br>
-               Emergency Department
-            </span>
+        <td width="50%" style="vertical-align: bottom;">
+            <span style="font-weight: bold; font-size: 15pt;">Emergency Department</span>
         </td>
-        <td width="50%" align="right" style="text-align: right;">
-            <br />
+        <td width="50%" align="right" style="text-align: right; vertical-align: bottom;">
             <strong>Date & Time:</strong> <?php echo date('d-m-Y') . ' ' . date('g:i a'); ?>
         </td>
     </tr>
