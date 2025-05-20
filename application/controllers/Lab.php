@@ -4366,6 +4366,9 @@
         }
         
         public function do_sale_lab_package () {
+            $this->load->library('form_validation');
+            $this->load->model('LogModel');
+            $this->load->model('LabModel');
             $this -> form_validation -> set_rules ( 'patient_id', 'patient_id', 'required|min_length[1]|numeric' );
             
             if ( $this -> form_validation -> run () == true ) {
@@ -4378,16 +4381,18 @@
                 $paid_amount    = $this -> input -> post ( 'paid_amount' );
                 $comments       = $this -> input -> post ( 'comments' );
                 $patient        = get_patient ( $patient_id );
+                $location_id = get_logged_in_user_locations_id ();
                 
                 $total_sale = calculate_total_package_lab_sale ();
                 $net_sale   = $total_sale - ( $total_sale * ( $discount / 100 ) );
                 $net_sale   = $net_sale - $flat_discount;
-                
                 $sale    = array (
                     'user_id'            => get_logged_in_user_id (),
                     'account_head_id'    => $this -> input -> post ( 'bank-id' ),
                     'discount'           => $discount,
+                    'patient_id'         => $patient_id,
                     'flat_discount'      => $flat_discount,
+                    'locations_id'       => get_logged_in_user_locations_id(),
                     'total'              => $net_sale,
                     'show_online_report' => $this -> input -> post ( 'show_online_report' ),
                     'type'               => 'lab',
@@ -4400,6 +4405,23 @@
                 $sale_id = $this -> LabModel -> add_lab_sale ( $sale );
                 
                 $description     = 'Cash from lab . Sale# ' . $sale_id;
+
+                $location_sale_id = get_next_location_sale_id($location_id);
+                $daily_location_sale_id = get_next_location_sale_id_on_daily_basies($location_id);
+
+                $location_sale_data = array(
+                    'hmis_lab_sales_id' => $sale_id, 
+                    'user_id' => get_logged_in_user_id (),
+                    'location_sale_id' => $location_sale_id ?? '',
+                    'daily_location_sale_id	' =>  $daily_location_sale_id ?? '',
+                    'sale_date' => date('Y-m-d H:i:s'),
+                    'location_id' => $location_id,
+                );
+                
+
+                $location_sale_data = $this -> LabModel -> add_lab_location_sale ( $location_sale_data );
+
+
                 $cashAccountHead = cash_from_lab_services;
                 if ( $this -> input -> post ( 'payment-method' ) == 'card' )
                     $cashAccountHead = CARD;
@@ -4415,6 +4437,7 @@
                         'lab_sale_id'      => $sale_id,
                         'trans_date'       => date ( 'Y-m-d' ),
                         'payment_mode'     => 'cash',
+                        'locations_id'     => get_logged_in_user_locations_id(),
                         'paid_via'         => 'cash',
                         'credit'           => $paid_amount,
                         'debit'            => 0,
@@ -4477,6 +4500,7 @@
                         'transaction_type' => 'credit',
                         'description'      => $description,
                         'transaction_no'   => $this -> input -> post ( 'transaction-no' ),
+                        'locations_id'     => get_logged_in_user_locations_id(),
                     );
                     $this -> AccountModel -> add_ledger ( $ledger );
                     
@@ -4579,22 +4603,60 @@
                                     if ( $type == 'profile' or count ( $sub_tests ) > 0 ) {
                                         $price = get_test_price ( $test_id ) -> price;
                                         
+                                        // Generate serial numbers for the tests
+                                        $test_ids = [$test_id];
+                                        $serial_numbers = $this->LabModel->get_serial_numbers_for_invoice($test_ids, $location_id);
+                                        
+                                        // Generate reference code
+                                        $reference_code = $this->LabModel->retive_section_code_by_test_id($test_id) . '/' . $serial_numbers[$test_id] . '/' . $this->LabModel->retive_locaiton_code_current_user();
+                                        
                                         $info[ 'test_id' ]                     = $test_id;
                                         $info[ 'parent_id' ]                   = NULL;
                                         $info[ 'type' ]                        = 'profile';
                                         $info[ 'price' ]                       = $price;
-                                        $info[ 'report_collection_date_time' ] = date ( 'Y-m-d H:i:s', strtotime ( $_POST[ 'report-collection-date-time' ][ $key ] ) );
+                                        $info[ 'reference_code' ]              = $reference_code;
+                                        $info[ 'report_collection_date_time' ] = isset($_POST['report-collection-date-time'][$key]) ? date('Y-m-d H:i:s', strtotime($_POST['report-collection-date-time'][$key])) : date('Y-m-d H:i:s');
                                         $this -> LabModel -> assign_test ( $info );
+                                        // Save the reference code for the main test
+                                        $reference_data = [
+                                        'sale_id' => $sale_id,
+                                        'test_id' => $test_id,
+                                        'section_id' => $this->LabModel->get_section_id_by_test($test_id),
+                                        'section_test_id' => $serial_numbers[$test_id],
+                                        'reference_code' => $reference_code, // Ensure reference code is saved
+                                        'section_code' => $this->LabModel->retive_section_code_by_test_id($test_id),
+                                        'location_code' => $this->LabModel->retive_locaiton_code_current_user(),
+                                        'location_id' => $location_id,
+                                        'date_added' => date('Y-m-d H:i:s'),
+                                    ];
+                                    $this->LabModel->save_reference_code($reference_data);     
+
                                         foreach ( $sub_tests as $sub_test ) {
                                             $price = 0;
-                                            
+                                            $reference_code_sub = $this->LabModel->retive_section_code_by_test_id($sub_test->id) . '/' . $serial_numbers[$sub_test->id] . '/' . $this->LabModel->retive_locaiton_code_current_user();
                                             $info[ 'test_id' ]   = $sub_test -> id;
                                             $info[ 'parent_id' ] = $test_id;
                                             $info[ 'type' ]      = 'profile';
+                                            $info[ 'reference_code' ]              = $reference_code_sub;   
                                             $info[ 'price' ]     = 0;
                                             
                                             $this -> LabModel -> assign_test ( $info );
                                             
+                                            
+                                            // Save the reference code for the sub-test
+                                            $reference_data = [
+                                                'sale_id' => $sale_id,
+                                                'test_id' => $sub_test->id,
+                                                'section_id' => $this->LabModel->get_section_id_by_test($sub_test->id),
+                                                'section_test_id' => $serial_numbers[$sub_test->id],
+                                                'reference_code' => $reference_code_sub, // Ensure reference code is saved
+                                                'section_code' => $this->LabModel->retive_section_code_by_test_id($sub_test->id),
+                                                'location_code' => $this->LabModel->retive_locaiton_code_current_user(),
+                                                'location_id' => $location_id,
+                                                'date_added' => date('Y-m-d H:i:s'),
+                                            ];
+                                                $this->LabModel->save_reference_code($reference_data);
+
                                             /***********LOGS*************/
                                             
                                             $log = array (
@@ -4615,14 +4677,35 @@
                                     else {
                                         $price = get_test_price ( $test_id ) -> price;
                                         
+                                        // Generate serial numbers for the tests
+                                        $test_ids = [$test_id];
+                                        $serial_numbers = $this->LabModel->get_serial_numbers_for_invoice($test_ids, $location_id);
+                                        
+                                        // Generate reference code
+                                        $reference_code = $this->LabModel->retive_section_code_by_test_id($test_id) . '/' . $serial_numbers[$test_id] . '/' . $this->LabModel->retive_locaiton_code_current_user();
+                                        
                                         $info[ 'test_id' ]                     = $test_id;
                                         $info[ 'parent_id' ]                   = NULL;
                                         $info[ 'type' ]                        = 'test';
                                         $info[ 'price' ]                       = $price;
-                                        $info[ 'report_collection_date_time' ] = date ( 'Y-m-d H:i:s', strtotime ( $_POST[ 'report-collection-date-time' ][ $key ] ) );
+                                        $info[ 'reference_code' ]              = $reference_code;
+                                        $info[ 'report_collection_date_time' ] = isset($_POST['report-collection-date-time'][$key]) ? date('Y-m-d H:i:s', strtotime($_POST['report-collection-date-time'][$key])) : date('Y-m-d H:i:s');
                                         
                                         $this -> LabModel -> assign_test ( $info );
                                         
+                                        // Save the reference code for the main test
+                                        $reference_data = [
+                                        'sale_id' => $sale_id,
+                                        'test_id' => $test_id,
+                                        'section_id' => $this->LabModel->get_section_id_by_test($test_id),
+                                        'section_test_id' => $serial_numbers[$test_id],
+                                        'reference_code' => $reference_code, // Ensure reference code is saved
+                                        'section_code' => $this->LabModel->retive_section_code_by_test_id($test_id),
+                                        'location_code' => $this->LabModel->retive_locaiton_code_current_user(),
+                                        'location_id' => $location_id,
+                                        'date_added' => date('Y-m-d H:i:s'),
+                                    ];
+                                    $this->LabModel->save_reference_code($reference_data);      
                                         /***********LOGS*************/
                                         
                                         $log = array (
@@ -4659,9 +4742,10 @@
                 }
                 
                 $print = '<strong><a href="' . base_url ( '/invoices/lab-sale-invoice/' . $sale_id ) . '" target="_blank">Print</a></strong>';
+                $printLW = '<strong><a href="' . base_url('/invoices/lab-sale-invoice/' . $sale_id . '?print2=true&daily_location_sale_id=' . $daily_location_sale_id . '&panel=' . $panel) . '"  target="_blank">Print LW</a></strong> ';
                 
                 if ( $sale_id > 0 )
-                    $this -> session -> set_flashdata ( 'response', 'Success! Lab sale has been added. ' . $print );
+                    $this -> session -> set_flashdata ( 'response', 'Success! Lab sale has been added. ' . $print .' | '. $printLW );
                 else
                     $this -> session -> set_flashdata ( 'error', 'Error! Please try again.' );
                 
