@@ -2526,7 +2526,7 @@
         $discount                = $this -> input -> post ( 'discount' );
         $flat_discount           = $this -> input -> post ( 'flat_discount' );
         $net_bill                = $this -> input -> post ( 'net_bill' );
-        
+       
         if ( !$sale_id or !is_numeric ( $sale_id ) or $sale_id < 1 )
             return redirect ( $_SERVER[ 'HTTP_REFERER' ] );
         
@@ -2611,6 +2611,7 @@
                 if ( $accHeadID > 0  ) {
                     $ledger[ 'acc_head_id' ] = $accHeadID;
                 }
+             
                 $this -> AccountModel -> add_ledger ( $ledger );
                 
                 $ledger[ 'acc_head_id' ] = sales_lab_services;
@@ -2618,11 +2619,12 @@
                     $ledger[ 'acc_head_id' ] = sales_lab_services_panel;
                     $ledger[ 'description' ] = $description;
                 }
-                $ledger[ 'credit' ] = abs ( $this -> LabModel -> get_lab_sales_total_by_sale_id ( $sale_id ) );
+                $ledger[ 'credit' ] = abs ( $amount_paid_to_customer );
                 if ( $discount > 0 || $flat_discount > 0 )
                     $ledger[ 'credit' ] = abs ( $_POST[ 'accounts_value' ] );
                 $ledger[ 'debit' ]            = 0;
                 $ledger[ 'transaction_type' ] = 'credit';
+               
                 $this -> AccountModel -> add_ledger ( $ledger );
                 
                 if ( $discount > 0 || $flat_discount > 0 ) {
