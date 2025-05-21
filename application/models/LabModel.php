@@ -3551,10 +3551,22 @@
             }
         
             // Step 1: Get card sales
-            $this->db->select('SUM(paid_amount) as net')
-                     ->from('hmis_lab_sales')
-                     ->where('total >', 0)
-                     ->where('payment_method', 'card');
+            $this->db->select('SUM(ABS(paid_amount)) as net')
+                     ->from('lab_sales')
+                     ->where("total >", 0)
+                     ->where('payment_method', 'card')
+                     ->where("id IN (
+                        SELECT sale_id FROM hmis_test_sales 
+                        WHERE patient_id IN (
+                            SELECT id FROM hmis_patients 
+                            WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id = '')
+                        ) 
+                        OR patient_id IN (
+                            SELECT p.id FROM hmis_patients p 
+                            JOIN hmis_panels pnl ON p.panel_id = pnl.id 
+                            WHERE pnl.panel_type = 'Cash Panel'
+                        )
+                     )");
             if (!empty($start)) $this->db->where("date_sale BETWEEN '$start' AND '$end'");
             if (!empty($user_id)) $this->db->where('user_id', $user_id);
             if (!empty($location_id)) $this->db->where("user_id IN (SELECT id FROM hmis_users WHERE locations_id = $location_id)");
@@ -3615,9 +3627,22 @@
             }
         
             // Step 1: Get bank sales total from hmis_lab_sales
-            $this->db->select('SUM(paid_amount) as net')
-                     ->from('hmis_lab_sales')
-                     ->where('payment_method', 'bank');
+            $this->db->select('SUM(ABS(paid_amount)) as net')
+                     ->from('lab_sales')
+                     ->where("total >", 0)
+                     ->where('payment_method', 'bank')
+                     ->where("id IN (
+                        SELECT sale_id FROM hmis_test_sales 
+                        WHERE patient_id IN (
+                            SELECT id FROM hmis_patients 
+                            WHERE (panel_id < 1 OR panel_id IS NULL OR panel_id = '')
+                        ) 
+                        OR patient_id IN (
+                            SELECT p.id FROM hmis_patients p 
+                            JOIN hmis_panels pnl ON p.panel_id = pnl.id 
+                            WHERE pnl.panel_type = 'Cash Panel'
+                        )
+                     )");
             if (!empty($start)) $this->db->where("date_sale BETWEEN '$start' AND '$end'");
             if (!empty($user_id)) $this->db->where('user_id', $user_id);
             if (!empty($location_id)) $this->db->where("user_id IN (SELECT id FROM hmis_users WHERE locations_id = $location_id)");

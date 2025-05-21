@@ -37,6 +37,7 @@
                 $hosp_commission       = 0;
                 $doc_commission        = 0;
                 $net                   = 0;
+                $positiveCount         = 0; // Initialize positive count for each doctor
                 
                 $consultancies = get_doctor_consultancies ( $doctor -> id );
                 if ( count ( $consultancies ) > 0 ) {
@@ -49,6 +50,10 @@
                         $commission            = $consultancy -> doctor_charges - $consultancy -> doctor_discount;
                         $hosp_commission       = $hosp_commission + $hospital_commission;
                         $doc_commission        = $doc_commission + $commission;
+                        // Only count positive net_bill values
+                        if ($consultancy->net_bill > 0) {
+                            $positiveCount++;
+                        }
                         $netHospitalCharges    += $consultancy -> charges;
                         $netBill               += $consultancy -> net_bill;
                         $netHospitalCommission += $hospital_commission;
@@ -65,7 +70,7 @@
                                 echo $doctor -> qualification;
                             ?>
                         </td>
-                        <td><?php echo count ( $consultancies ) ?></td>
+                        <td><?php echo $positiveCount ?></td>
                         <td><?php echo number_format ( $netBill, 2 ) ?></td>
                         <td><?php echo number_format ( $netHospitalCommission, 2 ) ?></td>
                         <td><?php echo number_format ( $netDoctorCommission, 2 ) ?></td>
@@ -73,7 +78,7 @@
                     <?php
                 }
                 
-                $netConsultancies        += count ( $consultancies );
+                $netConsultancies        += $positiveCount;
                 $totalBill               += $netBill;
                 $totalHospitalCommission += $netHospitalCommission;
                 $totalDoctorCommission   += $netDoctorCommission;

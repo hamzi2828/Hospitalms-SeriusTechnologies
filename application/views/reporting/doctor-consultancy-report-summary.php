@@ -93,6 +93,7 @@
                                 $netBill               = 0;
                                 $netHospitalCommission = 0;
                                 $netDoctorCommission   = 0;
+                                $positiveCount        = 0; // Initialize positive count for each doctor
                                 $hosp_commission       = 0;
                                 $doc_commission        = 0;
                                 $net                   = 0;
@@ -123,7 +124,15 @@
                                                 echo $doctor -> qualification;
                                             ?>
                                         </td>
-                                        <td><?php echo count ( $consultancies ) ?></td>
+                                        <td><?php 
+                                            $positiveCount = 0; // Reset for this doctor
+                                            foreach ($consultancies as $consult) {
+                                                if (isset($consult->net_bill) && $consult->net_bill > 0) {
+                                                    $positiveCount++;
+                                                }
+                                            }
+                                            echo $positiveCount; 
+                                        ?></td>
                                         <td><?php echo number_format ( $netBill, 2 ) ?></td>
                                         <td><?php echo number_format ( $netHospitalCommission, 2 ) ?></td>
                                         <td><?php echo number_format ( $netDoctorCommission, 2 ) ?></td>
@@ -131,7 +140,7 @@
                                     <?php
                                 }
                                 
-                                $netConsultancies        += count ( $consultancies );
+                                $netConsultancies        += $positiveCount;
                                 $totalBill               += $netBill;
                                 $totalHospitalCommission += $netHospitalCommission;
                                 $totalDoctorCommission   += $netDoctorCommission;
