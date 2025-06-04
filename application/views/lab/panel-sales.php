@@ -78,7 +78,7 @@
                             <th> <?php echo $this -> lang -> line ( 'PATIENT_NAME' ); ?></th>
                             <th> Panel</th>
                             <th> Reference</th>
-                            <th> Name</th>
+                            <th>  Test Name</th>
                             <th> TAT</th>
                             <th> Price</th>
                             <th> Discount(%)</th>

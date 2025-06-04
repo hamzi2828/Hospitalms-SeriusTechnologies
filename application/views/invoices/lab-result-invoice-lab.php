@@ -147,9 +147,9 @@ mpdf-->
                 <td width="50%" style="color:#000; font-size: 9pt" >
                     <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>: </b><?php echo $_GET[ 'sale-id' ] ?><br />
                     <b>MR Number: </b><?php echo get_patient_mr_number ( 0, $patient ) ?><br />
-                    <b>Name: </b><?php echo get_patient_name ( 0, $patient ) ?><br />
+                    <b>Name: </b><?php echo $patient -> prefix . ' ' . $patient -> name ?><br />
                     <?php
-                        if ( !empty( trim ( $patient -> father_name ) ) )
+                        if ( !empty( trim ( $patient -> father_name ) ) && !empty( trim ( $patient -> relationship ) ) )
                             echo '<b>' . $patient -> relationship . ': </b>' . $patient -> father_name . '<br/>';
                         if ( !empty( trim ( $patient -> passport ) ) )
                             echo '<b>Patient Passport: </b>' . $patient -> passport . '<br/>';
@@ -404,7 +404,7 @@ mpdf-->
                                     $td = 2 - count ( $previous_results );
                                     for ( $loop = 1; $loop <= $td; $loop++ ) {
                                         echo '<td></td>';
-                                    }
+                                    } 
                                 ?>
                                 <td align="left"
                                     style="font-weight: 900; font-size: 9pt"><?php echo @get_unit_by_id ( $sub_unit ) ?></td>

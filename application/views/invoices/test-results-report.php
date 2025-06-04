@@ -142,9 +142,9 @@ mpdf-->
                                     <b><?php echo $this -> lang -> line ( 'INVOICE_ID' ); ?>
                                         : </b><?php echo $_GET[ 'sale-id' ] ?><br />
                                     <b>MR Number: </b><?php echo $patient_id ?><br />
-                                    <b>Name: </b><?php echo get_patient_name ( 0, $patient ) ?><br />
+                                    <b>Name: </b><?php echo $patient -> prefix . ' ' . $patient -> name ?><br />
                                     <?php
-                                        if ( !empty( trim ( $patient -> father_name ) ) )
+                                        if ( !empty( trim ( $patient -> father_name ) ) && !empty( trim ( $patient -> relationship ) ) )
                                             echo '<b>' . $patient -> relationship . ': </b>' . $patient -> father_name . '<br/>';
                                         if ( !empty( trim ( $patient -> passport ) ) )
                                             echo '<b>Patient Passport: </b>' . $patient -> passport . '<br/>';
