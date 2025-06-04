@@ -935,7 +935,7 @@
                 $patient          = get_patient ( $patient_id );
                 $service_info     = array ();
                 $location_id = get_logged_in_user_locations_id ();
-                if ( $panel_id > 0 ) {
+                if ( $panel_id > 0 && $panel_type !== 'Cash Panel' ) {
                     $paid_amount  = $total_net_price; 
                 }
                 if ( $panel_id > 0 ) {
