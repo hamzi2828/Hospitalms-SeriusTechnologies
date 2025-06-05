@@ -4800,4 +4800,16 @@ function get_blood_inventory_reference_number($inventory_id) {
         $ci -> load -> model ( 'LabModel' );
         return $ci -> LabModel -> get_machine_name ( $test_id, $machine );
     }
+
+    function get_lab_sale_packages_by_test_id($test_id){
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'LabModel' );
+        return $ci -> LabModel -> get_lab_sale_packages_by_test_id($test_id);
+    }
+
+    function get_pakage_title($package_id){
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'LabModel' );
+        return $ci -> LabModel -> get_pakage_title($package_id);
+    }
     

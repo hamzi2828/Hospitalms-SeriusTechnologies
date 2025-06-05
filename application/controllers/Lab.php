@@ -4623,6 +4623,7 @@
                                         $info[ 'price' ]                       = $price;
                                         $info[ 'reference_code' ]              = $reference_code;
                                         $info[ 'report_collection_date_time' ] = isset($_POST['report-collection-date-time'][$key]) ? date('Y-m-d H:i:s', strtotime($_POST['report-collection-date-time'][$key])) : date('Y-m-d H:i:s');
+                                        $info[ 'package_id' ] = $package_id; 
                                         $this -> LabModel -> assign_test ( $info );
                                         // Save the reference code for the main test
                                         $reference_data = [
@@ -4646,6 +4647,7 @@
                                             $info[ 'type' ]      = 'profile';
                                             $info[ 'reference_code' ]              = $reference_code_sub;   
                                             $info[ 'price' ]     = 0;
+                                            $info[ 'package_id' ] = $package_id; 
                                             
                                             $this -> LabModel -> assign_test ( $info );
                                             
@@ -4697,6 +4699,7 @@
                                         $info[ 'price' ]                       = $price;
                                         $info[ 'reference_code' ]              = $reference_code;
                                         $info[ 'report_collection_date_time' ] = isset($_POST['report-collection-date-time'][$key]) ? date('Y-m-d H:i:s', strtotime($_POST['report-collection-date-time'][$key])) : date('Y-m-d H:i:s');
+                                        $info[ 'package_id' ] = $package_id; 
                                         
                                         $this -> LabModel -> assign_test ( $info );
                                         

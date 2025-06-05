@@ -4430,4 +4430,24 @@
         $query = $this -> db -> get ( 'hmis_lab_sale_packages' );
         return $query -> result();
     }
+    
+    public function get_lab_package_tests_by_package_id($package_id){
+        $this -> db -> where ( 'package_id', $package_id );
+        $query = $this -> db -> get ( 'hmis_lab_package_tests' );
+        return $query -> result();
+    }
+    public function get_lab_sale_packages_by_test_id($test_id){
+        $this -> db -> where ( 'test_id', $test_id );
+        $query = $this -> db -> get ( 'hmis_lab_package_tests' );
+        $package_id = $query -> row () -> package_id;
+        $this -> db -> where ( 'id', $package_id );
+        $query = $this -> db -> get ( 'hmis_lab_packages' );
+        return $query -> row()->title;
+    }
+
+    public function get_pakage_title($package_id){
+        $this -> db -> where ( 'id', $package_id );
+        $query = $this -> db -> get ( 'hmis_lab_packages' );
+        return $query -> row()->title;
+    }
 }
