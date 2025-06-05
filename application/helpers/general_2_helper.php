@@ -17,6 +17,12 @@
         $ci -> load -> model ( 'IPDModel' );
         return $ci -> IPDModel -> get_package_by_id ( $package_id );
     }
+
+    function get_lab_package_by_id ( $package_id ) {
+        $ci = &get_instance ();
+        $ci -> load -> model ( 'LabModel' );
+        return $ci -> LabModel -> get_lab_package_by_id ( $package_id );
+    }
     
     function get_sold_items_count ( $department_id, $item_id ) {
         $ci = &get_instance ();

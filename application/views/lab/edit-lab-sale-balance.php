@@ -187,7 +187,11 @@
                         </div>
                     <?php endif; ?>
                     
-                    <?php if ( ( $sale -> total - $sale -> paid_amount ) > 0 and ( $patient -> panel_id < 1 or empty( trim ( $patient -> panel_id ) ) ) ) : ?>
+                    <?php 
+                        $panel = get_panel_by_id($patient->panel_id);
+                        $panel_type = $panel->panel_type;
+                    ?>
+                    <?php if ( ( $sale -> total - $sale -> paid_amount ) > 0 and ( $patient -> panel_id < 1 or empty( trim ( $patient -> panel_id ) ) or $panel_type == 'Cash Panel' ) ) : ?>
                         <div class="form-actions">
                             <!-- <button type="submit" class="btn blue">Update</button> -->
                         </div>

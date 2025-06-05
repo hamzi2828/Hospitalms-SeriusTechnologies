@@ -4374,7 +4374,9 @@
             $this -> form_validation -> set_rules ( 'patient_id', 'patient_id', 'required|min_length[1]|numeric' );
             
             if ( $this -> form_validation -> run () == true ) {
-                
+   
+
+             
                 $packages       = $this -> input -> post ( 'package_id', true );
                 $discount       = $this -> input -> post ( 'discount', true );
                 $flat_discount  = $this -> input -> post ( 'flat-discount', true );
@@ -4407,7 +4409,10 @@
                 $sale_id = $this -> LabModel -> add_lab_sale ( $sale );
                 
                 $description     = 'Cash from lab . Sale# ' . $sale_id;
-
+                $packages = $this->input->post('package_id', true);
+                foreach ($packages as $package_id) {
+                    $this->LabModel->add_lab_sale_package($sale_id, $package_id);
+                }
                 $location_sale_id = get_next_location_sale_id($location_id);
                 $daily_location_sale_id = get_next_location_sale_id_on_daily_basies($location_id);
 
@@ -4783,5 +4788,13 @@
                 }
             }
         }
+
+
+        public function add_more_lab_packages () {
+            $data[ 'row' ]      = $this -> input -> post ( 'added' );
+            $data[ 'packages' ] = $this -> PackageModel -> get_lab_packages ();
+            $this -> load -> view ( '/lab/add-more-lab-package', $data );
+        }
+        
         
     }

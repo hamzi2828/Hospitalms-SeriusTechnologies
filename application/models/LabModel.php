@@ -2174,7 +2174,8 @@
             $location_id = $user->locations_id;
             $all_user_invoices = (get_user_access($user_id) && in_array('all_user_invoices', explode(',', get_user_access($user_id)->access))) ? true : false;
             
-            $sql = "Select sale_id, patient_id, GROUP_CONCAT(test_id) as tests, SUM(price) as price, date_added, remarks, refunded from hmis_test_sales where (parent_id='0' OR parent_id < 1 or parent_id IS NULL) AND patient_id IN (Select id from hmis_patients where panel_id IS NULL OR panel_id < 1)";
+            // $sql = "Select sale_id, patient_id, GROUP_CONCAT(test_id) as tests, SUM(price) as price, date_added, remarks, refunded from hmis_test_sales where (parent_id='0' OR parent_id < 1 or parent_id IS NULL) AND patient_id IN (Select id from hmis_patients where panel_id IS NULL OR panel_id < 1)";
+            $sql = "Select sale_id, patient_id, GROUP_CONCAT(test_id) as tests, SUM(price) as price, date_added, remarks, refunded from hmis_test_sales where (parent_id='0' OR parent_id < 1 or parent_id IS NULL) AND (patient_id IN (Select id from hmis_patients where panel_id IS NULL OR panel_id < 1) OR patient_id IN (SELECT p.id FROM hmis_patients p JOIN hmis_panels pnl ON p.panel_id = pnl.id WHERE pnl.panel_type = 'Cash Panel'))";
             if ( isset( $_REQUEST[ 'sale_id' ] ) and is_numeric ( $_REQUEST[ 'sale_id' ] ) > 0 and !empty( trim ( $_REQUEST[ 'sale_id' ] ) ) ) {
                 $sale_id = $_REQUEST[ 'sale_id' ];
                 $sql     .= " and sale_id=$sale_id";
@@ -4406,5 +4407,27 @@
             'machine' => $machine
         ) );
         return $parameters -> row ();
+    }
+
+    public function get_lab_package_by_id ( $package_id ) {
+
+        $this -> db -> where ( 'id', $package_id );
+        $query = $this -> db -> get ( 'hmis_lab_packages' );
+        return $query -> row ();
+    }
+
+    public function add_lab_sale_package($sale_id, $package_id){
+        $data = array(
+            'sale_id' => $sale_id,
+            'package_id' => $package_id,
+            'created_at' => current_date_time(),
+        );
+        $this -> db -> insert ( 'hmis_lab_sale_packages', $data );
+    }
+
+    public function get_lab_sale_packages_by_sale_id($sale_id){
+        $this -> db -> where ( 'sale_id', $sale_id );
+        $query = $this -> db -> get ( 'hmis_lab_sale_packages' );
+        return $query -> result();
     }
 }

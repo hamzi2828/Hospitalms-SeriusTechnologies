@@ -346,6 +346,12 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
     <?php if ( !empty( trim ( $description ) ) )
         echo '<strong>Remarks: </strong>' . $description; ?>
 </p>
+<?php if($sale_info->package_id > 0): ?>
+    <p style="width: 100%; float: left; margin-top: 15px">
+        <strong>Package: </strong><?php echo get_lab_package_by_id ( $sale_info -> package_id ) -> title; ?>
+    </p>
+<?php endif; ?>
+
 <strong style="margin-bottom: 10px">Specimen</strong>
 <ul style="list-style-type: decimal; padding-left: 20px">
     <?php
