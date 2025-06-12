@@ -189,7 +189,7 @@
                     
                     <?php 
                         $panel = get_panel_by_id($patient->panel_id);
-                        $panel_type = $panel->panel_type;
+                        $panel_type = (is_object($panel) && isset($panel->panel_type)) ? $panel->panel_type : null;
                     ?>
                     <?php if ( ( $sale -> total - $sale -> paid_amount ) > 0 and ( $patient -> panel_id < 1 or empty( trim ( $patient -> panel_id ) ) or $panel_type == 'Cash Panel' ) ) : ?>
                         <div class="form-actions">

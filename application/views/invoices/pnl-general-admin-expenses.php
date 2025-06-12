@@ -84,7 +84,7 @@
         }
     }
 ?>
-<tr>
+<!-- <tr>
     <td></td>
     <td><strong>Total Accumulated Depreciation</strong></td>
     <td>
@@ -97,7 +97,7 @@
             ?>
         </strong>
     </td>
-</tr>
+</tr> -->
 <tr>
     <td></td>
     <td align="right"><strong>Total:</strong></td>

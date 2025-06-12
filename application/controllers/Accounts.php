@@ -1257,7 +1257,7 @@
             $this -> load -> view ( '/accounts/profit-loss-statement', $data );
             $this -> footer ();
         }
-
+ 
         /**
          * -------------------------
          * trial balance sheet
@@ -1666,6 +1666,20 @@
             $account_heads           = $this -> AccountModel -> get_chart_of_accounts ();
             $tree                    = buildTree ( $account_heads );
             $data[ 'account_heads_pro' ] = $this -> AccountModel -> profit_loss_statement_2 ( $tree );
+            $data[ 'balance_sheet_sum_footer_new' ] = $this -> AccountModel -> trial_balance_sum ();
+
+            $this -> load -> view ( '/accounts/balance-sheet-summary-pro', $data );
+            $this -> footer ();
+        }
+
+        public function profit_loss_statement_2_new () {
+            $title = site_name . ' - Profit & Loss Statement (2)';
+            $data[ 'title' ] = 'Profit & Loss (2)';
+            $this -> header ( $title );
+            $this -> sidebar ();
+            $account_heads           = $this -> AccountModel -> get_chart_of_accounts ();
+            $tree                    = buildTree ( $account_heads );
+            $data[ 'account_heads_pro' ] = $this -> AccountModel -> profit_loss_statement_2_new ( $tree );
             $data[ 'balance_sheet_sum_footer_new' ] = $this -> AccountModel -> trial_balance_sum ();
 
             $this -> load -> view ( '/accounts/balance-sheet-summary-pro', $data );

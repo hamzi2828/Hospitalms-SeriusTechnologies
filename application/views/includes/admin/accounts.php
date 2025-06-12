@@ -179,6 +179,11 @@
                             </a>
                     </li>
                     <?php endif; ?>
+                    <li class="<?php if ($child_uri == 'profit_loss_statement_2_new') echo 'active'; ?>">
+                            <a href="<?php echo base_url('/accounts/profit_loss_statement_2_new'); ?>">
+                                Profit & Loss (2)
+                            </a>
+                    </li>
 
 
              <?php if ( !empty( $access ) and in_array ( 'balance_sheet', explode ( ',', $access -> access ) ) ) : ?>

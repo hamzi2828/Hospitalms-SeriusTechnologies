@@ -17,11 +17,21 @@
             </div>
         <?php endif; ?>
         <!-- BEGIN SAMPLE FORM PORTLET-->
+        <div style="text-align: center;font-size: 20px" class="alert alert-danger" style="background-color: #ff9900 !important;color: #fff !important;">
+                <strong>Important!</strong> 
+                <span style="font-size: 15px">The Invoice was created on 
+                    <strong><?php echo $lab->payment_method ?></strong>
+                    <span  style="font-size: 15px"> please select the option</span>
+                    <strong>Refund on Cash</strong> CAREFULLY</span>
+            </div>
         <div class="portlet box blue">
+           
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-reorder"></i> Refund Lab
                 </div>
+               
+
             </div>
             <div class="portlet-body form">
                 <div class="alert alert-danger" id="patient-info" style="display: none"></div>
@@ -62,11 +72,25 @@
                                 <input type="text" class="form-control " name="date_added" required="required"
                                        value="<?php echo date ( 'm/d/Y' ) ?>"  readonly="readonly" >
                             </div>
+                            <div class="form-group col-lg-3">
+                                <label for="exampleInputEmail1">Refund On Cash</label>
+                                <select class="form-control select2me" name="refund_on_cash" required="required">
+                                    <option value="">Select</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
                             <div class="form-group col-lg-12">
                                 <label for="exampleInputEmail1">Refund Reason</label>
                                 <textarea type="text" class="form-control" rows="5" name="description" required="required">Lab Test Return. Sale# <?php echo $lab -> id . $panel; ?></textarea>
                             </div>
-                        </div>
+                            <div class="form-group col-lg-12">
+                               <strong>Refund on Cash</strong>
+                               <ul>
+                                <li>If selected YES from dropdown the REFUND shall execute as CASH REFUND Transaction</li>
+                                <li>If Selected NO from dropdown the REFUND shall execute Respective Refund Transaction as per payment method selected when invoice was created</li>
+                               </ul>
+                            </div>
                     </div>
                     <div class="form-actions">
                         <button type="submit" class="btn blue">Submit</button>

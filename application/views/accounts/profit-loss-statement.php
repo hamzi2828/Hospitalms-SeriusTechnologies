@@ -111,11 +111,11 @@
                                     $acc_head_id        = $Finance_Cost_account_head -> id;
                                     $transaction        = calculate_acc_head_transaction ( $acc_head_id );
                                     $finance_cost_debit = $finance_cost_debit + $transaction -> credit;
-                                    echo $Finance_Cost_account_head -> title;
+                                    echo  $Finance_Cost_account_head -> title;
                                     if ( $Finance_Cost_account_head -> role_id > 0 ) {
                                         $role = get_account_head_role ( $Finance_Cost_account_head -> role_id );
                                         if ( !empty( $role ) )
-                                            echo ' (' . get_account_head_role ( $Finance_Cost_account_head -> role_id ) -> name . ')';
+                                            echo ' aa(' . get_account_head_role ( $Finance_Cost_account_head -> role_id ) -> name . ')';
                                     }
                                 ?>
                             </td>

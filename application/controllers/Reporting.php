@@ -741,7 +741,7 @@
             $data[ 'users' ]       = $this -> UserModel -> get_users ();
             $data[ 'locations' ] = $this -> LocationModel -> get_locations ();
             $this -> load -> view ( '/reporting/lab_closing_report', $data );
-            $this -> footer ();
+            $this -> footer (); 
         }
         
     }

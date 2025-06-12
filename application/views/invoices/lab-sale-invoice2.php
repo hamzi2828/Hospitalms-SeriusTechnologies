@@ -200,89 +200,83 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
     </tr>
     </thead>
     <tbody>
-    <!-- ITEMS HERE -->
-                <?php
-            $description  = '';
-            $array        = array ();
-            $net          = 0;
-            $netSalePrice = 0;
-            $sales_grouped = [];
+        <?php
+        $net = 0;
+        $netSalePrice = 0;
+        $counter = 1;
+        $grouped = [];
 
-            // Step 1: Group sales by reference_code
-            foreach ($sales as $sale) {
-                $sales_grouped[$sale->reference_code][] = $sale;
-            }
+        // Group sales by package_id
+        foreach ($sales as $sale) {
+            $packageId = $sale->package_id ?? 0;
+            $grouped[$packageId][] = $sale;
+        }
 
-            $counter = 1;
-            $sale_info = get_lab_sale($sale_id);
-
-            foreach ($sales_grouped as $reference_code => $grouped_sales) {
-                foreach ($grouped_sales as $sale) {
-                    $test    = get_test_by_id($sale->test_id);
+        // Display grouped packages
+        foreach ($grouped as $packageId => $groupSales) {
+            $packageTitle = $packageId ? get_pakage_title($packageId) : '';
+            ?>
+            <?php if ($packageTitle) : ?>
+            <tr style="background:rgb(203, 235, 212)">
+                <td colspan="7" style="color:rgb(12, 12, 12)">
+                    <b><?php echo $packageTitle; ?></b>
+                </td>
+            </tr>
+            <?php endif; ?>
+        
+            <?php
+            foreach ($groupSales as $sale) {
+                // Check if it's a main test (parent_id is either empty or 0)
+                if ($sale->parent_id == '' || $sale->parent_id == 0) {
+                    $test = get_test_by_id($sale->test_id);
                     $details = get_test_procedure_info($sale->test_id);
-                    $description = $sale->remarks;
-
                     $style = (!empty($details) && !empty(trim($details->protocol))) ? 'color: #FF0000; font-weight: bold' : '';
 
                     $netSalePrice += $sale->price;
-
-                    if ($sale->parent_id != '' && $sale->parent_id > 0) {
-                        array_push($array, $sale->parent_id);
-                    }
-
-                    if (!in_array($sale->parent_id, $array)) {
+                    if ($sale->parent_id == '' || $sale->parent_id == 0) {
                         $net += $sale->price;
-                        ?>
-                        <tr>
-                            <td align="center" style="<?php echo $style; ?>"><?php echo $counter++; ?></td>
-                            <!-- <td align="left" style="<?php echo $style; ?>">
-                                <?php echo $sale->urgent ? '<b>' . $test->code . '</b>' : $test->code; ?>
-                            </td> -->
-                            <td align="left" style="<?php echo $style; ?>">
-                                <?php 
-                                echo $sale->urgent ? '<b>' . $test->name . '</b>' : $test->name; ?>
-                            </td>
-                            <td align="left"><?php echo $sale->urgent ? '<b>Urgent</b>' : ' '; ?></td>
-                            <td><?php echo $sale -> due ? '
-                            <p style="padding-left:15px; padding-right:15px;" class="btn btn-danger btn-xs btn-block ">Yes</p>
-                            ' : ' '; ?></td>
-
-                            
-                            <td align="left"><?php echo $sale->urgent ? '<b>' . ucfirst($test->type) . '</b>' : ucfirst($test->type); ?></td>
-                            <td align="center" style="<?php echo $style; ?>">
+                    }
+                    ?>
+                    <tr>
+                        <td align="center" style="<?php echo $style ?>"><?php echo $counter++; ?></td>
+                        <td align="left" style="<?php echo $style ?>"><?php echo $sale->urgent ? '<b>' . $test->name . '</b>' : $test->name; ?></td>
+                        <td align="left"><?php echo $sale->urgent ? '<b>Urgent</b>' : ' '; ?></td>
+                        <td>
+                            <?php echo $sale->due ? '<p style="padding-left:15px; padding-right:15px;" class="btn btn-danger btn-xs btn-block">Yes</p>' : ' '; ?>
+                        </td>
+                        <td align="left"><?php echo $sale->urgent ? '<b>' . ucfirst($test->type) . '</b>' : ucfirst($test->type); ?></td>
+                        <td align="center" style="<?php echo $style; ?>">
                                 <?php echo $sale->urgent ? '<b>' . $sale->reference_code . '</b>' : $sale->reference_code; ?>
                             </td>
-                            <td align="left" style="<?php echo $style; ?>">
-                                <?php
-                                echo ($sale->report_collection_date_time != '1970-01-01 05:00:00') ? 
-                                    date('d-m-Y h:i A', strtotime($sale->report_collection_date_time)) : '-';
-                                ?>
-                            </td>
-                            <?php if ($panel_type === 'Cash Panel') : ?>
-                            <td align="center" style="<?php echo $style; ?>">
-                                <?php 
-                                echo $sale->urgent ? '<b>' . number_format($test->price, 2) . '</b>' : number_format($test->price, 2); ?>
-                            </td>
-                            <?php endif; ?>
-                            <?php if ($panel_request != 'true') { ?>
-                            <td align="center" style="<?php echo $style; ?>">
-                                <?php echo $sale->urgent ? '<b>' . number_format($sale->price, 2) . '</b>' : number_format($sale->price, 2); ?>
-                            </td>
-                            <?php } ?>
-                        </tr>
-                        <?php
-                    }
+                        <td align="left" style="<?php echo $style ?>">
+                            <?php
+                            echo ($sale->report_collection_date_time != '1970-01-01 05:00:00')
+                                ? date('d-m-Y h:i:s A', strtotime($sale->report_collection_date_time))
+                                : '-';
+                            ?>
+                        </td>
+                        <?php if ($panel_type === 'Cash Panel') : ?>
+                            <td align="center" style="<?php echo $style ?>"><?php echo number_format($test->price, 2); ?></td>
+                        <?php endif; ?>
+                        <?php if ($panel_request != 'true') : ?>
+                            <td align="center" style="<?php echo $style ?>"><?php echo number_format($sale->price, 2); ?></td>
+                        <?php endif; ?>
+                    </tr>
+                    <?php
                 }
             }
+        }
 
-            // Total, Discount, and Balance Calculation
-            if ($panel_request != 'true') {
-                if ($test_sale_info->refunded != '1') { ?>
-                    <tr>
-                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Gross Total</strong></td>
-                        <td style="text-align: center"><h4><?php echo number_format($netSalePrice, 2); ?></h4></td>
-                    </tr>
-                    <?php if ($panel_type !== 'Cash Panel') : ?>
+        // Totals
+        if ($panel_request != 'true') {
+            $sale_info = get_lab_sale($sale_id);
+            if ($test_sale_info->refunded != '1') {
+                ?>
+                <tr>
+                    <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Gross Total</strong></td>
+                    <td style="text-align: center"><h4><?php echo number_format($netSalePrice, 2); ?></h4></td>
+                </tr>
+                <?php if ($panel_type !== 'Cash Panel') { ?>
                     <tr>
                         <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Discount(%)</strong></td>
                         <td style="text-align: center"><h4><?php echo $sale_info->discount; ?></h4></td>
@@ -291,47 +285,45 @@ $panel_request = ( isset( $_REQUEST[ 'panel' ] ) && $_REQUEST[ 'panel' ] == 'tru
                         <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Discount(Flat)</strong></td>
                         <td style="text-align: center"><h4><?php echo $sale_info->flat_discount; ?></h4></td>
                     </tr>
-                    <?php endif; ?>
-                    <tr>
-                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Net Total</strong></td>
-                        <td style="text-align: center"><h4><?php echo number_format($sale_info->total, 2); ?></h4></td>
-                    </tr>
-                    <tr>
-                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Paid Amount</strong></td>
-                        <td style="text-align: center"><h4><?php echo number_format($sale_info->paid_amount, 2); ?></h4></td>
-                    </tr>
-                    <tr>
-                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right; color: #ff0000"><strong>Balance</strong></td>
-                        <td style="text-align: center; color: #ff0000">
-                            <h4><?php echo number_format($sale_info->total - $sale_info->paid_amount, 2); ?></h4>
-                        </td>
-                    </tr>
-                <?php } else { ?>
-                    <tr>
-                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Total</strong></td>
-                        <td style="text-align: center"><h4><?php echo abs($net); ?></h4></td>
-                    </tr>
-                    <?php if ($panel_type !== 'Cash Panel') : ?>
+                <?php } ?>
+                <tr>
+                    <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Net Total</strong></td>
+                    <td style="text-align: center"><h4><?php echo number_format($sale_info->total, 2); ?></h4></td>
+                </tr>
+                <tr>
+                    <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Paid Amount</strong></td>
+                    <td style="text-align: center"><h4><?php echo number_format($sale_info->paid_amount, 2); ?></h4></td>
+                </tr>
+                <tr>
+                    <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right; color: #ff0000"><strong>Balance</strong></td>
+                    <td style="text-align: center; color: #ff0000"><h4><?php echo number_format($sale_info->total - $sale_info->paid_amount, 2); ?></h4></td>
+                </tr>
+            <?php } else { ?>
+                <tr>
+                    <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Total</strong></td>
+                    <td style="text-align: center"><h4><?php echo abs($net); ?></h4></td>
+                </tr>
+                <?php if ($panel_type !== 'Cash Panel') { ?>
                     <tr>
                         <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Discount(%)</strong></td>
                         <td style="text-align: center"><h4><?php echo $sale_info->discount; ?></h4></td>
                     </tr>
-                    <?php endif; ?>
-                    <tr>
-                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Refund Amount</strong></td>
-                        <td style="text-align: center"><h4><?php echo abs($sale_info->total); ?></h4></td>
-                    </tr>
-                    <tr>
-                        <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Balance</strong></td>
-                        <td style="text-align: center"><h4><?php echo number_format($sale_info->paid_amount - abs($sale_info->total), 2); ?></h4></td>
-                    </tr>
-                <?php }
-            } ?>
-
+                <?php } ?>
+                <tr>
+                    <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Refund Amount</strong></td>
+                    <td style="text-align: center"><h4><?php echo abs($sale_info->total); ?></h4></td>
+                </tr>
+                <tr>
+                    <td colspan="<?php echo $panel_type === 'Cash Panel' ? 8 : 7; ?>" style="text-align: right"><strong>Balance</strong></td>
+                    <td style="text-align: center"><h4><?php echo number_format($sale_info->paid_amount - abs($sale_info->total), 2); ?></h4></td>
+                </tr>
+            <?php }
+        }
+        ?>
     </tbody>
 </table>
 <p style="width: 100%; float: left; margin-top: 15px">
-    <?php if ( !empty( trim ( $description ) ) )
+    <?php if ( isset($description) && !empty( trim ( $description ) ) )
         echo '<strong>Remarks: </strong>' . $description; ?>
 </p>
 <strong style="margin-bottom: 10px">Specimen</strong>

@@ -1285,7 +1285,7 @@
                                                     'sale_id' => $sale_id,
                                                     'test_id' => $sub_test->id,
                                                     'section_id' => $this->LabModel->get_section_id_by_test($sub_test->id),
-                                                    'section_test_id' => $serial_numbers[$sub_test->id],
+                                                    'section_test_id' => isset($serial_numbers[$sub_test->id]) ? $serial_numbers[$sub_test->id] : '',
                                                     'reference_code' => $reference_code_sub, // Ensure reference code is saved
                                                     'section_code' => $this->LabModel->retive_section_code_by_test_id($sub_test->id),
                                                     'location_code' => $this->LabModel->retive_locaiton_code_current_user(),
@@ -2547,6 +2547,9 @@
                     $lab_sale[ 'total' ] = -$net_bill;
                 }
                 $lab_sale[ 'date_sale' ] = $date_added;
+                if($_POST['refund_on_cash'] == 1){
+                    $lab_sale['payment_method'] = 'cash';
+                }
                 $sale                    = $this -> LabModel -> add_lab_sale ( $lab_sale );
                 
                 if ( count ( $lab_sales ) > 0 ) {
@@ -2583,13 +2586,14 @@
                 }
                 
                 $this -> LabModel -> set_refunded_to_1 ( $sale_id );
-                
                 $lab_sale        = $this -> LabModel -> get_lab_sale ( $sale_id );
                 $cashAccountHead = cash_from_lab_services;
-                if ( $lab_sale -> payment_method == 'card' )
-                    $cashAccountHead = CARD;
-                else if ( $lab_sale -> payment_method == 'bank' )
-                    $cashAccountHead = $lab_sale -> account_head_id;
+                if($_POST['refund_on_cash'] == 0){
+                    if ( $lab_sale -> payment_method == 'card' )
+                        $cashAccountHead = CARD;
+                    else if ( $lab_sale -> payment_method == 'bank' )
+                        $cashAccountHead = $lab_sale -> account_head_id;
+                }
                 
                 $ledger = array (
                     'user_id'          => get_logged_in_user_id (),
@@ -4375,7 +4379,7 @@
             
             if ( $this -> form_validation -> run () == true ) {
    
-
+                
              
                 $packages       = $this -> input -> post ( 'package_id', true );
                 $discount       = $this -> input -> post ( 'discount', true );
@@ -4641,7 +4645,9 @@
 
                                         foreach ( $sub_tests as $sub_test ) {
                                             $price = 0;
-                                            $reference_code_sub = $this->LabModel->retive_section_code_by_test_id($sub_test->id) . '/' . $serial_numbers[$sub_test->id] . '/' . $this->LabModel->retive_locaiton_code_current_user();
+                                            // Check if the serial number exists for this sub_test id
+                                            $sub_test_serial = isset($serial_numbers[$sub_test->id]) ? $serial_numbers[$sub_test->id] : '';
+                                            $reference_code_sub = $this->LabModel->retive_section_code_by_test_id($sub_test->id) . '/' . $sub_test_serial . '/' . $this->LabModel->retive_locaiton_code_current_user();
                                             $info[ 'test_id' ]   = $sub_test -> id;
                                             $info[ 'parent_id' ] = $test_id;
                                             $info[ 'type' ]      = 'profile';
@@ -4657,7 +4663,7 @@
                                                 'sale_id' => $sale_id,
                                                 'test_id' => $sub_test->id,
                                                 'section_id' => $this->LabModel->get_section_id_by_test($sub_test->id),
-                                                'section_test_id' => $serial_numbers[$sub_test->id],
+                                                'section_test_id' => isset($serial_numbers[$sub_test->id]) ? $serial_numbers[$sub_test->id] : '',
                                                 'reference_code' => $reference_code_sub, // Ensure reference code is saved
                                                 'section_code' => $this->LabModel->retive_section_code_by_test_id($sub_test->id),
                                                 'location_code' => $this->LabModel->retive_locaiton_code_current_user(),
@@ -4752,7 +4758,9 @@
                 }
                 
                 $print = '<strong><a href="' . base_url ( '/invoices/lab-sale-invoice/' . $sale_id ) . '" target="_blank">Print</a></strong>';
-                $printLW = '<strong><a href="' . base_url('/invoices/lab-sale-invoice/' . $sale_id . '?print2=true&daily_location_sale_id=' . $daily_location_sale_id . '&panel=' . $panel) . '"  target="_blank">Print LW</a></strong> ';
+                // Get panel_id from patient object if available
+                $panel_id = isset($patient->panel_id) ? $patient->panel_id : 0;
+                $printLW = '<strong><a href="' . base_url('/invoices/lab-sale-invoice/' . $sale_id . '?print2=true&daily_location_sale_id=' . $daily_location_sale_id . '&panel=' . $panel_id) . '"  target="_blank">Print LW</a></strong> ';
                 
                 if ( $sale_id > 0 )
                     $this -> session -> set_flashdata ( 'response', 'Success! Lab sale has been added. ' . $print .' | '. $printLW );
